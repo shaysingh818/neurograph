@@ -109,18 +109,18 @@ void print_w_adj_list(w_adj_list_t *a) {
 
 int add_edge(
 	adj_list_t *a, 
-	int src, char src_label, 
-	int dest, char dest_label) {
+	int src_id, char src_label, 
+	int dest_id, char dest_label) {
 
 	node_t *check = NULL; 
-	node_t *new_node = create_node(dest, dest_label); 
+	node_t *new_node = create_node(dest_id, dest_label); 
 
 	/* check if head is null */ 
-	if(a->items[src].head == NULL) {
-		new_node->next = a->items[src].head; 
-		a->items[src].head = new_node; 
+	if(a->items[src_id].head == NULL) {
+		new_node->next = a->items[src_id].head; 
+		a->items[src_id].head = new_node; 
 	} else {
-		check = a->items[src].head; 
+		check = a->items[src_id].head; 
 		while(check->next != NULL){
 			check = check->next; 
 		}
@@ -128,12 +128,12 @@ int add_edge(
 	}
 
 	/* check if head is NULL again */ 
-	new_node = create_node(src, src_label); 
-	if(a->items[dest].head == NULL) {
-		new_node->next = a->items[dest].head; 
-		a->items[dest].head = new_node; 
+	new_node = create_node(src_id, src_label); 
+	if(a->items[dest_id].head == NULL) {
+		new_node->next = a->items[dest_id].head; 
+		a->items[dest_id].head = new_node; 
 	} else {
-		check = a->items[dest].head; 
+		check = a->items[dest_id].head; 
 		while(check->next != NULL) {
 			check = check->next; 
 		}
@@ -145,10 +145,36 @@ int add_edge(
 }
 
 
+int add_directed_edge(
+	adj_list_t * a, 
+	int src_id, char src_label, 
+	int dest_id, char dest_label) {
+
+
+	/* only add to selected src node */ 
+	node_t *check = NULL; 
+	node_t *new_node = create_node(dest_id, dest_label); 
+
+	/* check if head is null */ 
+	if(a->items[src_id].head == NULL) {
+		new_node->next = a->items[src_id].head; 
+		a->items[src_id].head = new_node; 
+	} else {
+		check = a->items[src_id].head; 
+		while(check->next != NULL){
+			check = check->next; 
+		}
+		check->next = new_node; 
+	}
+
+	return TRUE; 
+}
+
+
 int add_w_edge(
 	w_adj_list_t *a, 
-	int src, int src_label, 
-	int dest, int dest_label, 
+	int src, char src_label, 
+	int dest, char dest_label, 
 	int weight) {
 
 	/* create destination node */ 
@@ -233,7 +259,7 @@ int dfs(queue_t *q, adj_list_t *a, node_t *root) {
 
 	node_t *adj_list = a->items[root->id].head; 
 	node_t *temp = adj_list;
-   	a->visited[root->id] = 1; 
+   	a->visited[root->id] = 1;
 	push(q, root); 
 
 	while(temp != NULL) {
@@ -380,7 +406,6 @@ int degree_centrality(graph_t *g, node_t *root) {
 
 	/* go through all vertices */ 
 	for(int i = 0; i < v; i++){
-		printf("Edges for vertex: %d\n", i); 
 		int current_edge_count = 0; 
 		for(int j = 0; j < e; j++){
 			int u = g->edges[j]->src->id; 
@@ -391,6 +416,7 @@ int degree_centrality(graph_t *g, node_t *root) {
 			}	
 		}
 
+		/* check for edge with the most connections */ 
 		if(current_edge_count > max_count) {
 			max_count = current_edge_count; 
 			max_vertex = i; 
@@ -398,9 +424,72 @@ int degree_centrality(graph_t *g, node_t *root) {
 
 	}
 
-	printf("Max vertex: %d\n", max_vertex); 
-
-	return TRUE; 
-
+	return max_vertex; 
 }
 
+
+
+int weighted_degree_centrality(w_adj_list_t *a) {
+
+	/* variables */ 	
+	int v = a->v;
+	int max_score = 0; 
+	int max_vertex = 0; 
+
+	/* traverse adjacency list */ 
+	for(int i = 0; i < a->v; i++){
+
+		/* variables to keep track of most popular node */ 
+		int weighted_sum = 0;
+	   	int connection_count = 0; 
+
+		/* get current head node */ 	
+		w_node_t *head = a->items[i].head;
+
+		while(head) {
+			weighted_sum += head->weight; 
+			connection_count += 1; 
+			head  = head->next; 
+		}
+
+		/* score highest connected nodes */ 
+		int score = connection_count + weighted_sum;
+
+		/* get max score */ 
+		if(score > max_score) {
+			max_score = score; 
+			max_vertex = i; 
+		}
+	}
+
+	return max_vertex;
+}
+
+
+int scc_fill_order(queue_t *q, adj_list_t *a, node_t *root) {
+
+	/* grab the ID of the head node */ 
+	node_t *adj_list = a->items[root->id].head; 
+	node_t *temp = adj_list;
+   	a->visited[root->id] = 1;
+
+	while(temp != NULL) {
+		int connected_vertex = temp->id; 
+		if(a->visited[connected_vertex] == 0){
+			scc_fill_order(q, a, temp); 
+		}
+		temp = temp->next; 
+	}
+
+	push(q, temp); 
+	return TRUE; 
+}
+
+
+int scc(adj_list_t *a, int start_vertex) {
+
+	/* variables */ 	
+	int v = a->v;
+
+	return TRUE; 
+}

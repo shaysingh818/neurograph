@@ -19,6 +19,7 @@ void test_bellman_ford();
 void test_random_walk();
 void test_weighted_random_walk(); 
 void test_degree_centrality(); 
-void test_weighted_degree_centrality(); 
+void test_weighted_degree_centrality();
+void test_scc(); 
 
 #endif

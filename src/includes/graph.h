@@ -46,7 +46,7 @@ struct Walk {
 typedef struct Walk walk_t;
 
 
-/* standard graph representation that contains array of edges */ 
+/* standard graph representation that contains array of weighted edges */ 
 struct Graph {
 	int v;
    	int e; 	
@@ -62,15 +62,23 @@ adj_list_t *init_adj_list(int v);
 w_adj_list_t *init_w_adj_list(int v);
 walk_t *init_walk(int steps); 
 
+/* mutators for structural methods */ 
+void transpose_adj(adj_list_t *a); 
+
 /* utilities */
 void print_graph(graph_t *g);
 void print_adj_list(adj_list_t *a);
 void print_w_adj_list(w_adj_list_t *a); 
 int add_edge(adj_list_t *a, int src_id, char src_label, int dest_id, char dest_label);
+int add_directed_edge(
+	adj_list_t *a, 
+	int src_id, char src_label, 
+	int dest_id, char dest_label
+); 
 int add_w_edge(
 	w_adj_list_t *a, 
-	int src_id, int src_label,
-	int dest_id, int dest_label,
+	int src_id, char src_label,
+	int dest_id, char dest_label,
 	int weight
 ); 
 
@@ -84,8 +92,12 @@ int *random_walk(adj_list_t *a, int start_vertex, int steps, int *path);
 walk_t *weighted_random_walk(w_adj_list_t *a, walk_t *w, int start_vertex); 
 
 /* centrality algorithms */
-int degree_centrality(graph_t *g, node_t *root); 
-int scc(graph_t *g, node_t *root); 
+int degree_centrality(graph_t *g, node_t *root);
+int weighted_degree_centrality(w_adj_list_t *a);
+
+/* community detection */
+int scc_fill_order(adj_list_t *a, int vertex, queue_t *q, int *visited); 
+int scc(adj_list_t *a, int start_vertex);
 int label_propagation(graph_t *g, node_t *root); 
 
 

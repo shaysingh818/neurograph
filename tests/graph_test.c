@@ -370,4 +370,75 @@ void test_degree_centrality() {
     g->edges[6] = create_edge(d, b, 1);
     g->edges[7] = create_edge(e, d, -3);
 
+	int result = degree_centrality(g, a);
+	int equality_condition = result == 1;
+
+	if(!equality_condition) {
+		printf("%s::%s...  FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
+	}	
+}
+
+
+
+void test_weighted_degree_centrality() {
+	
+	/* test random walk */
+    int vertices = 5; 
+
+	/* create weighted adjacency list */ 
+	w_adj_list_t *a = init_w_adj_list(5);
+	add_w_edge(a, 0, 'A', 1, 'B', 2);
+	add_w_edge(a, 0, 'A', 2, 'C', 1); 
+	add_w_edge(a, 0, 'A', 3, 'D', 1); 
+	add_w_edge(a, 1, 'B', 2, 'C', 2);
+	add_w_edge(a, 4, 'E', 2, 'C', 1);
+
+	int result = weighted_degree_centrality(a);
+	int equality_condition = result == 0; 
+		
+	if(!equality_condition) {
+		printf("%s::%s...  FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
+	}	
+
+}
+
+
+void test_scc() {
+
+	/* test random walk */
+    int vertices = 7; 
+
+	/* create adjacency list */ 
+	adj_list_t *a = init_adj_list(vertices);
+
+	/* first community */ 
+	add_directed_edge(a, 0, 'A', 1, 'B');
+	add_directed_edge(a, 1, 'B', 2, 'C');
+	add_directed_edge(a, 2, 'C', 3, 'D');
+	add_directed_edge(a, 3, 'D', 0, 'A');
+
+	/* bridge */ 
+	add_directed_edge(a, 2, 'C', 4, 'E');
+
+	/* second community */ 
+	add_directed_edge(a, 4, 'E', 5, 'F');
+	add_directed_edge(a, 5, 'F', 6, 'G');
+	add_directed_edge(a, 6, 'G', 7, 'H');
+
+	/* third mini community */ 
+
+
+	print_adj_list(a);
+
+	char test1[2] = {'A', 'B'}; 
+	char test2[3] = {'C', 'D', 'E'}; 	
+	int result = scc(a, 0);
+
+
+
+
 }

@@ -9,20 +9,32 @@ int main(int argc, char **argv) {
 
 	/* queue methods */ 
 	test_init_queue();
-   	test_pop_queue(); 	
+   	test_pop_queue(); 
 
-	/* graph utility methods */ 
-	test_adjacency_list();
-   	test_weighted_adjacency_list(); 	
-	test_bfs_one();
-	test_bfs_two();
-	test_dfs_one();
-	test_bellman_ford();
-   	test_random_walk();
-	test_weighted_random_walk(); 	
 
 	/* matrix utility methods */ 
 	test_init_matrix(); 
+
+	/* graph utility methods */ 
+	test_adjacency_list();
+   	test_weighted_adjacency_list();
+
+	/* searching methods */ 	
+	test_bfs_one();
+	test_bfs_two();
+	test_dfs_one();
+
+	/* pathfinding tests */ 
+	test_bellman_ford();
+   	test_random_walk();
+	test_weighted_random_walk();
+
+	/* centrality tests */ 
+	test_degree_centrality(); 
+	test_weighted_degree_centrality();	
+
+	/* community detection tests */ 
+	test_scc(); 
 
 
 	printf("\n"); 
