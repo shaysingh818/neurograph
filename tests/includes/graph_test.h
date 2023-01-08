@@ -9,7 +9,7 @@
 /* test adjacency list representation */ 
 void test_adjacency_list();
 void test_weighted_adjacency_list(); 
-
+void test_transpose_adj_list(); 
 
 /* test searching methods */ 
 void test_bfs_one(); 

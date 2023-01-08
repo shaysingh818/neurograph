@@ -63,7 +63,7 @@ w_adj_list_t *init_w_adj_list(int v);
 walk_t *init_walk(int steps); 
 
 /* mutators for structural methods */ 
-void transpose_adj(adj_list_t *a); 
+adj_list_t *transpose_adj(adj_list_t *a, adj_list_t *r); 
 
 /* utilities */
 void print_graph(graph_t *g);
@@ -96,8 +96,8 @@ int degree_centrality(graph_t *g, node_t *root);
 int weighted_degree_centrality(w_adj_list_t *a);
 
 /* community detection */
-int scc_fill_order(adj_list_t *a, int vertex, queue_t *q, int *visited); 
-int scc(adj_list_t *a, int start_vertex);
+int k_dfs(queue_t *q, adj_list_t *a, node_t *root); 
+int kosaraju(adj_list_t *a, int start_vertex);
 int label_propagation(graph_t *g, node_t *root); 
 
 

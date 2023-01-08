@@ -81,6 +81,27 @@ walk_t *init_walk(int steps) {
 }
 
 
+adj_list_t *transpose_adj(adj_list_t *a, adj_list_t *r) {
+
+	char label_list[8] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'}; 	
+	for(int i = 0; i < a->v; i++) {
+		node_t *head = a->items[i].head; 
+		while(head) {
+			
+			/* grab corresponding labels */ 
+			char src_label = label_list[head->id]; 
+			char dest_label = label_list[i]; 
+
+			/* switch direction of graph */ 
+			add_directed_edge(r, head->id, src_label, i, dest_label); 
+			head = head->next; 
+		}
+	}
+
+	return r; 
+}
+
+
 void print_adj_list(adj_list_t *a) {
 	for(int i = 0; i < a->v; i++){
 		node_t *head = a->items[i].head;
@@ -466,30 +487,70 @@ int weighted_degree_centrality(w_adj_list_t *a) {
 }
 
 
-int scc_fill_order(queue_t *q, adj_list_t *a, node_t *root) {
+int k_dfs(queue_t *q, adj_list_t *a, node_t *root) {
 
 	/* grab the ID of the head node */ 
 	node_t *adj_list = a->items[root->id].head; 
 	node_t *temp = adj_list;
    	a->visited[root->id] = 1;
+	push(q, temp); 
 
 	while(temp != NULL) {
 		int connected_vertex = temp->id; 
 		if(a->visited[connected_vertex] == 0){
-			scc_fill_order(q, a, temp); 
+			k_dfs(q, a, temp); 
 		}
 		temp = temp->next; 
 	}
 
-	push(q, temp); 
 	return TRUE; 
 }
 
 
-int scc(adj_list_t *a, int start_vertex) {
+int kosaraju(adj_list_t *a, int start_vertex) {
 
 	/* variables */ 	
 	int v = a->v;
+	queue_t *q = init_queue(a->v);
+	queue_t *q1 = init_queue(a->v);
+	adj_list_t *r = init_adj_list(a->v);
+   	int num_components = 0; 	
 
+	/* perform DFS on first instance of graph */ 
+	node_t *head = a->items[3].head;
+   	printf("Debug seg fault\n"); 	
+	int result = dfs(q, a, head); 
+
+	/* get result of queue */ 
+	printf("Queue result of DFS: \n"); 
+	print_queue(q); 
+
+	/* transposed graph */
+	adj_list_t *transpose = transpose_adj(a, r); 
+	print_adj_list(transpose);
+
+	/* perform DFS on transposed graph */
+	node_t *t_head = a->items[7].head;
+	int transpose_result = k_dfs(q1, transpose, t_head); 
+	print_queue(q1);
+
+	/* mark all as unvisited */ 
+	for(int i = 0; i < a->v; i++){
+		transpose->visited[i] = 0; 
+	}	
+
+	/* pop stack and find components */ 
+   	while(!is_empty(q)) {
+		node_t *item = q->items[q->front_index]; 
+		pop(q);
+	   	if(!transpose->visited[item->id]) {
+			printf("Component: %d\n", num_components);
+			queue_t *q2 = init_queue(a->v);
+			int transpose_result = k_dfs(q2, transpose, item);
+		   	print_queue(q2); 	
+			num_components += 1; 
+		}	
+	}
+	
 	return TRUE; 
 }

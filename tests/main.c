@@ -17,6 +17,7 @@ int main(int argc, char **argv) {
 
 	/* graph utility methods */ 
 	test_adjacency_list();
+	test_transpose_adj_list(); 
    	test_weighted_adjacency_list();
 
 	/* searching methods */ 	
