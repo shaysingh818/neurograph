@@ -500,7 +500,7 @@ void test_scc() {
 	add_directed_edge(a, 5, 'F', 6, 'G');
 	add_directed_edge(a, 6, 'G', 4, 'E');
 	add_directed_edge(a, 6, 'G', 7, 'H');
-	add_directed_edge(a, 7, 'H', 7, 'H');
+	add_end_node(a, 7, 'H');
 
 	print_adj_list(a);
 

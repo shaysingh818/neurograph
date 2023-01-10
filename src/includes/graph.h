@@ -75,6 +75,7 @@ int add_directed_edge(
 	int src_id, char src_label, 
 	int dest_id, char dest_label
 ); 
+int add_end_node(adj_list_t *a, int src_id, char src_label); 
 int add_w_edge(
 	w_adj_list_t *a, 
 	int src_id, char src_label,

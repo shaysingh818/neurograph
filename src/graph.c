@@ -191,6 +191,27 @@ int add_directed_edge(
 	return TRUE; 
 }
 
+int add_end_node(adj_list_t *a, int src_id, char src_label) {
+	
+	/* only add to selected src node */ 
+	node_t *check = NULL; 
+	node_t *new_node = create_node(src_id, src_label); 
+
+	/* check if head is null */ 
+	if(a->items[src_id].head == NULL) {
+		new_node->next = a->items[src_id].head; 
+		a->items[src_id].head = new_node; 
+	} else {
+		check = a->items[src_id].head; 
+		while(check->next != NULL){
+			check = check->next; 
+		}
+		check->next = new_node; 
+	}
+
+	return TRUE; 
+}
+
 
 int add_w_edge(
 	w_adj_list_t *a, 
@@ -490,8 +511,7 @@ int weighted_degree_centrality(w_adj_list_t *a) {
 int k_dfs(queue_t *q, adj_list_t *a, node_t *root) {
 
 	/* grab the ID of the head node */ 
-	node_t *adj_list = a->items[root->id].head; 
-	node_t *temp = adj_list;
+	node_t *temp = a->items[root->id].head; 
    	a->visited[root->id] = 1;
 	push(q, temp); 
 
