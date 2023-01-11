@@ -1,5 +1,7 @@
 
 #include "includes/queue_test.h"
+#include "../src/includes/queue.h"
+
 
 void test_init_queue(){
 

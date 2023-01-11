@@ -1,0 +1,126 @@
+
+#include "includes/community.h"
+
+
+int degree_centrality(graph_t *g, node_t *root) {
+
+	/* online implementations are vague */ 
+	/* for now use best attempt to get the most popular node */ 
+
+	int v = g->v;
+	int e = g->e; 
+	int max_count = 0;
+   	int max_vertex = 0; 	
+
+	/* go through all vertices */ 
+	for(int i = 0; i < v; i++){
+		int current_edge_count = 0; 
+		for(int j = 0; j < e; j++){
+			int u = g->edges[j]->src->id; 
+			int v = g->edges[j]->dest->id; 
+			int weight = g->edges[j]->weight;
+		   	if(u == i) {
+				current_edge_count += 1; 
+			}	
+		}
+
+		/* check for edge with the most connections */ 
+		if(current_edge_count > max_count) {
+			max_count = current_edge_count; 
+			max_vertex = i; 
+		}
+
+	}
+
+	return max_vertex; 
+}
+
+
+
+int weighted_degree_centrality(w_adj_list_t *a) {
+
+	/* variables */ 	
+	int v = a->v;
+	int max_score = 0; 
+	int max_vertex = 0; 
+
+	/* traverse adjacency list */ 
+	for(int i = 0; i < a->v; i++){
+
+		/* variables to keep track of most popular node */ 
+		int weighted_sum = 0;
+	   	int connection_count = 0; 
+
+		/* get current head node */ 	
+		w_node_t *head = a->items[i].head;
+
+		while(head) {
+			weighted_sum += head->weight; 
+			connection_count += 1; 
+			head  = head->next; 
+		}
+
+		/* score highest connected nodes */ 
+		int score = connection_count + weighted_sum;
+
+		/* get max score */ 
+		if(score > max_score) {
+			max_score = score; 
+			max_vertex = i; 
+		}
+	}
+
+	return max_vertex;
+}
+
+
+char **kosaraju(adj_list_t *a, int start_vertex) {
+
+	/* variables */ 	
+	int v = a->v;
+	queue_t *q = init_queue(a->v);
+	queue_t *q1 = init_queue(a->v);
+	adj_list_t *r = init_adj_list(a->v);
+   	int num_components = 0; 	
+
+	/* perform DFS on first instance of graph */ 
+	node_t *head = a->items[3].head;
+	int result = dfs(q, a, head); 
+
+	/* transposed graph */
+	adj_list_t *transpose = transpose_adj(a, r); 
+
+	/* perform DFS on transposed graph */
+	node_t *t_head = a->items[6].head;
+	push(q1, head); //push head node before
+	int transpose_result = dfs(q1, transpose, t_head); 
+
+	/* mark all as unvisited */ 
+	for(int i = 0; i < a->v; i++){
+		transpose->visited[i] = 0; 
+	}
+
+	/* allocate space for final results */ 
+	char **communities = malloc(a->v * sizeof(char*)); 
+	for(int i = 0; i < a->v; i++) {
+		communities[i] = malloc(a->v * sizeof(char)); 
+	}
+
+	/* pop stack and find components */ 
+   	while(!is_empty(q)) {
+		node_t *item = q->items[q->front_index]; 
+		pop(q);
+	   	if(!transpose->visited[item->id]) {
+			queue_t *q2 = init_queue(a->v);
+			int transpose_result = k_dfs(q2, transpose, item);
+
+			/* get results from queue */ 
+			for(int i = q2->front_index; i <= q2->rear_index; i++) {
+				communities[num_components][i] = q2->items[i]->label; 
+			}
+			num_components += 1; 
+		}	
+	}
+	
+	return communities; 
+}

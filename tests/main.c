@@ -1,6 +1,13 @@
+
+/* main headers */ 
 #include "includes/graph_test.h" 
 #include "includes/matrix_test.h"
 #include "includes/queue_test.h"
+
+/* extension headers */ 
+#include "includes/path_test.h" 
+#include "includes/search_test.h" 
+#include "includes/community_test.h" 
 
 int main(int argc, char **argv) {
 
@@ -9,8 +16,7 @@ int main(int argc, char **argv) {
 
 	/* queue methods */ 
 	test_init_queue();
-   	test_pop_queue(); 
-
+   	test_pop_queue();
 
 	/* matrix utility methods */ 
 	test_init_matrix(); 
@@ -35,8 +41,7 @@ int main(int argc, char **argv) {
 	test_weighted_degree_centrality();	
 
 	/* community detection tests */ 
-	test_scc(); 
-
+	test_kosaraju(); 
 
 	printf("\n"); 
 	

@@ -81,26 +81,7 @@ int add_w_edge(
 	int src_id, char src_label,
 	int dest_id, char dest_label,
 	int weight
-); 
-
-/* traversals (search) */ 
-queue_t *bfs(adj_list_t *a, node_t *root); 
-int dfs(queue_t *q, adj_list_t *a, node_t *root);
-
-/* path finding */ 
-int *bellman_ford(graph_t *g, node_t *root, int *dist); 
-int *random_walk(adj_list_t *a, int start_vertex, int steps, int *path); 
-walk_t *weighted_random_walk(w_adj_list_t *a, walk_t *w, int start_vertex); 
-
-/* centrality algorithms */
-int degree_centrality(graph_t *g, node_t *root);
-int weighted_degree_centrality(w_adj_list_t *a);
-
-/* community detection */
-int k_dfs(queue_t *q, adj_list_t *a, node_t *root); 
-int kosaraju(adj_list_t *a, int start_vertex);
-int label_propagation(graph_t *g, node_t *root); 
-
+);
 
 #endif
 

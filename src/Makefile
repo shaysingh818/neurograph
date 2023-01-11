@@ -1,15 +1,21 @@
-OBJECT_FILES= graph.o matrix.o queue.o node.o
-MAIN_HEADER_FILES = includes/graph.h includes/matrix.h includes/queue.h 
 
+# Object files
+GRAPH_OBJS = graph.o matrix.o queue.o node.o
+GRAPH_EXTENSIONS = path.o search.o community.o
+
+# Header files
+UTILITY_HEADERS = includes/graph.h includes/matrix.h includes/queue.h
+EXTENSION_HEADERS = includes/path.h includes/search.h includes/community.h
+
+# Outputs and compilation target
 BIN=bin
 CC=gcc
-TARGET=../target/graph
-
+TARGET=../target/diffusion
 
 FLAGS = -lm -lpthread
 
-all: main.o $(OBJECT_FILES)
-	gcc -o $(TARGET) main.o $(OBJECT_FILES) $(FLAGS)
+all: main.o $(GRAPH_OBJS) $(GRAPH_EXTENSIONS)
+	gcc -o $(TARGET) main.o $(GRAPH_OBJS) $(GRAPH_EXTENSIONS) $(FLAGS)
 
 graph.o: graph.c includes/graph.h
 	gcc -c graph.c
@@ -23,7 +29,16 @@ queue.o: queue.c includes/queue.h
 node.o: node.c includes/node.h
 	gcc -c node.c
 
-main.o: main.c $(MAIN_HEADER_FILES)
+path.o: path.c includes/path.h
+	gcc -c path.c
+
+search.o: search.c includes/search.h
+	gcc -c search.c
+
+community.o: community.c includes/community.h
+	gcc -c community.c
+
+main.o: main.c $(UTILITY_HEADERS) $(EXTENSION_HEADERS)
 	gcc -c main.c
 
 clean_binary:

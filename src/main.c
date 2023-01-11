@@ -1,6 +1,7 @@
 #include "includes/graph.h"
 #include "includes/matrix.h"
 #include "includes/queue.h"
+#include "includes/path.h"
 
 int main(int argc, char **argv) {
 

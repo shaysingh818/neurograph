@@ -6,21 +6,52 @@ TARGET=../target/unit_test
 MATRIX_HEADER = includes/matrix_test.h
 GRAPH_HEADER = includes/graph_test.h
 QUEUE_HEADER = includes/queue_test.h
-MAIN_HEADER_FILES = $(MATRIX_HEADER) $(GRAPH_HEADER) $(QUEUE_HEADER)
+UTILITY_HEADER_FILES = $(MATRIX_HEADER) $(GRAPH_HEADER) $(QUEUE_HEADER)
 
+# Extension header files
+PATH_HEADER = includes/path_test.h
+COMMUNITY_HEADER = includes/community_test.h
+SEARCH_HEADER = includes/search_test.h
+EXTENSION_HEADER_FILES = $(PATH_HEADER) $(COMMUNITY_HEADER) $(SEARCH_HEADER)
 
-# Object files
+# Object files (For test cases)
+PATH_OBJS = path_test.o path.o
+COMMUNITY_OBJS = community_test.o community.o
+SEARCH_OBJS = search_test.o search.o
+EXTENSION_OBJECT_FILES = $(PATH_OBJS) $(COMMUNITY_OBJS) $(SEARCH_OBJS)
+
 GRAPH_OBJS = graph_test.o graph.o node.o
-MATRIX_OBJS = matrix_test.o matrix.o
 QUEUE_OBJS = queue_test.o queue.o
-OBJECT_FILES = $(GRAPH_OBJS) $(MATRIX_OBJS) $(QUEUE_OBJS)
+MATRIX_OBJS = matrix_test.o matrix.o
+OBJECT_FILES = $(GRAPH_OBJS) $(QUEUE_OBJS) $(MATRIX_OBJS)
 
 # Flags
 FLAGS = -lm -lpthread
 
-all: main.o $(OBJECT_FILES)
-	gcc -o $(TARGET) main.o $(OBJECT_FILES) $(FLAGS)
+all: main.o $(OBJECT_FILES) $(EXTENSION_OBJECT_FILES)
+	gcc -o $(TARGET) main.o $(OBJECT_FILES) $(EXTENSION_OBJECT_FILES) $(FLAGS)
 
+# extensions off the graph library
+path.o: ../src/path.c ../src/includes/path.h
+	gcc -c ../src/path.c
+
+path_test.o: path_test.c includes/path_test.h
+	gcc -c path_test.c
+
+community.o: ../src/community.c ../src/includes/community.h
+	gcc -c ../src/community.c
+
+community_test.o: community_test.c includes/community_test.h
+	gcc -c community_test.c
+
+search.o: ../src/search.c ../src/includes/search.h
+	gcc -c ../src/search.c
+
+search_test.o: search_test.c includes/search_test.h
+	gcc -c search_test.c
+
+
+# utility files
 node.o: ../src/node.c ../src/includes/node.h
 	gcc -c ../src/node.c
 
@@ -33,13 +64,16 @@ graph_test.o: graph_test.c includes/graph_test.h
 queue.o: ../src/queue.c ../src/includes/queue.h
 	gcc -c ../src/queue.c
 
+queue_test.o: queue_test.c includes/queue_test.h
+	gcc -c queue_test.c
+
 matrix.o: ../src/matrix.c ../src/includes/matrix.h
 	gcc -c ../src/matrix.c
 
 matrix_test.o: matrix_test.c includes/matrix_test.h
 	gcc -c matrix_test.c
 
-main.o: main.c $(MAIN_HEADER_FILES)
+main.o: main.c $(UTILITY_HEADER_FILES) $(EXTENSION_HEADER_FILES)
 	gcc -c main.c
 
 clean_binary:
