@@ -1,12 +1,5 @@
-# Graphs
+# Diffusion
+Diffusion is a feature extraction tool for building machine learning models using graphs. The purpose of this library is to utilize concepts from graph theory to allow developers to build models that provide valuable insights about their data. Using concepts from graph theory, developers will have the ability to visualize intriguing relationships in data sets, model dynamic systems and create a starting point for building a model. While there are many deep learning and alternate machine learning libraries out there, the purpose of this library is to show how valuable insights can be derived from simple graph algorithms. This is also provides graph algorithms that the popular graph library “Neo4j” does not have.  
 
-1. Identify the least costly way to route information on resources
-2. Predict missing links in data
-3. Disover heiarchies and dependencies
-4. Reveal communities based on behavior for personalized reccomendations
-5. Extract more predictive features for machine learning
-	* Ranking text for entity relavance in NLP
-6. Using closeness centrality to analyze importance of words in a document
-	* Use graph based key phrase extraction process
-7. Represent the human brain as a graph
-	* Use algorithms to predict anomolies
+
+## Setup
