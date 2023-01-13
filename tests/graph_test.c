@@ -151,3 +151,234 @@ void test_transpose_adj_list() {
 	}
 	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 }
+
+
+
+void test_to_matrix() {
+
+	/* test transpose of adjacency list */
+    int vertices = 8; 
+	int equality_status = TRUE;
+
+	/* expected result after directed matrix conversion */
+	int expected_output[8][8] = {
+		{0,1,0,1,0,0,0,0},
+		{1,0,1,0,0,0,0,0},
+		{0,1,0,1,1,0,0,0},
+		{1,0,1,0,0,0,0,0},
+		{0,0,1,0,0,1,1,0},
+		{0,0,0,0,1,0,1,0},
+		{0,0,0,0,1,1,0,1},
+		{0,0,0,0,0,0,1,1}
+	};	
+
+	/* create adjacency list */ 
+	adj_list_t *a = init_adj_list(vertices);
+	mat_t *result = init_mat(vertices, vertices); 
+
+	/* first community */ 
+	add_directed_edge(a, 0, 'A', 1, 'B');
+	add_directed_edge(a, 1, 'B', 2, 'C');
+	add_directed_edge(a, 2, 'C', 3, 'D');
+	add_directed_edge(a, 3, 'D', 0, 'A');
+
+	/* bridge */ 
+	add_directed_edge(a, 2, 'C', 4, 'E');
+
+	/* second community */ 
+	add_directed_edge(a, 4, 'E', 5, 'F');
+	add_directed_edge(a, 5, 'F', 6, 'G');
+	add_directed_edge(a, 6, 'G', 4, 'E');
+	add_directed_edge(a, 6, 'G', 7, 'H');
+	add_directed_edge(a, 7, 'H', 7, 'H');
+
+	/* test to regular matrix conversion */ 
+	mat_t *output = to_matrix(result, a);
+
+	/* check output */ 
+	for(int i = 0; i < vertices; i++) {
+		for(int j = 0; j < vertices; j++) {
+			if(output->arr[i][j] != expected_output[i][j]) {
+				equality_status = FALSE; 
+			}
+		}
+	}
+
+
+	/* validate results */ 
+	if(!equality_status) {
+		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
+	}
+	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+
+}
+
+
+void test_to_directed_matrix() {
+
+	
+	/* test transpose of adjacency list */
+    int vertices = 8; 
+	int equality_status = TRUE;
+
+	/* expected result after directed matrix conversion */
+	int expected_output[8][8] = {
+		{0,1,0,0,0,0,0,0},
+		{0,0,1,0,0,0,0,0},
+		{0,0,0,1,1,0,0,0},
+		{1,0,0,0,0,0,0,0},
+		{0,0,0,0,0,1,0,0},
+		{0,0,0,0,0,0,1,0},
+		{0,0,0,0,1,0,0,1},
+		{0,0,0,0,0,0,0,1}
+	};	
+
+	/* create adjacency list */ 
+	adj_list_t *a = init_adj_list(vertices);
+	mat_t *result = init_mat(vertices, vertices); 
+
+	/* first community */ 
+	add_directed_edge(a, 0, 'A', 1, 'B');
+	add_directed_edge(a, 1, 'B', 2, 'C');
+	add_directed_edge(a, 2, 'C', 3, 'D');
+	add_directed_edge(a, 3, 'D', 0, 'A');
+
+	/* bridge */ 
+	add_directed_edge(a, 2, 'C', 4, 'E');
+
+	/* second community */ 
+	add_directed_edge(a, 4, 'E', 5, 'F');
+	add_directed_edge(a, 5, 'F', 6, 'G');
+	add_directed_edge(a, 6, 'G', 4, 'E');
+	add_directed_edge(a, 6, 'G', 7, 'H');
+	add_directed_edge(a, 7, 'H', 7, 'H');
+
+	/* test directed matrix conversion */ 
+	mat_t *output = to_directed_matrix(result, a);
+
+	/* check output */ 
+	for(int i = 0; i < vertices; i++) {
+		for(int j = 0; j < vertices; j++) {
+			if(output->arr[i][j] != expected_output[i][j]) {
+				equality_status = FALSE; 
+			}
+		}
+	}
+
+	/* validate results */ 
+	if(!equality_status) {
+		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
+	}
+	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+
+}
+
+
+void test_to_weighted_matrix() {
+
+	/* vertices and equality status */ 
+	int vertices = 5;
+	int equality_status = TRUE;
+
+	/* expected result after directed matrix conversion */
+	int expected_output[5][5] = {
+		{0,1,2,3,0},
+		{1,0,4,0,0},
+		{2,4,0,0,5},
+		{3,0,0,0,0},
+		{0,0,5,0,0},
+	};	
+
+	/* create adj lists */ 
+	w_adj_list_t *a = init_w_adj_list(vertices);
+	mat_t *result = init_mat(vertices, vertices);
+
+	/* build graph */ 
+	add_w_edge(a, 0, 'A', 1, 'B', 1);
+	add_w_edge(a, 0, 'A', 2, 'C', 2); 
+	add_w_edge(a, 0, 'A', 3, 'D', 3); 
+	add_w_edge(a, 1, 'B', 2, 'C', 4);
+	add_w_edge(a, 4, 'E', 2, 'C', 5);
+
+
+	/* test directed matrix conversion */ 
+	mat_t *output = to_weighted_matrix(result, a);
+
+	/* check output */ 
+	for(int i = 0; i < vertices; i++) {
+		for(int j = 0; j < vertices; j++) {
+			if(output->arr[i][j] != expected_output[i][j]) {
+				equality_status = FALSE; 
+			}
+		}
+	}
+
+
+	/* validate results */ 
+	if(!equality_status) {
+		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
+	}
+	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+
+
+}
+
+
+void test_to_directed_weighted_matrix() {
+
+	/* vertices and equality status */ 
+	int vertices = 8; 
+	int equality_status = TRUE;
+
+	/* expected result after directed matrix conversion */
+	int expected_output[8][8] = {
+		{0,1,0,0,0,0,0,0},
+		{0,0,2,0,0,0,0,0},
+		{0,0,0,3,5,0,0,0},
+		{4,0,0,0,0,0,0,0},
+		{0,0,0,0,0,6,0,0},
+		{0,0,0,0,0,0,7,0},
+		{0,0,0,0,8,0,0,9},
+		{0,0,0,0,0,0,0,10}
+	};	
+
+	/* test first example of weighted matrix */ 
+	w_adj_list_t *a = init_w_adj_list(8);
+	mat_t *result = init_mat(vertices, vertices);
+
+	/* first community */ 
+	add_directed_weighted_edge(a, 0, 'A', 1, 'B', 1);
+	add_directed_weighted_edge(a, 1, 'B', 2, 'C', 2);
+	add_directed_weighted_edge(a, 2, 'C', 3, 'D', 3);
+	add_directed_weighted_edge(a, 3, 'D', 0, 'A', 4);
+
+	/* bridge */ 
+	add_directed_weighted_edge(a, 2, 'C', 4, 'E', 5);
+
+	/* second community */ 
+	add_directed_weighted_edge(a, 4, 'E', 5, 'F', 6);
+	add_directed_weighted_edge(a, 5, 'F', 6, 'G', 7);
+	add_directed_weighted_edge(a, 6, 'G', 4, 'E', 8);
+	add_directed_weighted_edge(a, 6, 'G', 7, 'H', 9);
+	add_directed_weighted_edge(a, 7, 'H', 7, 'H', 10);
+
+	/* test directed matrix conversion */ 
+	mat_t *output = to_directed_weighted_matrix(result, a);
+
+	/* check output */ 
+	for(int i = 0; i < vertices; i++) {
+		for(int j = 0; j < vertices; j++) {
+			if(output->arr[i][j] != expected_output[i][j]) {
+				equality_status = FALSE; 
+			}
+		}
+	}
+
+	/* validate results */ 
+	if(!equality_status) {
+		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
+	}
+	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+
+}
+

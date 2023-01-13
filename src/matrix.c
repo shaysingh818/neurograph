@@ -17,20 +17,24 @@ mat_t *init_mat(int vertices, int edges) {
 
 
 void entry(mat_t *m, int v1, int v2) {
-	if(v1 == v2) {
-		printf("Same vertice %d and  %d\n", v1, v2); 
-	}
 	m->arr[v1][v2] = 1; 
 	m->arr[v2][v1] = 1; 
 }
 
 
+void directed_entry(mat_t *m, int v1, int v2) {
+	m->arr[v1][v2] = 1; 
+}
+
+
 void weighted_entry(mat_t *m, int v1, int v2, int weight) {
-	if(v1 == v2) {
-		printf("Same vertice %d and  %d\n", v1, v2); 
-	}
 	m->arr[v1][v2] = weight; 
 	m->arr[v2][v1] = weight; 
+}
+
+
+void directed_weighted_entry(mat_t *m, int v1, int v2, int weight) {
+	m->arr[v1][v2] = weight; 
 }
 
 

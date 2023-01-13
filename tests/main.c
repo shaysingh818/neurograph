@@ -26,6 +26,13 @@ int main(int argc, char **argv) {
 	test_transpose_adj_list(); 
    	test_weighted_adjacency_list();
 
+	/* test graph representation conversion methods */
+	test_to_matrix();
+	test_to_directed_matrix();	
+	test_to_weighted_matrix(); 
+	test_to_directed_weighted_matrix(); 
+
+
 	/* searching methods */ 	
 	test_bfs_one();
 	test_bfs_two();

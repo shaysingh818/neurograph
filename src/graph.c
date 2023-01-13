@@ -97,8 +97,69 @@ adj_list_t *transpose_adj(adj_list_t *a, adj_list_t *r) {
 			head = head->next; 
 		}
 	}
-
 	return r; 
+}
+
+
+mat_t *to_matrix(mat_t *m, adj_list_t *a) {
+	
+	/* iterate through list and populate matrix */ 
+	for(int i = 0; i < a->v; i++) {
+		int index_counter = 0; 
+		node_t *head = a->items[i].head;
+		while(head) {
+			entry(m, i, head->id); 
+			head  = head->next;
+		}
+	}
+	return m; 
+}
+
+
+
+mat_t *to_weighted_matrix(mat_t *m, w_adj_list_t *a) {
+	
+	/* iterate through list and populate matrix */ 
+	for(int i = 0; i < a->v; i++) {
+		int index_counter = 0; 
+		w_node_t *head = a->items[i].head;
+		while(head) {
+			weighted_entry(m, i, head->id, head->weight); 
+			head  = head->next;
+		}
+	}
+	return m; 
+}
+
+
+mat_t *to_directed_matrix(mat_t *m, adj_list_t *a) {
+	
+	/* iterate through list and populate matrix */ 
+	for(int i = 0; i < a->v; i++) {
+		int index_counter = 0; 
+		node_t *head = a->items[i].head;
+		while(head) {
+			directed_entry(m, i, head->id); 
+			head  = head->next;
+		}
+	}
+	return m; 
+}
+
+
+
+mat_t *to_directed_weighted_matrix(mat_t *m, w_adj_list_t *a) {
+	
+	/* iterate through list and populate matrix */ 
+	for(int i = 0; i < a->v; i++) {
+		int index_counter = 0; 
+		w_node_t *head = a->items[i].head;
+		while(head) {
+			directed_weighted_entry(m, i, head->id, head->weight); 
+			head  = head->next;
+		}
+	}
+	return m; 
 }
 
 
@@ -190,6 +251,34 @@ int add_directed_edge(
 
 	return TRUE; 
 }
+
+
+int add_directed_weighted_edge(
+	w_adj_list_t * a, 
+	int src_id, char src_label, 
+	int dest_id, char dest_label, 
+	int weight) {
+
+
+	/* only add to selected src node */ 
+	w_node_t *check = NULL; 
+	w_node_t *new_node = create_weighted_node(dest_id, weight, dest_label); 
+
+	/* check if head is null */ 
+	if(a->items[src_id].head == NULL) {
+		new_node->next = a->items[src_id].head; 
+		a->items[src_id].head = new_node; 
+	} else {
+		check = a->items[src_id].head; 
+		while(check->next != NULL){
+			check = check->next; 
+		}
+		check->next = new_node; 
+	}
+
+	return TRUE; 
+}
+
 
 int add_end_node(adj_list_t *a, int src_id, char src_label) {
 	

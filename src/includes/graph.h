@@ -11,6 +11,7 @@
 
 #include "node.h"
 #include "queue.h"
+#include "matrix.h"
 
 #define TRUE 1
 #define FALSE 0
@@ -65,6 +66,15 @@ walk_t *init_walk(int steps);
 /* mutators for structural methods */ 
 adj_list_t *transpose_adj(adj_list_t *a, adj_list_t *r); 
 
+/* conversion methods */
+mat_t *to_matrix(mat_t *m, adj_list_t *a);
+mat_t *to_weighted_matrix(mat_t *m, w_adj_list_t *a);
+mat_t *to_directed_matrix(mat_t *m, adj_list_t *a); 
+mat_t *to_directed_weighted_matrix(mat_t *m, w_adj_list_t *a); 
+adj_list_t *to_list(adj_list_t *a, mat_t *m); 
+w_adj_list_t *to_weighted_list(w_adj_list_t *a, mat_t *m); 
+w_adj_list_t *to_directed_weighted_list(w_adj_list_t *a, mat_t *m); 
+
 /* utilities */
 void print_graph(graph_t *g);
 void print_adj_list(adj_list_t *a);
@@ -75,6 +85,12 @@ int add_directed_edge(
 	int src_id, char src_label, 
 	int dest_id, char dest_label
 ); 
+int add_directed_weighted_edge(
+	w_adj_list_t *a, 
+	int src_id, char src_label, 
+	int dest_id, char dest_label,
+	int weight
+); 
 int add_end_node(adj_list_t *a, int src_id, char src_label); 
 int add_w_edge(
 	w_adj_list_t *a, 
@@ -82,6 +98,7 @@ int add_w_edge(
 	int dest_id, char dest_label,
 	int weight
 );
+
 
 #endif
 

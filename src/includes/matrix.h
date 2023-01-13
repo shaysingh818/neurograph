@@ -16,7 +16,9 @@ typedef struct Matrix mat_t;
 /* adjacency matrix methods */
 mat_t *init_mat(int vertices, int edges);
 void entry(mat_t *m, int v1, int v2);
+void directed_entry(mat_t *m, int v1, int v2);
 void weighted_entry(mat_t *m, int v1, int v2, int weight);
+void directed_weighted_entry(mat_t *m, int v1, int v2, int weight);
 void print_matrix(mat_t *m);
 
 #endif
