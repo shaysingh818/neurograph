@@ -45,3 +45,39 @@ gcc -c ../src/search.c
 gcc -o ../target/unit_test main.o graph_test.o graph.o node.o queue_test.o queue.o matrix_test.o matrix.o path_test.o path.o community_test.o community.o search_test.o search.o -lm -lpthread
 ```
 
+## Running the test cases
+cd into the ```/target``` directory and run the ```./unit_test``` binary
+
+```
+./unit_test
+```
+
+## Expected test case results
+```
+queue_test.c::test_init_queue... PASSED
+queue_test.c::test_pop_queue... PASSED
+matrix_test.c::test_init_matrix... PASSED
+graph_test.c::test_adjacency_list... PASSED
+graph_test.c::test_transpose_adj_list... PASSED
+graph_test.c::test_weighted_adjacency_list... PASSED
+graph_test.c::test_to_matrix... PASSED
+graph_test.c::test_to_directed_matrix... PASSED
+graph_test.c::test_to_weighted_matrix... PASSED
+graph_test.c::test_to_directed_weighted_matrix... PASSED
+search_test.c::test_bfs_one... PASSED
+search_test.c::test_bfs_two...  PASSED
+search_test.c::test_dfs_one...  PASSED
+path_test.c::test_bellman_ford...  PASSED
+path_test.c::test_random_walk...  PASSED
+path_test.c::test_random_walk::step_equal...  PASSED
+path_test.c::test_weighted_random_walk::sum_path...  PASSED
+community_test.c::test_degree_centrality...  PASSED
+community_test.c::test_weighted_degree_centrality...  PASSED
+community_test.c::test_kosaraju...  PASSED
+```
+
+
+
+
+
+
