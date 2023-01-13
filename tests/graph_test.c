@@ -270,7 +270,6 @@ void test_to_directed_matrix() {
 		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
 	}
 	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-
 }
 
 
@@ -319,8 +318,6 @@ void test_to_weighted_matrix() {
 		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
 	}
 	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-
-
 }
 
 
@@ -379,6 +376,7 @@ void test_to_directed_weighted_matrix() {
 		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
 	}
 	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+
 
 }
 
