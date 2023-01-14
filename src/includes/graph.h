@@ -16,6 +16,8 @@
 #define TRUE 1
 #define FALSE 0
 
+/* v.0.0.0 starts here (refactor graph representations) */ 
+
 /* adjacency list for representing a graph */ 
 struct AdjList {
 	int v; 
