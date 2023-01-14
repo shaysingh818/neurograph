@@ -30,7 +30,11 @@ int main(int argc, char **argv) {
 	test_to_matrix();
 	test_to_directed_matrix();	
 	test_to_weighted_matrix(); 
-	test_to_directed_weighted_matrix(); 
+	test_to_directed_weighted_matrix();
+   	test_to_list();
+	test_to_weighted_list();
+   	test_to_directed_list(); 	
+	test_to_directed_weighted_list(); 	
 
 
 	/* searching methods */ 	

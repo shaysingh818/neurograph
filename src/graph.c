@@ -163,6 +163,66 @@ mat_t *to_directed_weighted_matrix(mat_t *m, w_adj_list_t *a) {
 }
 
 
+adj_list_t *to_list(adj_list_t *a, mat_t *m) {
+
+	/* unique labels for each node */ 	
+	char label_list[8] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'}; 	
+
+	for(int i = 0; i < m->vertices; i++) {
+		for(int j = 0; j < m->edges; j++) {
+			if(m->arr[i][j] != 0) {
+				add_directed_edge(a, i, label_list[i], j, label_list[j]); 
+			}
+		}
+	}
+
+	return a; 
+}
+
+
+
+w_adj_list_t *to_weighted_list(w_adj_list_t *a, mat_t *m) {
+
+	/* unique labels for each node */ 	
+	char label_list[8] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'}; 	
+
+	for(int i = 0; i < m->vertices; i++) {
+		for(int j = 0; j < m->edges; j++) {
+			if(m->arr[i][j] != 0) {
+				add_w_edge(
+					a, i, label_list[i], 
+					j, label_list[j],
+					m->arr[i][j]
+				); 
+			}
+		}
+	}
+
+	return a; 
+}
+
+
+w_adj_list_t *to_directed_weighted_list(w_adj_list_t *a, mat_t *m) {
+
+	/* unique labels for each node */ 	
+	char label_list[8] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'}; 	
+
+	for(int i = 0; i < m->vertices; i++) {
+		for(int j = 0; j < m->edges; j++) {
+			if(m->arr[i][j] != 0) {
+				add_directed_weighted_edge(
+					a, i, label_list[i], 
+					j, label_list[j],
+					m->arr[i][j]
+				); 
+			}
+		}
+	}
+
+	return a; 
+}
+
+
 void print_adj_list(adj_list_t *a) {
 	for(int i = 0; i < a->v; i++){
 		node_t *head = a->items[i].head;

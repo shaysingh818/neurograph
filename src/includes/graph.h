@@ -63,10 +63,8 @@ adj_list_t *init_adj_list(int v);
 w_adj_list_t *init_w_adj_list(int v);
 walk_t *init_walk(int steps); 
 
-
 /* mutators for structural methods */ 
 adj_list_t *transpose_adj(adj_list_t *a, adj_list_t *r); 
-
 
 /* conversion methods */
 mat_t *to_matrix(mat_t *m, adj_list_t *a);
@@ -74,7 +72,8 @@ mat_t *to_weighted_matrix(mat_t *m, w_adj_list_t *a);
 mat_t *to_directed_matrix(mat_t *m, adj_list_t *a); 
 mat_t *to_directed_weighted_matrix(mat_t *m, w_adj_list_t *a); 
 adj_list_t *to_list(adj_list_t *a, mat_t *m); 
-w_adj_list_t *to_weighted_list(w_adj_list_t *a, mat_t *m); 
+w_adj_list_t *to_weighted_list(w_adj_list_t *a, mat_t *m);
+adj_list_t *to_directed_list(adj_list_t *a, mat_t *m); 
 w_adj_list_t *to_directed_weighted_list(w_adj_list_t *a, mat_t *m); 
 
 
