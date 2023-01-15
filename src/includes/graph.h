@@ -16,27 +16,18 @@
 #define TRUE 1
 #define FALSE 0
 
-/* v.0.0.0 starts here (refactor graph representations) */ 
 
-/* adjacency list for representing a graph */ 
-struct AdjList {
-	int v; 
+/* standard graph representation that contains array of weighted edges */ 
+struct Graph {
+	int v;
+   	int e; 	
 	int *visited; 
-	node_list_t *items; 
+	bool directed; 
+   	edge_t **edges;
+	node_list_t *items; 	
 }; 
 
-typedef struct AdjList adj_list_t;
-
-
-/* adjacency list for representing a graph with weighted nodes */ 
-struct WeightedAdjList {
-	int v; 
-	int *visited;
-	w_node_list_t *items; 
-}; 
-
-typedef struct WeightedAdjList w_adj_list_t;
-
+typedef struct Graph graph_t; 
 
 /* structure for storing results of walking through a graph */ 
 struct Walk {
@@ -49,60 +40,33 @@ struct Walk {
 typedef struct Walk walk_t;
 
 
-/* standard graph representation that contains array of weighted edges */ 
-struct Graph {
-	int v;
-   	int e; 	
-	int *visited; 
-   	edge_t **edges; 	
-}; 
-
-typedef struct Graph graph_t; 
-
 /* structural methods */ 
-graph_t *init_graph(int v, int e);
-adj_list_t *init_adj_list(int v);
-w_adj_list_t *init_w_adj_list(int v);
+graph_t *init_graph(int v, int e, bool directed);
 walk_t *init_walk(int steps); 
 
 /* mutators for structural methods */ 
-adj_list_t *transpose_adj(adj_list_t *a, adj_list_t *r); 
+graph_t *transpose_items(graph_t *g, graph_t *r); 
 
-/* conversion methods */
-mat_t *to_matrix(mat_t *m, adj_list_t *a);
-mat_t *to_weighted_matrix(mat_t *m, w_adj_list_t *a);
-mat_t *to_directed_matrix(mat_t *m, adj_list_t *a); 
-mat_t *to_directed_weighted_matrix(mat_t *m, w_adj_list_t *a); 
-adj_list_t *to_list(adj_list_t *a, mat_t *m); 
-w_adj_list_t *to_weighted_list(w_adj_list_t *a, mat_t *m);
-adj_list_t *to_directed_list(adj_list_t *a, mat_t *m); 
-w_adj_list_t *to_directed_weighted_list(w_adj_list_t *a, mat_t *m); 
+/* conversion methods to matrix */
+mat_t *to_matrix(mat_t *m, graph_t *g);
+mat_t *to_weighted_matrix(mat_t *m, graph_t *g);
+mat_t *to_directed_matrix(mat_t *m, graph_t *g); 
+mat_t *to_directed_weighted_matrix(mat_t *m, graph_t *g); 
+
+/* conversion methods to graph */ 
+graph_t *to_list(graph_t *g, mat_t *m); 
+graph_t *to_weighted_list(graph_t *g, mat_t *m);
+graph_t *to_directed_list(graph_t *a, mat_t *m); 
+graph_t *to_directed_weighted_list(graph_t *g, mat_t *m); 
 
 
 /* utilities */
+int add_node(
+	graph_t *g, int src_id, char src_label, 
+	int dest_id, char dest_label, int weight
+); 
+int add_end_node(graph_t *g, int src_id, char src_label, int weight); 
 void print_graph(graph_t *g);
-void print_adj_list(adj_list_t *a);
-void print_w_adj_list(w_adj_list_t *a); 
-int add_edge(adj_list_t *a, int src_id, char src_label, int dest_id, char dest_label);
-int add_directed_edge(
-	adj_list_t *a, 
-	int src_id, char src_label, 
-	int dest_id, char dest_label
-); 
-int add_directed_weighted_edge(
-	w_adj_list_t *a, 
-	int src_id, char src_label, 
-	int dest_id, char dest_label,
-	int weight
-); 
-int add_end_node(adj_list_t *a, int src_id, char src_label); 
-int add_w_edge(
-	w_adj_list_t *a, 
-	int src_id, char src_label,
-	int dest_id, char dest_label,
-	int weight
-);
-
 
 #endif
 

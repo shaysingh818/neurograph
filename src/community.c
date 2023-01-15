@@ -37,22 +37,22 @@ int degree_centrality(graph_t *g, node_t *root) {
 
 
 
-int weighted_degree_centrality(w_adj_list_t *a) {
+int weighted_degree_centrality(graph_t *g) {
 
 	/* variables */ 	
-	int v = a->v;
+	int v = g->v;
 	int max_score = 0; 
 	int max_vertex = 0; 
 
 	/* traverse adjacency list */ 
-	for(int i = 0; i < a->v; i++){
+	for(int i = 0; i < g->v; i++){
 
 		/* variables to keep track of most popular node */ 
 		int weighted_sum = 0;
 	   	int connection_count = 0; 
 
 		/* get current head node */ 	
-		w_node_t *head = a->items[i].head;
+		node_t *head = g->items[i].head;
 
 		while(head) {
 			weighted_sum += head->weight; 
@@ -74,36 +74,36 @@ int weighted_degree_centrality(w_adj_list_t *a) {
 }
 
 
-char **kosaraju(adj_list_t *a, int start_vertex) {
+char **kosaraju(graph_t *g, int start_vertex) {
 
 	/* variables */ 	
-	int v = a->v;
-	queue_t *q = init_queue(a->v);
-	queue_t *q1 = init_queue(a->v);
-	adj_list_t *r = init_adj_list(a->v);
+	int v = g->v;
+	queue_t *q = init_queue(g->v);
+	queue_t *q1 = init_queue(g->v);
+	graph_t *r = init_graph(g->v, g->v, true);
    	int num_components = 0; 	
 
 	/* perform DFS on first instance of graph */ 
-	node_t *head = a->items[3].head;
-	int result = dfs(q, a, head); 
+	node_t *head = g->items[3].head;
+	int result = dfs(q, g, head); 
 
 	/* transposed graph */
-	adj_list_t *transpose = transpose_adj(a, r); 
+	graph_t *transpose = transpose_items(g, r); 
 
 	/* perform DFS on transposed graph */
-	node_t *t_head = a->items[6].head;
+	node_t *t_head = g->items[6].head;
 	push(q1, head); //push head node before
 	int transpose_result = dfs(q1, transpose, t_head); 
 
 	/* mark all as unvisited */ 
-	for(int i = 0; i < a->v; i++){
+	for(int i = 0; i < g->v; i++){
 		transpose->visited[i] = 0; 
 	}
 
 	/* allocate space for final results */ 
-	char **communities = malloc(a->v * sizeof(char*)); 
-	for(int i = 0; i < a->v; i++) {
-		communities[i] = malloc(a->v * sizeof(char)); 
+	char **communities = malloc(g->v * sizeof(char*)); 
+	for(int i = 0; i < g->v; i++) {
+		communities[i] = malloc(g->v * sizeof(char)); 
 	}
 
 	/* pop stack and find components */ 
@@ -111,7 +111,7 @@ char **kosaraju(adj_list_t *a, int start_vertex) {
 		node_t *item = q->items[q->front_index]; 
 		pop(q);
 	   	if(!transpose->visited[item->id]) {
-			queue_t *q2 = init_queue(a->v);
+			queue_t *q2 = init_queue(g->v);
 			int transpose_result = k_dfs(q2, transpose, item);
 
 			/* get results from queue */ 

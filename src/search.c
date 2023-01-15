@@ -1,22 +1,22 @@
 #include "includes/search.h"
 
-queue_t *bfs(adj_list_t *a, node_t *root) {	
+queue_t *bfs(graph_t *g, node_t *root) {	
 
 	/* create array to return list of nodes visited */ 
-	int *nodes = malloc(a->v * sizeof(int));
+	int *nodes = malloc(g->v * sizeof(int));
 	int current_index = 0; 
 
 	/* create queue */ 
-	queue_t *q = init_queue(a->v);
-   	queue_t *visit = init_queue(a->v); 	
-   	a->visited[root->id] = 1; 
+	queue_t *q = init_queue(g->v);
+   	queue_t *visit = init_queue(g->v); 	
+   	g->visited[root->id] = 1; 
 	push(q, root); 	
 
 	while(!is_empty(q)) {
 
 		/* get current item in queue */ 
 		int current_vertex = front(q);
-		node_t *temp = a->items[current_vertex].head; 
+		node_t *temp = g->items[current_vertex].head; 
 
 		/* pop element from queue and add to visited */ 
 		push(visit, q->items[q->front_index]); 
@@ -25,8 +25,8 @@ queue_t *bfs(adj_list_t *a, node_t *root) {
 		/* add non visited adjacent nodes to queue */ 	
 		while(temp) {
 			int adj_vertex = temp->id; 
-			if(a->visited[adj_vertex] == 0){
-				a->visited[adj_vertex] = 1; 
+			if(g->visited[adj_vertex] == 0){
+				g->visited[adj_vertex] = 1; 
 				push(q, temp); 
 			}
 			temp  = temp->next; 
@@ -37,17 +37,17 @@ queue_t *bfs(adj_list_t *a, node_t *root) {
 }
 
 
-int dfs(queue_t *q, adj_list_t *a, node_t *root) {
+int dfs(queue_t *q, graph_t *g, node_t *root) {
 
-	node_t *adj_list = a->items[root->id].head; 
+	node_t *adj_list = g->items[root->id].head; 
 	node_t *temp = adj_list;
-   	a->visited[root->id] = 1;
+   	g->visited[root->id] = 1;
 	push(q, root); 
 
 	while(temp != NULL) {
 		int connected_vertex = temp->id; 
-		if(a->visited[connected_vertex] == 0){
-			dfs(q, a, temp); 
+		if(g->visited[connected_vertex] == 0){
+			dfs(q, g, temp); 
 		}
 		temp = temp->next; 
 	}
@@ -56,17 +56,17 @@ int dfs(queue_t *q, adj_list_t *a, node_t *root) {
 }
 
 
-int k_dfs(queue_t *q, adj_list_t *a, node_t *root) {
+int k_dfs(queue_t *q, graph_t *g, node_t *root) {
 
 	/* grab the ID of the head node */ 
-	node_t *temp = a->items[root->id].head; 
-   	a->visited[root->id] = 1;
+	node_t *temp = g->items[root->id].head; 
+   	g->visited[root->id] = 1;
 	push(q, root); 
 
 	while(temp != NULL) {
 		int connected_vertex = temp->id; 
-		if(a->visited[connected_vertex] == 0){
-			k_dfs(q, a, temp); 
+		if(g->visited[connected_vertex] == 0){
+			k_dfs(q, g, temp); 
 		}
 		temp = temp->next; 
 	}

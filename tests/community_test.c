@@ -5,14 +5,14 @@ void test_degree_centrality() {
 
   	int vertices = 5; // num of vertices
     int edges = 8; // num of edges
-    graph_t *g = init_graph(vertices, edges);
+    graph_t *g = init_graph(vertices, edges, false);
 
     /* create nodes for graph */
-    node_t *a = create_node(0, 'A');
-    node_t *b = create_node(1, 'B');
-    node_t *c = create_node(2, 'C');
-    node_t *d = create_node(3, 'D');
-    node_t *e = create_node(4, 'E');
+    node_t *a = create_node(0, 'A', 0); // create unweighted nodes
+    node_t *b = create_node(1, 'B', 0);
+    node_t *c = create_node(2, 'C', 0);
+    node_t *d = create_node(3, 'D', 0);
+    node_t *e = create_node(4, 'E', 0);
 
     /* add relationships */
     g->edges[0] = create_edge(a, b, -1);
@@ -42,15 +42,15 @@ void test_weighted_degree_centrality() {
     int vertices = 5; 
 
 	/* create weighted adjacency list */ 
-	w_adj_list_t *a = init_w_adj_list(5);
-	add_w_edge(a, 0, 'A', 1, 'B', 2);
-	add_w_edge(a, 0, 'A', 2, 'C', 1); 
-	add_w_edge(a, 0, 'A', 3, 'D', 1); 
-	add_w_edge(a, 1, 'B', 2, 'C', 2);
-	add_w_edge(a, 4, 'E', 2, 'C', 1);
+	graph_t *g = init_graph(vertices, vertices, false);
+	add_node(g, 0, 'A', 1, 'B', 2);
+	add_node(g, 0, 'A', 2, 'C', 1); 
+	add_node(g, 0, 'A', 3, 'D', 1); 
+	add_node(g, 1, 'B', 2, 'C', 2);
+	add_node(g, 4, 'E', 2, 'C', 1);
 
 	/* test weighted degree centrality */ 
-	int result = weighted_degree_centrality(a);
+	int result = weighted_degree_centrality(g);
 	int equality_condition = result == 0; 
 		
 	if(!equality_condition) {
@@ -69,27 +69,27 @@ void test_kosaraju() {
 	int equality_test = TRUE; 
 
 	/* create adjacency list */ 
-	adj_list_t *a = init_adj_list(vertices);
+	graph_t *g = init_graph(vertices, vertices, true);
 
 	/* first community */ 
-	add_directed_edge(a, 0, 'A', 1, 'B');
-	add_directed_edge(a, 1, 'B', 2, 'C');
-	add_directed_edge(a, 2, 'C', 3, 'D');
-	add_directed_edge(a, 3, 'D', 0, 'A');
+	add_node(g, 0, 'A', 1, 'B', 0);
+	add_node(g, 1, 'B', 2, 'C', 0);
+	add_node(g, 2, 'C', 3, 'D', 0);
+	add_node(g, 3, 'D', 0, 'A', 0);
 
 	/* bridge */ 
-	add_directed_edge(a, 2, 'C', 4, 'E');
+	add_node(g, 2, 'C', 4, 'E', 0);
 
 	/* second community */ 
-	add_directed_edge(a, 4, 'E', 5, 'F');
-	add_directed_edge(a, 5, 'F', 6, 'G');
-	add_directed_edge(a, 6, 'G', 4, 'E');
-	add_directed_edge(a, 6, 'G', 7, 'H');
-	add_end_node(a, 7, 'H');
+	add_node(g, 4, 'E', 5, 'F', 0);
+	add_node(g, 5, 'F', 6, 'G', 0);
+	add_node(g, 6, 'G', 4, 'E', 0);
+	add_node(g, 6, 'G', 7, 'H', 0);
+	add_end_node(g, 7, 'H', 0);
 
 	char test1[2] = {'A', 'B'}; 
 	char test2[3] = {'C', 'D', 'E'}; 	
-	char **result = kosaraju(a, 0);
+	char **result = kosaraju(g, 0);
 	
 	/* expected output from communities */
     char output[8][8] = {
@@ -100,8 +100,8 @@ void test_kosaraju() {
 	
 	/* question: can there be more communities then there are vertices? */
 	/* refine this method to have a specific structural return type for communities */ 
-	for(int i = 0; i < a->v; i++) {
-		for(int j = 0; j < a->v; j++) {
+	for(int i = 0; i < g->v; i++) {
+		for(int j = 0; j < g->v; j++) {
 			if(result[i][j] != output[i][j]) {
 				equality_test = FALSE; 
 			}

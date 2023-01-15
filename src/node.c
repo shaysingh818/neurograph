@@ -1,23 +1,9 @@
 #include "includes/node.h"
 
 
-node_t *create_node(int id, char label) {
+node_t *create_node(int id, char label, int weight) {
 	node_t *n;
 	n = (node_t*)malloc(sizeof(node_t)); 
-	n->id = id;  
-	n->label = label; 
-	n->next = NULL; 
-	return n; 
-}
-
-void print_node(node_t *node) {
-	printf("ID: %d, LABEL: %c\n", node->id, node->label); 
-}
-
-
-w_node_t *create_weighted_node(int id, int weight, char label) {
-	w_node_t *n;
-	n = (w_node_t*)malloc(sizeof(w_node_t)); 
 	n->id = id;  
 	n->label = label; 
 	n->weight = weight; 
@@ -25,9 +11,12 @@ w_node_t *create_weighted_node(int id, int weight, char label) {
 	return n; 
 }
 
-
-void print_weighted_node(w_node_t *node) {
-	printf("(%d, %c) WEIGHT: %d\n", node->id, node->label, node->weight); 
+void print_node(node_t *node) {
+	printf("ID: %d, LABEL: %c ", node->id, node->label);
+	if(node->weight > 0) {
+		printf("WEIGHT: %d ", node->weight); 
+	}
+	printf("\n"); 
 }
 
 

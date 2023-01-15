@@ -5,9 +5,9 @@
 #include "../../src/includes/queue.h"
 
 /* test adjacency list representation */ 
-void test_adjacency_list();
-void test_weighted_adjacency_list(); 
-void test_transpose_adj_list();
+void test_graph();
+void test_weighted_graph(); 
+void test_transpose_graph();
 
 /* test conversion methods */ 
 void test_to_matrix();

@@ -2,12 +2,15 @@
 #include "includes/queue.h"
 
 
-graph_t *init_graph(int v, int e) {
+
+graph_t *init_graph(int v, int e, bool directed) {
 
 	graph_t *g;
 	g = (graph_t*)malloc(sizeof(graph_t)); 
 	g->edges = malloc(e * sizeof(edge_t));
    	g->visited = malloc(v * sizeof(int)); 	
+	g->items = (node_list_t*)malloc(v * sizeof(node_list_t)); 
+	g->directed = directed; 
 	g->v = v;
 	g->e = e; 
 
@@ -15,6 +18,11 @@ graph_t *init_graph(int v, int e) {
    	for(int i = 0; i < e; i++){
 		g->edges[i] = malloc(sizeof(edge_t)); 
 	}	
+
+	/* allocate adjacency list */ 
+	for(int n = 0; n < v; n++){
+		g->items[n].head = NULL; 
+	}
 		
 	/* add all nodes as unvisited */ 
 	for(int n = 0; n < v; n++){
@@ -22,51 +30,6 @@ graph_t *init_graph(int v, int e) {
 	}
 
 	return g; 
-}
-
-
-adj_list_t *init_adj_list(int v) {
-
-	adj_list_t *a;
-	a = (adj_list_t*)malloc(sizeof(adj_list_t)); 
-	a->items = (node_list_t*)malloc(v * sizeof(node_list_t));
-   	a->visited = malloc(v * sizeof(int));
-	a->v = v;
-
-	/* allocate adjacency list as empty */ 
-	for(int i = 0; i < v; i++) {
-		a->items[i].head = NULL; 	
-	}
-
-	/* add all nodes as unvisited */ 
-	for(int n = 0; n < v; n++){
-		a->visited[n] = 0; 
-	}
-
-	return a; 
-
-}
-
-
-w_adj_list_t *init_w_adj_list(int v) {
-
-	w_adj_list_t *a;
-	a = (w_adj_list_t*)malloc(sizeof(w_adj_list_t)); 
-	a->items = (w_node_list_t*)malloc(v * sizeof(w_node_list_t));
-   	a->visited = malloc(v * sizeof(int));
-	a->v = v;
-
-	/* allocate adjacency list as empty */ 
-	for(int i = 0; i < v; i++) {
-		a->items[i].head = NULL; 	
-	}
-
-	/* add all nodes as unvisited */ 
-	for(int n = 0; n < v; n++){
-		a->visited[n] = 0; 
-	}
-
-	return a; 
 }
 
 
@@ -81,11 +44,11 @@ walk_t *init_walk(int steps) {
 }
 
 
-adj_list_t *transpose_adj(adj_list_t *a, adj_list_t *r) {
+graph_t *transpose_items(graph_t *g, graph_t *r) {
 
 	char label_list[8] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'}; 	
-	for(int i = 0; i < a->v; i++) {
-		node_t *head = a->items[i].head; 
+	for(int i = 0; i < g->v; i++) {
+		node_t *head = g->items[i].head; 
 		while(head) {
 			
 			/* grab corresponding labels */ 
@@ -93,7 +56,7 @@ adj_list_t *transpose_adj(adj_list_t *a, adj_list_t *r) {
 			char dest_label = label_list[i]; 
 
 			/* switch direction of graph */ 
-			add_directed_edge(r, head->id, src_label, i, dest_label); 
+			add_node(r, head->id, src_label, i, dest_label, head->weight); 
 			head = head->next; 
 		}
 	}
@@ -101,12 +64,12 @@ adj_list_t *transpose_adj(adj_list_t *a, adj_list_t *r) {
 }
 
 
-mat_t *to_matrix(mat_t *m, adj_list_t *a) {
+mat_t *to_matrix(mat_t *m, graph_t *g) {
 	
 	/* iterate through list and populate matrix */ 
-	for(int i = 0; i < a->v; i++) {
+	for(int i = 0; i < g->v; i++) {
 		int index_counter = 0; 
-		node_t *head = a->items[i].head;
+		node_t *head = g->items[i].head;
 		while(head) {
 			entry(m, i, head->id); 
 			head  = head->next;
@@ -117,12 +80,12 @@ mat_t *to_matrix(mat_t *m, adj_list_t *a) {
 
 
 
-mat_t *to_weighted_matrix(mat_t *m, w_adj_list_t *a) {
+mat_t *to_weighted_matrix(mat_t *m, graph_t *g) {
 	
 	/* iterate through list and populate matrix */ 
-	for(int i = 0; i < a->v; i++) {
+	for(int i = 0; i < g->v; i++) {
 		int index_counter = 0; 
-		w_node_t *head = a->items[i].head;
+		node_t *head = g->items[i].head;
 		while(head) {
 			weighted_entry(m, i, head->id, head->weight); 
 			head  = head->next;
@@ -132,12 +95,12 @@ mat_t *to_weighted_matrix(mat_t *m, w_adj_list_t *a) {
 }
 
 
-mat_t *to_directed_matrix(mat_t *m, adj_list_t *a) {
+mat_t *to_directed_matrix(mat_t *m, graph_t *g) {
 	
 	/* iterate through list and populate matrix */ 
-	for(int i = 0; i < a->v; i++) {
+	for(int i = 0; i < g->v; i++) {
 		int index_counter = 0; 
-		node_t *head = a->items[i].head;
+		node_t *head = g->items[i].head;
 		while(head) {
 			directed_entry(m, i, head->id); 
 			head  = head->next;
@@ -148,12 +111,12 @@ mat_t *to_directed_matrix(mat_t *m, adj_list_t *a) {
 
 
 
-mat_t *to_directed_weighted_matrix(mat_t *m, w_adj_list_t *a) {
+mat_t *to_directed_weighted_matrix(mat_t *m, graph_t *g) {
 	
 	/* iterate through list and populate matrix */ 
-	for(int i = 0; i < a->v; i++) {
+	for(int i = 0; i < g->v; i++) {
 		int index_counter = 0; 
-		w_node_t *head = a->items[i].head;
+		node_t *head = g->items[i].head;
 		while(head) {
 			directed_weighted_entry(m, i, head->id, head->weight); 
 			head  = head->next;
@@ -163,7 +126,7 @@ mat_t *to_directed_weighted_matrix(mat_t *m, w_adj_list_t *a) {
 }
 
 
-adj_list_t *to_list(adj_list_t *a, mat_t *m) {
+graph_t *to_list(graph_t *g, mat_t *m) {
 
 	/* unique labels for each node */ 	
 	char label_list[8] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'}; 	
@@ -171,17 +134,17 @@ adj_list_t *to_list(adj_list_t *a, mat_t *m) {
 	for(int i = 0; i < m->vertices; i++) {
 		for(int j = 0; j < m->edges; j++) {
 			if(m->arr[i][j] != 0) {
-				add_directed_edge(a, i, label_list[i], j, label_list[j]); 
+				add_node(g, i, label_list[i], j, label_list[j], 0); 
 			}
 		}
 	}
 
-	return a; 
+	return g; 
 }
 
 
 
-w_adj_list_t *to_weighted_list(w_adj_list_t *a, mat_t *m) {
+graph_t *to_weighted_list(graph_t *g, mat_t *m) {
 
 	/* unique labels for each node */ 	
 	char label_list[8] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'}; 	
@@ -189,8 +152,8 @@ w_adj_list_t *to_weighted_list(w_adj_list_t *a, mat_t *m) {
 	for(int i = 0; i < m->vertices; i++) {
 		for(int j = 0; j < m->edges; j++) {
 			if(m->arr[i][j] != 0) {
-				add_w_edge(
-					a, i, label_list[i], 
+				add_node(
+					g, i, label_list[i], 
 					j, label_list[j],
 					m->arr[i][j]
 				); 
@@ -198,11 +161,11 @@ w_adj_list_t *to_weighted_list(w_adj_list_t *a, mat_t *m) {
 		}
 	}
 
-	return a; 
+	return g; 
 }
 
 
-w_adj_list_t *to_directed_weighted_list(w_adj_list_t *a, mat_t *m) {
+graph_t *to_directed_weighted_list(graph_t *g, mat_t *m) {
 
 	/* unique labels for each node */ 	
 	char label_list[8] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'}; 	
@@ -210,8 +173,8 @@ w_adj_list_t *to_directed_weighted_list(w_adj_list_t *a, mat_t *m) {
 	for(int i = 0; i < m->vertices; i++) {
 		for(int j = 0; j < m->edges; j++) {
 			if(m->arr[i][j] != 0) {
-				add_directed_weighted_edge(
-					a, i, label_list[i], 
+				add_node(
+					g, i, label_list[i], 
 					j, label_list[j],
 					m->arr[i][j]
 				); 
@@ -219,16 +182,19 @@ w_adj_list_t *to_directed_weighted_list(w_adj_list_t *a, mat_t *m) {
 		}
 	}
 
-	return a; 
+	return g; 
 }
 
 
-void print_adj_list(adj_list_t *a) {
-	for(int i = 0; i < a->v; i++){
-		node_t *head = a->items[i].head;
+void print_graph(graph_t *g) {
+	for(int i = 0; i < g->v; i++){
+		node_t *head = g->items[i].head;
 		printf("%d ", i); 
 		while(head) {
 			printf("-> (%d, %c)", head->id, head->label); 
+			if(head->weight > 0) {
+				printf(" [%d] ", head->weight); 
+			}
 			head  = head->next; 
 		}
 		printf("\n"); 
@@ -236,122 +202,61 @@ void print_adj_list(adj_list_t *a) {
 }
 
 
-void print_w_adj_list(w_adj_list_t *a) {
-	for(int i = 0; i < a->v; i++){
-		w_node_t *head = a->items[i].head;
-		printf("%d ", i); 
-		while(head) {
-			printf("-> (%d, %c) [%d]", head->id, head->label, head->weight); 
-			head  = head->next; 
-		}
-		printf("\n"); 
-	}
-}
+int add_node(
+	graph_t *g, int src_id, char src_label, 
+	int dest_id, char dest_label, int weight) {
 
-
-int add_edge(
-	adj_list_t *a, 
-	int src_id, char src_label, 
-	int dest_id, char dest_label) {
 
 	node_t *check = NULL; 
-	node_t *new_node = create_node(dest_id, dest_label); 
+	node_t *new_node = create_node(dest_id, dest_label, weight); 
 
 	/* check if head is null */ 
-	if(a->items[src_id].head == NULL) {
-		new_node->next = a->items[src_id].head; 
-		a->items[src_id].head = new_node; 
+	if(g->items[src_id].head == NULL) {
+		new_node->next = g->items[src_id].head; 
+		g->items[src_id].head = new_node; 
 	} else {
-		check = a->items[src_id].head; 
+		check = g->items[src_id].head; 
 		while(check->next != NULL){
 			check = check->next; 
 		}
 		check->next = new_node; 
 	}
 
-	/* check if head is NULL again */ 
-	new_node = create_node(src_id, src_label); 
-	if(a->items[dest_id].head == NULL) {
-		new_node->next = a->items[dest_id].head; 
-		a->items[dest_id].head = new_node; 
-	} else {
-		check = a->items[dest_id].head; 
-		while(check->next != NULL) {
-			check = check->next; 
-		}
-		check->next = new_node; 
-	} 
+	if(g->directed == false) {
 
-	return TRUE; 
+		/* check if head is NULL again */ 
+		new_node = create_node(src_id, src_label, weight); 
+		if(g->items[dest_id].head == NULL) {
+			new_node->next = g->items[dest_id].head; 
+			g->items[dest_id].head = new_node; 
+		} else {
+			check = g->items[dest_id].head; 
+			while(check->next != NULL) {
+				check = check->next; 
+			}
+			check->next = new_node; 
+		} 
 
-}
-
-
-int add_directed_edge(
-	adj_list_t * a, 
-	int src_id, char src_label, 
-	int dest_id, char dest_label) {
-
-
-	/* only add to selected src node */ 
-	node_t *check = NULL; 
-	node_t *new_node = create_node(dest_id, dest_label); 
-
-	/* check if head is null */ 
-	if(a->items[src_id].head == NULL) {
-		new_node->next = a->items[src_id].head; 
-		a->items[src_id].head = new_node; 
-	} else {
-		check = a->items[src_id].head; 
-		while(check->next != NULL){
-			check = check->next; 
-		}
-		check->next = new_node; 
 	}
 
 	return TRUE; 
 }
 
 
-int add_directed_weighted_edge(
-	w_adj_list_t * a, 
-	int src_id, char src_label, 
-	int dest_id, char dest_label, 
-	int weight) {
 
 
-	/* only add to selected src node */ 
-	w_node_t *check = NULL; 
-	w_node_t *new_node = create_weighted_node(dest_id, weight, dest_label); 
-
-	/* check if head is null */ 
-	if(a->items[src_id].head == NULL) {
-		new_node->next = a->items[src_id].head; 
-		a->items[src_id].head = new_node; 
-	} else {
-		check = a->items[src_id].head; 
-		while(check->next != NULL){
-			check = check->next; 
-		}
-		check->next = new_node; 
-	}
-
-	return TRUE; 
-}
-
-
-int add_end_node(adj_list_t *a, int src_id, char src_label) {
+int add_end_node(graph_t *g, int src_id, char src_label, int weight) {
 	
 	/* only add to selected src node */ 
 	node_t *check = NULL; 
-	node_t *new_node = create_node(src_id, src_label); 
+	node_t *new_node = create_node(src_id, src_label, weight); 
 
 	/* check if head is null */ 
-	if(a->items[src_id].head == NULL) {
-		new_node->next = a->items[src_id].head; 
-		a->items[src_id].head = new_node; 
+	if(g->items[src_id].head == NULL) {
+		new_node->next = g->items[src_id].head; 
+		g->items[src_id].head = new_node; 
 	} else {
-		check = a->items[src_id].head; 
+		check = g->items[src_id].head; 
 		while(check->next != NULL){
 			check = check->next; 
 		}
@@ -362,47 +267,3 @@ int add_end_node(adj_list_t *a, int src_id, char src_label) {
 }
 
 
-int add_w_edge(
-	w_adj_list_t *a, 
-	int src, char src_label, 
-	int dest, char dest_label, 
-	int weight) {
-
-	/* create destination node */ 
-	w_node_t *check = NULL; 
-	w_node_t *new_node = create_weighted_node(
-		dest, weight, dest_label
-	);
-
-	/* check if head is null */ 
-	if(a->items[src].head == NULL) {
-		new_node->next = a->items[src].head; 
-		a->items[src].head = new_node; 
-	} else {
-		check = a->items[src].head; 
-		while(check->next != NULL){
-			check = check->next; 
-		}
-		check->next = new_node; 
-	}
-
-	/* create src node */ 
-	new_node = create_weighted_node(
-		src, weight, src_label
-	);
-
-	/* check if head is NULL again */ 
-	if(a->items[dest].head == NULL) {
-		new_node->next = a->items[dest].head; 
-		a->items[dest].head = new_node; 
-	} else {
-		check = a->items[dest].head; 
-		while(check->next != NULL) {
-			check = check->next; 
-		}
-		check->next = new_node; 
-	} 
-
-	return TRUE; 
-
-}

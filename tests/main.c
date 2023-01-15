@@ -22,11 +22,11 @@ int main(int argc, char **argv) {
 	test_init_matrix(); 
 
 	/* graph utility methods */ 
-	test_adjacency_list();
-	test_transpose_adj_list(); 
-   	test_weighted_adjacency_list();
+	test_graph();
+   	test_weighted_graph();
+	test_transpose_graph(); 
 
-	/* test graph representation conversion methods */
+	/* conversion methods */ 
 	test_to_matrix();
 	test_to_directed_matrix();	
 	test_to_weighted_matrix(); 
@@ -36,22 +36,19 @@ int main(int argc, char **argv) {
    	test_to_directed_list(); 	
 	test_to_directed_weighted_list(); 	
 
-
-	/* searching methods */ 	
+	/* searching */ 
 	test_bfs_one();
 	test_bfs_two();
 	test_dfs_one();
 
-	/* pathfinding tests */ 
+	/* path finding */ 
 	test_bellman_ford();
    	test_random_walk();
 	test_weighted_random_walk();
 
-	/* centrality tests */ 
+	/* community detection */ 
 	test_degree_centrality(); 
 	test_weighted_degree_centrality();	
-
-	/* community detection tests */ 
 	test_kosaraju(); 
 
 	printf("\n"); 

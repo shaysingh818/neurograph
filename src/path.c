@@ -41,14 +41,14 @@ int *bellman_ford(graph_t *g, node_t *root, int *dist) {
 }
 
 
-int *random_walk(adj_list_t *a, int start_vertex, int steps, int *path) {
+int *random_walk(graph_t *g, int start_vertex, int steps, int *path) {
 
 	/* variables */ 	
-	int v = a->v;
+	int v = g->v;
    	time_t t; 	
 
 	/* start with the src node */
-	node_t *start = a->items[start_vertex].head;
+	node_t *start = g->items[start_vertex].head;
 
 	/* init random seed */ 
 	srand((unsigned) time(&t));
@@ -72,7 +72,7 @@ int *random_walk(adj_list_t *a, int start_vertex, int steps, int *path) {
 		int selected_neighbor = neighbors[rand_index]; 
 
 		/* set as new starting node and add visited node to path */ 
-		start = a->items[selected_neighbor].head;
+		start = g->items[selected_neighbor].head;
 		path[n] = selected_neighbor; 
 	}	
 	
@@ -80,14 +80,14 @@ int *random_walk(adj_list_t *a, int start_vertex, int steps, int *path) {
 }
 
 
-walk_t *weighted_random_walk(w_adj_list_t *a, walk_t *w, int start_vertex) {
+walk_t *weighted_random_walk(graph_t *g, walk_t *w, int start_vertex) {
 		
 	/* variables */ 	
-	int v = a->v;
+	int v = g->v;
    	time_t t; 	
 
 	/* start with the src node */
-	w_node_t *start = a->items[start_vertex].head;
+	node_t *start = g->items[start_vertex].head;
 
 	/* init random seed */ 
 	srand((unsigned) time(&t));
@@ -111,7 +111,7 @@ walk_t *weighted_random_walk(w_adj_list_t *a, walk_t *w, int start_vertex) {
 		int selected_neighbor = neighbors[rand_index]; 
 
 		/* set as new starting node and add visited node to path */ 
-		start = a->items[selected_neighbor].head;
+		start = g->items[selected_neighbor].head;
 		w->weighted_sum += start->weight;
 		w->path[n] = selected_neighbor; 
 	}	

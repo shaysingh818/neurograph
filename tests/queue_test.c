@@ -6,9 +6,9 @@
 void test_init_queue(){
 
 	/* create nodes */ 
-    node_t *node1 = create_node(1, 'A'); 
-    node_t *node2 = create_node(2, 'B'); 
-    node_t *node3 = create_node(3, 'C'); 
+    node_t *node1 = create_node(1, 'A', 0); 
+    node_t *node2 = create_node(2, 'B', 0); 
+    node_t *node3 = create_node(3, 'C', 0); 
     
     /* test if queue works */ 
     queue_t *q = init_queue(5); 
@@ -37,9 +37,9 @@ void test_init_queue(){
 void test_pop_queue(){
 
 	/* create nodes */ 
-    node_t *node1 = create_node(1, 'A'); 
-    node_t *node2 = create_node(2, 'B'); 
-    node_t *node3 = create_node(3, 'C'); 
+    node_t *node1 = create_node(1, 'A', 0); 
+    node_t *node2 = create_node(2, 'B', 0); 
+    node_t *node3 = create_node(3, 'C', 0); 
     
     /* test if queue works */ 
     queue_t *q = init_queue(5); 
