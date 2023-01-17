@@ -1,11 +1,11 @@
 
 # Object files
 GRAPH_OBJS = graph.o matrix.o queue.o node.o
-GRAPH_EXTENSIONS = path.o search.o community.o
+GRAPH_EXTENSIONS = path.o search.o community.o csv.o
 
 # Header files
-UTILITY_HEADERS = includes/graph.h includes/matrix.h includes/queue.h
-EXTENSION_HEADERS = includes/path.h includes/search.h includes/community.h
+UTILITY_HEADERS = includes/graph.h includes/matrix.h includes/queue.h includes/csv.h
+EXTENSION_HEADERS = includes/path.h includes/search.h includes/community.h 
 
 # Outputs and compilation target
 BIN=bin
@@ -16,6 +16,9 @@ FLAGS = -lm -lpthread
 
 all: main.o $(GRAPH_OBJS) $(GRAPH_EXTENSIONS)
 	gcc -o $(TARGET) main.o $(GRAPH_OBJS) $(GRAPH_EXTENSIONS) $(FLAGS)
+
+csv.o: csv.c includes/csv.h
+	gcc -c csv.c
 
 graph.o: graph.c includes/graph.h
 	gcc -c graph.c

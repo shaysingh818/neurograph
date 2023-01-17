@@ -4,7 +4,8 @@
 #include "includes/matrix_test.h"
 #include "includes/queue_test.h"
 
-/* extension headers */ 
+/* extension headers */
+#include "includes/csv_test.h" 
 #include "includes/path_test.h" 
 #include "includes/search_test.h" 
 #include "includes/community_test.h" 
@@ -49,7 +50,10 @@ int main(int argc, char **argv) {
 	/* community detection */ 
 	test_degree_centrality(); 
 	test_weighted_degree_centrality();	
-	test_kosaraju(); 
+	test_kosaraju();
+
+	/* test csv stuff */ 
+	test_header_extraction(); 
 
 	printf("\n"); 
 	

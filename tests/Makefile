@@ -9,16 +9,18 @@ QUEUE_HEADER = includes/queue_test.h
 UTILITY_HEADER_FILES = $(MATRIX_HEADER) $(GRAPH_HEADER) $(QUEUE_HEADER)
 
 # Extension header files
+CSV_HEADER = includes/csv_test.h
 PATH_HEADER = includes/path_test.h
 COMMUNITY_HEADER = includes/community_test.h
 SEARCH_HEADER = includes/search_test.h
-EXTENSION_HEADER_FILES = $(PATH_HEADER) $(COMMUNITY_HEADER) $(SEARCH_HEADER)
+EXTENSION_HEADER_FILES = $(CSV_HEADER) $(PATH_HEADER) $(COMMUNITY_HEADER) $(SEARCH_HEADER)
 
 # Object files (For test cases)
 PATH_OBJS = path_test.o path.o
+CSV_OBJS = csv_test.o csv.o
 COMMUNITY_OBJS = community_test.o community.o
 SEARCH_OBJS = search_test.o search.o
-EXTENSION_OBJECT_FILES = $(PATH_OBJS) $(COMMUNITY_OBJS) $(SEARCH_OBJS)
+EXTENSION_OBJECT_FILES = $(CSV_OBJS) $(PATH_OBJS) $(COMMUNITY_OBJS) $(SEARCH_OBJS)
 
 GRAPH_OBJS = graph_test.o graph.o node.o
 QUEUE_OBJS = queue_test.o queue.o
@@ -32,6 +34,12 @@ all: main.o $(OBJECT_FILES) $(EXTENSION_OBJECT_FILES)
 	gcc -o $(TARGET) main.o $(OBJECT_FILES) $(EXTENSION_OBJECT_FILES) $(FLAGS)
 
 # extensions off the graph library
+csv.o: ../src/csv.c ../src/includes/csv.h
+	gcc -c ../src/csv.c
+
+csv_test.o: csv_test.c includes/csv_test.h
+	gcc -c csv_test.c
+
 path.o: ../src/path.c ../src/includes/path.h
 	gcc -c ../src/path.c
 
