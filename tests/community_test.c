@@ -8,11 +8,11 @@ void test_degree_centrality() {
     graph_t *g = init_graph(vertices, edges, false);
 
     /* create nodes for graph */
-    node_t *a = create_node(0, 'A', 0); // create unweighted nodes
-    node_t *b = create_node(1, 'B', 0);
-    node_t *c = create_node(2, 'C', 0);
-    node_t *d = create_node(3, 'D', 0);
-    node_t *e = create_node(4, 'E', 0);
+    node_t *a = create_node(0, "A", 0); // create unweighted nodes
+    node_t *b = create_node(1, "B", 0);
+    node_t *c = create_node(2, "C", 0);
+    node_t *d = create_node(3, "D", 0);
+    node_t *e = create_node(4, "E", 0);
 
     /* add relationships */
     g->edges[0] = create_edge(a, b, -1);
@@ -43,11 +43,11 @@ void test_weighted_degree_centrality() {
 
 	/* create weighted adjacency list */ 
 	graph_t *g = init_graph(vertices, vertices, false);
-	add_node(g, 0, 'A', 1, 'B', 2);
-	add_node(g, 0, 'A', 2, 'C', 1); 
-	add_node(g, 0, 'A', 3, 'D', 1); 
-	add_node(g, 1, 'B', 2, 'C', 2);
-	add_node(g, 4, 'E', 2, 'C', 1);
+	add_node(g, 0, "A", 1, "B", 2);
+	add_node(g, 0, "A", 2, "C", 1); 
+	add_node(g, 0, "A", 3, "D", 1); 
+	add_node(g, 1, "B", 2, "C", 2);
+	add_node(g, 4, "E", 2, "C", 1);
 
 	/* test weighted degree centrality */ 
 	int result = weighted_degree_centrality(g);
@@ -72,30 +72,30 @@ void test_kosaraju() {
 	graph_t *g = init_graph(vertices, vertices, true);
 
 	/* first community */ 
-	add_node(g, 0, 'A', 1, 'B', 0);
-	add_node(g, 1, 'B', 2, 'C', 0);
-	add_node(g, 2, 'C', 3, 'D', 0);
-	add_node(g, 3, 'D', 0, 'A', 0);
+	add_node(g, 0, "A", 1, "B", 0);
+	add_node(g, 1, "B", 2, "C", 0);
+	add_node(g, 2, "C", 3, "D", 0);
+	add_node(g, 3, "D", 0, "A", 0);
 
 	/* bridge */ 
-	add_node(g, 2, 'C', 4, 'E', 0);
+	add_node(g, 2, "C", 4, "E", 0);
 
 	/* second community */ 
-	add_node(g, 4, 'E', 5, 'F', 0);
-	add_node(g, 5, 'F', 6, 'G', 0);
-	add_node(g, 6, 'G', 4, 'E', 0);
-	add_node(g, 6, 'G', 7, 'H', 0);
-	add_end_node(g, 7, 'H', 0);
+	add_node(g, 4, "E", 5, "F", 0);
+	add_node(g, 5, "F", 6, "G", 0);
+	add_node(g, 6, "G", 4, "E", 0);
+	add_node(g, 6, "G", 7, "H", 0);
+	add_end_node(g, 7, "H", 0);
 
 	char test1[2] = {'A', 'B'}; 
 	char test2[3] = {'C', 'D', 'E'}; 	
-	char **result = kosaraju(g, 0);
+	int **result = kosaraju(g, 0);
 	
 	/* expected output from communities */
-    char output[8][8] = {
-        {'A', 'D', 'C', 'B'},
-        {'E', 'G', 'F'},
-        {'H'}
+    int output[8][8] = {
+        {0, 3, 2, 1},
+        {4, 6, 5},
+        {7}
     };
 	
 	/* question: can there be more communities then there are vertices? */

@@ -74,7 +74,7 @@ int weighted_degree_centrality(graph_t *g) {
 }
 
 
-char **kosaraju(graph_t *g, int start_vertex) {
+int **kosaraju(graph_t *g, int start_vertex) {
 
 	/* variables */ 	
 	int v = g->v;
@@ -101,9 +101,9 @@ char **kosaraju(graph_t *g, int start_vertex) {
 	}
 
 	/* allocate space for final results */ 
-	char **communities = malloc(g->v * sizeof(char*)); 
+	int **communities = malloc(sizeof(int*)*g->v);  
 	for(int i = 0; i < g->v; i++) {
-		communities[i] = malloc(g->v * sizeof(char)); 
+		communities[i] = malloc(sizeof(int)*g->v); 
 	}
 
 	/* pop stack and find components */ 
@@ -116,7 +116,7 @@ char **kosaraju(graph_t *g, int start_vertex) {
 
 			/* get results from queue */ 
 			for(int i = q2->front_index; i <= q2->rear_index; i++) {
-				communities[num_components][i] = q2->items[i]->label; 
+				communities[num_components][i] = q2->items[i]->id;
 			}
 			num_components += 1; 
 		}	

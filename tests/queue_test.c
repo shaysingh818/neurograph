@@ -6,9 +6,9 @@
 void test_init_queue(){
 
 	/* create nodes */ 
-    node_t *node1 = create_node(1, 'A', 0); 
-    node_t *node2 = create_node(2, 'B', 0); 
-    node_t *node3 = create_node(3, 'C', 0); 
+    node_t *node1 = create_node(1, "A", 0); 
+    node_t *node2 = create_node(2, "B", 0); 
+    node_t *node3 = create_node(3, "C", 0); 
     
     /* test if queue works */ 
     queue_t *q = init_queue(5); 
@@ -37,9 +37,9 @@ void test_init_queue(){
 void test_pop_queue(){
 
 	/* create nodes */ 
-    node_t *node1 = create_node(1, 'A', 0); 
-    node_t *node2 = create_node(2, 'B', 0); 
-    node_t *node3 = create_node(3, 'C', 0); 
+    node_t *node1 = create_node(1, "A", 0); 
+    node_t *node2 = create_node(2, "B", 0); 
+    node_t *node3 = create_node(3, "C", 0); 
     
     /* test if queue works */ 
     queue_t *q = init_queue(5); 
@@ -53,9 +53,10 @@ void test_pop_queue(){
 	/* scan results and check against queue */ 
 	int result = TRUE;
    	int result_index = 0; 	
-	char queue_results[2] = {'B','C'}; 
+	char *queue_results[2] = {"B","C"}; 
 	for(int i = q->front_index; i <= q->rear_index; i++){
-		if(q->items[i]->label != queue_results[result_index]) {
+		int condition = strcmp(q->items[i]->label, queue_results[result_index]);
+		if(condition != 0) {
 			result = FALSE; 
 		}
 		result_index += 1; 

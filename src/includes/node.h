@@ -3,12 +3,13 @@
 
 #include <stdlib.h> 
 #include <stdio.h> 
+#include <string.h>
 
 /* Generic node */ 
 struct Node {
 	int id; 
 	int weight; 
-	char label;
+	char *label;
 	struct Node* next; 
 }; 
 
@@ -32,7 +33,7 @@ typedef struct Edge edge_t;
 
 
 /* generic node methods */ 
-node_t *create_node(int id, char label, int weight); 
+node_t *create_node(int id, char *label, int weight); 
 void print_node(node_t *node); 
 
 /* edge methods */ 

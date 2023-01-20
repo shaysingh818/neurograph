@@ -35,9 +35,7 @@ feature_list_t *csv_feature_extraction(char *set_filename) {
 	/* allocate space for filename */ 
 	size_t filename_length = strlen(set_filename) + 1; 
 	char *filename = (char*)malloc(filename_length * sizeof(char));
-   	strcpy(filename, set_filename); 	
-
-	/* open file */ 
+   	strcpy(filename, set_filename);
 	fp = fopen(filename, "r"); 	
 	
 	while(fgets(buffer, FILE_BUFFER_SIZE, fp)) {
@@ -70,18 +68,17 @@ feature_list_t *csv_feature_extraction(char *set_filename) {
 			features[header_count]->name = (char*)malloc(value_length * sizeof(char)); 
 			strcpy(features[header_count]->name, value); 
 			features[header_count]->row_index = header_count; 
-			features[header_count]->name_length = value_length; 
-
+			features[header_count]->name_length = value_length;
 			header_count += 1;
 
-			/* if header count reached feature size, allocate space in array */ 	
-			if(header_count == FEATURE_SIZE) {
-				features = realloc(
-					features, 
-					header_count + FEATURE_SIZE * sizeof(feature_t*)
-				);
+			if(header_count >= FEATURE_SIZE) {
 
-				for(int i = header_count; i < header_count + FEATURE_SIZE; i++) {
+				/* size of array to reallocate */ 
+				int realloc_size = (header_count + FEATURE_SIZE) + 1; 
+
+				/* reallocate remaining feature structures */ 
+				features = realloc( features, realloc_size * sizeof(feature_t*));
+				for(int i = header_count; i < realloc_size; i++) {
 					features[i] = malloc(sizeof(feature_t)); 
 				}
 			}

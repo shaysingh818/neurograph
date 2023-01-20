@@ -1,18 +1,22 @@
 #include "includes/node.h"
 
 
-node_t *create_node(int id, char label, int weight) {
+node_t *create_node(int id, char *label, int weight) {
 	node_t *n;
+	size_t label_length = strlen(label) + 1;
 	n = (node_t*)malloc(sizeof(node_t)); 
-	n->id = id;  
-	n->label = label; 
+	n->id = id; 
+	n->label = (char*)malloc(label_length * sizeof(char)); 
 	n->weight = weight; 
 	n->next = NULL; 
+
+	/* copy in string value */ 
+	strcpy(n->label, label); 
 	return n; 
 }
 
 void print_node(node_t *node) {
-	printf("ID: %d, LABEL: %c ", node->id, node->label);
+	printf("ID: %d, LABEL: %s ", node->id, node->label);
 	if(node->weight > 0) {
 		printf("WEIGHT: %d ", node->weight); 
 	}

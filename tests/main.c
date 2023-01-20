@@ -53,7 +53,10 @@ int main(int argc, char **argv) {
 	test_kosaraju();
 
 	/* test csv stuff */ 
-	test_header_extraction(); 
+	test_header_extraction();
+   	test_header_extraction_two(); 
+   	test_header_extraction_three(); 
+   	test_header_extraction_four(); 	
 
 	printf("\n"); 
 	

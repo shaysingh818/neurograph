@@ -69,7 +69,7 @@ void pop(queue_t * q) {
 
 void print_queue(queue_t *q) {
 	for(int i = q->front_index; i <= q->rear_index; i++) {
-		printf("%c ", q->items[i]->label); 
+		printf("%s ", q->items[i]->label); 
 	}
 	printf("\n"); 
 }

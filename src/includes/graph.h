@@ -62,10 +62,10 @@ graph_t *to_directed_weighted_list(graph_t *g, mat_t *m);
 
 /* utilities */
 int add_node(
-	graph_t *g, int src_id, char src_label, 
-	int dest_id, char dest_label, int weight
+	graph_t *g, int src_id, char *src_label, 
+	int dest_id, char *dest_label, int weight
 ); 
-int add_end_node(graph_t *g, int src_id, char src_label, int weight); 
+int add_end_node(graph_t *g, int src_id, char *src_label, int weight); 
 void print_graph(graph_t *g);
 
 #endif

@@ -7,11 +7,11 @@ void test_bellman_ford() {
     graph_t *g = init_graph(vertices, edges, false);
 
     /* create nodes for graph */
-    node_t *a = create_node(0, 'A', 0);
-    node_t *b = create_node(1, 'B', 0);
-    node_t *c = create_node(2, 'C', 0);
-    node_t *d = create_node(3, 'D', 0);
-    node_t *e = create_node(4, 'E', 0);
+    node_t *a = create_node(0, "A", 0);
+    node_t *b = create_node(1, "B", 0);
+    node_t *c = create_node(2, "C", 0);
+    node_t *d = create_node(3, "D", 0);
+    node_t *e = create_node(4, "E", 0);
 
     /* add relationships */
     g->edges[0] = create_edge(a, b, -1);
@@ -50,11 +50,11 @@ void test_random_walk() {
     int vertices = 5; // num of vertices
 
     graph_t *g = init_graph(vertices, vertices, false);
-    add_node(g, 0, 'A', 1, 'B', 0);
-    add_node(g, 0, 'A', 2, 'C', 0);
-    add_node(g, 0, 'A', 3, 'D', 0);
-    add_node(g, 1, 'B', 2, 'C', 0);
-    add_node(g, 4, 'E', 2, 'C', 0);
+    add_node(g, 0, "A", 1, "B", 0);
+    add_node(g, 0, "A", 2, "C", 0);
+    add_node(g, 0, "A", 3, "D", 0);
+    add_node(g, 1, "B", 2, "C", 0);
+    add_node(g, 4, "E", 2, "C", 0);
 
 	/* specify steps and path */ 
     int steps = 10;
@@ -79,11 +79,11 @@ void test_random_walk() {
 
 	/* what happens if the steps aren't equal? */
     graph_t *g1 = init_graph(vertices, vertices, false);
-    add_node(g1, 0, 'A', 1, 'B', 0);
-    add_node(g1, 0, 'A', 2, 'C', 0);
-    add_node(g1, 0, 'A', 3, 'D', 0);
-    add_node(g1, 1, 'B', 2, 'C', 0);
-    add_node(g1, 4, 'E', 2, 'C', 0);
+    add_node(g1, 0, "A", 1, "B", 0);
+    add_node(g1, 0, "A", 2, "C", 0);
+    add_node(g1, 0, "A", 3, "D", 0);
+    add_node(g1, 1, "B", 2, "C", 0);
+    add_node(g1, 4, "E", 2, "C", 0);
 
     steps = 5;
     int path3[steps];
@@ -119,11 +119,11 @@ void test_weighted_random_walk() {
 
 	/* create weighted adjacency list */ 
 	graph_t *g = init_graph(vertices, vertices, false);
-	add_node(g, 0, 'A', 1, 'B', 2);
-	add_node(g, 0, 'A', 2, 'C', 1); 
-	add_node(g, 0, 'A', 3, 'D', 1); 
-	add_node(g, 1, 'B', 2, 'C', 2);
-	add_node(g, 4, 'E', 2, 'C', 1);
+	add_node(g, 0, "A", 1, "B", 2);
+	add_node(g, 0, "A", 2, "C", 1); 
+	add_node(g, 0, "A", 3, "D", 1); 
+	add_node(g, 1, "B", 2, "C", 2);
+	add_node(g, 4, "E", 2, "C", 1);
 
 	/* specific steps */ 
     int steps = 10;

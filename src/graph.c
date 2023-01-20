@@ -46,14 +46,14 @@ walk_t *init_walk(int steps) {
 
 graph_t *transpose_items(graph_t *g, graph_t *r) {
 
-	char label_list[8] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'}; 	
+	char *label_list[8] = {"A", "B", "C", "D", "E", "F", "G", "H"}; 	
 	for(int i = 0; i < g->v; i++) {
 		node_t *head = g->items[i].head; 
 		while(head) {
 			
 			/* grab corresponding labels */ 
-			char src_label = label_list[head->id]; 
-			char dest_label = label_list[i]; 
+			char *src_label = label_list[head->id]; 
+			char *dest_label = label_list[i]; 
 
 			/* switch direction of graph */ 
 			add_node(r, head->id, src_label, i, dest_label, head->weight); 
@@ -129,8 +129,7 @@ mat_t *to_directed_weighted_matrix(mat_t *m, graph_t *g) {
 graph_t *to_list(graph_t *g, mat_t *m) {
 
 	/* unique labels for each node */ 	
-	char label_list[8] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'}; 	
-
+	char *label_list[8] = {"A", "B", "C", "D", "E", "F", "G", "H"}; 	
 	for(int i = 0; i < m->vertices; i++) {
 		for(int j = 0; j < m->edges; j++) {
 			if(m->arr[i][j] != 0) {
@@ -147,7 +146,7 @@ graph_t *to_list(graph_t *g, mat_t *m) {
 graph_t *to_weighted_list(graph_t *g, mat_t *m) {
 
 	/* unique labels for each node */ 	
-	char label_list[8] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'}; 	
+	char *label_list[8] = {"A", "B", "C", "D", "E", "F", "G", "H"}; 	
 
 	for(int i = 0; i < m->vertices; i++) {
 		for(int j = 0; j < m->edges; j++) {
@@ -168,7 +167,7 @@ graph_t *to_weighted_list(graph_t *g, mat_t *m) {
 graph_t *to_directed_weighted_list(graph_t *g, mat_t *m) {
 
 	/* unique labels for each node */ 	
-	char label_list[8] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'}; 	
+	char *label_list[8] = {"A", "B", "C", "D", "E", "F", "G", "H"}; 	
 
 	for(int i = 0; i < m->vertices; i++) {
 		for(int j = 0; j < m->edges; j++) {
@@ -191,7 +190,7 @@ void print_graph(graph_t *g) {
 		node_t *head = g->items[i].head;
 		printf("%d ", i); 
 		while(head) {
-			printf("-> (%d, %c)", head->id, head->label); 
+			printf("-> (%d, %s)", head->id, head->label); 
 			if(head->weight > 0) {
 				printf(" [%d] ", head->weight); 
 			}
@@ -203,8 +202,8 @@ void print_graph(graph_t *g) {
 
 
 int add_node(
-	graph_t *g, int src_id, char src_label, 
-	int dest_id, char dest_label, int weight) {
+	graph_t *g, int src_id, char *src_label, 
+	int dest_id, char *dest_label, int weight) {
 
 
 	node_t *check = NULL; 
@@ -245,7 +244,7 @@ int add_node(
 
 
 
-int add_end_node(graph_t *g, int src_id, char src_label, int weight) {
+int add_end_node(graph_t *g, int src_id, char *src_label, int weight) {
 	
 	/* only add to selected src node */ 
 	node_t *check = NULL; 
