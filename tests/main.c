@@ -52,12 +52,19 @@ int main(int argc, char **argv) {
 	test_weighted_degree_centrality();	
 	test_kosaraju();
 
-	/* test csv stuff */ 
-	test_header_extraction();
-   	test_header_extraction_two(); 
-   	test_header_extraction_three(); 
-   	test_header_extraction_four(); 	
+	/* test csv data extraction */ 
+	//test_csv_data_extraction();	
 
+	/* test csv header extraction */ 
+	//test_header_extraction();
+   	//test_header_extraction_two(); 
+   	//test_header_extraction_three(); 
+   	//test_header_extraction_four(); 
+
+	/* test csv feature selection */ 
+	test_csv_structure(); 
+	//test_feature_selection();
+	//test_feature_frame(); 
 	printf("\n"); 
 	
 }

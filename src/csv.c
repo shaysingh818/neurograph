@@ -1,47 +1,25 @@
 #include "includes/csv.h"
 
-feature_list_t *init_feature_list(
-	char *file_name, 
-	int feature_count, feature_t **features) {
 
-	feature_list_t *f = (feature_list_t*)malloc(sizeof(feature_list_t));
-	size_t filename_length = strlen(file_name) + 1;
-   	f->file_name = (char*)malloc(filename_length * sizeof(char)); 	
-	f->feature_count = feature_count;
-   	f->features = features; 	
-	
-	/* copy in string value */ 
-	strcpy(f->file_name, file_name); 
+int populate_headers(csv_t *csv) {
 
-	return f; 
-}
+	/* variables */ 
+	FILE* fp = fopen(csv->filename, "r");
+	char buffer[csv->buffer_size];
+	int header_count = 0; 
+   	int row_count = 0;
 
-
-feature_list_t *csv_feature_extraction(char *set_filename) {
-	
-	/* dynamic header extraction */ 
-	int row = 0; 
-	FILE* fp; 
-	char *token;
-	char buffer[FILE_BUFFER_SIZE];
-	feature_list_t *feature_list; 
-
-	/* allocate initial space of one feature */ 
-	feature_t **features = malloc(FEATURE_SIZE * sizeof(feature_t*)); 
+	/* add header structs to csv */ 
+	csv->cols = malloc(FEATURE_SIZE * sizeof(col_t*)); 
 	for(int i = 0; i < FEATURE_SIZE; i++) {
-		features[i] = malloc(sizeof(feature_t)); 
+		csv->cols[i] = malloc(sizeof(col_t)); 
 	}
 
-	/* allocate space for filename */ 
-	size_t filename_length = strlen(set_filename) + 1; 
-	char *filename = (char*)malloc(filename_length * sizeof(char));
-   	strcpy(filename, set_filename);
-	fp = fopen(filename, "r"); 	
-	
-	while(fgets(buffer, FILE_BUFFER_SIZE, fp)) {
+	/* read file contents */ 
+	while(fgets(buffer, csv->buffer_size, fp)) {
 
-		/* only grab headers */ 
-		if(row > 0) {
+		/* limit amount of rows we load for feature */
+		if(row_count > 0) {
 			break; 
 		}
 
@@ -51,9 +29,17 @@ feature_list_t *csv_feature_extraction(char *set_filename) {
 			buffer[len-1] = 0; 
 		}
 
-	   	int header_count = 0; 	
+		/* extract comma separated values */ 
 		char *value = strtok(buffer, ",");
 		size_t value_length = strlen(value) + 1;
+
+		/* add value to first column */ 
+		csv->cols[header_count]->name = (char*)malloc(value_length * sizeof(char));
+		strcpy(csv->cols[header_count]->name, value); 
+		csv->cols[header_count]->row_index = header_count; 
+		csv->cols[header_count]->name_length = value_length;
+		header_count += 1; 
+
 
 		while(value) {
 
@@ -63,13 +49,15 @@ feature_list_t *csv_feature_extraction(char *set_filename) {
 				break; 
 			}
 
-			/* grab length of current value and insert */ 
+			/* copy value to column */
 			value_length = strlen(value) + 1;
-			features[header_count]->name = (char*)malloc(value_length * sizeof(char)); 
-			strcpy(features[header_count]->name, value); 
-			features[header_count]->row_index = header_count; 
-			features[header_count]->name_length = value_length;
+			csv->cols[header_count]->name = (char*)malloc(value_length * sizeof(char));
+			strcpy(csv->cols[header_count]->name, value); 
+			csv->cols[header_count]->row_index = header_count; 
+			csv->cols[header_count]->name_length = value_length;
+			csv->col_count = header_count; 
 			header_count += 1;
+
 
 			if(header_count >= FEATURE_SIZE) {
 
@@ -77,24 +65,132 @@ feature_list_t *csv_feature_extraction(char *set_filename) {
 				int realloc_size = (header_count + FEATURE_SIZE) + 1; 
 
 				/* reallocate remaining feature structures */ 
-				features = realloc( features, realloc_size * sizeof(feature_t*));
+				csv->cols = realloc(csv->cols, realloc_size * sizeof(col_t*));
 				for(int i = header_count; i < realloc_size; i++) {
-					features[i] = malloc(sizeof(feature_t)); 
+					csv->cols[i] = malloc(sizeof(col_t)); 
 				}
-			}
+			}			
 		}
-		
-		/* create final list of features */ 
-		feature_list = init_feature_list(filename, header_count, features); 
-		row += 1; 
+		row_count += 1; 
 	}
-	return feature_list; 
+	return TRUE; 
 }
 
 
-void print_feature(feature_t *f) {
-	printf("===========================\n"); 
-	printf("NAME: %s\n", f->name);
-	printf("ROW INDEX: %d\n", f->row_index); 
-	printf("NAME LENGTH: %ld\n", f->name_length); 
+
+int populate_rows(csv_t *csv) {
+
+	/* variables */ 
+	FILE* fp = fopen(csv->filename, "r");
+	char buffer[csv->buffer_size];
+   	int row_count = 0;
+
+	/* allocate line data */ 
+	csv->rows = malloc(csv->row_limit * sizeof(row_t*)); 
+	for(int i = 0; i < csv->row_limit; i++) {
+		csv->rows[i] = malloc(sizeof(row_t)); 
+	}
+
+	/* read file contents */ 
+	while(fgets(buffer, csv->buffer_size, fp)) {
+
+		/* limit amount of rows we load for feature */
+		if(row_count == csv->row_limit) {
+			break; 
+		}
+
+		/* null terminate the buffer */ 
+		int len = strlen(buffer); 
+		if(buffer[len-1] == '\n') {
+			buffer[len-1] = 0; 
+		}
+
+		/* variables for line data */
+		int line_size = 0; 
+	  	char **line = malloc(csv->col_count * sizeof(char*)); 	
+	   	int header_count = 0; 	
+		char *value = strtok(buffer, ",");
+		size_t value_length = strlen(value) + 1;
+
+		/* copy first line value and allocate space */ 
+		line[header_count] = (char*)malloc(value_length * sizeof(char)); 
+		strcpy(line[header_count], value);
+		line_size += value_length; 
+	   	header_count += 1; 	
+
+		while(value) {
+
+			/* grab header value unless we reach the end */
+			value = strtok(NULL, ",");
+			if(value == NULL) {
+				break; 
+			}
+
+			/* copy value in line array */ 
+			value_length = strlen(value) + 1; 
+			line[header_count] = (char*)malloc(value_length * sizeof(char)); 
+			strcpy(line[header_count], value);
+			line_size += value_length;
+	   		header_count += 1; 	
+			
+		}
+
+		/* add to line */
+		csv->rows[row_count]->line = line; 
+		csv->rows[row_count]->line_size = line_size;
+		csv->rows[row_count]->value_count = csv->col_count;
+		row_count += 1; 
+	}
+
+	return TRUE; 
 }
+
+
+csv_t *csv_init(char *filename, int buf_size, int set_limit) {
+
+	/* add to structure properties */ 
+	size_t name_size = strlen(filename) + 1; 
+	csv_t *csv = (csv_t*)malloc(sizeof(csv_t));
+   	csv->filename = (char*)malloc(name_size * sizeof(char)); 
+   	strcpy(csv->filename, filename);
+	csv->buffer_size = buf_size;
+	csv->row_limit = set_limit; 
+
+	/* check if file exists */ 
+
+
+	/* populate headers */ 
+	int headers = populate_headers(csv); 
+	if(headers) {
+		printf("[+] Loaded headers..\n"); 
+	}
+
+	/* populate rows */ 
+	int rows = populate_rows(csv); 
+	if(rows) {
+		printf("[+] Loaded rows..\n"); 
+	}
+
+	return csv; 
+			
+}
+
+
+void print_cols(csv_t *csv) {
+	for(int i = 0; i < csv->col_count; i++) {
+		printf("[%d] -> %s\n", i, csv->cols[i]->name); 
+	}
+}
+
+
+void print_rows(csv_t *csv) {
+	for(int i = 0; i < csv->row_limit; i++) {
+		for(int j = 0; j < csv->rows[i]->value_count; j++) {
+			printf("%s, ", csv->rows[i]->line[j]); 
+		}
+		printf("\n"); 
+	}
+}
+
+
+
