@@ -28,6 +28,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Unit Tests
-      working-directory: tests/
+      working-directory: target/
       run: ./unit_test
 
