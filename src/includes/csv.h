@@ -3,11 +3,12 @@
 
 #include "../../src/includes/graph.h"
 #include <stdio.h>
+#include <unistd.h>
 
 #define FEATURE_SIZE 6
 #define DEFAULT_ROW_LIMIT 10
 #define FILE_BUFFER_SIZE 1024
-
+#define DEBUG FALSE
 
 /* column structure for csv file */ 
 struct Column {
@@ -33,7 +34,8 @@ typedef struct Row row_t;
 struct CSV {
 	int buffer_size;
    	int col_count;
-	int row_limit; // for now let the user choose how many rows to load in 	
+	int row_limit; // for now let the user choose how many rows to load in 
+	int status; 	
 	char *filename;
 	col_t **cols;
 	row_t **rows; 
@@ -53,8 +55,8 @@ void print_rows(csv_t *csv);
 void csv_info(csv_t *csv);
 
 /* csv to graph methods */ 
-graph_t *csv_to_graph(csv_t *csv, int *cols, int size); 
-mat_t *csv_g_mat(csv_t *csv, int *cols, int size); 
+graph_t *csv_to_graph(csv_t *csv, int *cols, int size, int directed); 
+mat_t *csv_g_mat(csv_t *csv, int *cols, int size, int directed); 
 
 
 

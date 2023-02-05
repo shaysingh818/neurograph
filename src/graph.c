@@ -185,22 +185,6 @@ graph_t *to_directed_weighted_list(graph_t *g, mat_t *m) {
 }
 
 
-void print_graph(graph_t *g) {
-	for(int i = 0; i < g->v; i++){
-		node_t *head = g->items[i].head;
-		printf("%d ", i); 
-		while(head) {
-			printf("-> (%d, %s)", head->id, head->label); 
-			if(head->weight > 0) {
-				printf(" [%d] ", head->weight); 
-			}
-			head  = head->next; 
-		}
-		printf("\n"); 
-	}
-}
-
-
 int add_node(
 	graph_t *g, int src_id, char *src_label, 
 	int dest_id, char *dest_label, int weight) {
@@ -266,3 +250,18 @@ int add_end_node(graph_t *g, int src_id, char *src_label, int weight) {
 }
 
 
+
+void print_graph(graph_t *g) {
+	for(int i = 0; i < g->v; i++){
+		node_t *head = g->items[i].head;
+		printf("%d ", i); 
+		while(head) {
+			printf("-> (%d, %s)", head->id, head->label); 
+			if(head->weight > 0) {
+				printf(" [%d] ", head->weight); 
+			}
+			head  = head->next; 
+		}
+		printf("\n"); 
+	}
+}

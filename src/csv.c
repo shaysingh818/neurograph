@@ -156,23 +156,36 @@ csv_t *csv_init(char *filename, int buf_size, int set_limit) {
 	csv->buffer_size = buf_size;
 	csv->row_limit = set_limit; 
 
-	/* check if file exists */ 
-
+	/* check if file exists */
+	if(access(filename, F_OK) == -1) {
+		if(DEBUG == TRUE) {
+			printf("File does not exist\n");
+		}
+   		strcpy(csv->filename, "");
+		csv->status = FALSE; 
+	   	return csv; 	
+	}
 
 	/* populate headers */ 
 	int headers = populate_headers(csv); 
 	if(headers) {
-		printf("[+] Loaded headers..\n"); 
+		if(DEBUG == TRUE) {
+			printf("[+] Loaded headers..\n"); 
+		}
 	}
 
 	/* populate rows */ 
 	int rows = populate_rows(csv); 
 	if(rows) {
-		printf("[+] Loaded rows..\n"); 
+		if(DEBUG == TRUE) {
+			printf("[+] Loaded rows..\n"); 
+		}
 	}
 
-	return csv; 
-			
+	/* set to true */ 
+	csv->status = TRUE; 
+
+	return csv; 			
 }
 
 
@@ -193,4 +206,46 @@ void print_rows(csv_t *csv) {
 }
 
 
+void csv_info(csv_t *csv) {
+	printf("FILE NAME: %s\n", csv->filename); 
+	printf("COLS: %d\n", csv->col_count); 
+	printf("ROW COUNT: %d\n", csv->row_limit); 
+	printf("BUFFER_SIZE: %d\n", csv->buffer_size); 
+}
+
+
+graph_t *csv_to_graph(csv_t *csv, int *cols, int size, int directed) {
+
+	/* check if graph is directed */ 
+	if(directed) {
+		if(size % 3 != 0) {
+			if(DEBUG) {
+				printf("Weighted graph should be in pairs of 3\n"); 
+			}
+			return FALSE; 
+		}	
+	}
+
+	if(size % 2 != 0) {
+		if(DEBUG) {
+			printf("Unweighted graph should be in pairs of 2\n"); 
+		}
+		return FALSE; 
+	}
+
+	graph_t *g = init_graph(csv->row_limit, csv->row_limit, directed);
+	printf("Do you work?\n"); 
+
+	/* iterate through feature cols */
+    for(int i = 1; i < csv->row_limit; i++){
+	
+		char *src = csv->rows[i]->line[cols[0]];
+		char *dst = csv->rows[i]->line[cols[1]];
+
+		/* generate unique id for src and dst node */ 
+	   
+		//printf("[%d] -> src: %s, [%d] -> dst: %s\n", i, src, i, dst); 
+	}
+	
+}
 

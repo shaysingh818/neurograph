@@ -3,6 +3,7 @@
 #include "includes/graph_test.h" 
 #include "includes/matrix_test.h"
 #include "includes/queue_test.h"
+#include "includes/map_test.h"
 
 /* extension headers */
 #include "includes/csv_test.h" 
@@ -52,19 +53,23 @@ int main(int argc, char **argv) {
 	test_weighted_degree_centrality();	
 	test_kosaraju();
 
-	/* test csv data extraction */ 
-	//test_csv_data_extraction();	
+	/* test csv data extraction */
+   	test_populate_headers(); 
+	test_populate_headers_two(); 
+	test_populate_headers_three(); 
+	test_populate_headers_four(); 
+   	test_populate_rows(); 
+	
+	/* test csv structure */ 
+	test_invalid_file(); 	
+	test_csv_structure();
 
-	/* test csv header extraction */ 
-	//test_header_extraction();
-   	//test_header_extraction_two(); 
-   	//test_header_extraction_three(); 
-   	//test_header_extraction_four(); 
+	/* test hash map */ 
+	test_ull(); 
 
-	/* test csv feature selection */ 
-	test_csv_structure(); 
-	//test_feature_selection();
-	//test_feature_frame(); 
+	/* test graph conversion from csv */ 
+	test_csv_to_graph(); 
+	
 	printf("\n"); 
 	
 }

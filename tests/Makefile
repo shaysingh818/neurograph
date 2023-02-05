@@ -6,7 +6,8 @@ TARGET=../target/unit_test
 MATRIX_HEADER = includes/matrix_test.h
 GRAPH_HEADER = includes/graph_test.h
 QUEUE_HEADER = includes/queue_test.h
-UTILITY_HEADER_FILES = $(MATRIX_HEADER) $(GRAPH_HEADER) $(QUEUE_HEADER)
+MAP_HEADER = includes/map_test.h
+UTILITY_HEADER_FILES = $(MATRIX_HEADER) $(GRAPH_HEADER) $(QUEUE_HEADER) $(MAP_HEADER)
 
 # Extension header files
 CSV_HEADER = includes/csv_test.h
@@ -25,7 +26,8 @@ EXTENSION_OBJECT_FILES = $(CSV_OBJS) $(PATH_OBJS) $(COMMUNITY_OBJS) $(SEARCH_OBJ
 GRAPH_OBJS = graph_test.o graph.o node.o
 QUEUE_OBJS = queue_test.o queue.o
 MATRIX_OBJS = matrix_test.o matrix.o
-OBJECT_FILES = $(GRAPH_OBJS) $(QUEUE_OBJS) $(MATRIX_OBJS)
+MAP_OBJS = map_test.o map.o
+OBJECT_FILES = $(GRAPH_OBJS) $(QUEUE_OBJS) $(MATRIX_OBJS) $(MAP_OBJS)
 
 # Flags
 FLAGS = -lm -lpthread
@@ -39,6 +41,12 @@ csv.o: ../src/csv.c ../src/includes/csv.h
 
 csv_test.o: csv_test.c includes/csv_test.h
 	gcc -c csv_test.c
+
+map.o: ../src/map.c ../src/includes/map.h
+	gcc -c ../src/map.c
+
+map_test.o: map_test.c includes/map_test.h
+	gcc -c map_test.c
 
 path.o: ../src/path.c ../src/includes/path.h
 	gcc -c ../src/path.c

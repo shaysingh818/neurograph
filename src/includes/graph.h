@@ -60,12 +60,16 @@ graph_t *to_directed_list(graph_t *a, mat_t *m);
 graph_t *to_directed_weighted_list(graph_t *g, mat_t *m); 
 
 
-/* utilities */
+/* methods for adding nodes to graph */
 int add_node(
 	graph_t *g, int src_id, char *src_label, 
 	int dest_id, char *dest_label, int weight
 ); 
-int add_end_node(graph_t *g, int src_id, char *src_label, int weight); 
+int add_end_node(graph_t *g, int src_id, char *src_label, int weight);
+int push_unweighted_node(graph_t *g, char *src, char *dst); 
+int push_weighted_node(graph_t *g, char *src, char *dst, int weight); 
+
+/* printers formatters */ 
 void print_graph(graph_t *g);
 
 #endif

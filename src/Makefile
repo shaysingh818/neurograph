@@ -1,11 +1,10 @@
-
 # Object files
-GRAPH_OBJS = graph.o matrix.o queue.o node.o
+GRAPH_OBJS = graph.o matrix.o queue.o node.o map.o
 GRAPH_EXTENSIONS = path.o search.o community.o csv.o
 
 # Header files
 UTILITY_HEADERS = includes/graph.h includes/matrix.h includes/queue.h includes/csv.h
-EXTENSION_HEADERS = includes/path.h includes/search.h includes/community.h 
+EXTENSION_HEADERS = includes/path.h includes/search.h includes/community.h includes/map.h
 
 # Outputs and compilation target
 BIN=bin
@@ -25,6 +24,9 @@ graph.o: graph.c includes/graph.h
 
 matrix.o: matrix.c includes/matrix.h
 	gcc -c matrix.c
+
+map.o: map.c includes/map.h
+	gcc -c map.c
 
 queue.o: queue.c includes/queue.h
 	gcc -c queue.c
