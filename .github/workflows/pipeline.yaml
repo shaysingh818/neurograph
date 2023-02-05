@@ -16,3 +16,7 @@ jobs:
     - name: Build Source
       working-directory: src/
       run: make
+
+    - name: Build Test Harness
+      working-directory: tests/
+      run: make
