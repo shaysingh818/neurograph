@@ -13,7 +13,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Navigate to source
-      run: cd ../../src/
     - name: Build Source
+      working-directory: ../../src/
       run: make
