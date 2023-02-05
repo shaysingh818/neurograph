@@ -13,5 +13,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: build library
+    - name: build src
+      run: cd /src
       run: make
