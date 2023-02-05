@@ -20,3 +20,14 @@ jobs:
     - name: Build Test Harness
       working-directory: tests/
       run: make
+
+  unit-tests:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Unit Tests
+      working-directory: tests/
+      run: ./unit_test
+
