@@ -1,5 +1,5 @@
 #include "includes/csv.h"
-
+#include "includes/map.h"
 
 int populate_headers(csv_t *csv) {
 
@@ -214,18 +214,9 @@ void csv_info(csv_t *csv) {
 }
 
 
-graph_t *csv_to_graph(csv_t *csv, int *cols, int size, int directed) {
+graph_t *csv_to_unweighted_graph(csv_t *csv, int *cols, int size, int directed) {
 
-	/* check if graph is directed */ 
-	if(directed) {
-		if(size % 3 != 0) {
-			if(DEBUG) {
-				printf("Weighted graph should be in pairs of 3\n"); 
-			}
-			return FALSE; 
-		}	
-	}
-
+	/* validate that graph is unweighted */ 
 	if(size % 2 != 0) {
 		if(DEBUG) {
 			printf("Unweighted graph should be in pairs of 2\n"); 
@@ -234,18 +225,82 @@ graph_t *csv_to_graph(csv_t *csv, int *cols, int size, int directed) {
 	}
 
 	graph_t *g = init_graph(csv->row_limit, csv->row_limit, directed);
-	printf("Do you work?\n"); 
+	u_ll_t *head = create_ull(csv->rows[0]->line[cols[0]]);
+	int head_id = get_id(head, head->value);
+   
+	/* link it to itself for now */ 
+	add_end_node(g, head_id, head->value, 0); 	
 
-	/* iterate through feature cols */
+	/* iterate through csv rows */ 
     for(int i = 1; i < csv->row_limit; i++){
-	
-		char *src = csv->rows[i]->line[cols[0]];
-		char *dst = csv->rows[i]->line[cols[1]];
 
-		/* generate unique id for src and dst node */ 
-	   
-		//printf("[%d] -> src: %s, [%d] -> dst: %s\n", i, src, i, dst); 
+		/* iterate through feature cols */
+		for(int j = 0; j < size; j+= 2) {
+			
+			char *src = csv->rows[i]->line[cols[j]];
+			char *dst = csv->rows[i]->line[cols[j+1]];
+			/* add src and dst to ull (unique linked list) */ 
+			append(&head, src); 
+			append(&head, dst);
+
+			/* get unique src and dest id */
+			int src_id = get_id(head, src); 
+			int dst_id = get_id(head, dst);
+
+		   	add_node(g, src_id, src, dst_id, dst, 0); 	
+		}
 	}
-	
+
+
+	return g; 
+}
+
+
+
+graph_t *csv_to_weighted_graph(csv_t *csv, int *cols, int size, int directed) {
+
+	/* validate that graph is unweighted */ 
+	if(size % 3 != 0) {
+		if(DEBUG) {
+			printf("Unweighted graph should be in pairs of 2\n"); 
+		}
+		return FALSE; 
+	}
+
+
+	graph_t *g = init_graph(csv->row_limit, csv->row_limit, directed);
+	u_ll_t *head = create_ull(csv->rows[0]->line[cols[0]]);
+
+	/* iterate through csv rows */ 
+    for(int i = 1; i < csv->row_limit; i++){
+
+		/* iterate through feature cols */
+		for(int j = 0; j < size; j+= 3) {
+			
+			char *src = csv->rows[i]->line[cols[j]];
+			char *dst = csv->rows[i]->line[cols[j+2]];
+			char *weight = csv->rows[i]->line[cols[j+1]];
+
+			/* convert weight to integer */ 
+			int weight_to_int = atoi(weight); 
+
+			/* add src and dst to ull (unique linked list) */ 
+			append(&head, src); 
+			append(&head, dst);
+
+			/* get unique src and dest id */
+			int src_id = get_id(head, src); 
+			int dst_id = get_id(head, dst);
+
+			/* print and add node to graph */ 
+			printf(
+				"[%d]: %s -> [%d]: %s weight: %d\n", 
+				src_id, src, dst_id, dst, weight_to_int
+			);
+		   	add_node(g, src_id, src, dst_id, dst, weight_to_int); 	
+		}
+	}
+
+	return g; 
 }
 

@@ -68,8 +68,10 @@ int main(int argc, char **argv) {
 	test_ull(); 
 
 	/* test graph conversion from csv */ 
-	test_csv_to_graph(); 
-	
+	test_csv_to_graph(); 	
+	//test_csv_to_graph_two(); 
+
+
 	printf("\n"); 
 	
 }

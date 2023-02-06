@@ -52,7 +52,8 @@ typedef struct HashTable map_t;
 u_ll_t *create_ull(char *set_key); 
 int append(u_ll_t **head, char *set_key);
 int pop_node(u_ll_t *head); 
-int contains_value(u_ll_t *head, char *key); 
+int contains_value(u_ll_t *head, char *key);
+int get_id(u_ll_t *head, char *key); 
 
 void print_u_ll_t(u_ll_t *head); 
 

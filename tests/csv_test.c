@@ -234,13 +234,56 @@ void test_csv_to_graph() {
 		equality_status = TRUE; 
 	}
 
-
 	/* convert to graph */ 
-	graph_t *g = csv_to_graph(file, indices, 2, false);
+	graph_t *g = csv_to_unweighted_graph(file, indices, 2, false);
 
-	/* print graph results */ 	
-	
+	/* list relationships */ 
+	char *relationship_list[5][5] = {
+		{"src_label"}, 
+		{"B", "C", "D"}, 
+		{"A"},
+		{"A"}
+	}; 
 
+	/* iterate an scan against relationship list */ 
+	for(int i = 0; i < g->v; i++) {
+		node_t *head = g->items[i].head; 
+		int node_index = 0; 
+		while(head) {
+			int condition = strcmp(head->label, relationship_list[i][node_index]);
+			if(condition != 0) {
+				equality_status = FALSE; 
+			}
+			head = head->next;
+		   	node_index += 1; 
+		}
+	}
+
+ 	/* validate results */
+    if(equality_status == FALSE) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    }
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 }
 
+void test_csv_to_graph_two() {
 
+	/* variables */ 
+	int equality_status = TRUE; 
+	int row_limit = 10;  
+	int indices[2] = {1, 3}; 
+	char filepath[100] = "../examples/data/movies.csv"; 
+
+	/* csv structure */ 
+	csv_t *file = csv_init(filepath, FILE_BUFFER_SIZE, row_limit);
+	if(!file->status) {
+		equality_status = TRUE; 
+	}
+
+	/* convert to graph */ 
+	graph_t *g = csv_to_unweighted_graph(file, indices, 2, true);
+
+	/* print graph results */ 
+	print_graph(g);
+
+}

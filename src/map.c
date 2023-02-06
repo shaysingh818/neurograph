@@ -52,6 +52,18 @@ int append(u_ll_t **head, char *set_key) {
 }
 
 
+int get_id(u_ll_t *head, char *key) {
+	while(head != NULL) {
+		int condition = strcmp(head->value, key) == 0; 
+		if(condition) {
+			return head->index; 
+		}
+		head = head->next; 
+	}
+	return false; 
+}
+
+
 void print_u_ll_t(u_ll_t *head) {
 	while(head != NULL) {
 		printf("[%d] -> %s\n", head->index, head->value); 

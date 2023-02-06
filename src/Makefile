@@ -3,8 +3,8 @@ GRAPH_OBJS = graph.o matrix.o queue.o node.o map.o
 GRAPH_EXTENSIONS = path.o search.o community.o csv.o
 
 # Header files
-UTILITY_HEADERS = includes/graph.h includes/matrix.h includes/queue.h includes/csv.h
-EXTENSION_HEADERS = includes/path.h includes/search.h includes/community.h includes/map.h
+UTILITY_HEADERS = includes/graph.h includes/matrix.h includes/queue.h includes/csv.h includes/map.h
+EXTENSION_HEADERS = includes/path.h includes/search.h includes/community.h
 
 # Outputs and compilation target
 BIN=bin

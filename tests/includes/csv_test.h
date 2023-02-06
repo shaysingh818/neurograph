@@ -22,7 +22,11 @@ void test_invalid_file();
 void test_csv_structure(); 
 
 /* test csv to graph */ 
-void test_csv_to_graph(); 
+void test_csv_to_graph();
+void test_csv_to_graph_two();
+void test_csv_to_graph_three();
+void test_csv_to_graph_four();
+
 void test_csv_to_graph_matrice(); 
 
 #endif
