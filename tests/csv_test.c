@@ -479,6 +479,32 @@ void test_odd_pair_feature_pass() {
 	int indices[3] = {4, 6, 15}; // should fail since it's not in pairs of 2
 	char filepath[100] = "../examples/data/store_orders.csv";
 
+	/* expected relationships */ 
+	char *relationship_list[15][15] = {
+		{},
+		{"Constantine"}, 
+		{"Toby Braunhardt"}, 
+		{"New South Wales"},
+		{"Joseph Holt"},
+		{"Budapest"},
+		{"Annie Thurman"},
+		{"Stockholm"},
+		{"Eugene Moren"},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{}
+	};
+
+	/* expected weights */ 
+	int weights[15] = {
+		0, 408, 408, 120, 120,
+		66, 45, 45, 0, 0, 0 ,0,
+		0, 0, 0
+	};
+
 	/* csv structure */ 
 	csv_t *file = csv_init(filepath, FILE_BUFFER_SIZE, row_limit);
 	if(!file->status) {
@@ -487,11 +513,58 @@ void test_odd_pair_feature_pass() {
 
 	/* convert to graph */ 
 	graph_t *g = csv_to_weighted_graph(file, indices, 3, false);
-	printf("Graph status: %d\n", g->err);
+   	if(g->err) {
+		equality_status = FALSE; 
+	}
+
+	/* check graph against relationships */ 
+	for(int i = 0; i < g->v; i++) {
+		node_t *head = g->items[i].head; 
+		int node_index = 0; 
+		while(head) {
+			int condition = strcmp(head->label, relationship_list[i][node_index]);
+			if(condition != 0) {
+				equality_status = FALSE; 
+			}
+			head = head->next;
+		   	node_index += 1; 
+		}
+	}
+
+ 	/* validate results */
+    if(equality_status == FALSE) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    }
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+
+}
+
+
+void test_odd_pair_feature_fail() {
+
+	/* variables */ 
+	int equality_status = TRUE; 
+	int row_limit = 5;
+	int indices[5] = {4, 6, 15, 4, 6}; // should fail since it's not in pairs of 2
+	char filepath[100] = "../examples/data/store_orders.csv";
+	
+	/* csv structure */ 
+	csv_t *file = csv_init(filepath, FILE_BUFFER_SIZE, row_limit);
+	if(!file->status) {
+		equality_status = TRUE; 
+	}
+
+	/* convert to graph */ 
+	graph_t *g = csv_to_weighted_graph(file, indices, 5, false);
    	if(!g->err) {
 		equality_status = FALSE; 
 	}
 
+ 	/* validate results */
+    if(equality_status == FALSE) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    }
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 
 }
 

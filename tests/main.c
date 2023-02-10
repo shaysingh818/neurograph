@@ -75,7 +75,9 @@ int main(int argc, char **argv) {
 	/* test multi feature select */ 
 	test_even_pair_feature_pass(); 
 	test_even_pair_feature_fail(); 
-	//test_odd_pair_feature_pass(); 
+	test_odd_pair_feature_pass(); 
+	test_odd_pair_feature_fail(); 
+
 
 	printf("\n"); 
 	
