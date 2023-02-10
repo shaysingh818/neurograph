@@ -69,8 +69,13 @@ int main(int argc, char **argv) {
 
 	/* test graph conversion from csv */ 
 	test_csv_to_graph(); 	
-	//test_csv_to_graph_two(); 
+	test_csv_to_graph_two(); 
+	test_csv_to_graph_three();
 
+	/* test multi feature select */ 
+	test_even_pair_feature_pass(); 
+	test_even_pair_feature_fail(); 
+	//test_odd_pair_feature_pass(); 
 
 	printf("\n"); 
 	

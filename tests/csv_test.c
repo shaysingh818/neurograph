@@ -237,15 +237,188 @@ void test_csv_to_graph() {
 	/* convert to graph */ 
 	graph_t *g = csv_to_unweighted_graph(file, indices, 2, false);
 
-	/* list relationships */ 
-	char *relationship_list[5][5] = {
+	char *relationship_list[8][5] = {
 		{"src_label"}, 
 		{"B", "C", "D"}, 
 		{"A"},
-		{"A"}
+		{"A"},
+		{"A"},
+		{},
+		{},
+		{}
 	}; 
 
-	/* iterate an scan against relationship list */ 
+	for(int i = 0; i < g->v; i++) {
+		node_t *head = g->items[i].head; 
+		int node_index = 0; 
+		while(head) {
+			int condition = strcmp(head->label, relationship_list[i][node_index]);
+			if(condition != 0) {
+				equality_status = FALSE; 
+			}
+			head = head->next;
+		   	node_index += 1; 
+		}
+	} 
+
+ 	/* validate results */
+    if(equality_status == FALSE) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    }
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+}
+
+void test_csv_to_graph_two() {
+
+	/* variables */ 
+	int equality_status = TRUE; 
+	int row_limit = 5;  
+	int indices[2] = {1, 3}; 
+	char filepath[100] = "../examples/data/power_generation.csv"; 
+
+	/* expected relationships */ 
+	char *relationship_list[10][10] = {
+		{"Power Station"}, 
+		{"135.0"}, 
+		{"Delhi"},
+		{"2470.0"},
+		{"Haryana"},
+		{"379.0"},
+		{"Himachal Pradesh"},
+		{"150.0"},
+		{"Jammu and Kashmir"},
+		{}
+	}; 
+
+
+	/* csv structure */ 
+	csv_t *file = csv_init(filepath, FILE_BUFFER_SIZE, row_limit);
+	if(!file->status) {
+		equality_status = TRUE; 
+	}
+
+	/* convert to graph */
+	int vertex_count = file->row_limit * 2; 
+	graph_t *g = csv_to_unweighted_graph(file, indices, 2, false);
+
+	/* check graph against relationships */ 
+	for(int i = 0; i < g->v; i++) {
+		node_t *head = g->items[i].head; 
+		int node_index = 0; 
+		while(head) {
+			int condition = strcmp(head->label, relationship_list[i][node_index]);
+			if(condition != 0) {
+				equality_status = FALSE; 
+			}
+			head = head->next;
+		   	node_index += 1; 
+		}
+	} 
+
+ 	/* validate results */
+    if(equality_status == FALSE) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    }
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+
+}
+
+
+void test_csv_to_graph_three() {
+
+	/* variables */ 
+	int equality_status = TRUE; 
+	int row_limit = 5;  
+	int indices[2] = {1, 5}; 
+	char filepath[100] = "../examples/data/movies.csv";
+
+	/* expected relationships */ 
+	char *relationship_list[10][10] = {
+		{"movie_name"}, 
+		{"\"Crime"}, 
+		{"The Godfather", "The Silence of the Lambs"},
+		{"\"Crime"},
+		{"\"Action"},
+		{"Star Wars: Episode V - The Empire Strikes Back"},
+		{"Drama"},
+		{"The Shawshank Redemption"},
+		{}
+	}; 
+
+	/* csv structure */ 
+	csv_t *file = csv_init(filepath, FILE_BUFFER_SIZE, row_limit);
+	if(!file->status) {
+		equality_status = TRUE; 
+	}
+
+	/* convert to graph */ 
+	graph_t *g = csv_to_unweighted_graph(file, indices, 2, false);
+
+	/* check graph against relationships */ 
+	for(int i = 0; i < g->v; i++) {
+		node_t *head = g->items[i].head; 
+		int node_index = 0; 
+		while(head) {
+			int condition = strcmp(head->label, relationship_list[i][node_index]);
+			if(condition != 0) {
+				equality_status = FALSE; 
+			}
+			head = head->next;
+		   	node_index += 1; 
+		}
+	} 
+
+ 	/* validate results */
+    if(equality_status == FALSE) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    }
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+}
+
+
+void test_even_pair_feature_pass() {
+
+	/* variables */ 
+	int equality_status = TRUE; 
+	int row_limit = 5;  
+	int indices[4] = {4, 6, 7, 8}; // should be pairs of 2
+	char filepath[100] = "../examples/data/store_orders.csv";
+
+	/* expected relationships */ 
+	char *relationship_list[20][20] = {
+		{"customer_name"}, 
+		{"Constantine"}, 
+		{"Toby Braunhardt"},
+		{"New South Wales"},
+		{"Joseph Holt"},
+		{"Budapest"},
+		{"Annie Thurman"},
+		{"Stockholm"},
+		{"Eugene Moren"},
+		{"Africa"},
+		{"Algeria"},
+		{"APAC"},
+		{"Australia"},
+		{"EMEA"},
+		{"Hungary"},
+		{"EU"},
+		{"Sweden"},
+		{},
+		{},
+		{}
+	}; 
+
+	/* csv structure */ 
+	csv_t *file = csv_init(filepath, FILE_BUFFER_SIZE, row_limit);
+	if(!file->status) {
+		equality_status = TRUE; 
+	}
+
+	/* convert to graph */ 
+	graph_t *g = csv_to_unweighted_graph(file, indices, 4, false);
+
+
+	/* check graph against relationships */ 
 	for(int i = 0; i < g->v; i++) {
 		node_t *head = g->items[i].head; 
 		int node_index = 0; 
@@ -259,6 +432,7 @@ void test_csv_to_graph() {
 		}
 	}
 
+
  	/* validate results */
     if(equality_status == FALSE) {
         printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
@@ -266,13 +440,14 @@ void test_csv_to_graph() {
     printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 }
 
-void test_csv_to_graph_two() {
+
+void test_even_pair_feature_fail() {
 
 	/* variables */ 
 	int equality_status = TRUE; 
-	int row_limit = 10;  
-	int indices[2] = {1, 3}; 
-	char filepath[100] = "../examples/data/movies.csv"; 
+	int row_limit = 5;
+	int indices[3] = {4, 6, 7}; // should fail since it's not in pairs of 2
+	char filepath[100] = "../examples/data/store_orders.csv";
 
 	/* csv structure */ 
 	csv_t *file = csv_init(filepath, FILE_BUFFER_SIZE, row_limit);
@@ -281,9 +456,49 @@ void test_csv_to_graph_two() {
 	}
 
 	/* convert to graph */ 
-	graph_t *g = csv_to_unweighted_graph(file, indices, 2, true);
+	graph_t *g = csv_to_unweighted_graph(file, indices, 3, false);
+   	if(!g->err) {
+		equality_status = FALSE; 
+	}
 
-	/* print graph results */ 
-	print_graph(g);
+ 	/* validate results */
+    if(equality_status == FALSE) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    }
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+
 
 }
+
+
+void test_odd_pair_feature_pass() {
+
+	/* variables */ 
+	int equality_status = TRUE; 
+	int row_limit = 5;
+	int indices[3] = {4, 6, 15}; // should fail since it's not in pairs of 2
+	char filepath[100] = "../examples/data/store_orders.csv";
+
+	/* csv structure */ 
+	csv_t *file = csv_init(filepath, FILE_BUFFER_SIZE, row_limit);
+	if(!file->status) {
+		equality_status = TRUE; 
+	}
+
+	/* convert to graph */ 
+	graph_t *g = csv_to_weighted_graph(file, indices, 3, false);
+	printf("Graph status: %d\n", g->err);
+   	if(!g->err) {
+		equality_status = FALSE; 
+	}
+
+
+}
+
+/**
+ * Test Multi feature select (More than 2 features)
+ * Test if the pairs are not correct (not 2 or 3)
+ * Create the same set of test cases for the weighted graph
+ */
+
+

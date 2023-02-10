@@ -216,29 +216,31 @@ void csv_info(csv_t *csv) {
 
 graph_t *csv_to_unweighted_graph(csv_t *csv, int *cols, int size, int directed) {
 
-	/* validate that graph is unweighted */ 
+	/* create graph to be returned */ 
+	int vertex_count = csv->row_limit * size;	
+	graph_t *g = init_graph(vertex_count, vertex_count, directed);
+	
+	/* validate that graph is unweighted */
 	if(size % 2 != 0) {
 		if(DEBUG) {
 			printf("Unweighted graph should be in pairs of 2\n"); 
 		}
-		return FALSE; 
+		g->err = true; 
+		return g; 
 	}
 
-	graph_t *g = init_graph(csv->row_limit, csv->row_limit, directed);
 	u_ll_t *head = create_ull(csv->rows[0]->line[cols[0]]);
 	int head_id = get_id(head, head->value);
    
 	/* link it to itself for now */ 
-	add_end_node(g, head_id, head->value, 0); 	
+	add_end_node(g, head_id, head->value, 0);
 
-	/* iterate through csv rows */ 
-    for(int i = 1; i < csv->row_limit; i++){
+	for(int i = 0; i < size; i += 2) {
+		for(int j = 1; j < csv->row_limit; j++) {
 
-		/* iterate through feature cols */
-		for(int j = 0; j < size; j+= 2) {
-			
-			char *src = csv->rows[i]->line[cols[j]];
-			char *dst = csv->rows[i]->line[cols[j+1]];
+			char *src = csv->rows[j]->line[cols[i]];
+			char *dst = csv->rows[j]->line[cols[i+1]];
+
 			/* add src and dst to ull (unique linked list) */ 
 			append(&head, src); 
 			append(&head, dst);
@@ -246,12 +248,10 @@ graph_t *csv_to_unweighted_graph(csv_t *csv, int *cols, int size, int directed) 
 			/* get unique src and dest id */
 			int src_id = get_id(head, src); 
 			int dst_id = get_id(head, dst);
-
-		   	add_node(g, src_id, src, dst_id, dst, 0); 	
-		}
-	}
-
-
+	
+			add_node(g, src_id, src, dst_id, dst, 0); 	
+		}		
+	}	
 	return g; 
 }
 
@@ -259,23 +259,26 @@ graph_t *csv_to_unweighted_graph(csv_t *csv, int *cols, int size, int directed) 
 
 graph_t *csv_to_weighted_graph(csv_t *csv, int *cols, int size, int directed) {
 
+	/* create graph */
+	int vertex_count = csv->row_limit * size;	
+	graph_t *g = init_graph(vertex_count, vertex_count, directed);
+
 	/* validate that graph is unweighted */ 
 	if(size % 3 != 0) {
 		if(DEBUG) {
-			printf("Unweighted graph should be in pairs of 2\n"); 
+			printf("Weighted graph should be in pairs of 3\n"); 
 		}
-		return FALSE; 
+		g->err = true; 
+		return g; 
 	}
 
-
-	graph_t *g = init_graph(csv->row_limit, csv->row_limit, directed);
+	/* create unique linked list for storing node values */ 
 	u_ll_t *head = create_ull(csv->rows[0]->line[cols[0]]);
+	int head_id = get_id(head, head->value);
 
 	/* iterate through csv rows */ 
-    for(int i = 1; i < csv->row_limit; i++){
-
-		/* iterate through feature cols */
-		for(int j = 0; j < size; j+= 3) {
+    for(int i = 0; i < size; i+=3){
+		for(int j = 1; j < csv->row_limit; j++) {
 			
 			char *src = csv->rows[i]->line[cols[j]];
 			char *dst = csv->rows[i]->line[cols[j+2]];
@@ -284,6 +287,11 @@ graph_t *csv_to_weighted_graph(csv_t *csv, int *cols, int size, int directed) {
 			/* convert weight to integer */ 
 			int weight_to_int = atoi(weight); 
 
+			/* 
+			 * @TODO Check if weight can't be converted to an integer 
+			 * There's a lot of improvements that can be done with weights
+			 * */ 
+
 			/* add src and dst to ull (unique linked list) */ 
 			append(&head, src); 
 			append(&head, dst);
@@ -292,11 +300,13 @@ graph_t *csv_to_weighted_graph(csv_t *csv, int *cols, int size, int directed) {
 			int src_id = get_id(head, src); 
 			int dst_id = get_id(head, dst);
 
-			/* print and add node to graph */ 
+			/* debug print */ 
 			printf(
-				"[%d]: %s -> [%d]: %s weight: %d\n", 
+				"([%d]:%s) -> ([%d]:%s) [%d]\n",
 				src_id, src, dst_id, dst, weight_to_int
-			);
+			); 
+
+			/* print and add node to graph */ 
 		   	add_node(g, src_id, src, dst_id, dst, weight_to_int); 	
 		}
 	}

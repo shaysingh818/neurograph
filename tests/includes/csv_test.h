@@ -27,6 +27,10 @@ void test_csv_to_graph_two();
 void test_csv_to_graph_three();
 void test_csv_to_graph_four();
 
-void test_csv_to_graph_matrice(); 
+/* test multi feature select */ 
+void test_even_pair_feature_pass(); 
+void test_even_pair_feature_fail(); 
+void test_odd_pair_feature_pass(); 
+void test_odd_pair_feature_fail(); 
 
 #endif

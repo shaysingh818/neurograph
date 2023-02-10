@@ -22,7 +22,8 @@ struct Graph {
 	int v;
    	int e; 	
 	int *visited; 
-	bool directed; 
+	bool directed;
+   	bool err; 	
    	edge_t **edges;
 	node_list_t *items; 	
 }; 

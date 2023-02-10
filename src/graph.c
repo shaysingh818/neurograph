@@ -10,7 +10,8 @@ graph_t *init_graph(int v, int e, bool directed) {
 	g->edges = malloc(e * sizeof(edge_t));
    	g->visited = malloc(v * sizeof(int)); 	
 	g->items = (node_list_t*)malloc(v * sizeof(node_list_t)); 
-	g->directed = directed; 
+	g->directed = directed;
+   	g->err = false; 	
 	g->v = v;
 	g->e = e; 
 
@@ -191,7 +192,7 @@ int add_node(
 
 
 	node_t *check = NULL; 
-	node_t *new_node = create_node(dest_id, dest_label, weight); 
+	node_t *new_node = create_node(dest_id, dest_label, weight);
 
 	/* check if head is null */ 
 	if(g->items[src_id].head == NULL) {
