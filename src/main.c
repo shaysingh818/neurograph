@@ -16,13 +16,15 @@ int main(int argc, char **argv) {
 	add_node(g, 1, "B", 2, "C", 0);
 	add_node(g, 4, "E", 2, "C", 0);
 
+	print_graph(g); 
 
+	/*
 	int steps = 10; 
 	int path[steps]; 
     int *result = random_walk(g, 0, steps, path);
 	for(int i = 0; i < steps; i++) {
 		printf("%d ", path[i]); 
-	}
+	} */ 
 
 
 	return 0; 

@@ -475,7 +475,7 @@ void test_odd_pair_feature_pass() {
 
 	/* variables */ 
 	int equality_status = TRUE; 
-	int row_limit = 5;
+	int row_limit = 10;
 	int indices[3] = {4, 6, 15}; // should fail since it's not in pairs of 2
 	char filepath[100] = "../examples/data/store_orders.csv";
 
@@ -516,6 +516,7 @@ void test_odd_pair_feature_pass() {
    	if(g->err) {
 		equality_status = FALSE; 
 	}
+
 
 	/* check graph against relationships */ 
 	for(int i = 0; i < g->v; i++) {

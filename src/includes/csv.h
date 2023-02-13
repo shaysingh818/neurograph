@@ -59,7 +59,5 @@ graph_t *csv_to_unweighted_graph(csv_t *csv, int *cols, int size, int directed);
 graph_t *csv_to_weighted_graph(csv_t *csv, int *cols, int size, int directed); 
 mat_t *csv_g_mat(csv_t *csv, int *cols, int size, int directed); 
 
-
-
 #endif
 
