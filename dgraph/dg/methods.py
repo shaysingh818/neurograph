@@ -1,11 +1,23 @@
 from pprint import pprint
-from ffi_register import lib
+from .ffi_register import lib
+
+
+def init_graph(vertice_count, directed):
+
+    # validate some stuff here
+    if vertice_count < 0:
+        print("Vertice can't be negative")
+        return False
+    
+    # init graph
+    graph = lib.init_graph_util(vertice_count, directed)
+    return graph
 
 
 def add_node(graph, src_id, src, dst_id, dst, weight):
 
     # call add node from lib
-    result = add_node_util(
+    result = lib.add_node_util(
         graph, src_id, src, 
         dst_id, dst, weight
     )
@@ -38,17 +50,3 @@ def graph_serialize(graph):
             head_node = head_node.contents.next
 
     return body
-
-
-def main():
-
-    # load graph test
-    result = lib.init_graph_util(10)
-    lib.add_node_util(result, 4, "D", 0, "A", 0)
-    json_result = graph_serialize(result)
-    pprint(json_result)
-
-
-
-if __name__ == "__main__":
-    main()

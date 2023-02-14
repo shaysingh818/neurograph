@@ -34,3 +34,12 @@ jobs:
     - name: Unit Tests
       working-directory: target/
       run: ./unit_test
+
+  # unit tests for python code base
+  dgraph-unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Test Graph Construct
+      working-directory: dgraph/tests/
+      run: python -m unittest -v test_graph

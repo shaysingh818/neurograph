@@ -1,20 +1,12 @@
 #include "includes/utils.h"
 
-graph_t *init_graph_util(int size) {
+graph_t *init_graph_util(int size, bool directed) {
 
 	/* test first example of bfs */
-    graph_t *g = init_graph(size, size, false);
+    graph_t *g = init_graph(size, size, directed);
 	if(g->err) {
 		return FALSE; 
 	}
-
-	printf("Testing param: %d\n", size); 	
-
-    add_node(g, 0, "A", 1, "B", 0);
-    add_node(g, 0, "A", 2, "C", 0);
-    add_node(g, 0, "A", 3, "D", 0);
-    add_node(g, 1, "B", 2, "C", 0);
-    add_node(g, 4, "E", 2, "C", 0);
 
 	return g; 
 }
