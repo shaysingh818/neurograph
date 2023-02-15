@@ -49,11 +49,11 @@ class TestGraphMethods(unittest.TestCase):
         result = graph_serialize(graph)
 
         # validate node relationships
-        node_1 = ['B', 'C', 'D']
-        node_2 = ['A', 'C']
-        node_3 = ['A', 'B', 'E']
-        node_4 = ['A']
-        node_5 = ['C']
+        node_1 = [b'B', b'C', b'D']
+        node_2 = [b'A', b'C']
+        node_3 = [b'A', b'B', b'E']
+        node_4 = [b'A']
+        node_5 = [b'C']
 
         self.assertEqual(result["items"][0], node_1)
         self.assertEqual(result["items"][1], node_2)
@@ -80,11 +80,11 @@ class TestGraphMethods(unittest.TestCase):
         result = graph_serialize(graph)
 
         # validate relationships
-        node_1 = ['B', 'C', 'D']
-        node_2 = ['C']
+        node_1 = [b'B', b'C', b'D']
+        node_2 = [b'C']
         node_3 = []
         node_4 = []
-        node_5 = ['C']
+        node_5 = [b'C']
 
         self.assertEqual(result["items"][0], node_1)
         self.assertEqual(result["items"][1], node_2)
