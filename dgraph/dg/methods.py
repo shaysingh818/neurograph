@@ -30,7 +30,7 @@ def graph_serialize(graph):
     body = {
         "vertice_count": graph.contents.v,
         "edge_count": graph.contents.e,
-        "visited_nodes": graph.contents.visited,
+        "visited_nodes": [],
         "directed": graph.contents.directed,
         "err": graph.contents.err,
         "edges": [],
