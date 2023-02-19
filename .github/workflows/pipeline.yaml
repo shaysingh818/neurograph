@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
-    - uses: actions/checkout@v3
+      uses: actions/checkout@v3
 
     - name: Build and Test Graph Package
       working-directory: src/graph/
@@ -33,7 +33,8 @@ jobs:
   build-dgraph:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Test Graph Construct
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
       working-directory: dgraph/tests/
       run: python -m unittest -v test_graph
