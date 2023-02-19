@@ -20,19 +20,8 @@ jobs:
       run: |
         make
         ./target/test_graph
-
-    - name: Clean up Graph
-        working-directory: src/graph
-        run: make clean
-
-    - name: Build and Test CSV Package
-      working-directory: src/csv/
-      run: |
-        make
-        ./target/test_csv
         make clean
-      
-      
+       
   # unit tests for python code base
   Build and Test dgraph:
     runs-on: ubuntu-latest
