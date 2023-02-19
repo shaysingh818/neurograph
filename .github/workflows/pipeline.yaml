@@ -20,7 +20,10 @@ jobs:
       run: |
         make
         ./target/test_graph
-        make clean
+
+    - name: Clean up Graph
+        working-directory: src/graph
+        run: make clean
 
     - name: Build and Test CSV Package
       working-directory: src/csv/
