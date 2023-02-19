@@ -35,6 +35,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-      
-      working-directory: dgraph/tests/
-      run: python -m unittest -v test_graph
+      - name: Test Graph Construct
+        working-directory: dgraph/tests/
+        run: python -m unittest -v test_graph
