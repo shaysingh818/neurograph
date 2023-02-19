@@ -12,11 +12,8 @@ jobs:
   build-core:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
       uses: actions/checkout@v3
-
     - name: Build and Test Graph Package
-      uses: actions/checkout@v3
       working-directory: src/graph/
       run: |
         make
@@ -27,7 +24,6 @@ jobs:
   build-dgraph:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
       uses: actions/checkout@v3
     - name: Test Graph Construct
       working-directory: dgraph/tests/
