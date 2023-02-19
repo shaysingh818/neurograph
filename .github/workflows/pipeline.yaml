@@ -19,6 +19,7 @@ jobs:
         make
         ./target/test_graph
         make clean
+    - uses: actions/checkout@v3
     - name: Build and Test CSV Package
       working-directory: src/csv/
       run: |
