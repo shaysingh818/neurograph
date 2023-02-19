@@ -12,19 +12,27 @@ jobs:
   build-core:
     runs-on: ubuntu-latest
     steps:
-      uses: actions/checkout@v3
+    - uses: actions/checkout@v3
     - name: Build and Test Graph Package
       working-directory: src/graph/
       run: |
         make
         ./target/test_graph
         make clean
+
+    - uses: actions/checkout@v3
+    - name: Build and Test CSV Package
+      working-directory: src/csv/
+      run: |
+        make
+        ./target/test_csv
+        make clean
        
   # unit tests for python code base
   build-dgraph:
     runs-on: ubuntu-latest
     steps:
-      uses: actions/checkout@v3
+    - uses: actions/checkout@v3
     - name: Test Graph Construct
       working-directory: dgraph/tests/
       run: python -m unittest -v test_graph
