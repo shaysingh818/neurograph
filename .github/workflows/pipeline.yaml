@@ -13,18 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Build Graph Library
+    - name: Build and Test Graph Package
       working-directory: src/graph/
-      run: make
-    - name: Test Graph Library
-      working-directory: src/graph/
-      run: ./target/test_graph
-    - name: Build CSV Library
-      working-directory: src/csv/
-      run: make
-    - name: Test CSV Library
-      working-directory: src/csv/
-      run: ./target/test_csv
+      run: |
+        make
+        ./target/test_graph
+        make clean
       
   # unit tests for python code base
   dgraph-unit-tests:
