@@ -9,7 +9,7 @@ on:
 jobs:
 
   # build source for unit tests
-  Build and Test Packages:
+  build-core:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -24,7 +24,7 @@ jobs:
         make clean
        
   # unit tests for python code base
-  Build and Test dgraph:
+  build-dgraph:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
