@@ -34,7 +34,8 @@ jobs:
   Build and Test dgraph:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
     - name: Test Graph Construct
       working-directory: dgraph/tests/
       run: python -m unittest -v test_graph
