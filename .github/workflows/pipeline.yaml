@@ -28,6 +28,13 @@ jobs:
         make
         ./target/test_csv
         make clean
+    
+    - name: Build and Test Hashing Library
+      working-directory: src/map/
+      run: |
+        make
+        ./target/test_map
+        make clean
        
   # unit tests for python code base
   build-dgraph:
