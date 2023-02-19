@@ -12,7 +12,9 @@ jobs:
   build-core:
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout code
     - uses: actions/checkout@v3
+
     - name: Build and Test Graph Package
       working-directory: src/graph/
       run: |
@@ -20,7 +22,6 @@ jobs:
         ./target/test_graph
         make clean
 
-    - uses: actions/checkout@v3
     - name: Build and Test CSV Package
       working-directory: src/csv/
       run: |
