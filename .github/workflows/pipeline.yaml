@@ -16,10 +16,8 @@ jobs:
     - name: Build Graph Library
       working-directory: src/graph/
       run: make
-    - name: Test Graph Library
-      working-directory: src/graph/
       run: ./target/test_graph
-      
+
   # unit tests for python code base
   dgraph-unit-tests:
     runs-on: ubuntu-latest
