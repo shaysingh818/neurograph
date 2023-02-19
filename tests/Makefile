@@ -1,6 +1,7 @@
 BIN=bin
 CC=gcc
 TARGET=../target/unit_test
+LEAK_TARGET=../target/leak_test
 
 # Header files
 MATRIX_HEADER = includes/matrix_test.h
@@ -29,13 +30,21 @@ MATRIX_OBJS = matrix_test.o matrix.o
 MAP_OBJS = map_test.o map.o
 OBJECT_FILES = $(GRAPH_OBJS) $(QUEUE_OBJS) $(MATRIX_OBJS) $(MAP_OBJS)
 
+LEAK_OBJECTS = $(CSV_OBJECTS) $(MAP_OBJS) $(GRAPH_OBJS)
+
 # Flags
 FLAGS = -lm -lpthread
 
-all: main.o $(OBJECT_FILES) $(EXTENSION_OBJECT_FILES)
-	gcc -o $(TARGET) main.o $(OBJECT_FILES) $(EXTENSION_OBJECT_FILES) $(FLAGS)
+all: test_suit leak_suit
 
 # extensions off the graph library
+
+test_suit: main.o $(OBJECT_FILES) $(EXTENSION_OBJECT_FILES)
+	gcc -o $(TARGET) main.o $(OBJECT_FILES) $(EXTENSION_OBJECT_FILES) $(FLAGS)
+
+leak_suit: leak_test.o $(LEAK_OBJS)
+	gcc -o $(LEAK_TARGET) leak_test.o $(LEAK_OBJS) $(FLAGS)
+
 csv.o: ../src/csv.c ../src/includes/csv.h
 	gcc -c ../src/csv.c
 
@@ -91,6 +100,13 @@ matrix_test.o: matrix_test.c includes/matrix_test.h
 
 main.o: main.c $(UTILITY_HEADER_FILES) $(EXTENSION_HEADER_FILES)
 	gcc -c main.c
+
+# leak test
+leak_test.o: leak_test.c includes/leak_test.h
+	gcc -c leak_test.c
+
+leak.o: leak.c ../includes/leak_test.h $(CSV_HEADER)
+	gcc -c -g leak.c
 
 clean_binary:
 	rm $(TARGET)

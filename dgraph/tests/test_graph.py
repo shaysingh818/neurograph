@@ -134,5 +134,18 @@ class TestGraphMethods(unittest.TestCase):
         # check if serialization is equal
         self.assertEqual(result, g_result)
 
+    def test_csv_to_graph(self):
+
+        graph = graph_to_csv(
+            filename="../../examples/data/store_orders.csv",
+            features=[1,3],
+            size=2,
+            row_limit=10
+        )
+        pprint(graph)
+
+
+
+
 if __name__ == '__main__':
     unittest.main()

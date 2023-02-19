@@ -24,7 +24,9 @@ int main(int argc, char **argv) {
     int *result = random_walk(g, 0, steps, path);
 	for(int i = 0; i < steps; i++) {
 		printf("%d ", path[i]); 
-	} */ 
+	} */
+
+	free(g); 	
 
 
 	return 0; 

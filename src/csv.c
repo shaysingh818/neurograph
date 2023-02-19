@@ -107,13 +107,13 @@ int populate_rows(csv_t *csv) {
 
 		/* variables for line data */
 		int line_size = 0; 
-	  	char **line = malloc(csv->col_count * sizeof(char*)); 	
+	  	char **line = malloc(csv->col_count * sizeof *line); 	
 	   	int header_count = 0; 	
 		char *value = strtok(buffer, ",");
 		size_t value_length = strlen(value) + 1;
 
 		/* copy first line value and allocate space */ 
-		line[header_count] = (char*)malloc(value_length * sizeof(char)); 
+		line[header_count] = malloc(value_length * sizeof *line[header_count]); 
 		strcpy(line[header_count], value);
 		line_size += value_length; 
 	   	header_count += 1; 	
@@ -128,7 +128,7 @@ int populate_rows(csv_t *csv) {
 
 			/* copy value in line array */ 
 			value_length = strlen(value) + 1; 
-			line[header_count] = (char*)malloc(value_length * sizeof(char)); 
+			line[header_count] = malloc(value_length * sizeof *line[header_count]); 
 			strcpy(line[header_count], value);
 			line_size += value_length;
 	   		header_count += 1; 	
@@ -214,7 +214,7 @@ void csv_info(csv_t *csv) {
 }
 
 
-graph_t *csv_to_unweighted_graph(csv_t *csv, int *cols, int size, int directed) {
+graph_t *csv_to_unweighted_graph(csv_t *csv, int *cols, int size, bool directed) {
 
 	/* create graph to be returned */ 
 	int vertex_count = csv->row_limit * size;	
@@ -251,13 +251,14 @@ graph_t *csv_to_unweighted_graph(csv_t *csv, int *cols, int size, int directed) 
 	
 			add_node(g, src_id, src, dst_id, dst, 0); 	
 		}		
-	}	
+	}
+
 	return g; 
 }
 
 
 
-graph_t *csv_to_weighted_graph(csv_t *csv, int *cols, int size, int directed) {
+graph_t *csv_to_weighted_graph(csv_t *csv, int *cols, int size, bool directed) {
 
 	/* create graph */
 	int vertex_count = csv->row_limit * size;	

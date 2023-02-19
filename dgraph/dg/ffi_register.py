@@ -11,3 +11,7 @@ lib.init_graph_util.restype = POINTER(Graph)
 
 # add node
 lib.add_node_util.restype = c_bool
+
+# csv to graph
+lib.g_to_csv_util.argtypes = [c_char_p, POINTER(c_int), c_int, c_int]
+lib.g_to_csv_util.restype = POINTER(Graph)
