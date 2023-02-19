@@ -7,12 +7,13 @@ on:
     branches: [ "master" ]
 
 jobs:
+
   # build source for unit tests
   build-core:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
 
     - name: Build and Test Graph Package
       working-directory: src/graph/
@@ -33,7 +34,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
-      - name: Test Graph Construct
-        working-directory: dgraph/tests/
-        run: python -m unittest -v test_graph
+      uses: actions/checkout@v2
+      
+    - name: Test Graph Construct
+      working-directory: dgraph/tests/
+      run: python -m unittest -v test_graph
