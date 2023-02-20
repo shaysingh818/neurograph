@@ -35,6 +35,13 @@ jobs:
         make
         ./target/test_map
         make clean
+    
+    - name: Build and Test Matrix Library
+      working-directory: src/matrice/
+      run: |
+        make
+        ./target/test_matrix
+        make clean
        
   # unit tests for python code base
   build-dgraph:

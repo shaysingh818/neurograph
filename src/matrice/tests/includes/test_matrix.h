@@ -1,7 +1,7 @@
 #ifndef TEST_MATRIX_H
 #define TEST_MATRIX_H
 
-#include "includes/matrix.h"
+#include "../../includes/matrix.h"
 
 #define TRUE 1
 #define FALSE 0
