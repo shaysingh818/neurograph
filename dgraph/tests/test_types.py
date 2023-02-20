@@ -11,6 +11,9 @@ class TestDiffusionTypes(unittest.TestCase):
     def test_node_list_type(self):
         pass
 
+    def test_queue_type(self):
+        pass
+
 
 if __name__ == '__main__':
     unittest.main()
