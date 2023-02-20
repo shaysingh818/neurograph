@@ -58,7 +58,7 @@ def graph_to_csv(filename, features, size, row_limit):
     c_size = ctypes.c_int(size)
     c_row_limit = ctypes.c_int(row_limit)
     c_filename = ctypes.create_string_buffer(len(filename)+1)
-    c_filename.value = filename
+    c_filename.value = filename.encode('utf-8')
 
     # call add node from lib
     result = lib.g_to_csv_util(c_filename, c_features, c_size, c_row_limit)

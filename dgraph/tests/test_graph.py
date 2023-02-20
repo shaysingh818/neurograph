@@ -137,7 +137,7 @@ class TestGraphMethods(unittest.TestCase):
     def test_csv_to_graph(self):
 
         graph = graph_to_csv(
-            filename="../../examples/data/store_orders.csv",
+            filename="../../examples/data/power_generation.csv",
             features=[1,3],
             size=2,
             row_limit=10
