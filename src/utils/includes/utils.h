@@ -1,11 +1,11 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#include "matrix.h"
-#include "graph.h"
-#include "queue.h"
-#include "path.h"
-#include "csv.h"
+#include "../../matrice/includes/matrix.h"
+#include "../../graph/includes/graph.h"
+#include "../../queue/includes/queue.h"
+#include "../../graph/includes/path.h"
+#include "../../csv/includes/csv.h"
 
 
 /* bare bones graph methods */ 
