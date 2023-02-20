@@ -1,5 +1,4 @@
 #include "includes/test_search.h"
-#include "../../includes/graph.h"
 
 void test_bfs_one() {
 
