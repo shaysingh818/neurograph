@@ -57,8 +57,19 @@ jobs:
         ../target/diffusion
         make clean
 
-    
-       
+  # build shared objects
+  build-shared:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build and Test Shared
+      working-directory: dgraph/so_files/
+      run: |
+        make
+        make clean
+      
   # unit tests for python code base
   build-dgraph:
     runs-on: ubuntu-latest

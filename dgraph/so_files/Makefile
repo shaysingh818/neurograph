@@ -6,44 +6,49 @@ TARGET= diffusion.so
 SOURCE_FLAGS = -lm -lpthread
 SO_FLAGS = -shared -fPIC
 
-OBJS = graph.o matrix.o queue.o node.o map.o utils.o
-OBJ_EXTENSIONS = path.o search.o community.o csv.o
+GRAPH_OBJS = ../../src/graph/graph.o ../../src/graph/node.o 
+GRAPH_EXT = ../../src/graph/path.o ../../src/graph/search.o ../../src/graph/community.o
+QUEUE_OBJS = ../../src/queue/queue.o
+MAP_OBJS = ../../src/map/map.o
+MATRICE_OBJS = ../../src/matrice/matrix.o
+CSV_OBJS = ../../src/csv/csv.o
+UTIL_OBJS = ../../src/utils/utils.o
+OBJS = $(GRAPH_OBJS) $(GRAPH_EXT) $(CSV_OBJS) $(MATRICE_OBJS) $(MAP_OBJS) $(QUEUE_OBJS) $(UTIL_OBJS)
+
 
 all: $(OBJS) $(OBJ_EXTENSIONS)
 	gcc -o $(TARGET) $(OBJS) $(OBJ_EXTENSIONS) $(SOURCE_FLAGS) $(SO_FLAGS)
 
-utils.o: ../../src/utils.c ../../src/includes/utils.h
-	gcc -c ../../src/utils.c
 
-csv.o: ../../src/csv.c ../../src/includes/csv.h
-	gcc -c ../../src/csv.c
+build: queue matrice map graph csv
 
-graph.o: ../../src/graph.c ../../src/includes/graph.h
-	gcc -c ../../src/graph.c
+csv:
+	$(MAKE) -C ../../src/csv
 
-matrix.o: ../../src/matrix.c ../../src/includes/matrix.h
-	gcc -c ../../src/matrix.c
+graph:
+	$(MAKE) -C ../../src/graph
 
-map.o: ../../src/map.c ../../src/includes/map.h
-	gcc -c ../../src/map.c
+matrice:
+	$(MAKE) -C ../../src/matrice
 
-queue.o: ../../src/queue.c ../../src/includes/queue.h
-	gcc -c ../../src/queue.c
+queue:
+	$(MAKE) -C ../../src/queue
 
-node.o: ../../src/node.c ../../src/includes/node.h
-	gcc -c ../../src/node.c
+map:
+	$(MAKE) -C ../../src/map
 
-path.o: ../../src/path.c ../../src/includes/path.h
-	gcc -c ../../src/path.c
 
-search.o: ../../src/search.c ../../src/includes/search.h
-	gcc -c ../../src/search.c
+utils.o: ../../src/utils/utils.c ../../src/utils/includes/utils.h
+	gcc -c ../../src/utils/utils.c
 
-community.o: ../../src/community.c ../../src/includes/community.h
-	gcc -c ../../src/community.c
 
 clean_binary:
 	rm $(TARGET)
 
 clean:
-	rm -f *.o *~ *.pyc
+	rm -f *.so *~ *.pyc
+	$(MAKE) -C  ../../src/graph clean
+	$(MAKE) -C ../../src/csv clean
+	$(MAKE) -C ../../src/queue clean
+	$(MAKE) -C ../../src/matrice clean
+	$(MAKE) -C ../../src/map clean
