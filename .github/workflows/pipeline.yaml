@@ -80,6 +80,10 @@ jobs:
         working-directory: dgraph/
         run: pip install setuptools
 
+      - name: Install wheel
+        working-directory: dgraph/
+        run: pip install wheel
+
       - name: Test Graph Construct
         working-directory: dgraph/tests/
         run: python -m unittest -v test_graph
