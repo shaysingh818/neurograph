@@ -86,7 +86,10 @@ jobs:
 
       - name: Install Python Package
         working-directory: dgraph/
-        run: python setup.py sdist bdist_wheel
+        run: | 
+          python setup.py sdist bdist_wheel
+          python setup.py build
+          python setup.py install
 
       - name: Test Graph Construct
         working-directory: dgraph/tests/
