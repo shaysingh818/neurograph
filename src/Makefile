@@ -1,11 +1,14 @@
-
 # Object files
-GRAPH_OBJS = graph.o matrix.o queue.o node.o
-GRAPH_EXTENSIONS = path.o search.o community.o
 
-# Header files
-UTILITY_HEADERS = includes/graph.h includes/matrix.h includes/queue.h
-EXTENSION_HEADERS = includes/path.h includes/search.h includes/community.h
+
+GRAPH_OBJS = graph/graph.o graph/node.o graph/path.o graph/search.o graph/community.o
+QUEUE_OBJS = queue/queue.o
+MAP_OBJS = map/map.o
+MATRICE_OBJS = matrice/matrix.o
+CSV_OBJS = csv/csv.o
+UTIL_OBJS = utils.o
+OBJS = $(GRAPH_OBJS) $(CSV_OBJS) $(MATRICE_OBJS) $(MAP_OBJS) $(QUEUE_OBJS) $(UTIL_OBJS)
+
 
 # Outputs and compilation target
 BIN=bin
@@ -14,31 +17,37 @@ TARGET=../target/diffusion
 
 FLAGS = -lm -lpthread
 
-all: main.o $(GRAPH_OBJS) $(GRAPH_EXTENSIONS)
-	gcc -o $(TARGET) main.o $(GRAPH_OBJS) $(GRAPH_EXTENSIONS) $(FLAGS)
 
-graph.o: graph.c includes/graph.h
-	gcc -c graph.c
+all: build source
 
-matrix.o: matrix.c includes/matrix.h
-	gcc -c matrix.c
+source: main.o $(OBJS)
+	gcc -o $(TARGET) main.o $(OBJS)  $(FLAGS)
 
-queue.o: queue.c includes/queue.h
-	gcc -c queue.c
+build: queue matrice map graph csv
 
-node.o: node.c includes/node.h
-	gcc -c node.c
 
-path.o: path.c includes/path.h
-	gcc -c path.c
+csv:
+	$(MAKE) -C ../csv
 
-search.o: search.c includes/search.h
-	gcc -c search.c
+graph:
+	$(MAKE) -C ../graph
 
-community.o: community.c includes/community.h
-	gcc -c community.c
+matrice:
+	$(MAKE) -C ../matrice
 
-main.o: main.c $(UTILITY_HEADERS) $(EXTENSION_HEADERS)
+queue:
+	$(MAKE) -C ../queue
+
+map:
+	$(MAKE) -C ../map
+
+
+# utilities for python
+utils.o: utils/utils.c utils/includes/utils.h
+	$(CC) -c utils/utils.c
+
+
+main.o: main.c graph/includes/graph.h
 	gcc -c main.c
 
 clean_binary:
@@ -46,3 +55,8 @@ clean_binary:
 
 clean:
 	rm -f *.o *~
+	$(MAKE) -C  ./graph clean
+	$(MAKE) -C ./csv clean
+	$(MAKE) -C ./queue clean
+	$(MAKE) -C ./matrice clean
+	$(MAKE) -C ./map clean

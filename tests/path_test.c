@@ -4,14 +4,14 @@ void test_bellman_ford() {
 
   	int vertices = 5; // num of vertices
     int edges = 8; // num of edges
-    graph_t *g = init_graph(vertices, edges);
+    graph_t *g = init_graph(vertices, edges, false);
 
     /* create nodes for graph */
-    node_t *a = create_node(0, 'A');
-    node_t *b = create_node(1, 'B');
-    node_t *c = create_node(2, 'C');
-    node_t *d = create_node(3, 'D');
-    node_t *e = create_node(4, 'E');
+    node_t *a = create_node(0, "A", 0);
+    node_t *b = create_node(1, "B", 0);
+    node_t *c = create_node(2, "C", 0);
+    node_t *d = create_node(3, "D", 0);
+    node_t *e = create_node(4, "E", 0);
 
     /* add relationships */
     g->edges[0] = create_edge(a, b, -1);
@@ -49,20 +49,20 @@ void test_random_walk() {
 	/* test random walk */
     int vertices = 5; // num of vertices
 
-    adj_list_t *a = init_adj_list(vertices);
-    add_edge(a, 0, 'A', 1, 'B');
-    add_edge(a, 0, 'A', 2, 'C');
-    add_edge(a, 0, 'A', 3, 'D');
-    add_edge(a, 1, 'B', 2, 'C');
-    add_edge(a, 4, 'E', 2, 'C');
+    graph_t *g = init_graph(vertices, vertices, false);
+    add_node(g, 0, "A", 1, "B", 0);
+    add_node(g, 0, "A", 2, "C", 0);
+    add_node(g, 0, "A", 3, "D", 0);
+    add_node(g, 1, "B", 2, "C", 0);
+    add_node(g, 4, "E", 2, "C", 0);
 
 	/* specify steps and path */ 
     int steps = 10;
     int path[steps];
 	int path2[steps]; 
-    int *result = random_walk(a, 0, steps, path);
+    int *result = random_walk(g, 0, steps, path);
 	sleep(1); // random seed is based off time, wait one second for random numbers 
-	int *result2 = random_walk(a, 0, steps, path2); 
+	int *result2 = random_walk(g, 0, steps, path2); 
 
 	int equality_status = TRUE; 
     for(int i = 0; i < steps; i++) {
@@ -78,20 +78,20 @@ void test_random_walk() {
 	}
 
 	/* what happens if the steps aren't equal? */
-    adj_list_t *a1 = init_adj_list(vertices);
-    add_edge(a1, 0, 'A', 1, 'B');
-    add_edge(a1, 0, 'A', 2, 'C');
-    add_edge(a1, 0, 'A', 3, 'D');
-    add_edge(a1, 1, 'B', 2, 'C');
-    add_edge(a1, 4, 'E', 2, 'C');
+    graph_t *g1 = init_graph(vertices, vertices, false);
+    add_node(g1, 0, "A", 1, "B", 0);
+    add_node(g1, 0, "A", 2, "C", 0);
+    add_node(g1, 0, "A", 3, "D", 0);
+    add_node(g1, 1, "B", 2, "C", 0);
+    add_node(g1, 4, "E", 2, "C", 0);
 
     steps = 5;
     int path3[steps];
 	int path4[4];
 
-    int *result3 = random_walk(a1, 0, steps, path3);
+    int *result3 = random_walk(g1, 0, steps, path3);
 	sleep(1); // random seed is based off time, wait one second for random numbers 
-	int *result4 = random_walk(a1, 0, steps, path4);
+	int *result4 = random_walk(g1, 0, steps, path4);
 
 	equality_status = TRUE; 
     for(int i = 0; i < steps; i++) {
@@ -118,12 +118,12 @@ void test_weighted_random_walk() {
     int vertices = 5; 
 
 	/* create weighted adjacency list */ 
-	w_adj_list_t *a = init_w_adj_list(5);
-	add_w_edge(a, 0, 'A', 1, 'B', 2);
-	add_w_edge(a, 0, 'A', 2, 'C', 1); 
-	add_w_edge(a, 0, 'A', 3, 'D', 1); 
-	add_w_edge(a, 1, 'B', 2, 'C', 2);
-	add_w_edge(a, 4, 'E', 2, 'C', 1);
+	graph_t *g = init_graph(vertices, vertices, false);
+	add_node(g, 0, "A", 1, "B", 2);
+	add_node(g, 0, "A", 2, "C", 1); 
+	add_node(g, 0, "A", 3, "D", 1); 
+	add_node(g, 1, "B", 2, "C", 2);
+	add_node(g, 4, "E", 2, "C", 1);
 
 	/* specific steps */ 
     int steps = 10;
@@ -132,12 +132,12 @@ void test_weighted_random_walk() {
 
 	/* create walk structure to output results as tuple */ 
 	walk_t *w = init_walk(steps);
-    walk_t *result = weighted_random_walk(a, w, 0);
+    walk_t *result = weighted_random_walk(g, w, 0);
 
 	/* iterate through walk results and check if sum matches path */ 
    	int test_sum = 0; 	
 	for(int i = 0; i < result->steps; i++) {
-	   	w_node_t *node = a->items[w->path[i]].head; 	
+	   	node_t *node = g->items[w->path[i]].head; 	
 		test_sum += node->weight; 
 	}
 
