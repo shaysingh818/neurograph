@@ -76,7 +76,6 @@ jobs:
     steps:
 
     - name: Install setuptools
-      uses: actions/checkout@v2
       working-directory: dgraph/
       run: pip install setuptools
 
