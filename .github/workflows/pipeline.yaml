@@ -84,6 +84,10 @@ jobs:
         working-directory: dgraph/
         run: pip install wheel
 
+      - name: Install Python Package
+        working-directory: dgraph/
+        run: python setup.py sdist bdist_wheel
+
       - name: Test Graph Construct
         working-directory: dgraph/tests/
         run: python -m unittest -v test_graph
