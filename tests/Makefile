@@ -1,37 +1,62 @@
 BIN=bin
 CC=gcc
 TARGET=../target/unit_test
+LEAK_TARGET=../target/leak_test
 
 # Header files
 MATRIX_HEADER = includes/matrix_test.h
 GRAPH_HEADER = includes/graph_test.h
 QUEUE_HEADER = includes/queue_test.h
-UTILITY_HEADER_FILES = $(MATRIX_HEADER) $(GRAPH_HEADER) $(QUEUE_HEADER)
+MAP_HEADER = includes/map_test.h
+UTILITY_HEADER_FILES = $(MATRIX_HEADER) $(GRAPH_HEADER) $(QUEUE_HEADER) $(MAP_HEADER)
 
 # Extension header files
+CSV_HEADER = includes/csv_test.h
 PATH_HEADER = includes/path_test.h
 COMMUNITY_HEADER = includes/community_test.h
 SEARCH_HEADER = includes/search_test.h
-EXTENSION_HEADER_FILES = $(PATH_HEADER) $(COMMUNITY_HEADER) $(SEARCH_HEADER)
+EXTENSION_HEADER_FILES = $(CSV_HEADER) $(PATH_HEADER) $(COMMUNITY_HEADER) $(SEARCH_HEADER)
 
 # Object files (For test cases)
 PATH_OBJS = path_test.o path.o
+CSV_OBJS = csv_test.o csv.o
 COMMUNITY_OBJS = community_test.o community.o
 SEARCH_OBJS = search_test.o search.o
-EXTENSION_OBJECT_FILES = $(PATH_OBJS) $(COMMUNITY_OBJS) $(SEARCH_OBJS)
+EXTENSION_OBJECT_FILES = $(CSV_OBJS) $(PATH_OBJS) $(COMMUNITY_OBJS) $(SEARCH_OBJS)
 
 GRAPH_OBJS = graph_test.o graph.o node.o
 QUEUE_OBJS = queue_test.o queue.o
 MATRIX_OBJS = matrix_test.o matrix.o
-OBJECT_FILES = $(GRAPH_OBJS) $(QUEUE_OBJS) $(MATRIX_OBJS)
+MAP_OBJS = map_test.o map.o
+OBJECT_FILES = $(GRAPH_OBJS) $(QUEUE_OBJS) $(MATRIX_OBJS) $(MAP_OBJS)
+
+LEAK_OBJECTS = $(CSV_OBJECTS) $(MAP_OBJS) $(GRAPH_OBJS)
 
 # Flags
 FLAGS = -lm -lpthread
 
-all: main.o $(OBJECT_FILES) $(EXTENSION_OBJECT_FILES)
-	gcc -o $(TARGET) main.o $(OBJECT_FILES) $(EXTENSION_OBJECT_FILES) $(FLAGS)
+all: test_suit leak_suit
 
 # extensions off the graph library
+
+test_suit: main.o $(OBJECT_FILES) $(EXTENSION_OBJECT_FILES)
+	gcc -o $(TARGET) main.o $(OBJECT_FILES) $(EXTENSION_OBJECT_FILES) $(FLAGS)
+
+leak_suit: leak_test.o $(LEAK_OBJS)
+	gcc -o $(LEAK_TARGET) leak_test.o $(LEAK_OBJS) $(FLAGS)
+
+csv.o: ../src/csv.c ../src/includes/csv.h
+	gcc -c ../src/csv.c
+
+csv_test.o: csv_test.c includes/csv_test.h
+	gcc -c csv_test.c
+
+map.o: ../src/map.c ../src/includes/map.h
+	gcc -c ../src/map.c
+
+map_test.o: map_test.c includes/map_test.h
+	gcc -c map_test.c
+
 path.o: ../src/path.c ../src/includes/path.h
 	gcc -c ../src/path.c
 
@@ -75,6 +100,13 @@ matrix_test.o: matrix_test.c includes/matrix_test.h
 
 main.o: main.c $(UTILITY_HEADER_FILES) $(EXTENSION_HEADER_FILES)
 	gcc -c main.c
+
+# leak test
+leak_test.o: leak_test.c includes/leak_test.h
+	gcc -c leak_test.c
+
+leak.o: leak.c ../includes/leak_test.h $(CSV_HEADER)
+	gcc -c -g leak.c
 
 clean_binary:
 	rm $(TARGET)

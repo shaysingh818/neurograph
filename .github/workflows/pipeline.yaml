@@ -1,0 +1,89 @@
+name: Diffusion CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  # build source for unit tests
+  build-test-core:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build and Test Graph Package
+      working-directory: src/graph/
+      run: |
+        make
+        ./target/test_graph
+        make clean
+
+    - name: Build and Test CSV Package
+      working-directory: src/csv/
+      run: |
+        make
+        ./target/test_csv
+        make clean
+    
+    - name: Build and Test Hashing Library
+      working-directory: src/map/
+      run: |
+        make
+        ./target/test_map
+        make clean
+    
+    - name: Build and Test Matrix Library
+      working-directory: src/matrice/
+      run: |
+        make
+        ./target/test_matrix
+        make clean
+
+    - name: Build and Test Queue Library
+      working-directory: src/queue/
+      run: |
+        make
+        ./target/test_queue
+        make clean
+
+    - name: Build Source
+      working-directory: src/
+      run: |
+        make
+        ../target/diffusion
+        make clean
+
+  # build shared objects
+  build-shared:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build and Test Shared
+      working-directory: dgraph/so_files
+      run: |
+        make
+        make clean
+      
+  # unit tests for python code base
+  build-dgraph:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install setuptools
+        working-directory: dgraph/
+        run: pip install setuptools
+
+      - name: Install wheel
+        working-directory: dgraph/
+        run: pip install wheel
+
+      - name: Test Graph Construct
+        working-directory: dgraph/tests/
+        run: python -m unittest -v test_graph

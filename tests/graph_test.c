@@ -1,31 +1,32 @@
 #include "includes/graph_test.h" 
 
-void test_adjacency_list() {
+void test_graph() {
 
 	/* test first example of bfs */ 
-	adj_list_t *a = init_adj_list(5);
-	add_edge(a, 0, 'A', 1, 'B');
-	add_edge(a, 0, 'A', 2, 'C'); 
-	add_edge(a, 0, 'A', 3, 'D'); 
-	add_edge(a, 1, 'B', 2, 'C');
-	add_edge(a, 4, 'E', 2, 'C');
+	graph_t *g = init_graph(5, 5, false);
+	add_node(g, 0, "A", 1, "B", 0);
+	add_node(g, 0, "A", 2, "C", 0); 
+	add_node(g, 0, "A", 3, "D", 0); 
+	add_node(g, 1, "B", 2, "C", 0);
+	add_node(g, 4, "E", 2, "C", 0);
 
 	/* check that linked lists have the correct elements */ 
 	int adj_list_test = TRUE; 
-	char relationship_list[5][5] = {
-		{'B', 'C', 'D'}, 
-		{'A', 'C'},
-		{'A', 'B', 'E'},
-		{'A'},
-		{'C'}
+	char *relationship_list[5][5] = {
+		{"B", "C", "D"}, 
+		{"A", "C"},
+		{"A", "B", "E"},
+		{"A"},
+		{"C"}
 	}; 
 
 	/* iterate an scan against relationship list */ 
-	for(int i = 0; i < a->v; i++) {
-		node_t *head = a->items[i].head; 
+	for(int i = 0; i < g->v; i++) {
+		node_t *head = g->items[i].head; 
 		int node_index = 0; 
 		while(head) {
-			if(head->label != relationship_list[i][node_index]) {
+			int condition = strcmp(head->label, relationship_list[i][node_index]); 
+			if(condition != 0) {
 				adj_list_test = FALSE; 
 			}
 			head = head->next;
@@ -43,35 +44,36 @@ void test_adjacency_list() {
 }
 
 
-void test_weighted_adjacency_list() {
+void test_weighted_graph() {
 
 	/* test first example of bfs */ 
-	w_adj_list_t *a = init_w_adj_list(5);
-	add_w_edge(a, 0, 'A', 1, 'B', 1);
-	add_w_edge(a, 0, 'A', 2, 'C', 1); 
-	add_w_edge(a, 0, 'A', 3, 'D', 1); 
-	add_w_edge(a, 1, 'B', 2, 'C', 1);
-	add_w_edge(a, 4, 'E', 2, 'C', 1);
+	graph_t *g = init_graph(5, 5, false);
+	add_node(g, 0, "A", 1, "B", 1);
+	add_node(g, 0, "A", 2, "C", 1); 
+	add_node(g, 0, "A", 3, "D", 1); 
+	add_node(g, 1, "B", 2, "C", 1);
+	add_node(g, 4, "E", 2, "C", 1);
 
 
 	/* check that linked lists have the correct elements */ 
 	int adj_list_test = TRUE; 
-	char relationship_list[5][5] = {
-		{'B', 'C', 'D'}, 
-		{'A', 'C'},
-		{'A', 'B', 'E'},
-		{'A'},
-		{'C'}
-	};
+	char *relationship_list[5][5] = {
+		{"B", "C", "D"}, 
+		{"A", "C"},
+		{"A", "B", "E"},
+		{"A"},
+		{"C"}
+	}; 
 
 	/* check that weights exist in adj list */ 
 
 	/* iterate an scan against relationship list */ 
-	for(int i = 0; i < a->v; i++) {
-		w_node_t *head = a->items[i].head; 
+	for(int i = 0; i < g->v; i++) {
+		node_t *head = g->items[i].head; 
 		int node_index = 0; 
 		while(head) {
-			if(head->label != relationship_list[i][node_index]) {
+			int condition = strcmp(head->label, relationship_list[i][node_index]); 
+			if(condition != 0) {
 				adj_list_test = FALSE; 
 			}
 			head = head->next;
@@ -87,45 +89,45 @@ void test_weighted_adjacency_list() {
 }
 
 
-void test_transpose_adj_list() {
+void test_transpose_graph() {
 
 	/* test tranpose of adjacency list */
     int vertices = 8; 
 	int adj_list_test = TRUE; 
 
 	/* create adjacency list */ 
-	adj_list_t *a = init_adj_list(vertices);
-	adj_list_t *result_list = init_adj_list(vertices); 
+	graph_t *g = init_graph(vertices, vertices, true);
+	graph_t *result_list = init_graph(vertices, vertices, true); 
 
 	/* first community */ 
-	add_directed_edge(a, 0, 'A', 1, 'B');
-	add_directed_edge(a, 1, 'B', 2, 'C');
-	add_directed_edge(a, 2, 'C', 3, 'D');
-	add_directed_edge(a, 3, 'D', 0, 'A');
+	add_node(g, 0, "A", 1, "B", 0);
+	add_node(g, 1, "B", 2, "C", 0);
+	add_node(g, 2, "C", 3, "D", 0);
+	add_node(g, 3, "D", 0, "A", 0);
 
 	/* bridge */ 
-	add_directed_edge(a, 2, 'C', 4, 'E');
+	add_node(g, 2, "C", 4, "E", 0);
 
 	/* second community */ 
-	add_directed_edge(a, 4, 'E', 5, 'F');
-	add_directed_edge(a, 5, 'F', 6, 'G');
-	add_directed_edge(a, 6, 'G', 4, 'E');
-	add_directed_edge(a, 6, 'G', 7, 'H');
-	add_directed_edge(a, 7, 'H', 7, 'H');
+	add_node(g, 4, "E", 5, "F", 0);
+	add_node(g, 5, "F", 6, "G", 0);
+	add_node(g, 6, "G", 4, "E", 0);
+	add_node(g, 6, "G", 7, "H", 0);
+	add_node(g, 7, "H", 7, "H", 0);
 
 	/* call the tranpose method */ 
-	adj_list_t *result = transpose_adj(a, result_list); 
+	graph_t *result = transpose_items(g, result_list); 
 
 	/* expected neighors output */
-	char relationship_list[8][8] = {
-		{'D'}, 
-		{'A'},
-		{'B'},
-		{'C'},
-		{'C', 'G'},
-		{'E'}, 
-		{'F'}, 
-		{'G', 'H'}, 
+	char *relationship_list[8][8] = {
+		{"D"}, 
+		{"A"},
+		{"B"},
+		{"C"},
+		{"C", "G"},
+		{"E"}, 
+		{"F"}, 
+		{"G", "H"}, 
 	};
 
 	/* compare the results of input and output adj list */
@@ -135,10 +137,10 @@ void test_transpose_adj_list() {
 		while(head) {
 
 			/* check if values are equal */ 
-			if(head->label != relationship_list[i][node_index]) {
+			int condition = strcmp(head->label, relationship_list[i][node_index]); 
+			if(condition != 0) {
 				adj_list_test = FALSE; 
 			}
-
 			head = head->next; 
 			node_index += 1; 
 		}
@@ -173,27 +175,27 @@ void test_to_matrix() {
 	};	
 
 	/* create adjacency list */ 
-	adj_list_t *a = init_adj_list(vertices);
+	graph_t *g = init_graph(vertices, vertices, false);
 	mat_t *result = init_mat(vertices, vertices); 
 
 	/* first community */ 
-	add_directed_edge(a, 0, 'A', 1, 'B');
-	add_directed_edge(a, 1, 'B', 2, 'C');
-	add_directed_edge(a, 2, 'C', 3, 'D');
-	add_directed_edge(a, 3, 'D', 0, 'A');
+	add_node(g, 0, "A", 1, "B", 0);
+	add_node(g, 1, "B", 2, "C", 0);
+	add_node(g, 2, "C", 3, "D", 0);
+	add_node(g, 3, "D", 0, "A", 0);
 
 	/* bridge */ 
-	add_directed_edge(a, 2, 'C', 4, 'E');
+	add_node(g, 2, "C", 4, "E", 0);
 
 	/* second community */ 
-	add_directed_edge(a, 4, 'E', 5, 'F');
-	add_directed_edge(a, 5, 'F', 6, 'G');
-	add_directed_edge(a, 6, 'G', 4, 'E');
-	add_directed_edge(a, 6, 'G', 7, 'H');
-	add_directed_edge(a, 7, 'H', 7, 'H');
+	add_node(g, 4, "E", 5, "F", 0);
+	add_node(g, 5, "F", 6, "G", 0);
+	add_node(g, 6, "G", 4, "E", 0);
+	add_node(g, 6, "G", 7, "H", 0);
+	add_node(g, 7, "H", 7, "H", 0);
 
 	/* test to regular matrix conversion */ 
-	mat_t *output = to_matrix(result, a);
+	mat_t *output = to_matrix(result, g);
 
 	/* check output */ 
 	for(int i = 0; i < vertices; i++) {
@@ -234,27 +236,27 @@ void test_to_directed_matrix() {
 	};	
 
 	/* create adjacency list */ 
-	adj_list_t *a = init_adj_list(vertices);
+	graph_t *g = init_graph(vertices, vertices, true);
 	mat_t *result = init_mat(vertices, vertices); 
 
 	/* first community */ 
-	add_directed_edge(a, 0, 'A', 1, 'B');
-	add_directed_edge(a, 1, 'B', 2, 'C');
-	add_directed_edge(a, 2, 'C', 3, 'D');
-	add_directed_edge(a, 3, 'D', 0, 'A');
+	add_node(g, 0, "A", 1, "B", 0);
+	add_node(g, 1, "B", 2, "C", 0);
+	add_node(g, 2, "C", 3, "D", 0);
+	add_node(g, 3, "D", 0, "A", 0);
 
 	/* bridge */ 
-	add_directed_edge(a, 2, 'C', 4, 'E');
+	add_node(g, 2, "C", 4, "E", 0);
 
 	/* second community */ 
-	add_directed_edge(a, 4, 'E', 5, 'F');
-	add_directed_edge(a, 5, 'F', 6, 'G');
-	add_directed_edge(a, 6, 'G', 4, 'E');
-	add_directed_edge(a, 6, 'G', 7, 'H');
-	add_directed_edge(a, 7, 'H', 7, 'H');
+	add_node(g, 4, "E", 5, "F", 0);
+	add_node(g, 5, "F", 6, "G", 0);
+	add_node(g, 6, "G", 4, "E", 0);
+	add_node(g, 6, "G", 7, "H", 0);
+	add_node(g, 7, "H", 7, "H", 0);
 
 	/* test directed matrix conversion */ 
-	mat_t *output = to_directed_matrix(result, a);
+	mat_t *output = to_directed_matrix(result, g);
 
 	/* check output */ 
 	for(int i = 0; i < vertices; i++) {
@@ -289,19 +291,19 @@ void test_to_weighted_matrix() {
 	};	
 
 	/* create adj lists */ 
-	w_adj_list_t *a = init_w_adj_list(vertices);
+	graph_t *g = init_graph(vertices, vertices, false);
 	mat_t *result = init_mat(vertices, vertices);
 
 	/* build graph */ 
-	add_w_edge(a, 0, 'A', 1, 'B', 1);
-	add_w_edge(a, 0, 'A', 2, 'C', 2); 
-	add_w_edge(a, 0, 'A', 3, 'D', 3); 
-	add_w_edge(a, 1, 'B', 2, 'C', 4);
-	add_w_edge(a, 4, 'E', 2, 'C', 5);
+	add_node(g, 0, "A", 1, "B", 1);
+	add_node(g, 0, "A", 2, "C", 2); 
+	add_node(g, 0, "A", 3, "D", 3); 
+	add_node(g, 1, "B", 2, "C", 4);
+	add_node(g, 4, "E", 2, "C", 5);
 
 
 	/* test directed matrix conversion */ 
-	mat_t *output = to_weighted_matrix(result, a);
+	mat_t *output = to_weighted_matrix(result, g);
 
 	/* check output */ 
 	for(int i = 0; i < vertices; i++) {
@@ -340,27 +342,27 @@ void test_to_directed_weighted_matrix() {
 	};	
 
 	/* test first example of weighted matrix */ 
-	w_adj_list_t *a = init_w_adj_list(8);
+	graph_t *g = init_graph(vertices, vertices, true);
 	mat_t *result = init_mat(vertices, vertices);
 
 	/* first community */ 
-	add_directed_weighted_edge(a, 0, 'A', 1, 'B', 1);
-	add_directed_weighted_edge(a, 1, 'B', 2, 'C', 2);
-	add_directed_weighted_edge(a, 2, 'C', 3, 'D', 3);
-	add_directed_weighted_edge(a, 3, 'D', 0, 'A', 4);
+	add_node(g, 0, "A", 1, "B", 1);
+	add_node(g, 1, "B", 2, "C", 2);
+	add_node(g, 2, "C", 3, "D", 3);
+	add_node(g, 3, "D", 0, "A", 4);
 
 	/* bridge */ 
-	add_directed_weighted_edge(a, 2, 'C', 4, 'E', 5);
+	add_node(g, 2, "C", 4, "E", 5);
 
 	/* second community */ 
-	add_directed_weighted_edge(a, 4, 'E', 5, 'F', 6);
-	add_directed_weighted_edge(a, 5, 'F', 6, 'G', 7);
-	add_directed_weighted_edge(a, 6, 'G', 4, 'E', 8);
-	add_directed_weighted_edge(a, 6, 'G', 7, 'H', 9);
-	add_directed_weighted_edge(a, 7, 'H', 7, 'H', 10);
+	add_node(g, 4, "E", 5, "F", 6);
+	add_node(g, 5, "F", 6, "G", 7);
+	add_node(g, 6, "G", 4, "E", 8);
+	add_node(g, 6, "G", 7, "H", 9);
+	add_node(g, 7, "H", 7, "H", 10);
 
 	/* test directed matrix conversion */ 
-	mat_t *output = to_directed_weighted_matrix(result, a);
+	mat_t *output = to_directed_weighted_matrix(result, g);
 
 	/* check output */ 
 	for(int i = 0; i < vertices; i++) {
@@ -388,7 +390,7 @@ void test_to_list() {
 	int equality_status = TRUE;
 
 	/* test first example of weighted matrix */ 
-	adj_list_t *a = init_adj_list(vertices);
+	graph_t *g = init_graph(vertices, vertices, true);
 	mat_t *m = init_mat(5, 5); 
 
 	/* build matrix */ 
@@ -399,24 +401,26 @@ void test_to_list() {
 	entry(m, 2, 3);
 
 	/* test directed matrix conversion */ 
-	adj_list_t *output = to_list(a, m);
+	graph_t *output = to_list(g, m);
 
 	/* expected relationships from adjacency list */ 
-	char relationship_list[5][5] = {
-		{'B', 'C'}, 
-		{'A', 'C'},
-		{'A', 'B', 'D'},
-		{'C'}
+	char *relationship_list[5][5] = {
+		{"B", "C"}, 
+		{"A", "C"},
+		{"A", "B", "D"},
+		{"C"}
 	};
 
 	/* iterate through list and match relationships */ 
-	for(int i = 0; i < a->v; i++) {
-		node_t *head = a->items[i].head; 
+	for(int i = 0; i < g->v; i++) {
+		node_t *head = g->items[i].head; 
 		int node_index = 0; 
 		while(head) {
-			if(head->label != relationship_list[i][node_index]) {
+			int condition = strcmp(head->label, relationship_list[i][node_index]); 
+			if(condition != 0) {
 				equality_status = FALSE; 
 			}
+
 			head = head->next;
 		   	node_index += 1; 
 		}	
@@ -437,7 +441,7 @@ void test_to_weighted_list() {
 	int equality_status = TRUE;
 
 	/* test first example of weighted matrix */ 
-	w_adj_list_t *a = init_w_adj_list(vertices);
+	graph_t *g = init_graph(vertices, vertices, false);
 	mat_t *m = init_mat(vertices, vertices);
 
 	/* build matrix */ 
@@ -456,17 +460,18 @@ void test_to_weighted_list() {
 	};
 
 	/* test directed matrix conversion */ 
-	w_adj_list_t *output = to_weighted_list(a, m);
-
+	graph_t *output = to_weighted_list(g, m);
 
 	/* iterate through list and match relationships */ 
-	for(int i = 0; i < a->v; i++) {
-		w_node_t *head = a->items[i].head; 
+	for(int i = 0; i < g->v; i++) {
+		node_t *head = g->items[i].head; 
 		int node_index = 0; 
 		while(head) {
 			if(head->weight != relationship_list[i][node_index]) {
-				equality_status = FALSE; 
+				equality_status = FALSE;
 			}
+
+
 			head = head->next;
 		   	node_index += 1; 
 		}	
@@ -489,7 +494,7 @@ void test_to_directed_list() {
 	int equality_status = TRUE;
 
 	/* test first example of weighted matrix */ 
-	w_adj_list_t *a = init_w_adj_list(8);
+	graph_t *g = init_graph(vertices, vertices, true);
 	mat_t *m = init_mat(vertices, vertices);
 
 	/* build matrix */ 
@@ -500,22 +505,22 @@ void test_to_directed_list() {
 	directed_entry(m, 2, 3);
 
 	/* expected relationships from adjacency list */ 
-	char relationship_list[5][6] = {
-		{'B', 'C', 'C'}, 
-		{'A', 'C'},
-		{'A', 'B', 'A', 'D'},
-		{'C'}
+	char *relationship_list[5][6] = {
+		{"B", "C"}, 
+		{"C"},
+		{"A","D"}
 	};
 
 	/* test directed matrix conversion */ 
-	w_adj_list_t *output = to_weighted_list(a, m);
+	graph_t *output = to_weighted_list(g, m);
 
 	/* iterate through list and match relationships */ 
-	for(int i = 0; i < a->v; i++) {
-		w_node_t *head = a->items[i].head; 
+	for(int i = 0; i < g->v; i++) {
+		node_t *head = g->items[i].head; 
 		int node_index = 0; 
 		while(head) {
-			if(head->label != relationship_list[i][node_index]) {
+			int condition = strcmp(head->label, relationship_list[i][node_index]); 
+			if(condition != 0) {
 				equality_status = FALSE; 
 			}
 			head = head->next;
@@ -539,7 +544,7 @@ void test_to_directed_weighted_list() {
 	int equality_status = TRUE;
 
 	/* test first example of weighted matrix */ 
-	w_adj_list_t *a = init_w_adj_list(8);
+	graph_t *g = init_graph(vertices, vertices, true);
 	mat_t *m = init_mat(vertices, vertices);
 
 	/* build matrix */ 
@@ -550,21 +555,22 @@ void test_to_directed_weighted_list() {
 	directed_weighted_entry(m, 2, 3, 5);
 
 	/* expected relationships from adjacency list */ 
-	char relationship_list[5][5] = {
-		{'B', 'C'}, 
-		{'C'},
-		{'A','D'}
+	char *relationship_list[5][5] = {
+		{"B", "C"}, 
+		{"C"},
+		{"A","D"}
 	};
 
 	/* test directed matrix conversion */ 
-	w_adj_list_t *output = to_directed_weighted_list(a, m);
+	graph_t *output = to_directed_weighted_list(g, m);
 
 	/* iterate through list and match relationships */ 
-	for(int i = 0; i < a->v; i++) {
-		w_node_t *head = a->items[i].head; 
+	for(int i = 0; i < g->v; i++) {
+		node_t *head = g->items[i].head; 
 		int node_index = 0; 
 		while(head) {
-			if(head->label != relationship_list[i][node_index]) {
+			int condition = strcmp(head->label, relationship_list[i][node_index]); 
+			if(condition != 0) {
 				equality_status = FALSE; 
 			}
 			head = head->next;
