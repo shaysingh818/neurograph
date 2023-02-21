@@ -24,7 +24,7 @@ void print_matrix(mat_t *m);
 /* graph methods */
 void bfs_mat(mat_t *m, int value); 
 void dfs_mat(mat_t *m, int value); 
-void degree_centrality(mat_t *m, int value); 
+void degree_centrality_mat(mat_t *m, int value); 
 
 #endif
 
