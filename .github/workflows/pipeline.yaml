@@ -74,11 +74,12 @@ jobs:
   build-dgraph:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
 
-    - name: Install setuptools
-      working-directory: dgraph/
-      run: pip install setuptools
+      - name: Install setuptools
+        working-directory: dgraph/
+        run: pip install setuptools
 
-    - name: Test Graph Construct
-      working-directory: dgraph/tests/
-      run: python -m unittest -v test_graph
+      - name: Test Graph Construct
+        working-directory: dgraph/tests/
+        run: python -m unittest -v test_graph
