@@ -65,7 +65,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Build and Test Shared
-      working-directory: dgraph/so_files/
+      working-directory: dgraph/so_files
       run: |
         make
         make clean
@@ -74,11 +74,8 @@ jobs:
   build-dgraph:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
 
     - name: Install setuptools
-      uses: actions/checkout@v2
       working-directory: dgraph/
       run: pip install setuptools
 
