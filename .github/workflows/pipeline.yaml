@@ -76,7 +76,8 @@ jobs:
     steps:
 
     - name: Install setuptools
-      working-directory: dgraph
+      uses: actions/checkout@v2
+      working-directory: dgraph/
       run: pip install setuptools
 
     - name: Test Graph Construct
