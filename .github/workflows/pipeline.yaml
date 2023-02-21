@@ -77,6 +77,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Install setuptools
+      uses: actions/checkout@v2
+      working-directory: dgraph/
+      run: pip install setuptools
+
     - name: Test Graph Construct
       working-directory: dgraph/tests/
       run: python -m unittest -v test_graph
