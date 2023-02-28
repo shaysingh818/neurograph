@@ -130,11 +130,11 @@ void test_front_rear() {
     push(q, item4);
     push(q, item5);
 
-	item_t *front_item = front(q); 
-	item_t *rear_item = rear(q);
+	int front_index = front(q); 
+	int rear_index = rear(q); 
 
-	bool front_condition = front_item->integer == 1; 
-	bool rear_condition = rear_item->integer == 5; 
+	bool front_condition = q->items[front_index]->integer == 1; 
+	bool rear_condition = q->items[rear_index]->integer == 5; 
 
 	if(front_condition && rear_condition) {
 		equality_status = true; 
