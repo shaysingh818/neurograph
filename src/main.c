@@ -41,16 +41,6 @@ int main(int argc, char **argv) {
     node_t *node2 = create_node(2, "B", 0); 
     node_t *node3 = create_node(3, "C", 0); 
     
-    /* test if queue works */ 
-    queue_t *q = init_queue(5); 
-    push(q, node1); 
-    push(q, node2); 
-    push(q, node3);
-	
-	printf("Queue library test\n");
-	print_queue(q);
-
-	printf("\n"); 
 
 	/* csv library */
    	csv_t *file = csv_init("../examples/data/test.csv", FILE_BUFFER_SIZE, 4);

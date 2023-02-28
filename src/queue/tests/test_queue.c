@@ -1,71 +1,150 @@
 
 #include "includes/test_queue.h"
 
+
 void test_init_queue(){
 
+	int count = 5; 
+	bool equality_status = false; 
+
 	/* create nodes */ 
-    node_t *node1 = create_node(1, "A", 0); 
-    node_t *node2 = create_node(2, "B", 0); 
-    node_t *node3 = create_node(3, "C", 0); 
-    
+    item_t *item1 = init_item(1, "String Item 1", 0, NULL);  
+    item_t *item2 = init_item(2, "String Item 2 ", 0, NULL); 
+    item_t *item3 = init_item(3, "String Item 3 ", 0, NULL); 
+    item_t *item4 = init_item(4, "String Item 4", 0, NULL); 
+    item_t *item5 = init_item(5, "String Item 5", 0, NULL); 
+
     /* test if queue works */ 
-    queue_t *q = init_queue(5); 
-    push(q, node1); 
-    push(q, node2); 
-    push(q, node3);
+    queue_t *q = init_queue(count); 
+    push(q, item1);
+    push(q, item2); 
+    push(q, item3); 
+    push(q, item4); 
+    push(q, item5);
 
-	/* scan results and check against queue */ 
-	int result = true; 
-	int queue_results[3] = {1,2,3}; 
-	for(int i = q->front_index; i <= q->rear_index; i++){
-		if(q->items[i]->id != queue_results[i]) {
-			result = false; 
-		}
-	}	
+	if(q->item_count == count){
+		equality_status = true; 
+	}
 
-	/* validate results */
-    if(!result) {
-        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
-    }
-    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+	if(!equality_status) {
+		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+	}
+}
+
+void test_is_full() {
+
+	int count = 5; 
+	bool equality_status = false; 
+
+	/* create nodes */ 
+    item_t *item1 = init_item(1, "String Item 1", 0, NULL);  
+    item_t *item2 = init_item(2, "String Item 2 ", 0, NULL); 
+    item_t *item3 = init_item(3, "String Item 3 ", 0, NULL); 
+    item_t *item4 = init_item(4, "String Item 4", 0, NULL); 
+    item_t *item5 = init_item(5, "String Item 5", 0, NULL); 
+
+    /* test if queue works */ 
+    queue_t *q = init_queue(count); 
+    push(q, item1);
+    push(q, item2); 
+    push(q, item3); 
+    push(q, item4);
+
+	/* should not be full at this point */
+	bool result = is_full(q);
+	if(result) {
+		equality_status = false; 
+	}
+
+	/* last insert here makes it full*/
+    push(q, item5);
+
+	result = is_full(q); 
+	if(result){
+		equality_status = true; 
+	}
+
+	if(!equality_status) {
+		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+	}
 
 }
 
+void test_is_empty(){
 
-void test_pop_queue(){
+	int count = 5; 
+	bool equality_status = false; 
 
 	/* create nodes */ 
-    node_t *node1 = create_node(1, "A", 0); 
-    node_t *node2 = create_node(2, "B", 0); 
-    node_t *node3 = create_node(3, "C", 0); 
-    
+    item_t *item1 = init_item(1, "String Item 1", 0, NULL);  
+    item_t *item2 = init_item(2, "String Item 2 ", 0, NULL); 
+    item_t *item3 = init_item(3, "String Item 3 ", 0, NULL); 
+    item_t *item4 = init_item(4, "String Item 4", 0, NULL); 
+    item_t *item5 = init_item(5, "String Item 5", 0, NULL); 
+
     /* test if queue works */ 
-    queue_t *q = init_queue(5); 
-    push(q, node1); 
-    push(q, node2); 
-    push(q, node3);
+    queue_t *q = init_queue(count); 
+    push(q, item1);
+    push(q, item2); 
+    push(q, item3); 
+    push(q, item4);
 
-	/* pop queue */ 
-	pop(q); 
-
-	/* scan results and check against queue */ 
-	int result = true;
-   	int result_index = 0; 	
-	char *queue_results[2] = {"B","C"}; 
-	for(int i = q->front_index; i <= q->rear_index; i++){
-		int condition = strcmp(q->items[i]->label, queue_results[result_index]);
-		if(condition != 0) {
-			result = false; 
-		}
-		result_index += 1; 
+	for(int i = 0; i < count; i++){
+		pop(q); 
 	}
 
+	bool result = is_empty(q);
+	if(result){
+		equality_status = true; 
+	}
 
-	/* validate results */
-    if(!result) {
-        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
-    }
-    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+	if(!equality_status) {
+		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+	}
+
+}
+
+void test_front_rear() {
+
+	int count = 5; 
+	bool equality_status = false; 
+
+	/* create nodes */ 
+    item_t *item1 = init_item(1, "String Item 1", 0, NULL);  
+    item_t *item2 = init_item(2, "String Item 2 ", 0, NULL); 
+    item_t *item3 = init_item(3, "String Item 3 ", 0, NULL); 
+    item_t *item4 = init_item(4, "String Item 4", 0, NULL); 
+    item_t *item5 = init_item(5, "String Item 5", 0, NULL); 
+
+    /* test if queue works */ 
+    queue_t *q = init_queue(count); 
+    push(q, item1);
+    push(q, item2); 
+    push(q, item3); 
+    push(q, item4);
+    push(q, item5);
+
+	item_t *front_item = front(q); 
+	item_t *rear_item = rear(q);
+
+	bool front_condition = front_item->integer == 1; 
+	bool rear_condition = rear_item->integer == 5; 
+
+	if(front_condition && rear_condition) {
+		equality_status = true; 
+	}
+
+	if(!equality_status) {
+		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+	}
 
 }
 

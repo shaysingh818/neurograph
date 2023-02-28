@@ -27,6 +27,8 @@ int main(int argc, char **argv) {
 
 	/* path finding */
 	test_bellman_ford();
+	test_dijkstra();
+	test_dijkstra_two();  
    	test_random_walk();
 	test_weighted_random_walk();
 
