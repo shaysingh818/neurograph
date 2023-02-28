@@ -41,6 +41,55 @@ int *bellman_ford(graph_t *g, node_t *root, int *dist) {
 }
 
 
+
+
+int *dijkstra(graph_t *g, int start_vertex) {
+	
+	/* start and current node */ 
+	node_t *start = g->items[start_vertex].head;
+	int *dist = malloc(g->v * sizeof(int));
+	int *prev = malloc(g->v * sizeof(int)); 
+	int *s = malloc(g->v * sizeof(int)); 
+
+	/* create queue using int values */ 
+	queue_t *q = init_queue(g->v); 
+
+	for(int i = 0; i < g->v; i++) {
+	   	if(i != start_vertex) {
+			dist[i] = INT_MAX; 
+			prev[i] = NULL; 	
+		}
+	}
+
+	/* push start vertex to front of queue */
+	item_t *start_item = init_item(start_vertex, start->label, 0, start); 
+	push(q, start_item); 
+	dist[start_vertex] = 0; 
+
+	while(!is_empty(q)) {
+
+		/* get minimum distance */
+		int u = q->items[q->front_index]->integer; 
+		pop(q);  
+
+		node_t *head = g->items[u].head; 
+		while(head) {
+
+			int x = dist[u] + head->weight; 
+			if(dist[head->id] > dist[u] + head->weight) {
+				dist[head->id] = dist[u] + head->weight;
+				prev[head->id] = u; 
+				item_t *temp = init_item(head->id, head->label, 0, head); 
+				push(q, temp); 
+			}
+			head = head->next; 
+		}
+	}
+
+	return dist; 
+}	
+
+
 int *random_walk(graph_t *g, int start_vertex, int steps, int *path) {
 
 	/* variables */ 	

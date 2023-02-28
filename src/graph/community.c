@@ -92,7 +92,8 @@ int **kosaraju(graph_t *g, int start_vertex) {
 
 	/* perform DFS on transposed graph */
 	node_t *t_head = g->items[6].head;
-	push(q1, head); //push head node before
+	item_t *queue_item = init_item(head->id, head->label, 0, head); 
+	push(q1, queue_item); //push head node before
 	int transpose_result = dfs(q1, transpose, t_head); 
 
 	/* mark all as unvisited */ 
@@ -108,15 +109,15 @@ int **kosaraju(graph_t *g, int start_vertex) {
 
 	/* pop stack and find components */ 
    	while(!is_empty(q)) {
-		node_t *item = q->items[q->front_index]; 
+		item_t *item = q->items[q->front_index]; 
 		pop(q);
-	   	if(!transpose->visited[item->id]) {
+	   	if(!transpose->visited[item->node->id]) {
 			queue_t *q2 = init_queue(g->v);
-			int transpose_result = k_dfs(q2, transpose, item);
+			int transpose_result = k_dfs(q2, transpose, item->node);
 
 			/* get results from queue */ 
 			for(int i = q2->front_index; i <= q2->rear_index; i++) {
-				communities[num_components][i] = q2->items[i]->id;
+				communities[num_components][i] = q2->items[i]->node->id;
 			}
 			num_components += 1; 
 		}	
@@ -124,3 +125,25 @@ int **kosaraju(graph_t *g, int start_vertex) {
 	
 	return communities; 
 }
+
+
+int closeness_centrality(graph_t *g, node_t *root){
+
+	/* sum of all distances to other nodes */ 
+	/* based on calculating shortest paths between all pairs of nodes */ 
+
+	/* traverse adjacency list */ 
+	for(int i = 0; i < g->v; i++){
+
+		/* get distance of current node and all other nodes */
+		int dist = 0; 
+
+	}
+
+	return 0; 
+
+	
+
+	
+} 
+
