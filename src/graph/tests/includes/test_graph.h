@@ -8,6 +8,7 @@
 void test_graph();
 void test_weighted_graph(); 
 void test_transpose_graph();
+void test_get_node_by_id(); 
 
 /* test conversion methods */ 
 void test_to_matrix();

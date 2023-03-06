@@ -126,24 +126,43 @@ int **kosaraju(graph_t *g, int start_vertex) {
 	return communities; 
 }
 
+/*
+1. smell
+2. see 
+3 4 6 : move eyes
+5 : sensation (chewing)
+7: blowing kisses (frowning facial expressions)
+8: Hearing
+9. Gag reflex
+10. Gastro, esophogeal tract, lungs heart
+11. Accessory (Shrugging of)
+12: Sticking out (tounge) 
+*/
 
-int closeness_centrality(graph_t *g, node_t *root){
+float closeness_centrality(graph_t *g, int vertex){
 
-	/* sum of all distances to other nodes */ 
-	/* based on calculating shortest paths between all pairs of nodes */ 
-
+	int sum = 0; 
 	/* traverse adjacency list */ 
 	for(int i = 0; i < g->v; i++){
-
-		/* get distance of current node and all other nodes */
-		int dist = 0; 
-
+		int dist = shortest_path(g, vertex, i);
+		sum += dist;  
 	}
 
-	return 0; 
-
+	return (float)1 / (float)sum; 
 	
+}
 
-	
-} 
+
+float normalized_closeness_centrality(graph_t *g, int vertex){
+
+	int sum = 0; 
+	/* traverse adjacency list */ 
+	for(int i = 0; i < g->v; i++){
+		int dist = shortest_path(g, vertex, i);
+		sum += dist;  
+	}
+
+	int n = g->v - 1; 
+	return (float)n / (float)sum; 
+}  
 

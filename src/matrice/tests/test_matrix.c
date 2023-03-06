@@ -2,32 +2,74 @@
 
 void test_init_matrix(){
 
+	int equality_status = true; 
+
 	/* create adjacency matrix graph with size 5 */ 
-	mat_t *m = init_mat(5, 5); 
-	entry(m, 0, 1); 
-	entry(m, 0, 2); 
-	entry(m, 1, 2); 
-	entry(m, 2, 0); 
-	entry(m, 2, 3);
+	mat_t *m = init_matrice_graph(5); 
 
-	/* expected output */ 
-	int equality_status = TRUE; 
-	int check_matrix[5][5] = {
-		{0, 1, 1, 0, 0}, 
-		{1, 0, 1, 0, 0},
-		{1, 1, 0, 1, 0},
-		{0, 0, 1, 0, 0},
-		{0, 0, 0, 0, 0}
-	}; 
+    /* create unique nodes */
+    entry_t *a = init_entry(0, "A"); 
+    entry_t *b = init_entry(1, "B"); 
+    entry_t *c = init_entry(2, "C"); 
+    entry_t *d = init_entry(3, "D"); 
 
-	/* test if matrice values are correct */ 
-	for(int i = 0; i < m->vertices; i++) {
-        for(int j = 0; j < m->edges; j++){
-			if(m->arr[i][j] != check_matrix[i][j]) {
-				equality_status = FALSE; 
-			}
-        }
+	/* connect a to everyone */ 
+    insert(m, a, b, 0, false); 
+    insert(m, a, c, 0, false); 
+    insert(m, b, c, 0, false); 
+    insert(m, b, d, 0, false); 
+    insert(m, c, d, 0, false); 
+
+    print_matrix_labels(m); 
+
+	char *relationship_list[5][5] = {
+		{"B", "C"}, 
+		{"A", "C", "D"},
+		{"A", "B", "D"},
+		{"B", "C"},
+        {}
+	};
+
+
+
+	/* validate results */
+    if(!equality_status) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
     }
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+
+}
+
+
+void test_directed_matrix() {
+
+	int equality_status = true; 
+
+	/* create adjacency matrix graph with size 5 */ 
+	mat_t *m = init_matrice_graph(5); 
+
+    /* create unique nodes */
+    entry_t *a = init_entry(0, "A"); 
+    entry_t *b = init_entry(1, "B"); 
+    entry_t *c = init_entry(2, "C"); 
+    entry_t *d = init_entry(3, "D"); 
+
+	/* connect a to everyone */ 
+    insert(m, a, b, 0, true); 
+    insert(m, a, c, 0, true); 
+    insert(m, b, c, 0, true); 
+    insert(m, b, d, 0, true); 
+    insert(m, c, d, 0, true); 
+
+    print_matrix_labels(m); 
+
+	char *relationship_list[5][5] = {
+		{"B", "C"}, 
+		{"C", "D"},
+		{"D"},
+        {},
+        {}
+	};
 
 	/* validate results */
     if(!equality_status) {

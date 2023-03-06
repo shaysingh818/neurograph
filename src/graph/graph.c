@@ -65,119 +65,42 @@ graph_t *transpose_items(graph_t *g, graph_t *r) {
 }
 
 
-mat_t *to_matrix(mat_t *m, graph_t *g) {
+mat_t *to_matrix(mat_t *m, graph_t *g, bool directed) {
 	
-	/* iterate through list and populate matrix */ 
+	/* iterate through list and populate matrix */
 	for(int i = 0; i < g->v; i++) {
-		int index_counter = 0; 
+
 		node_t *head = g->items[i].head;
+		node_t *src_node = get_node_by_id(g, i); 
+
 		while(head) {
-			entry(m, i, head->id); 
-			head  = head->next;
-		}
-	}
-	return m; 
-}
 
+			entry_t *src = init_entry(src_node->id, src_node->label); 
+			entry_t *dst = init_entry(head->id, head->label); 
 
-
-mat_t *to_weighted_matrix(mat_t *m, graph_t *g) {
-	
-	/* iterate through list and populate matrix */ 
-	for(int i = 0; i < g->v; i++) {
-		int index_counter = 0; 
-		node_t *head = g->items[i].head;
-		while(head) {
-			weighted_entry(m, i, head->id, head->weight); 
-			head  = head->next;
-		}
-	}
-	return m; 
-}
-
-
-mat_t *to_directed_matrix(mat_t *m, graph_t *g) {
-	
-	/* iterate through list and populate matrix */ 
-	for(int i = 0; i < g->v; i++) {
-		int index_counter = 0; 
-		node_t *head = g->items[i].head;
-		while(head) {
-			directed_entry(m, i, head->id); 
-			head  = head->next;
-		}
-	}
-	return m; 
-}
-
-
-
-mat_t *to_directed_weighted_matrix(mat_t *m, graph_t *g) {
-	
-	/* iterate through list and populate matrix */ 
-	for(int i = 0; i < g->v; i++) {
-		int index_counter = 0; 
-		node_t *head = g->items[i].head;
-		while(head) {
-			directed_weighted_entry(m, i, head->id, head->weight); 
-			head  = head->next;
-		}
-	}
-	return m; 
-}
-
-
-graph_t *to_list(graph_t *g, mat_t *m) {
-
-	/* unique labels for each node */ 	
-	char *label_list[8] = {"A", "B", "C", "D", "E", "F", "G", "H"}; 	
-	for(int i = 0; i < m->vertices; i++) {
-		for(int j = 0; j < m->edges; j++) {
-			if(m->arr[i][j] != 0) {
-				add_node(g, i, label_list[i], j, label_list[j], 0); 
+			if(directed) {
+				insert(m, src, dst, head->weight, true); 
+			} else {
+				insert(m, src, dst, head->weight, false); 
 			}
+
+			head  = head->next;
 		}
 	}
-
-	return g; 
+	return m; 
 }
 
 
-
-graph_t *to_weighted_list(graph_t *g, mat_t *m) {
-
-	/* unique labels for each node */ 	
-	char *label_list[8] = {"A", "B", "C", "D", "E", "F", "G", "H"}; 	
-
-	for(int i = 0; i < m->vertices; i++) {
-		for(int j = 0; j < m->edges; j++) {
-			if(m->arr[i][j] != 0) {
-				add_node(
-					g, i, label_list[i], 
-					j, label_list[j],
-					m->arr[i][j]
-				); 
-			}
-		}
-	}
-
-	return g; 
-}
-
-
-graph_t *to_directed_weighted_list(graph_t *g, mat_t *m) {
+graph_t *to_list(graph_t *g, mat_t *m, bool directed) {
 
 	/* unique labels for each node */ 	
-	char *label_list[8] = {"A", "B", "C", "D", "E", "F", "G", "H"}; 	
+	char *label_list[8] = {"A", "B", "C", "D", "E", "F", "G", "H"}; 
 
 	for(int i = 0; i < m->vertices; i++) {
-		for(int j = 0; j < m->edges; j++) {
-			if(m->arr[i][j] != 0) {
-				add_node(
-					g, i, label_list[i], 
-					j, label_list[j],
-					m->arr[i][j]
-				); 
+		for(int j = 0; j < m->vertices; j++) {
+			if(m->matrix[i*m->vertices+j]->label != NULL) {
+				int weight_value = m->weights[i*m->vertices+j]; 
+				add_node(g, i, label_list[i], j, label_list[j], weight_value);
 			}
 		}
 	}
@@ -227,8 +150,6 @@ int add_node(
 }
 
 
-
-
 int add_end_node(graph_t *g, int src_id, char *src_label, int weight) {
 	
 	/* only add to selected src node */ 
@@ -250,6 +171,18 @@ int add_end_node(graph_t *g, int src_id, char *src_label, int weight) {
 	return TRUE; 
 }
 
+
+node_t *get_node_by_id(graph_t *g, int search_id){
+	for(int i = 0; i < g->v; i++){
+		node_t *head = g->items[i].head; 
+		while(head) {
+			if(head->id == search_id){
+				return head; 
+			}
+			head = head->next; 			
+		}
+	}
+}
 
 
 void print_graph(graph_t *g) {
