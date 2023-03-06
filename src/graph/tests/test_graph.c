@@ -37,8 +37,9 @@ void test_graph() {
 	/* validate results */ 
 	if(!adj_list_test) {
 		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 	}
-	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 
 	/* what happens if we feed in an incorrect amount of vertices? */ 
 }
@@ -84,8 +85,9 @@ void test_weighted_graph() {
 	/* validate results */ 
 	if(!adj_list_test) {
 		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 	}
-	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 }
 
 
@@ -150,8 +152,54 @@ void test_transpose_graph() {
 	/* validate results */ 
 	if(!adj_list_test) {
 		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 	}
-	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+}
+
+
+void test_get_node_by_id() {
+
+	/* test tranpose of adjacency list */
+    int vertices = 8; 
+	bool equality_test = false; 
+
+	/* create adjacency list */ 
+	graph_t *g = init_graph(vertices, vertices, true);
+	graph_t *result_list = init_graph(vertices, vertices, true); 
+
+	/* first community */ 
+	add_node(g, 0, "A", 1, "B", 0);
+	add_node(g, 1, "B", 2, "C", 0);
+	add_node(g, 2, "C", 3, "D", 0);
+	add_node(g, 3, "D", 0, "A", 0);
+
+	/* bridge */ 
+	add_node(g, 2, "C", 4, "E", 0);
+
+	/* second community */ 
+	add_node(g, 4, "E", 5, "F", 0);
+	add_node(g, 5, "F", 6, "G", 0);
+	add_node(g, 6, "G", 4, "E", 0);
+	add_node(g, 6, "G", 7, "H", 0);
+	add_node(g, 7, "H", 7, "H", 0);
+
+
+	node_t *result = get_node_by_id(g, 0); 
+
+	int label_condition = strcmp(result->label, "A") == 0; 
+	if(label_condition && result->id == 0){
+		equality_test = true; 
+	}
+
+
+	/* validate results */ 
+	if(!equality_test) {
+		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+	}
+
 }
 
 
@@ -164,19 +212,19 @@ void test_to_matrix() {
 
 	/* expected result after directed matrix conversion */
 	int expected_output[8][8] = {
-		{0,1,0,1,0,0,0,0},
-		{1,0,1,0,0,0,0,0},
-		{0,1,0,1,1,0,0,0},
-		{1,0,1,0,0,0,0,0},
-		{0,0,1,0,0,1,1,0},
-		{0,0,0,0,1,0,1,0},
-		{0,0,0,0,1,1,0,1},
-		{0,0,0,0,0,0,1,1}
+		{-1,1,-1,3,-1,-1,-1,-1},
+		{0,-1,2,-1,-1,-1,-1,-1},
+		{-1,1,-1,3,4,-1,-1,-1},
+		{0,-1,2,-1,-1,-1,-1,-1},
+		{-1,-1,2,-1,-1,5,6,-1},
+		{-1,-1,-1,-1,4,-1,6,-1},
+		{-1,-1,-1,-1,4,5,-1,7},
+		{-1,-1,-1,-1,-1,-1,6,7}
 	};	
 
 	/* create adjacency list */ 
 	graph_t *g = init_graph(vertices, vertices, false);
-	mat_t *result = init_mat(vertices, vertices); 
+	mat_t *result = init_matrice_graph(vertices); 
 
 	/* first community */ 
 	add_node(g, 0, "A", 1, "B", 0);
@@ -195,12 +243,13 @@ void test_to_matrix() {
 	add_node(g, 7, "H", 7, "H", 0);
 
 	/* test to regular matrix conversion */ 
-	mat_t *output = to_matrix(result, g);
+	mat_t *output = to_matrix(result, g, false);
+	int v = output->vertices;
 
 	/* check output */ 
 	for(int i = 0; i < vertices; i++) {
 		for(int j = 0; j < vertices; j++) {
-			if(output->arr[i][j] != expected_output[i][j]) {
+			if(output->matrix[i*v+j]->id != expected_output[i][j]) {
 				equality_status = FALSE; 
 			}
 		}
@@ -210,8 +259,9 @@ void test_to_matrix() {
 	/* validate results */ 
 	if(!equality_status) {
 		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 	}
-	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 
 }
 
@@ -225,19 +275,19 @@ void test_to_directed_matrix() {
 
 	/* expected result after directed matrix conversion */
 	int expected_output[8][8] = {
-		{0,1,0,0,0,0,0,0},
-		{0,0,1,0,0,0,0,0},
-		{0,0,0,1,1,0,0,0},
-		{1,0,0,0,0,0,0,0},
-		{0,0,0,0,0,1,0,0},
-		{0,0,0,0,0,0,1,0},
-		{0,0,0,0,1,0,0,1},
-		{0,0,0,0,0,0,0,1}
+		{-1,1,-1,-1,-1,-1,-1,-1},
+		{-1,-1,2,-1,-1,-1,-1,-1},
+		{-1,-1,-1,3,4,-1,-1,-1},
+		{0,-1,-1,-1,-1,-1,-1,-1},
+		{-1,-1,-1,-1,-1,5,-1,-1},
+		{-1,-1,-1,-1,-1,-1,6,-1},
+		{-1,-1,-1,-1,4,-1,-1,7},
+		{-1,-1,-1,-1,-1,-1,-1,7}
 	};	
 
 	/* create adjacency list */ 
 	graph_t *g = init_graph(vertices, vertices, true);
-	mat_t *result = init_mat(vertices, vertices); 
+	mat_t *result = init_matrice_graph(vertices); 
 
 	/* first community */ 
 	add_node(g, 0, "A", 1, "B", 0);
@@ -256,12 +306,14 @@ void test_to_directed_matrix() {
 	add_node(g, 7, "H", 7, "H", 0);
 
 	/* test directed matrix conversion */ 
-	mat_t *output = to_directed_matrix(result, g);
+	mat_t *output = to_matrix(result, g, true);
+	int v = output->vertices; 
+
 
 	/* check output */ 
 	for(int i = 0; i < vertices; i++) {
 		for(int j = 0; j < vertices; j++) {
-			if(output->arr[i][j] != expected_output[i][j]) {
+			if(output->matrix[i*v+j]->id != expected_output[i][j]) {
 				equality_status = FALSE; 
 			}
 		}
@@ -270,8 +322,9 @@ void test_to_directed_matrix() {
 	/* validate results */ 
 	if(!equality_status) {
 		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 	}
-	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 }
 
 
@@ -283,16 +336,17 @@ void test_to_weighted_matrix() {
 
 	/* expected result after directed matrix conversion */
 	int expected_output[5][5] = {
-		{0,1,2,3,0},
-		{1,0,4,0,0},
-		{2,4,0,0,5},
-		{3,0,0,0,0},
-		{0,0,5,0,0},
+		{-1,1,2,3,-1},
+		{1,-1,4,-1,-1},
+		{2,4,-1,-1,5},
+		{3,-1,-1,-1,-1},
+		{-1,-1,5,-1,-1},
 	};	
 
 	/* create adj lists */ 
 	graph_t *g = init_graph(vertices, vertices, false);
-	mat_t *result = init_mat(vertices, vertices);
+	mat_t *result = init_matrice_graph(vertices);
+
 
 	/* build graph */ 
 	add_node(g, 0, "A", 1, "B", 1);
@@ -303,23 +357,24 @@ void test_to_weighted_matrix() {
 
 
 	/* test directed matrix conversion */ 
-	mat_t *output = to_weighted_matrix(result, g);
+	mat_t *output = to_matrix(result, g, false);
+	int v = output->vertices; 
 
 	/* check output */ 
 	for(int i = 0; i < vertices; i++) {
 		for(int j = 0; j < vertices; j++) {
-			if(output->arr[i][j] != expected_output[i][j]) {
+			if(output->weights[i*v+j] != expected_output[i][j]) {
 				equality_status = FALSE; 
 			}
 		}
 	}
 
-
 	/* validate results */ 
 	if(!equality_status) {
 		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 	}
-	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 }
 
 
@@ -331,19 +386,19 @@ void test_to_directed_weighted_matrix() {
 
 	/* expected result after directed matrix conversion */
 	int expected_output[8][8] = {
-		{0,1,0,0,0,0,0,0},
-		{0,0,2,0,0,0,0,0},
-		{0,0,0,3,5,0,0,0},
-		{4,0,0,0,0,0,0,0},
-		{0,0,0,0,0,6,0,0},
-		{0,0,0,0,0,0,7,0},
-		{0,0,0,0,8,0,0,9},
-		{0,0,0,0,0,0,0,10}
+		{-1,1,-1,-1,-1,-1,-1,-1},
+		{-1,-1,2,-1,-1,-1,-1,-1},
+		{-1,-1,-1,3,5,-1,-1,-1},
+		{4,-1,-1,-1,-1,-1,-1,-1},
+		{-1,-1,-1,-1,-1,6,-1,-1},
+		{-1,-1,-1,-1,-1,-1,7,-1},
+		{-1,-1,-1,-1,8,-1,-1,9},
+		{-1,-1,-1,-1,-1,-1,-1,10}
 	};	
 
 	/* test first example of weighted matrix */ 
 	graph_t *g = init_graph(vertices, vertices, true);
-	mat_t *result = init_mat(vertices, vertices);
+	mat_t *result = init_matrice_graph(vertices);
 
 	/* first community */ 
 	add_node(g, 0, "A", 1, "B", 1);
@@ -362,12 +417,15 @@ void test_to_directed_weighted_matrix() {
 	add_node(g, 7, "H", 7, "H", 10);
 
 	/* test directed matrix conversion */ 
-	mat_t *output = to_directed_weighted_matrix(result, g);
+	mat_t *output = to_matrix(result, g, true);
+	int v = output->vertices; 
+
+	print_matrix_weights(output); 
 
 	/* check output */ 
 	for(int i = 0; i < vertices; i++) {
 		for(int j = 0; j < vertices; j++) {
-			if(output->arr[i][j] != expected_output[i][j]) {
+			if(output->weights[i*v+j] != expected_output[i][j]) {
 				equality_status = FALSE; 
 			}
 		}
@@ -376,8 +434,9 @@ void test_to_directed_weighted_matrix() {
 	/* validate results */ 
 	if(!equality_status) {
 		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 	}
-	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 
 
 }
@@ -391,17 +450,23 @@ void test_to_list() {
 
 	/* test first example of weighted matrix */ 
 	graph_t *g = init_graph(vertices, vertices, true);
-	mat_t *m = init_mat(5, 5); 
+	mat_t *m = init_matrice_graph(vertices);
+
+	/*  create entries */
+	entry_t *a = init_entry(0, "A");  
+	entry_t *b = init_entry(1, "B");  
+	entry_t *c = init_entry(2, "C");  
+	entry_t *d = init_entry(3, "D");  
 
 	/* build matrix */ 
-	entry(m, 0, 1); 
-	entry(m, 0, 2); 
-	entry(m, 1, 2); 
-	entry(m, 2, 0); 
-	entry(m, 2, 3);
+	insert(m, a, b, 0, false); 
+	insert(m, a, c, 0, false); 
+	insert(m, b, c, 0, false); 
+	insert(m, c, a, 0, false); 
+	insert(m, c, d, 0, false);
 
 	/* test directed matrix conversion */ 
-	graph_t *output = to_list(g, m);
+	graph_t *output = to_list(g, m, false);
 
 	/* expected relationships from adjacency list */ 
 	char *relationship_list[5][5] = {
@@ -429,8 +494,9 @@ void test_to_list() {
 	/* validate results */ 
 	if(!equality_status) {
 		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 	}
-	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 }
 
 
@@ -442,14 +508,20 @@ void test_to_weighted_list() {
 
 	/* test first example of weighted matrix */ 
 	graph_t *g = init_graph(vertices, vertices, false);
-	mat_t *m = init_mat(vertices, vertices);
+	mat_t *m = init_matrice_graph(vertices);
+
+	/*  create entries */
+	entry_t *a = init_entry(0, "A");  
+	entry_t *b = init_entry(1, "B");  
+	entry_t *c = init_entry(2, "C");  
+	entry_t *d = init_entry(3, "D");  
 
 	/* build matrix */ 
-	weighted_entry(m, 0, 1, 1); 
-	weighted_entry(m, 0, 2, 2); 
-	weighted_entry(m, 1, 2, 3); 
-	weighted_entry(m, 2, 0, 4); 
-	weighted_entry(m, 2, 3, 5);
+	insert(m, a, b, 1, false); 
+	insert(m, a, c, 2, false); 
+	insert(m, b, c, 3, false); 
+	insert(m, c, a, 4, false); 
+	insert(m, c, d, 5, false);
 
 	/* expected relationships from adjacency list */ 
 	int relationship_list[5][6] = {
@@ -460,7 +532,7 @@ void test_to_weighted_list() {
 	};
 
 	/* test directed matrix conversion */ 
-	graph_t *output = to_weighted_list(g, m);
+	graph_t *output = to_list(g, m, false);
 
 	/* iterate through list and match relationships */ 
 	for(int i = 0; i < g->v; i++) {
@@ -470,8 +542,6 @@ void test_to_weighted_list() {
 			if(head->weight != relationship_list[i][node_index]) {
 				equality_status = FALSE;
 			}
-
-
 			head = head->next;
 		   	node_index += 1; 
 		}	
@@ -480,8 +550,9 @@ void test_to_weighted_list() {
 	/* validate results */ 
 	if(!equality_status) {
 		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 	}
-	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 
 
 }
@@ -495,14 +566,20 @@ void test_to_directed_list() {
 
 	/* test first example of weighted matrix */ 
 	graph_t *g = init_graph(vertices, vertices, true);
-	mat_t *m = init_mat(vertices, vertices);
+	mat_t *m = init_matrice_graph(vertices);
+
+	entry_t *a = init_entry(0, "A"); 
+	entry_t *b = init_entry(1, "B"); 
+	entry_t *c = init_entry(2, "C"); 
+	entry_t *d = init_entry(3, "D");
 
 	/* build matrix */ 
-	directed_entry(m, 0, 1); 
-	directed_entry(m, 0, 2); 
-	directed_entry(m, 1, 2); 
-	directed_entry(m, 2, 0); 
-	directed_entry(m, 2, 3);
+	insert(m, a, b, 0, true); 
+	insert(m, a, c, 0, true); 
+	insert(m, b, c, 0, true); 
+	insert(m, c, a, 0, true); 
+	insert(m, c, d, 0, true);
+
 
 	/* expected relationships from adjacency list */ 
 	char *relationship_list[5][6] = {
@@ -512,7 +589,7 @@ void test_to_directed_list() {
 	};
 
 	/* test directed matrix conversion */ 
-	graph_t *output = to_weighted_list(g, m);
+	graph_t *output = to_list(g, m, true);
 
 	/* iterate through list and match relationships */ 
 	for(int i = 0; i < g->v; i++) {
@@ -531,8 +608,9 @@ void test_to_directed_list() {
 	/* validate results */ 
 	if(!equality_status) {
 		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 	}
-	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 
 }
 
@@ -545,14 +623,20 @@ void test_to_directed_weighted_list() {
 
 	/* test first example of weighted matrix */ 
 	graph_t *g = init_graph(vertices, vertices, true);
-	mat_t *m = init_mat(vertices, vertices);
+	mat_t *m = init_matrice_graph(vertices);
+
+	/*  create entries */
+	entry_t *a = init_entry(0, "A");  
+	entry_t *b = init_entry(1, "B");  
+	entry_t *c = init_entry(2, "C");  
+	entry_t *d = init_entry(3, "D");  
 
 	/* build matrix */ 
-	directed_weighted_entry(m, 0, 1, 1); 
-	directed_weighted_entry(m, 0, 2, 2); 
-	directed_weighted_entry(m, 1, 2, 3); 
-	directed_weighted_entry(m, 2, 0, 4); 
-	directed_weighted_entry(m, 2, 3, 5);
+	insert(m, a, b, 0, true); 
+	insert(m, a, c, 0, true); 
+	insert(m, b, c, 0, true); 
+	insert(m, c, a, 0, true); 
+	insert(m, c, d, 0, true);
 
 	/* expected relationships from adjacency list */ 
 	char *relationship_list[5][5] = {
@@ -562,7 +646,7 @@ void test_to_directed_weighted_list() {
 	};
 
 	/* test directed matrix conversion */ 
-	graph_t *output = to_directed_weighted_list(g, m);
+	graph_t *output = to_list(g, m, true);
 
 	/* iterate through list and match relationships */ 
 	for(int i = 0; i < g->v; i++) {
@@ -581,7 +665,8 @@ void test_to_directed_weighted_list() {
 	/* validate results */ 
 	if(!equality_status) {
 		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 	}
-	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 
 }

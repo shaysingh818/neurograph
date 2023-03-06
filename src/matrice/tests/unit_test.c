@@ -5,5 +5,6 @@ int main(int argc, char **argv) {
 
 	/* matrix utility methods */
 	test_init_matrix();
+	test_directed_matrix(); 
 
 }

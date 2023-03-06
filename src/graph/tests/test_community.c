@@ -115,3 +115,68 @@ void test_kosaraju() {
 	}	
 }
 
+
+void test_closeness_centrality() {
+
+	int vertices = 7;
+	int vertex = 4; 
+	int equality_status = false; 
+	float expected_result = 0.014706;  
+
+	graph_t *g = init_graph(vertices, vertices, false);
+    add_node(g, 0, "A", 1, "B", 2);
+    add_node(g, 0, "A", 2, "C", 6);
+    add_node(g, 1, "B", 3, "D", 5);
+    add_node(g, 2, "C", 3, "D", 8);
+    add_node(g, 3, "D", 4, "E", 10);
+	add_node(g, 3, "D", 5, "F", 15);
+	add_node(g, 4, "E", 5, "F", 6);
+	add_node(g, 5, "F", 6, "G", 6);
+	add_node(g, 4, "E", 6, "G", 2);
+
+	float result = closeness_centrality(g, vertex); 
+
+	if(fabs(result - expected_result) < 0.0001){
+		equality_status = true;  
+	}
+
+	if(!equality_status) {
+		printf("%s::%s...  FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
+	}	
+
+}
+
+void test_normalized_closeness_centrality() {
+
+	int vertices = 7;
+	int vertex = 4; 
+	int equality_status = false;
+	float expected_result = 0.088235;  
+
+	graph_t *g = init_graph(vertices, vertices, false);
+    add_node(g, 0, "A", 1, "B", 2);
+    add_node(g, 0, "A", 2, "C", 6);
+    add_node(g, 1, "B", 3, "D", 5);
+    add_node(g, 2, "C", 3, "D", 8);
+    add_node(g, 3, "D", 4, "E", 10);
+	add_node(g, 3, "D", 5, "F", 15);
+	add_node(g, 4, "E", 5, "F", 6);
+	add_node(g, 5, "F", 6, "G", 6);
+	add_node(g, 4, "E", 6, "G", 2);
+
+	float result = normalized_closeness_centrality(g, vertex);
+
+	if(fabs(result - expected_result) < 0.0001){
+		equality_status = true;  
+	}
+
+	if(!equality_status) {
+		printf("%s::%s...  FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
+	}	
+
+}
+

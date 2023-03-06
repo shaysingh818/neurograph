@@ -8,7 +8,8 @@ int main(int argc, char **argv) {
 	/* graph utility methods */ 
 	test_graph();
    	test_weighted_graph();
-	test_transpose_graph(); 
+	test_transpose_graph();
+	test_get_node_by_id(); 
 
 	/* conversion methods */ 
 	test_to_matrix();
@@ -25,10 +26,15 @@ int main(int argc, char **argv) {
 	test_bfs_two();
 	test_dfs_one();
 
-	/* path finding */
+	/* shortest path */
 	test_bellman_ford();
 	test_dijkstra();
-	test_dijkstra_two();  
+	test_dijkstra_two();
+	test_dijkstra_vertice();  
+	test_dijkstra_vertice_two();  
+	test_shortest_path();
+
+	/* random walk */
    	test_random_walk();
 	test_weighted_random_walk();
 
@@ -37,5 +43,8 @@ int main(int argc, char **argv) {
 	test_weighted_degree_centrality();
 	test_kosaraju();
 
+	/* centrality */
+	test_closeness_centrality();
+	test_normalized_closeness_centrality();
 
 }

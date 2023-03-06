@@ -122,6 +122,126 @@ void test_dijkstra_two(){
 }
 
 
+void test_dijkstra_vertice(){
+
+	int vertices = 7;
+	int equality_status = true; 
+
+	graph_t *g = init_graph(vertices, vertices, false);
+    add_node(g, 0, "A", 1, "B", 5);
+    add_node(g, 0, "A", 2, "C", 6);
+    add_node(g, 1, "B", 2, "C", 15);
+    add_node(g, 1, "B", 3, "D", 7);
+    add_node(g, 1, "B", 4, "E", 8);
+    add_node(g, 2, "C", 3, "D", 2);
+    add_node(g, 2, "C", 5, "F", 4);
+	add_node(g, 3, "D", 4, "E", 2);
+	add_node(g, 3, "D", 5, "F", 9);
+	add_node(g, 3, "D", 6, "G", 10);
+	add_node(g, 4, "E", 6, "G", 3);
+
+	/* find the shortest paths from 0 */
+	int start_vertex = 2; 
+	int *result = dijkstra(g, start_vertex);
+
+	int output[7] = {6, 9, 0, 2, 4, 4, 7}; 
+
+	/* print vertices */
+	for(int i = 0; i < g->v; i++) {
+		if(result[i] != output[i]) {
+			equality_status = false; 			
+		}
+	}
+
+	/* validate results */ 
+	if(!equality_status) {
+		printf("%s::%s...  FAILED\n", __FILE__, __FUNCTION__); 
+	}
+	printf("%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
+
+}
+
+
+void test_dijkstra_vertice_two(){
+
+	int vertices = 7;
+	int equality_status = true; 
+
+	graph_t *g = init_graph(vertices, vertices, false);
+    add_node(g, 0, "A", 1, "B", 2);
+    add_node(g, 0, "A", 2, "C", 6);
+    add_node(g, 1, "B", 3, "D", 5);
+    add_node(g, 2, "C", 3, "D", 8);
+    add_node(g, 3, "D", 4, "E", 10);
+	add_node(g, 3, "D", 5, "F", 15);
+	add_node(g, 4, "E", 5, "F", 6);
+	add_node(g, 5, "F", 6, "G", 6);
+	add_node(g, 4, "E", 6, "G", 2);
+
+	/* find the shortest paths from 0 */
+	int start_vertex = 4; 
+	int *result = dijkstra(g, start_vertex);
+
+	int output[7] = {17, 15, 18, 10, 0, 6, 2}; 
+
+
+	/* print vertices */
+	for(int i = 0; i < g->v; i++) {
+		if(result[i] != output[i]) {
+			equality_status = false; 			
+		}
+	}
+
+	/* validate results */ 
+	if(!equality_status) {
+		printf("%s::%s...  FAILED\n", __FILE__, __FUNCTION__); 
+	}
+	printf("%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
+
+}
+
+
+void test_shortest_path(){
+
+	int vertices = 7;
+	int equality_status = true; 
+
+	graph_t *g = init_graph(vertices, vertices, false);
+    add_node(g, 0, "A", 1, "B", 2);
+    add_node(g, 0, "A", 2, "C", 6);
+    add_node(g, 1, "B", 3, "D", 5);
+    add_node(g, 2, "C", 3, "D", 8);
+    add_node(g, 3, "D", 4, "E", 10);
+	add_node(g, 3, "D", 5, "F", 15);
+	add_node(g, 4, "E", 5, "F", 6);
+	add_node(g, 5, "F", 6, "G", 6);
+	add_node(g, 4, "E", 6, "G", 2);
+
+	
+	for(int j = 0; j < g->v; j++){
+
+		/* set start vertex */
+		int start_vertex = j; 
+		int *result = dijkstra(g, start_vertex);
+
+		/* get shortest path for each start vertex */
+		for(int i = 0; i < g->v; i++){
+			int temp_result = shortest_path(g, start_vertex, i);
+			if(temp_result != result[i]) {
+				equality_status = false; 
+			} 
+		}
+	} 
+
+	/* validate results */ 
+	if(!equality_status) {
+		printf("%s::%s...  FAILED\n", __FILE__, __FUNCTION__); 
+	}
+	printf("%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
+
+
+}
+
 void test_random_walk() {
 
 	/* test random walk */
