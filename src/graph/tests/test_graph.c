@@ -420,7 +420,6 @@ void test_to_directed_weighted_matrix() {
 	mat_t *output = to_matrix(result, g, true);
 	int v = output->vertices; 
 
-	print_matrix_weights(output); 
 
 	/* check output */ 
 	for(int i = 0; i < vertices; i++) {
