@@ -12,7 +12,11 @@ COMMUNITY_HEADER = tests/includes/test_community.h
 HEADERS = $(GRAPH_HEADER) $(PATH_HEADER) $(SEARCH_HEADER) $(COMMUNITY_HEADER)
 
 # source objects
-GRAPH_OBJS = graph.o node.o path.o search.o community.o queue.o matrix.o
+#
+MATRIX_OBJS = ../matrice/matrix.o
+LIST_OBJS = ../list/adj_list.o ../list/node.o
+SRC_OBJS = graph.o path.o search.o community.o queue.o 
+GRAPH_OBJS = $(MATRIX_OBJS) $(LIST_OBJS) $(SRC_OBJS)
 
 # unit test objects
 TEST_PATH_OBJS = test_path.o
@@ -39,9 +43,6 @@ source: main.o $(GRAPH_OBJS)
 graph.o: graph.c includes/graph.h
 	gcc -c graph.c
 
-node.o: node.c includes/node.h
-	gcc -c node.c
-
 path.o: path.c includes/path.h
 	gcc -c path.c
 
@@ -54,8 +55,11 @@ community.o: community.c includes/community.h
 queue.o: ../queue/queue.c ../queue/includes/queue.h
 	gcc -c ../queue/queue.c
 
-matrix.o: ../matrice/matrix.c ../matrice/includes/matrix.h
-	gcc -c ../matrice/matrix.c
+matrix.o:
+	$(MAKE) -C ../matrice
+
+adj_list.o:
+	$(MAKE) -C ../list
 
 
 # object files for testing
@@ -86,4 +90,5 @@ clean_binary:
 
 clean:
 	rm -f *.o *~ *.pyc
-
+	$(MAKE) -C ../matrice clean
+	$(MAKE) -C ../list clean

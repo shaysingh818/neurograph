@@ -41,5 +41,3 @@ edge_t* create_edge(node_t *n1, node_t *n2, int weight);
 void print_edge(edge_t *e); 
 
 #endif
-
-

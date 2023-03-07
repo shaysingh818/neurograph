@@ -1,7 +1,7 @@
 # Object files
 
 
-GRAPH_OBJS = graph/graph.o graph/node.o graph/path.o graph/search.o graph/community.o
+GRAPH_OBJS = graph/graph.o list/adj_list.o list/node.o graph/path.o graph/search.o graph/community.o
 QUEUE_OBJS = queue/queue.o
 MAP_OBJS = map/map.o
 MATRICE_OBJS = matrice/matrix.o
@@ -23,7 +23,7 @@ all: build source
 source: main.o $(OBJS)
 	gcc -o $(TARGET) main.o $(OBJS)  $(FLAGS)
 
-build: queue matrice map graph csv
+build: queue matrice list map graph csv
 
 
 csv:
@@ -34,6 +34,9 @@ graph:
 
 matrice:
 	$(MAKE) -C ../matrice
+
+list:
+	$(MAKE) -C ../list
 
 queue:
 	$(MAKE) -C ../queue
@@ -60,3 +63,4 @@ clean:
 	$(MAKE) -C ./queue clean
 	$(MAKE) -C ./matrice clean
 	$(MAKE) -C ./map clean
+	$(MAKE) -C ./list clean

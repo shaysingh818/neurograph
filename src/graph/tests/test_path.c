@@ -4,7 +4,7 @@ void test_bellman_ford() {
 
   	int vertices = 5; // num of vertices
     int edges = 8; // num of edges
-    graph_t *g = init_graph(vertices, edges, false);
+    adj_list_t *g = init_graph(vertices, edges, false);
 
     /* create nodes for graph */
     node_t *a = create_node(0, "A", 0);
@@ -49,7 +49,7 @@ void test_dijkstra(){
 	int vertices = 7;
 	int equality_status = true; 
 
-	graph_t *g = init_graph(vertices, vertices, false);
+	adj_list_t *g = init_graph(vertices, vertices, false);
     add_node(g, 0, "A", 1, "B", 2);
     add_node(g, 0, "A", 2, "C", 6);
     add_node(g, 1, "B", 3, "D", 5);
@@ -87,7 +87,7 @@ void test_dijkstra_two(){
 	int vertices = 7;
 	int equality_status = true; 
 
-	graph_t *g = init_graph(vertices, vertices, false);
+	adj_list_t *g = init_graph(vertices, vertices, false);
     add_node(g, 0, "A", 1, "B", 5);
     add_node(g, 0, "A", 2, "C", 6);
     add_node(g, 1, "B", 2, "C", 15);
@@ -127,7 +127,7 @@ void test_dijkstra_vertice(){
 	int vertices = 7;
 	int equality_status = true; 
 
-	graph_t *g = init_graph(vertices, vertices, false);
+	adj_list_t *g = init_graph(vertices, vertices, false);
     add_node(g, 0, "A", 1, "B", 5);
     add_node(g, 0, "A", 2, "C", 6);
     add_node(g, 1, "B", 2, "C", 15);
@@ -167,7 +167,7 @@ void test_dijkstra_vertice_two(){
 	int vertices = 7;
 	int equality_status = true; 
 
-	graph_t *g = init_graph(vertices, vertices, false);
+	adj_list_t *g = init_graph(vertices, vertices, false);
     add_node(g, 0, "A", 1, "B", 2);
     add_node(g, 0, "A", 2, "C", 6);
     add_node(g, 1, "B", 3, "D", 5);
@@ -206,7 +206,7 @@ void test_shortest_path(){
 	int vertices = 7;
 	int equality_status = true; 
 
-	graph_t *g = init_graph(vertices, vertices, false);
+	adj_list_t *g = init_graph(vertices, vertices, false);
     add_node(g, 0, "A", 1, "B", 2);
     add_node(g, 0, "A", 2, "C", 6);
     add_node(g, 1, "B", 3, "D", 5);
@@ -247,7 +247,7 @@ void test_random_walk() {
 	/* test random walk */
     int vertices = 5; // num of vertices
 
-    graph_t *g = init_graph(vertices, vertices, false);
+    adj_list_t *g = init_graph(vertices, vertices, false);
     add_node(g, 0, "A", 1, "B", 0);
     add_node(g, 0, "A", 2, "C", 0);
     add_node(g, 0, "A", 3, "D", 0);
@@ -276,7 +276,7 @@ void test_random_walk() {
 	}
 
 	/* what happens if the steps aren't equal? */
-    graph_t *g1 = init_graph(vertices, vertices, false);
+    adj_list_t *g1 = init_graph(vertices, vertices, false);
     add_node(g1, 0, "A", 1, "B", 0);
     add_node(g1, 0, "A", 2, "C", 0);
     add_node(g1, 0, "A", 3, "D", 0);
@@ -315,7 +315,7 @@ void test_weighted_random_walk() {
     int vertices = 5; 
 
 	/* create weighted adjacency list */ 
-	graph_t *g = init_graph(vertices, vertices, false);
+	adj_list_t *g = init_graph(vertices, vertices, false);
 	add_node(g, 0, "A", 1, "B", 2);
 	add_node(g, 0, "A", 2, "C", 1); 
 	add_node(g, 0, "A", 3, "D", 1); 

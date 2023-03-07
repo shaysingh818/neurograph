@@ -5,7 +5,7 @@ void test_degree_centrality() {
 
   	int vertices = 5; // num of vertices
     int edges = 8; // num of edges
-    graph_t *g = init_graph(vertices, edges, false);
+    adj_list_t *g = init_graph(vertices, edges, false);
 
     /* create nodes for graph */
     node_t *a = create_node(0, "A", 0); // create unweighted nodes
@@ -42,7 +42,7 @@ void test_weighted_degree_centrality() {
     int vertices = 5; 
 
 	/* create weighted adjacency list */ 
-	graph_t *g = init_graph(vertices, vertices, false);
+	adj_list_t *g = init_graph(vertices, vertices, false);
 	add_node(g, 0, "A", 1, "B", 2);
 	add_node(g, 0, "A", 2, "C", 1); 
 	add_node(g, 0, "A", 3, "D", 1); 
@@ -69,7 +69,7 @@ void test_kosaraju() {
 	int equality_test = TRUE; 
 
 	/* create adjacency list */ 
-	graph_t *g = init_graph(vertices, vertices, true);
+	adj_list_t *g = init_graph(vertices, vertices, true);
 
 	/* first community */ 
 	add_node(g, 0, "A", 1, "B", 0);
@@ -123,7 +123,7 @@ void test_closeness_centrality() {
 	int equality_status = false; 
 	float expected_result = 0.014706;  
 
-	graph_t *g = init_graph(vertices, vertices, false);
+	adj_list_t *g = init_graph(vertices, vertices, false);
     add_node(g, 0, "A", 1, "B", 2);
     add_node(g, 0, "A", 2, "C", 6);
     add_node(g, 1, "B", 3, "D", 5);
@@ -155,7 +155,7 @@ void test_normalized_closeness_centrality() {
 	int equality_status = false;
 	float expected_result = 0.088235;  
 
-	graph_t *g = init_graph(vertices, vertices, false);
+	adj_list_t *g = init_graph(vertices, vertices, false);
     add_node(g, 0, "A", 1, "B", 2);
     add_node(g, 0, "A", 2, "C", 6);
     add_node(g, 1, "B", 3, "D", 5);

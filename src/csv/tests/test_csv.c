@@ -234,7 +234,7 @@ void test_csv_to_graph() {
 	}
 
 	/* convert to graph */ 
-	graph_t *g = csv_to_unweighted_graph(file, indices, 2, false);
+	adj_list_t *g = csv_to_unweighted_graph(file, indices, 2, false);
 
 	char *relationship_list[8][5] = {
 		{"src_label"}, 
@@ -298,7 +298,7 @@ void test_csv_to_graph_two() {
 
 	/* convert to graph */
 	int vertex_count = file->row_limit * 2; 
-	graph_t *g = csv_to_unweighted_graph(file, indices, 2, false);
+	adj_list_t *g = csv_to_unweighted_graph(file, indices, 2, false);
 
 	/* check graph against relationships */ 
 	for(int i = 0; i < g->v; i++) {
@@ -351,7 +351,7 @@ void test_csv_to_graph_three() {
 	}
 
 	/* convert to graph */ 
-	graph_t *g = csv_to_unweighted_graph(file, indices, 2, false);
+	adj_list_t *g = csv_to_unweighted_graph(file, indices, 2, false);
 
 	/* check graph against relationships */ 
 	for(int i = 0; i < g->v; i++) {
@@ -414,7 +414,7 @@ void test_even_pair_feature_pass() {
 	}
 
 	/* convert to graph */ 
-	graph_t *g = csv_to_unweighted_graph(file, indices, 4, false);
+	adj_list_t *g = csv_to_unweighted_graph(file, indices, 4, false);
 
 
 	/* check graph against relationships */ 
@@ -455,7 +455,7 @@ void test_even_pair_feature_fail() {
 	}
 
 	/* convert to graph */ 
-	graph_t *g = csv_to_unweighted_graph(file, indices, 3, false);
+	adj_list_t *g = csv_to_unweighted_graph(file, indices, 3, false);
    	if(!g->err) {
 		equality_status = FALSE; 
 	}
@@ -511,7 +511,7 @@ void test_odd_pair_feature_pass() {
 	}
 
 	/* convert to graph */ 
-	graph_t *g = csv_to_weighted_graph(file, indices, 3, false);
+	adj_list_t *g = csv_to_weighted_graph(file, indices, 3, false);
    	if(g->err) {
 		equality_status = FALSE; 
 	}
@@ -555,7 +555,7 @@ void test_odd_pair_feature_fail() {
 	}
 
 	/* convert to graph */ 
-	graph_t *g = csv_to_weighted_graph(file, indices, 5, false);
+	adj_list_t *g = csv_to_weighted_graph(file, indices, 5, false);
    	if(!g->err) {
 		equality_status = FALSE; 
 	}
