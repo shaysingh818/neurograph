@@ -6,7 +6,7 @@ TARGET= diffusion.so
 SOURCE_FLAGS = -lm -lpthread
 SO_FLAGS = -shared -fPIC
 
-GRAPH_OBJS = ../../src/graph/graph.o ../../src/graph/node.o 
+GRAPH_OBJS = ../../src/graph/graph.o ../../src/list/node.o ../../src/list/adj_list.o
 GRAPH_EXT = ../../src/graph/path.o ../../src/graph/search.o ../../src/graph/community.o
 QUEUE_OBJS = ../../src/queue/queue.o
 MAP_OBJS = ../../src/map/map.o
@@ -31,6 +31,9 @@ graph:
 matrice:
 	$(MAKE) -C ../../src/matrice
 
+list:
+	$(MAKE) -C ../../src/list
+
 queue:
 	$(MAKE) -C ../../src/queue
 
@@ -52,3 +55,4 @@ clean:
 	$(MAKE) -C ../../src/queue clean
 	$(MAKE) -C ../../src/matrice clean
 	$(MAKE) -C ../../src/map clean
+	$(MAKE) -C ../../src/list clean

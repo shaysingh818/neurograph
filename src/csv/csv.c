@@ -214,11 +214,11 @@ void csv_info(csv_t *csv) {
 }
 
 
-graph_t *csv_to_unweighted_graph(csv_t *csv, int *cols, int size, bool directed) {
+adj_list_t *csv_to_unweighted_graph(csv_t *csv, int *cols, int size, bool directed) {
 
 	/* create graph to be returned */ 
 	int vertex_count = csv->row_limit * size;	
-	graph_t *g = init_graph(vertex_count, vertex_count, directed);
+	adj_list_t *g = init_graph(vertex_count, vertex_count, directed);
 	
 	/* validate that graph is unweighted */
 	if(size % 2 != 0) {
@@ -258,11 +258,11 @@ graph_t *csv_to_unweighted_graph(csv_t *csv, int *cols, int size, bool directed)
 
 
 
-graph_t *csv_to_weighted_graph(csv_t *csv, int *cols, int size, bool directed) {
+adj_list_t *csv_to_weighted_graph(csv_t *csv, int *cols, int size, bool directed) {
 
 	/* create graph */
 	int vertex_count = csv->row_limit * size;	
-	graph_t *g = init_graph(vertex_count, vertex_count, directed);
+	adj_list_t *g = init_graph(vertex_count, vertex_count, directed);
 
 	/* validate that graph is unweighted */ 
 	if(size % 3 != 0) {

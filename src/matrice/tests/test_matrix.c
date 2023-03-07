@@ -78,3 +78,4 @@ void test_directed_matrix() {
     printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 
 }
+

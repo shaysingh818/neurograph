@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
    	print_cols(file);
 
 	// see if the graph part works
-	graph_t *g = csv_to_unweighted_graph(file, indices, 2, false);
+	adj_list_t *g = csv_to_unweighted_graph(file, indices, 2, false);
    	if(!g->err) {
 		equality_status = FALSE; 
 	}

@@ -5,17 +5,7 @@
 
 int main(int argc, char **argv) {
 	
-	/* graph utility methods */ 
-	test_graph();
-   	test_weighted_graph();
-	test_transpose_graph();
-	test_get_node_by_id(); 
-
 	/* conversion methods */ 
-	test_to_matrix();
-	test_to_directed_matrix();	
-	test_to_weighted_matrix(); 
-	test_to_directed_weighted_matrix();
    	test_to_list();
 	test_to_weighted_list();
    	test_to_directed_list(); 	

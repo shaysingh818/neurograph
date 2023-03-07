@@ -1,4 +1,4 @@
-#include "includes/graph.h"
+#include "includes/adj_list.h"
 
 
 int main(int argc, char **argv) {
@@ -15,6 +15,6 @@ int main(int argc, char **argv) {
 
     print_graph(g);
 
-	return 0; 
+    return 0; 
 
 }

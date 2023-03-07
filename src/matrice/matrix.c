@@ -13,6 +13,18 @@ entry_t *init_entry(int id, char *label) {
 	return e; 
 }
 
+entry_t *search_entry_by_id(mat_t *m, int search_id){
+
+	for(int i = 0; i < m->vertices; i++) {
+		for(int j = 0; j < m->vertices; j++){
+			int id = m->matrix[i*m->vertices+j]->id; 
+			if(search_id == id){
+				return m->matrix[i*m->vertices+j]; 
+			}
+		}
+	}
+}
+
 
 mat_t *init_matrice_graph(int vertices) {
 

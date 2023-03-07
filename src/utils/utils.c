@@ -1,9 +1,9 @@
 #include "includes/utils.h"
 
-graph_t *init_graph_util(int size, bool directed) {
+adj_list_t *init_graph_util(int size, bool directed) {
 
 	/* test first example of bfs */
-    graph_t *g = init_graph(size, size, directed);
+    adj_list_t *g = init_graph(size, size, directed);
 	if(g->err) {
 		return FALSE; 
 	}
@@ -13,7 +13,7 @@ graph_t *init_graph_util(int size, bool directed) {
 
 
 int add_node_util(
-	graph_t *g, int src_id, char *src, 
+	adj_list_t *g, int src_id, char *src, 
 	int dst_id, char *dst, int weight) {
 
 	/* do validation from here */ 
@@ -32,7 +32,7 @@ int add_node_util(
 }
 
 
-graph_t *g_to_csv_util(char *filepath, int *features, int size, int row_limit) {
+adj_list_t *g_to_csv_util(char *filepath, int *features, int size, int row_limit) {
 
 	/* parameter debug */
 	printf("FILENAME: %s\n", filepath); 
@@ -49,7 +49,7 @@ graph_t *g_to_csv_util(char *filepath, int *features, int size, int row_limit) {
         exit(0);
     }
 	
-	graph_t *g = csv_to_unweighted_graph(file, features, 2, false);
+	adj_list_t *g = csv_to_unweighted_graph(file, features, 2, false);
 	if(g->err) {
 		g->err = true; 
 		return g; 
@@ -59,7 +59,7 @@ graph_t *g_to_csv_util(char *filepath, int *features, int size, int row_limit) {
 }
 
 
-void free_graph(graph_t *g) {
+void free_graph(adj_list_t *g) {
 	free(g); 
 }
 

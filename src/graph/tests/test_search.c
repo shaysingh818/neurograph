@@ -6,7 +6,7 @@ void test_bfs_one() {
 	int bfs_status = TRUE; 
 
 	/* test first example of bfs */ 
-	graph_t *g = init_graph(vertices, vertices, false);
+	adj_list_t *g = init_graph(vertices, vertices, false);
 	add_node(g, 0, "A", 1, "B", 0);
 	add_node(g, 0, "A", 2, "C", 0); 
 	add_node(g, 0, "A", 3, "D", 0); 
@@ -42,7 +42,7 @@ void test_bfs_two() {
 	int bfs_status = TRUE; 
 
 	/* create labeled graph */ 
-	graph_t *g = init_graph(vertices, vertices, false);
+	adj_list_t *g = init_graph(vertices, vertices, false);
     add_node(g, 0, "S", 1, "A", 0);
     add_node(g, 0, "S", 2, "B", 0);
     add_node(g, 0, "S", 3, "C", 0);
@@ -77,7 +77,7 @@ void test_dfs_one() {
 	int dfs_status = TRUE; 
 
 	/* test first example of bfs */ 
-	graph_t *g = init_graph(vertices, vertices, false); 
+	adj_list_t *g = init_graph(vertices, vertices, false); 
 	add_node(g, 0, "A", 1, "B", 0); 
 	add_node(g, 0, "A", 2, "C", 0); 
 	add_node(g, 0, "A", 3, "D", 0); 

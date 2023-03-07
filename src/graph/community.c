@@ -2,7 +2,7 @@
 #include "includes/community.h"
 
 
-int degree_centrality(graph_t *g, node_t *root) {
+int degree_centrality(adj_list_t *g, node_t *root) {
 
 	/* online implementations are vague */ 
 	/* for now use best attempt to get the most popular node */ 
@@ -37,7 +37,7 @@ int degree_centrality(graph_t *g, node_t *root) {
 
 
 
-int weighted_degree_centrality(graph_t *g) {
+int weighted_degree_centrality(adj_list_t *g) {
 
 	/* variables */ 	
 	int v = g->v;
@@ -74,13 +74,13 @@ int weighted_degree_centrality(graph_t *g) {
 }
 
 
-int **kosaraju(graph_t *g, int start_vertex) {
+int **kosaraju(adj_list_t *g, int start_vertex) {
 
 	/* variables */ 	
 	int v = g->v;
 	queue_t *q = init_queue(g->v);
 	queue_t *q1 = init_queue(g->v);
-	graph_t *r = init_graph(g->v, g->v, true);
+	adj_list_t *r = init_graph(g->v, g->v, true);
    	int num_components = 0; 	
 
 	/* perform DFS on first instance of graph */ 
@@ -88,7 +88,7 @@ int **kosaraju(graph_t *g, int start_vertex) {
 	int result = dfs(q, g, head); 
 
 	/* transposed graph */
-	graph_t *transpose = transpose_items(g, r); 
+	adj_list_t *transpose = transpose_items(g, r); 
 
 	/* perform DFS on transposed graph */
 	node_t *t_head = g->items[6].head;
@@ -126,20 +126,8 @@ int **kosaraju(graph_t *g, int start_vertex) {
 	return communities; 
 }
 
-/*
-1. smell
-2. see 
-3 4 6 : move eyes
-5 : sensation (chewing)
-7: blowing kisses (frowning facial expressions)
-8: Hearing
-9. Gag reflex
-10. Gastro, esophogeal tract, lungs heart
-11. Accessory (Shrugging of)
-12: Sticking out (tounge) 
-*/
 
-float closeness_centrality(graph_t *g, int vertex){
+float closeness_centrality(adj_list_t *g, int vertex){
 
 	int sum = 0; 
 	/* traverse adjacency list */ 
@@ -153,7 +141,7 @@ float closeness_centrality(graph_t *g, int vertex){
 }
 
 
-float normalized_closeness_centrality(graph_t *g, int vertex){
+float normalized_closeness_centrality(adj_list_t *g, int vertex){
 
 	int sum = 0; 
 	/* traverse adjacency list */ 

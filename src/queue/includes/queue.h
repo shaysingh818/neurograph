@@ -6,7 +6,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <limits.h>
-#include "../../graph/includes/node.h"
+#include "../../list/includes/node.h"
 
 
 struct QueueItem {
