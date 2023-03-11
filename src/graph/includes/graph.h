@@ -9,6 +9,19 @@
 #define TRUE 1
 #define FALSE 0
 
+/* structure for storing results of walking through a graph */ 
+struct Walk {
+	int *path;
+   	int steps; 	
+	int weighted_sum;  
+	int cycles; 
+}; 
+
+typedef struct Walk walk_t;
+
+/* init walk structure */
+walk_t *init_walk(int steps); 
+
 /* conversion methods to matrix */
 mat_t *to_matrix(mat_t *m, adj_list_t *g, bool directed);
 

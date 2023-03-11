@@ -180,3 +180,43 @@ void test_normalized_closeness_centrality() {
 
 }
 
+
+void test_degree_centrality_mat() {
+
+	int vertices = 7;
+	int vertex = 2;
+	int expected_results[7] = {2, 3, 3, 2, 0};  
+	bool equality_status = true; 
+
+	/* create adjacency matrix graph with size 5 */ 
+	mat_t *m = init_matrice_graph(5); 
+
+    /* create unique nodes */
+    entry_t *a = init_entry(0, "A"); 
+    entry_t *b = init_entry(1, "B"); 
+    entry_t *c = init_entry(2, "C"); 
+    entry_t *d = init_entry(3, "D"); 
+
+	/* connect a to everyone */ 
+    insert(m, a, b, 0, false); 
+    insert(m, a, c, 0, false); 
+    insert(m, b, c, 0, false); 
+    insert(m, b, d, 0, false); 
+    insert(m, c, d, 0, false); 
+
+	int *result = degree_centrality_mat(m);
+
+	for(int i = 0; i < m->vertices; i++){
+		if(result[i] != expected_results[i]){
+			equality_status = false; 
+		} 
+	}
+
+	if(!equality_status) {
+		printf("%s::%s...  FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
+	}	
+
+}
+

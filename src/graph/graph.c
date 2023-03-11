@@ -2,6 +2,17 @@
 #include "../queue/includes/queue.h"
 
 
+walk_t *init_walk(int steps) {
+	walk_t *w;
+	w = (walk_t*)malloc(sizeof(walk_t));
+   	w->path = malloc(steps * sizeof(int));
+   	w->steps = steps; 	
+	w->cycles = 0; 
+	w->weighted_sum = 0; 
+	return w; 
+}
+
+
 mat_t *to_matrix(mat_t *m, adj_list_t *g, bool directed) {
 	
 	/* iterate through list and populate matrix */
@@ -9,6 +20,8 @@ mat_t *to_matrix(mat_t *m, adj_list_t *g, bool directed) {
 
 		node_t *head = g->items[i].head;
 		node_t *src_node = get_node_by_id(g, i); 
+		int row = src_node->id; 
+		int col = head->id; 
 
 		while(head) {
 

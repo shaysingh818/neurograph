@@ -351,6 +351,49 @@ void test_weighted_random_walk() {
 	}
 
 	/* check if unique sums and paths are created for each random walk */ 
+}
 
+
+void test_random_walk_mat() {
+
+	int equality_status = true; 
+
+	/* create adjacency matrix graph with size 5 */ 
+	mat_t *m = init_matrice_graph(5); 
+
+    /* create unique nodes */
+    entry_t *a = init_entry(0, "A"); 
+    entry_t *b = init_entry(1, "B"); 
+    entry_t *c = init_entry(2, "C"); 
+    entry_t *d = init_entry(3, "D"); 
+
+	/* connect a to everyone */ 
+    insert(m, a, b, 1, false); 
+    insert(m, a, c, 2, false); 
+    insert(m, b, c, 3, false); 
+    insert(m, b, d, 4, false); 
+    insert(m, c, d, 5, false);
+
+	int start = 0, steps = 4; 
+	walk_t *result = random_walk_mat(m, start, steps); 
+
+	/* print result nodes*/
+	int weight_sum = 0; 
+	for(int i = 0; i < result->steps; i++) {
+		int item = result->path[i]; 
+		int weight = m->weights[start*m->vertices+item];
+		weight_sum += weight; 
+		start = item; 
+	}
+
+	if(result->weighted_sum != weight_sum){
+		equality_status = false; 
+	}
+	
+	if(!equality_status) {
+		printf("%s::%s...  FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__, "sum_path"); 
+	}
 
 }

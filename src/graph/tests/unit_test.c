@@ -27,10 +27,12 @@ int main(int argc, char **argv) {
 	/* random walk */
    	test_random_walk();
 	test_weighted_random_walk();
+	test_random_walk_mat(); 
 
 	/* community detection */
 	test_degree_centrality();
 	test_weighted_degree_centrality();
+	test_degree_centrality_mat();
 	test_kosaraju();
 
 	/* centrality */
