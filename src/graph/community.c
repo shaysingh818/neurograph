@@ -74,6 +74,32 @@ int weighted_degree_centrality(adj_list_t *g) {
 }
 
 
+float closeness_centrality(adj_list_t *g, int vertex){
+
+	int sum = 0; 
+	/* traverse adjacency list */ 
+	for(int i = 0; i < g->v; i++){
+		int dist = shortest_path(g, vertex, i);
+		sum += dist;  
+	}
+
+	return (float)1 / (float)sum; 
+	
+}
+
+float normalized_closeness_centrality(adj_list_t *g, int vertex){
+
+	int sum = 0; 
+	/* traverse adjacency list */ 
+	for(int i = 0; i < g->v; i++){
+		int dist = shortest_path(g, vertex, i);
+		sum += dist;  
+	}
+
+	int n = g->v - 1; 
+	return (float)n / (float)sum; 
+}  
+
 int **kosaraju(adj_list_t *g, int start_vertex) {
 
 	/* variables */ 	
@@ -127,30 +153,20 @@ int **kosaraju(adj_list_t *g, int start_vertex) {
 }
 
 
-float closeness_centrality(adj_list_t *g, int vertex){
+int *degree_centrality_mat(mat_t *m) {
 
-	int sum = 0; 
-	/* traverse adjacency list */ 
-	for(int i = 0; i < g->v; i++){
-		int dist = shortest_path(g, vertex, i);
-		sum += dist;  
+	/* allocate array for result of nodes */
+	int *results = malloc(m->vertices * sizeof(int)); 
+
+	for(int i = 0; i < m->vertices; i++){
+		int count = 0; 
+		for(int j = 0; j < m->vertices; j++){
+			int id = m->matrix[i*m->vertices+j]->id;
+			if(id >= 0) {
+				count += 1; 
+			} 
+		}
+		results[i] = count; 
 	}
-
-	return (float)1 / (float)sum; 
-	
+	return results; 
 }
-
-
-float normalized_closeness_centrality(adj_list_t *g, int vertex){
-
-	int sum = 0; 
-	/* traverse adjacency list */ 
-	for(int i = 0; i < g->v; i++){
-		int dist = shortest_path(g, vertex, i);
-		sum += dist;  
-	}
-
-	int n = g->v - 1; 
-	return (float)n / (float)sum; 
-}  
-

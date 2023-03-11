@@ -7,7 +7,7 @@ entry_t *init_entry(int id, char *label) {
 
 	size_t label_size = strlen(label) + 1; 
 	e->label = malloc(label_size * sizeof(char)); 
-	e->id = id; 
+	e->id = id;
 
 	strcpy(e->label, label); 
 	return e; 
@@ -62,7 +62,7 @@ void insert(mat_t *m, entry_t *src, entry_t *dst, int weight,  bool directed) {
 	int src_id = src->id; 
 	int dst_id = dst->id; 	
 	int directed_index = src_id*m->vertices+dst_id;
-	int undirected_index = dst_id*m->vertices+src_id;  
+	int undirected_index = dst_id*m->vertices+src_id; 
 
 	if(directed) {
 		m->matrix[directed_index] = dst;
@@ -77,7 +77,6 @@ void insert(mat_t *m, entry_t *src, entry_t *dst, int weight,  bool directed) {
 		m->weights[directed_index] = weight; 
 		m->weights[undirected_index] = weight;  
 	}
-
 }
 
 

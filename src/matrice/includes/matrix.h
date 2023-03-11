@@ -10,7 +10,7 @@
 /* represents an entry in a matrice */
 struct Entry {
     int id; 
-    char *label; 
+    char *label;
 }; 
 
 typedef struct Entry entry_t; 
@@ -43,11 +43,6 @@ void print_matrix_ids(mat_t *m);
 void print_matrix_weights(mat_t *m);
 void print_matrix_labels(mat_t *m);
 
-
-/* graph methods */
-void bfs_mat(mat_t *m, int value); 
-void dfs_mat(mat_t *m, int value); 
-void degree_centrality_mat(mat_t *m, int value); 
 
 #endif
 

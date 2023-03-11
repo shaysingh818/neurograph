@@ -30,20 +30,9 @@ struct AdjacencyList {
 
 typedef struct AdjacencyList adj_list_t; 
 
-/* structure for storing results of walking through a graph */ 
-struct Walk {
-	int *path;
-   	int steps; 	
-	int weighted_sum;  
-	int cycles; 
-}; 
-
-typedef struct Walk walk_t;
-
 
 /* structural methods */ 
 adj_list_t *init_graph(int v, int e, bool directed);
-walk_t *init_walk(int steps); 
 
 /* mutators for structural methods */ 
 adj_list_t *transpose_items(adj_list_t *g, adj_list_t *r); 

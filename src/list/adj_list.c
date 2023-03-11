@@ -32,17 +32,6 @@ adj_list_t *init_graph(int v, int e, bool directed) {
 }
 
 
-walk_t *init_walk(int steps) {
-	walk_t *w;
-	w = (walk_t*)malloc(sizeof(walk_t));
-   	w->path = malloc(steps * sizeof(int));
-   	w->steps = steps; 	
-	w->cycles = 0; 
-	w->weighted_sum = 0; 
-	return w; 
-}
-
-
 node_t *get_node_by_id(adj_list_t *g, int search_id){
 	for(int i = 0; i < g->v; i++){
 		node_t *head = g->items[i].head; 

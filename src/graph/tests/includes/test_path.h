@@ -13,5 +13,8 @@ void test_shortest_path();
 void test_random_walk();
 void test_weighted_random_walk();
 
+/* matrice tests */
+void test_random_walk_mat(); 
+
 #endif
 

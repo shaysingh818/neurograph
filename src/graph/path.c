@@ -220,3 +220,57 @@ walk_t *weighted_random_walk(adj_list_t *g, walk_t *w, int start_vertex) {
 
 	return w; 	
 }
+
+
+walk_t *random_walk_mat(mat_t *m, int start_vertex, int steps) {
+
+	/* init random seed */
+   	time_t t; 	
+	srand((unsigned) time(&t));
+	int start = start_vertex;
+
+	/* create walk structure */
+	walk_t *walk = init_walk(steps); 	 
+
+	for(int n = 0; n < steps; n++){
+
+		int counter = 0;
+		int neighbors[m->vertices];
+
+		for(int j = 0; j < m->vertices; j++) {
+			int id = m->matrix[start*m->vertices+j]->id; 
+			if(id >= 0) {
+				neighbors[counter] = id; 
+				counter += 1; 
+			}
+		}
+
+		int rand_index = rand() % counter; 
+		int selected_neighbor = neighbors[rand_index]; 
+		int weight = m->weights[start*m->vertices+selected_neighbor];
+
+		start = selected_neighbor;
+		walk->weighted_sum += weight; 
+		walk->path[n] = selected_neighbor; 
+	}
+
+	return walk; 
+}
+
+
+int *dijkstra_mat(mat_t *m, int start_vertex) {
+
+	int *dist = malloc(m->vertices * sizeof(int));
+	int *prev = malloc(m->vertices * sizeof(int)); 
+	queue_t *q = init_queue(m->vertices); 
+
+	for(int i = 0; i < m->vertices; i++) {
+		if(i != start_vertex) {
+			dist[i] = INT_MAX; 
+			prev[i] = INT_MIN; 
+		}
+	}
+
+	//item_t *start_item = init_item(start_vertex, 
+	
+}
