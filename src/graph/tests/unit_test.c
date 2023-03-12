@@ -23,6 +23,9 @@ int main(int argc, char **argv) {
 	test_dijkstra_vertice();  
 	test_dijkstra_vertice_two();  
 	test_shortest_path();
+	test_dijkstra_mat();
+	test_dijkstra_origin_vertex_mat(); 
+	test_shortest_path_mat();
 
 	/* random walk */
    	test_random_walk();
