@@ -43,6 +43,13 @@ jobs:
         ./target/test_matrix
         make clean
 
+    - name: Build and Test Adjacency List Library
+      working-directory: src/list/
+      run: |
+        make
+        ./target/test_adj_list
+        make clean
+
     - name: Build and Test Queue Library
       working-directory: src/queue/
       run: |
