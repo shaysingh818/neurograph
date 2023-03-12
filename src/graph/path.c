@@ -271,6 +271,96 @@ int *dijkstra_mat(mat_t *m, int start_vertex) {
 		}
 	}
 
-	//item_t *start_item = init_item(start_vertex, 
-	
+	/* push start vertex to front of queue */
+	entry_t *start = search_entry_by_id(m, start_vertex);
+	item_t *start_item = init_item(start->id, start->label, 0, NULL); 
+	push(q, start_item); 	
+	dist[start_vertex] = 0; 
+
+	while(!is_empty(q)) {
+
+		/* get minimum distance */
+		int u = q->items[q->front_index]->integer;
+		pop(q); 
+
+		/* get neighbors */
+		for(int n = 0; n < m->vertices; n++){
+
+			int id = m->matrix[start_vertex*m->vertices+n]->id; 
+			int weight = m->weights[start_vertex*m->vertices+n]; 
+			char *label = m->matrix[start_vertex*m->vertices+n]->label; 
+
+			if(id >= 0) {
+				if(dist[id] > dist[u] + weight) {
+					dist[id] = dist[u] + weight;
+					prev[id] = u; 
+					item_t *temp = init_item(id, label, 0, NULL); 
+					push(q, temp);
+				}
+				start_vertex = u; 
+			}
+		}
+	}
+
+	return dist;  	
 }
+
+
+
+int shortest_path_mat(mat_t *m, int start_vertex, int end_vertex) {
+
+	/* 
+		This method should be refactored. It does the same
+		logic as the Dijkstra code. Only difference is 
+		parameters and what it returns. 
+	*/
+
+	int *dist = malloc(m->vertices * sizeof(int));
+	int *prev = malloc(m->vertices * sizeof(int)); 
+	queue_t *q = init_queue(m->vertices); 
+
+	for(int i = 0; i < m->vertices; i++) {
+		if(i != start_vertex) {
+			dist[i] = INT_MAX; 
+			prev[i] = INT_MIN; 
+		}
+	}
+
+	/* push start vertex to front of queue */
+	entry_t *start = search_entry_by_id(m, start_vertex);
+	item_t *start_item = init_item(start->id, start->label, 0, NULL); 
+	push(q, start_item); 	
+	dist[start_vertex] = 0;
+
+
+	while(!is_empty(q)) {
+
+		/* get minimum distance */
+		int u = q->items[q->front_index]->integer;
+		pop(q); 
+
+		/* get neighbors */
+		for(int n = 0; n < m->vertices; n++){
+
+			int id = m->matrix[start_vertex*m->vertices+n]->id; 
+			int weight = m->weights[start_vertex*m->vertices+n]; 
+			char *label = m->matrix[start_vertex*m->vertices+n]->label; 
+
+			if(id >= 0) {
+				if(dist[id] > dist[u] + weight) {
+					dist[id] = dist[u] + weight;
+					prev[id] = u; 
+					item_t *temp = init_item(id, label, 0, NULL); 
+					push(q, temp);
+				}
+				start_vertex = u; 
+			}
+		}
+	}
+
+	if(dist[end_vertex] != INT_MAX){
+		return dist[end_vertex]; 
+	}
+
+	return 0; 
+} 

@@ -14,7 +14,11 @@ void test_random_walk();
 void test_weighted_random_walk();
 
 /* matrice tests */
-void test_random_walk_mat(); 
+void test_random_walk_mat();
+void test_dijkstra_mat();
+void test_dijkstra_origin_vertex_mat();  
+void test_shortest_path_mat(); 
+
 
 #endif
 
