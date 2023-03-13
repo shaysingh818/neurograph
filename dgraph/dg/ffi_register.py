@@ -1,9 +1,16 @@
 from ctypes import CDLL
 from .d_types import Graph
 from ctypes import  *
+from ctypes.util import find_library
+import os
+
+lib_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'lib', 'diffusion.so')
+my_lib = CDLL(lib_path, use_errno=True)
+if my_lib._handle is None:
+    errno = get_errno()
+    raise OSError(errno, os.strerror(errno))
 
 # load shared object file
-lib_path = "../so_files/diffusion.so"
 lib = CDLL(lib_path)
 
 # init graph
