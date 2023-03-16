@@ -1,5 +1,5 @@
 from ctypes import CDLL
-from .d_types import Graph, AdjacencyList
+from .d_types import Graph
 from ctypes import  *
 from ctypes.util import find_library
 import os

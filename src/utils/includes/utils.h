@@ -6,6 +6,7 @@
 #include "../../queue/includes/queue.h"
 #include "../../graph/includes/path.h"
 #include "../../csv/includes/csv.h"
+#include "serializers.h" 
 
 
 /* bare bones graph methods */ 
