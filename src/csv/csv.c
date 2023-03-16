@@ -71,6 +71,7 @@ int populate_headers(csv_t *csv) {
 				}
 			}			
 		}
+
 		row_count += 1; 
 	}
 	return TRUE; 
@@ -91,7 +92,8 @@ int populate_rows(csv_t *csv) {
 		csv->rows[i] = malloc(sizeof(row_t)); 
 	}
 
-	/* read file contents */ 
+
+
 	while(fgets(buffer, csv->buffer_size, fp)) {
 
 		/* limit amount of rows we load for feature */
@@ -106,14 +108,14 @@ int populate_rows(csv_t *csv) {
 		}
 
 		/* variables for line data */
-		int line_size = 0; 
-	  	char **line = malloc(csv->col_count * sizeof *line); 	
+		int line_size = 0;
 	   	int header_count = 0; 	
+	  	char **line = malloc(csv->col_count * sizeof *line); 	
 		char *value = strtok(buffer, ",");
 		size_t value_length = strlen(value) + 1;
 
 		/* copy first line value and allocate space */ 
-		line[header_count] = malloc(value_length * sizeof *line[header_count]); 
+		line[header_count] = malloc(value_length * sizeof(char)); 
 		strcpy(line[header_count], value);
 		line_size += value_length; 
 	   	header_count += 1; 	
@@ -127,12 +129,17 @@ int populate_rows(csv_t *csv) {
 			}
 
 			/* copy value in line array */ 
-			value_length = strlen(value) + 1; 
+			value_length = strlen(value) + 1;
 			line[header_count] = malloc(value_length * sizeof *line[header_count]); 
 			strcpy(line[header_count], value);
 			line_size += value_length;
+
+			/* terminate files with bad input */
+			if(header_count > csv->col_count){
+				csv->status = false; 
+				return FALSE;  
+			}
 	   		header_count += 1; 	
-			
 		}
 
 		/* add to line */
@@ -141,7 +148,6 @@ int populate_rows(csv_t *csv) {
 		csv->rows[row_count]->value_count = csv->col_count;
 		row_count += 1; 
 	}
-
 	return TRUE; 
 }
 
@@ -150,7 +156,8 @@ csv_t *csv_init(char *filename, int buf_size, int set_limit) {
 
 	/* add to structure properties */ 
 	size_t name_size = strlen(filename) + 1; 
-	csv_t *csv = (csv_t*)malloc(sizeof(csv_t));
+	csv_t *csv; 
+	csv = malloc(sizeof(csv_t));
    	csv->filename = (char*)malloc(name_size * sizeof(char)); 
    	strcpy(csv->filename, filename);
 	csv->buffer_size = buf_size;
@@ -166,26 +173,23 @@ csv_t *csv_init(char *filename, int buf_size, int set_limit) {
 	   	return csv; 	
 	}
 
+
 	/* populate headers */ 
 	int headers = populate_headers(csv); 
-	if(headers) {
-		if(DEBUG == TRUE) {
-			printf("[+] Loaded headers..\n"); 
-		}
+	if(!headers) {
+		csv->status = false; 
+		return csv; 
 	}
 
 	/* populate rows */ 
 	int rows = populate_rows(csv); 
-	if(rows) {
-		if(DEBUG == TRUE) {
-			printf("[+] Loaded rows..\n"); 
-		}
+	if(!rows) {
+		return csv; 
 	}
 
 	/* set to true */ 
 	csv->status = TRUE; 
-
-	return csv; 			
+	return csv; 
 }
 
 
@@ -229,6 +233,7 @@ adj_list_t *csv_to_unweighted_graph(csv_t *csv, int *cols, int size, bool direct
 		return g; 
 	}
 
+	/* use queue here instead */
 	u_ll_t *head = create_ull(csv->rows[0]->line[cols[0]]);
 	int head_id = get_id(head, head->value);
    
@@ -295,10 +300,11 @@ adj_list_t *csv_to_weighted_graph(csv_t *csv, int *cols, int size, bool directed
 			/* get unique id for src and dst */ 
 			int src_id = get_id(head, src); 
 			int dst_id = get_id(head, dst);
-
 		   	add_node(g, src_id, src, dst_id, dst, weight_to_int); 	
 		}
 	} 
+
+	print_u_ll_t(head); 
 
 	return g; 
 }

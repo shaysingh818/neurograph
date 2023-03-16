@@ -1,6 +1,4 @@
-# Object files
-
-
+# object files
 GRAPH_OBJS = graph/graph.o list/adj_list.o list/node.o graph/path.o graph/search.o graph/community.o
 QUEUE_OBJS = queue/queue.o
 MAP_OBJS = map/map.o
@@ -14,14 +12,20 @@ OBJS = $(GRAPH_OBJS) $(CSV_OBJS) $(MATRICE_OBJS) $(MAP_OBJS) $(QUEUE_OBJS) $(UTI
 BIN=bin
 CC=gcc
 TARGET=../target/diffusion
+SHARED_TARGET = ../dgraph/dg/lib/diffusion.so
+
 
 FLAGS = -lm -lpthread
+SO_FLAGS = -shared -fPIC
 
 
-all: build source
+all: build source shared
+
+shared: main.o $(OBJS)
+	$(CC) -o $(SHARED_TARGET) main.o $(OBJS) $(FLAGS) $(SO_FLAGS)
 
 source: main.o $(OBJS)
-	gcc -o $(TARGET) main.o $(OBJS)  $(FLAGS)
+	$(CC) -o $(TARGET) main.o $(OBJS)  $(FLAGS)
 
 build: queue matrice list map graph csv
 
@@ -51,13 +55,14 @@ utils.o: utils/utils.c utils/includes/utils.h
 
 
 main.o: main.c graph/includes/graph.h
-	gcc -c main.c
+	$(CC) -c main.c
 
 clean_binary:
 	rm $(TARGET)
 
 clean:
 	rm -f *.o *~
+	rm ../dgraph/dg/lib/*.so
 	$(MAKE) -C  ./graph clean
 	$(MAKE) -C ./csv clean
 	$(MAKE) -C ./queue clean
