@@ -5,7 +5,7 @@ TEST_TARGET=target/test_queue
 
 # object files
 TEST_OBJS = test_queue.o
-OBJS = queue.o node.o
+OBJS = queue.o ../list/node.o
 ALL_OBJS = $(TEST_OBJS) $(OBJS)
 
 FLAGS = -lm -lpthread
@@ -21,8 +21,8 @@ source: main.o $(OBJS)
 queue.o: queue.c includes/queue.h
 	$(CC) -c queue.c
 
-node.o: ../graph/node.c ../graph/includes/node.h
-	$(CC) -c ../graph/node.c
+node.o: ../list/node.c ../list/includes/node.h
+	$(CC) -c ../list/node.c
 
 test_queue.o: tests/test_queue.c tests/includes/test_queue.h
 	$(CC) -c tests/test_queue.c

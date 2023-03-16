@@ -3,23 +3,46 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
+
+
+/* represents an entry in a matrice */
+struct Entry {
+    int id; 
+    char *label;
+}; 
+
+typedef struct Entry entry_t; 
+
 
 struct Matrix {
+    int rows;
+    int cols; /* in case the rows and cols aren't equal*/
     int vertices;
-    int edges;
-    int **arr;
+    int *weights; /* weights for matrice graph relationships */
+    entry_t **matrix;
 };
 
 typedef struct Matrix mat_t;
 
 
-/* adjacency matrix methods */
-mat_t *init_mat(int vertices, int edges);
-void entry(mat_t *m, int v1, int v2);
-void directed_entry(mat_t *m, int v1, int v2);
-void weighted_entry(mat_t *m, int v1, int v2, int weight);
-void directed_weighted_entry(mat_t *m, int v1, int v2, int weight);
-void print_matrix(mat_t *m);
+/* entry instance */
+entry_t *init_entry(int id, char *label); 
+entry_t *search_entry_by_id(mat_t *m, int id);
+
+/* matrice instance */ 
+mat_t *init_mat(int set_rows, int set_cols); 
+mat_t *init_matrice_graph(int vertices);
+
+/* insert method */ 
+void insert(mat_t *m, entry_t *src, entry_t *dst, int weight, bool directed);
+
+/* formatter methods */
+void print_matrix_ids(mat_t *m);
+void print_matrix_weights(mat_t *m);
+void print_matrix_labels(mat_t *m);
+
 
 #endif
 

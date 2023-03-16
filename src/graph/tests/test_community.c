@@ -5,7 +5,7 @@ void test_degree_centrality() {
 
   	int vertices = 5; // num of vertices
     int edges = 8; // num of edges
-    graph_t *g = init_graph(vertices, edges, false);
+    adj_list_t *g = init_graph(vertices, edges, false);
 
     /* create nodes for graph */
     node_t *a = create_node(0, "A", 0); // create unweighted nodes
@@ -42,7 +42,7 @@ void test_weighted_degree_centrality() {
     int vertices = 5; 
 
 	/* create weighted adjacency list */ 
-	graph_t *g = init_graph(vertices, vertices, false);
+	adj_list_t *g = init_graph(vertices, vertices, false);
 	add_node(g, 0, "A", 1, "B", 2);
 	add_node(g, 0, "A", 2, "C", 1); 
 	add_node(g, 0, "A", 3, "D", 1); 
@@ -69,7 +69,7 @@ void test_kosaraju() {
 	int equality_test = TRUE; 
 
 	/* create adjacency list */ 
-	graph_t *g = init_graph(vertices, vertices, true);
+	adj_list_t *g = init_graph(vertices, vertices, true);
 
 	/* first community */ 
 	add_node(g, 0, "A", 1, "B", 0);
@@ -113,5 +113,110 @@ void test_kosaraju() {
 	} else {
 		printf("%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
 	}	
+}
+
+
+void test_closeness_centrality() {
+
+	int vertices = 7;
+	int vertex = 4; 
+	int equality_status = false; 
+	float expected_result = 0.014706;  
+
+	adj_list_t *g = init_graph(vertices, vertices, false);
+    add_node(g, 0, "A", 1, "B", 2);
+    add_node(g, 0, "A", 2, "C", 6);
+    add_node(g, 1, "B", 3, "D", 5);
+    add_node(g, 2, "C", 3, "D", 8);
+    add_node(g, 3, "D", 4, "E", 10);
+	add_node(g, 3, "D", 5, "F", 15);
+	add_node(g, 4, "E", 5, "F", 6);
+	add_node(g, 5, "F", 6, "G", 6);
+	add_node(g, 4, "E", 6, "G", 2);
+
+	float result = closeness_centrality(g, vertex); 
+
+	if(fabs(result - expected_result) < 0.0001){
+		equality_status = true;  
+	}
+
+	if(!equality_status) {
+		printf("%s::%s...  FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
+	}	
+
+}
+
+void test_normalized_closeness_centrality() {
+
+	int vertices = 7;
+	int vertex = 4; 
+	int equality_status = false;
+	float expected_result = 0.088235;  
+
+	adj_list_t *g = init_graph(vertices, vertices, false);
+    add_node(g, 0, "A", 1, "B", 2);
+    add_node(g, 0, "A", 2, "C", 6);
+    add_node(g, 1, "B", 3, "D", 5);
+    add_node(g, 2, "C", 3, "D", 8);
+    add_node(g, 3, "D", 4, "E", 10);
+	add_node(g, 3, "D", 5, "F", 15);
+	add_node(g, 4, "E", 5, "F", 6);
+	add_node(g, 5, "F", 6, "G", 6);
+	add_node(g, 4, "E", 6, "G", 2);
+
+	float result = normalized_closeness_centrality(g, vertex);
+
+	if(fabs(result - expected_result) < 0.0001){
+		equality_status = true;  
+	}
+
+	if(!equality_status) {
+		printf("%s::%s...  FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
+	}	
+
+}
+
+
+void test_degree_centrality_mat() {
+
+	int vertices = 7;
+	int vertex = 2;
+	int expected_results[7] = {2, 3, 3, 2, 0};  
+	bool equality_status = true; 
+
+	/* create adjacency matrix graph with size 5 */ 
+	mat_t *m = init_matrice_graph(5); 
+
+    /* create unique nodes */
+    entry_t *a = init_entry(0, "A"); 
+    entry_t *b = init_entry(1, "B"); 
+    entry_t *c = init_entry(2, "C"); 
+    entry_t *d = init_entry(3, "D"); 
+
+	/* connect a to everyone */ 
+    insert(m, a, b, 0, false); 
+    insert(m, a, c, 0, false); 
+    insert(m, b, c, 0, false); 
+    insert(m, b, d, 0, false); 
+    insert(m, c, d, 0, false); 
+
+	int *result = degree_centrality_mat(m);
+
+	for(int i = 0; i < m->vertices; i++){
+		if(result[i] != expected_results[i]){
+			equality_status = false; 
+		} 
+	}
+
+	if(!equality_status) {
+		printf("%s::%s...  FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
+	}	
+
 }
 

@@ -7,9 +7,9 @@ INCLUDES = -I./includes -I../graph/includes -I../map/includes -I./tests/includes
 FLAGS = -g -lm -lpthread $(INCLUDES)
 
 # Graph dependencies
-GRAPH_OBJS = ../graph/graph.o ../graph/node.o 
+GRAPH_OBJS = ../graph/graph.o ../list/adj_list.o ../list/node.o 
 GRAPH_EXTENSIONS = ../graph/path.o ../graph/search.o ../graph/community.o 
-GRAPH_STRUCTURES = ../graph/queue.o ../graph/matrix.o
+GRAPH_STRUCTURES = ../graph/queue.o ../matrice/matrix.o
 GRAPH_LIBS = $(GRAPH_OBJS) $(GRAPH_EXTENSIONS) $(GRAPH_STRUCTURES)
 
 # CSV source objects

@@ -37,3 +37,17 @@ class Graph(Structure):
         ("edges", POINTER(POINTER(Edge))),
         ("items", POINTER(NodeList))
     ]
+
+
+class NodeListSerial(Structure):
+    _fields_ = [
+        ("count", c_int),
+        ("items", POINTER(POINTER(c_char_p)))     
+    ]
+
+class AdjacencyList(Structure):
+
+    _fields_ = [
+        ("vertice_count", c_int),
+        ("items", POINTER(POINTER(NodeList)))
+    ]

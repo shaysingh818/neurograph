@@ -1,6 +1,6 @@
 #include "includes/search.h"
 
-queue_t *bfs(graph_t *g, node_t *root) {	
+queue_t *bfs(adj_list_t *g, node_t *root) {	
 
 	/* create array to return list of nodes visited */ 
 	int *nodes = malloc(g->v * sizeof(int));
@@ -10,7 +10,9 @@ queue_t *bfs(graph_t *g, node_t *root) {
 	queue_t *q = init_queue(g->v);
    	queue_t *visit = init_queue(g->v); 	
    	g->visited[root->id] = 1; 
-	push(q, root); 	
+
+	item_t *item = init_item(root->id, root->label, 0, root); 
+	push(q, item); 	
 
 	while(!is_empty(q)) {
 
@@ -26,8 +28,10 @@ queue_t *bfs(graph_t *g, node_t *root) {
 		while(temp) {
 			int adj_vertex = temp->id; 
 			if(g->visited[adj_vertex] == 0){
+
 				g->visited[adj_vertex] = 1; 
-				push(q, temp); 
+				item_t *temp_item = init_item(temp->id,temp->label, 0, temp);
+				push(q, temp_item); 
 			}
 			temp  = temp->next; 
 		}
@@ -37,12 +41,14 @@ queue_t *bfs(graph_t *g, node_t *root) {
 }
 
 
-int dfs(queue_t *q, graph_t *g, node_t *root) {
+int dfs(queue_t *q, adj_list_t *g, node_t *root) {
 
 	node_t *adj_list = g->items[root->id].head; 
 	node_t *temp = adj_list;
    	g->visited[root->id] = 1;
-	push(q, root); 
+
+	item_t *item = init_item(root->id, root->label, 0, root); 
+	push(q, item); 
 
 	while(temp != NULL) {
 		int connected_vertex = temp->id; 
@@ -56,12 +62,14 @@ int dfs(queue_t *q, graph_t *g, node_t *root) {
 }
 
 
-int k_dfs(queue_t *q, graph_t *g, node_t *root) {
+int k_dfs(queue_t *q, adj_list_t *g, node_t *root) {
 
 	/* grab the ID of the head node */ 
 	node_t *temp = g->items[root->id].head; 
    	g->visited[root->id] = 1;
-	push(q, root); 
+
+	item_t *item = init_item(root->id, root->label, 0, root); 
+	push(q, item); 
 
 	while(temp != NULL) {
 		int connected_vertex = temp->id; 
