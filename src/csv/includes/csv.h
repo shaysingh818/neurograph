@@ -56,8 +56,8 @@ void print_rows(csv_t *csv);
 void csv_info(csv_t *csv);
 
 /* csv to graph methods */ 
-graph_t *csv_to_unweighted_graph(csv_t *csv, int *cols, int size, bool directed);
-graph_t *csv_to_weighted_graph(csv_t *csv, int *cols, int size, bool directed); 
+adj_list_t *csv_to_unweighted_graph(csv_t *csv, int *cols, int size, bool directed);
+adj_list_t *csv_to_weighted_graph(csv_t *csv, int *cols, int size, bool directed); 
 mat_t *csv_g_mat(csv_t *csv, int *cols, int size, int directed); 
 
 #endif

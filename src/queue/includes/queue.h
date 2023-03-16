@@ -6,31 +6,51 @@
 #include <string.h>
 #include <stdbool.h>
 #include <limits.h>
-#include "../../graph/includes/node.h"
+#include "../../list/includes/node.h"
+
+
+struct QueueItem {
+	int integer; 
+	char *string;
+	int priority;
+	node_t *node;
+	struct QueueItem *next; 
+}; 
+
+typedef struct QueueItem item_t; 
 
 
 struct Queue {
-    unsigned capacity;
-    int front_index, rear_index, item_count;
-    node_t* front, rear;
-    node_t **items;
-};
+	unsigned capacity; 
+	int front_index, rear_index, item_count;
+	item_t* front, rear; 
+	item_t **items; 
+}; 
 
 typedef struct Queue queue_t;
 
+
 /* structural methods */
 queue_t *init_queue(unsigned capacity);
+item_t *init_item(int integer, char *string, int priority, node_t *node); 
 
-/* methods to check for capacity */
-int front(queue_t* q);
-int rear(queue_t *q);
+/* shared methods */
 int is_full(queue_t* q);
 int is_empty(queue_t* q);
 
-/* adding and viewing  information to queue */
-void push(queue_t* q, node_t *n);
+int front(queue_t* q);
+int rear(queue_t *q);
+
+/* insertion methods */
+void push(queue_t *q, item_t *item); 
+
+/* deletion methods */
 void pop(queue_t *q);
-void print_queue(queue_t *q);
+
+/* printer methods */
+void print_queue_item(item_t *item); 
+void print_queue(queue_t *q); 
+
 
 #endif
 

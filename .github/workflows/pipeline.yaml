@@ -43,6 +43,13 @@ jobs:
         ./target/test_matrix
         make clean
 
+    - name: Build and Test Adjacency List Library
+      working-directory: src/list/
+      run: |
+        make
+        ./target/test_adj_list
+        make clean
+
     - name: Build and Test Queue Library
       working-directory: src/queue/
       run: |
@@ -56,25 +63,17 @@ jobs:
         make
         ../target/diffusion
         make clean
-
-  # build shared objects
-  build-shared:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Build and Test Shared
-      working-directory: dgraph/so_files
-      run: |
-        make
-        make clean
-      
+ 
   # unit tests for python code base
   build-dgraph:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - name: Build Shared Object File
+        working-directory: src/
+        run: |
+          make
 
       - name: Install setuptools
         working-directory: dgraph/
@@ -83,6 +82,10 @@ jobs:
       - name: Install wheel
         working-directory: dgraph/
         run: pip install wheel
+
+      - name: Build python package
+        working-directory: dgraph/
+        run: python3 setup.py bdist_wheel
 
       - name: Test Graph Construct
         working-directory: dgraph/tests/

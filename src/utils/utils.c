@@ -1,9 +1,9 @@
 #include "includes/utils.h"
 
-graph_t *init_graph_util(int size, bool directed) {
+adj_list_t *init_graph_util(int size, bool directed) {
 
 	/* test first example of bfs */
-    graph_t *g = init_graph(size, size, directed);
+    adj_list_t *g = init_graph(size, size, directed);
 	if(g->err) {
 		return FALSE; 
 	}
@@ -13,7 +13,7 @@ graph_t *init_graph_util(int size, bool directed) {
 
 
 int add_node_util(
-	graph_t *g, int src_id, char *src, 
+	adj_list_t *g, int src_id, char *src, 
 	int dst_id, char *dst, int weight) {
 
 	/* do validation from here */ 
@@ -32,34 +32,26 @@ int add_node_util(
 }
 
 
-graph_t *g_to_csv_util(char *filepath, int *features, int size, int row_limit) {
-
-	/* parameter debug */
-	printf("FILENAME: %s\n", filepath); 
-	printf("SIZE: %d\n", size); 
-	printf("ROW LIMIT: %d\n", row_limit);
-
-	/* allocate feature array */ 
-	//features = (int*) malloc(size * sizeof(int)); 
+adj_list_t *g_to_csv_util(char *filepath, int *features, int size, int row_limit){
 
 	/* create instance of csv */ 
     csv_t *file = csv_init(filepath, FILE_BUFFER_SIZE, row_limit);
     if(!file->status) {
-		printf("INVALID FILE\n"); 
+		printf("[+] YOUR FILE does not abide by CSV standards\n"); 
         exit(0);
     }
-	
-	graph_t *g = csv_to_unweighted_graph(file, features, 2, false);
+
+	/* test random walk */
+	adj_list_t *g = csv_to_unweighted_graph(file, features, size, false);
 	if(g->err) {
 		g->err = true; 
-		return g; 
 	}
 
 	return g; 
 }
 
 
-void free_graph(graph_t *g) {
+void free_graph(adj_list_t *g) {
 	free(g); 
 }
 

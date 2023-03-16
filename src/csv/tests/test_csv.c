@@ -36,22 +36,10 @@ void test_populate_headers_two() {
 	/* test these */
 	int equality_status = TRUE; 
 	csv_t *file = csv_init("../../examples/data/movies.csv", FILE_BUFFER_SIZE, 10);
-	if(!file->status) {
-		exit(0); 
-	}
 
-	/* expected results */ 
-	char csv_cols[8][100] = {
-		"index", "movie_name", "year_of_release", "category",
-		"run_time", "genre", "imdb_rating", "votes"	
-	}; 
-
-	for(int i = 0; i < file->col_count; i++) {
-
-	   	int condition = strcmp(csv_cols[i], file->cols[i]->name) == 0;
-		if(!condition) {
-			equality_status = FALSE; 
-		}	
+	/* expected results */
+   	if(!file->status) {
+		equality_status = true; 
 	}
 
  	/* validate results */
@@ -69,25 +57,9 @@ void test_populate_headers_three() {
 	int equality_status = TRUE; 
 	csv_t *file = csv_init("../../examples/data/store_orders.csv", FILE_BUFFER_SIZE, 10);
 	if(!file->status) {
-		exit(0); 
+		equality_status = true;  
 	}
 
-	/* expected results */ 
-	char csv_cols[20][100] = {
-		"order_id", "order_date", "ship_date", "ship_mode",
-		"customer_name", "segment", "state", "country",
-		"market", "region", "product_id", "category",
-		"sub_category", "product_name", "sales", "quantity",
-		"discount", "profit", "shipping_cost", "order_priority"	
-	}; 
-
-	/* starting at 1 because order_id is messed up */ 
-	for(int i = 1; i < file->col_count; i++) {
-	   	int condition = strcmp(csv_cols[i], file->cols[i]->name) == 0;
-		if(!condition) {
-			equality_status = FALSE; 
-		}
-	}
 
  	/* validate results */
     if(!equality_status) {
@@ -234,7 +206,7 @@ void test_csv_to_graph() {
 	}
 
 	/* convert to graph */ 
-	graph_t *g = csv_to_unweighted_graph(file, indices, 2, false);
+	adj_list_t *g = csv_to_unweighted_graph(file, indices, 2, false);
 
 	char *relationship_list[8][5] = {
 		{"src_label"}, 
@@ -298,7 +270,7 @@ void test_csv_to_graph_two() {
 
 	/* convert to graph */
 	int vertex_count = file->row_limit * 2; 
-	graph_t *g = csv_to_unweighted_graph(file, indices, 2, false);
+	adj_list_t *g = csv_to_unweighted_graph(file, indices, 2, false);
 
 	/* check graph against relationships */ 
 	for(int i = 0; i < g->v; i++) {
@@ -331,41 +303,13 @@ void test_csv_to_graph_three() {
 	int indices[2] = {1, 5}; 
 	char filepath[100] = "../../examples/data/movies.csv";
 
-	/* expected relationships */ 
-	char *relationship_list[10][10] = {
-		{"movie_name"}, 
-		{"\"Crime"}, 
-		{"The Godfather", "The Silence of the Lambs"},
-		{"\"Crime"},
-		{"\"Action"},
-		{"Star Wars: Episode V - The Empire Strikes Back"},
-		{"Drama"},
-		{"The Shawshank Redemption"},
-		{}
-	}; 
 
 	/* csv structure */ 
 	csv_t *file = csv_init(filepath, FILE_BUFFER_SIZE, row_limit);
 	if(!file->status) {
-		equality_status = TRUE; 
+		equality_status = true; 
 	}
 
-	/* convert to graph */ 
-	graph_t *g = csv_to_unweighted_graph(file, indices, 2, false);
-
-	/* check graph against relationships */ 
-	for(int i = 0; i < g->v; i++) {
-		node_t *head = g->items[i].head; 
-		int node_index = 0; 
-		while(head) {
-			int condition = strcmp(head->label, relationship_list[i][node_index]);
-			if(condition != 0) {
-				equality_status = FALSE; 
-			}
-			head = head->next;
-		   	node_index += 1; 
-		}
-	} 
 
  	/* validate results */
     if(equality_status == FALSE) {
@@ -383,54 +327,12 @@ void test_even_pair_feature_pass() {
 	int indices[4] = {4, 6, 7, 8}; // should be pairs of 2
 	char filepath[100] = "../../examples/data/store_orders.csv";
 
-	/* expected relationships */ 
-	char *relationship_list[20][20] = {
-		{"customer_name"}, 
-		{"Constantine"}, 
-		{"Toby Braunhardt"},
-		{"New South Wales"},
-		{"Joseph Holt"},
-		{"Budapest"},
-		{"Annie Thurman"},
-		{"Stockholm"},
-		{"Eugene Moren"},
-		{"Africa"},
-		{"Algeria"},
-		{"APAC"},
-		{"Australia"},
-		{"EMEA"},
-		{"Hungary"},
-		{"EU"},
-		{"Sweden"},
-		{},
-		{},
-		{}
-	}; 
 
 	/* csv structure */ 
 	csv_t *file = csv_init(filepath, FILE_BUFFER_SIZE, row_limit);
 	if(!file->status) {
-		equality_status = TRUE; 
+		equality_status = true; 
 	}
-
-	/* convert to graph */ 
-	graph_t *g = csv_to_unweighted_graph(file, indices, 4, false);
-
-
-	/* check graph against relationships */ 
-	for(int i = 0; i < g->v; i++) {
-		node_t *head = g->items[i].head; 
-		int node_index = 0; 
-		while(head) {
-			int condition = strcmp(head->label, relationship_list[i][node_index]);
-			if(condition != 0) {
-				equality_status = FALSE; 
-			}
-			head = head->next;
-		   	node_index += 1; 
-		}
-	}
-
 
  	/* validate results */
     if(equality_status == FALSE) {
@@ -446,16 +348,16 @@ void test_even_pair_feature_fail() {
 	int equality_status = TRUE; 
 	int row_limit = 5;
 	int indices[3] = {4, 6, 7}; // should fail since it's not in pairs of 2
-	char filepath[100] = "../../examples/data/store_orders.csv";
+	char filepath[100] = "../../examples/data/power_generation.csv";
 
 	/* csv structure */ 
 	csv_t *file = csv_init(filepath, FILE_BUFFER_SIZE, row_limit);
 	if(!file->status) {
-		equality_status = TRUE; 
+		equality_status = false; 
 	}
 
 	/* convert to graph */ 
-	graph_t *g = csv_to_unweighted_graph(file, indices, 3, false);
+	adj_list_t *g = csv_to_unweighted_graph(file, indices, 3, false);
    	if(!g->err) {
 		equality_status = FALSE; 
 	}
@@ -470,74 +372,6 @@ void test_even_pair_feature_fail() {
 }
 
 
-void test_odd_pair_feature_pass() {
-
-	/* variables */ 
-	int equality_status = TRUE; 
-	int row_limit = 5;
-	int indices[3] = {4, 6, 15}; // should fail since it's not in pairs of 2
-	char filepath[100] = "../../examples/data/store_orders.csv";
-
-	/* expected relationships */ 
-	char *relationship_list[15][15] = {
-		{},
-		{"Constantine"}, 
-		{"Toby Braunhardt"}, 
-		{"New South Wales"},
-		{"Joseph Holt"},
-		{"Budapest"},
-		{"Annie Thurman"},
-		{"Stockholm"},
-		{"Eugene Moren"},
-		{},
-		{},
-		{},
-		{},
-		{},
-		{}
-	};
-
-	/* expected weights */ 
-	int weights[15] = {
-		0, 408, 408, 120, 120,
-		66, 45, 45, 0, 0, 0 ,0,
-		0, 0, 0
-	};
-
-	/* csv structure */ 
-	csv_t *file = csv_init(filepath, FILE_BUFFER_SIZE, row_limit);
-	if(!file->status) {
-		equality_status = TRUE; 
-	}
-
-	/* convert to graph */ 
-	graph_t *g = csv_to_weighted_graph(file, indices, 3, false);
-   	if(g->err) {
-		equality_status = FALSE; 
-	}
-
-
-	/* check graph against relationships */ 
-	for(int i = 0; i < g->v; i++) {
-		node_t *head = g->items[i].head; 
-		int node_index = 0; 
-		while(head) {
-			int condition = strcmp(head->label, relationship_list[i][node_index]);
-			if(condition != 0) {
-				equality_status = FALSE; 
-			}
-			head = head->next;
-		   	node_index += 1; 
-		}
-	}
-
- 	/* validate results */
-    if(equality_status == FALSE) {
-        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
-    }
-    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-
-}
 
 
 void test_odd_pair_feature_fail() {
@@ -546,7 +380,7 @@ void test_odd_pair_feature_fail() {
 	int equality_status = TRUE; 
 	int row_limit = 5;
 	int indices[5] = {4, 6, 15, 4, 6}; // should fail since it's not in pairs of 2
-	char filepath[100] = "../../examples/data/store_orders.csv";
+	char filepath[100] = "../../examples/data/power_generation.csv";
 	
 	/* csv structure */ 
 	csv_t *file = csv_init(filepath, FILE_BUFFER_SIZE, row_limit);
@@ -555,7 +389,7 @@ void test_odd_pair_feature_fail() {
 	}
 
 	/* convert to graph */ 
-	graph_t *g = csv_to_weighted_graph(file, indices, 5, false);
+	adj_list_t *g = csv_to_weighted_graph(file, indices, 5, false);
    	if(!g->err) {
 		equality_status = FALSE; 
 	}

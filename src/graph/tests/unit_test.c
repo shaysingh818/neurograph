@@ -5,16 +5,7 @@
 
 int main(int argc, char **argv) {
 	
-	/* graph utility methods */ 
-	test_graph();
-   	test_weighted_graph();
-	test_transpose_graph(); 
-
 	/* conversion methods */ 
-	test_to_matrix();
-	test_to_directed_matrix();	
-	test_to_weighted_matrix(); 
-	test_to_directed_weighted_matrix();
    	test_to_list();
 	test_to_weighted_list();
    	test_to_directed_list(); 	
@@ -25,15 +16,30 @@ int main(int argc, char **argv) {
 	test_bfs_two();
 	test_dfs_one();
 
-	/* path finding */
+	/* shortest path */
 	test_bellman_ford();
+	test_dijkstra();
+	test_dijkstra_two();
+	test_dijkstra_vertice();  
+	test_dijkstra_vertice_two();  
+	test_shortest_path();
+	test_dijkstra_mat();
+	test_dijkstra_origin_vertex_mat(); 
+	test_shortest_path_mat();
+
+	/* random walk */
    	test_random_walk();
 	test_weighted_random_walk();
+	test_random_walk_mat(); 
 
 	/* community detection */
 	test_degree_centrality();
 	test_weighted_degree_centrality();
+	test_degree_centrality_mat();
 	test_kosaraju();
 
+	/* centrality */
+	test_closeness_centrality();
+	test_normalized_closeness_centrality();
 
 }

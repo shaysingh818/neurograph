@@ -1,7 +1,7 @@
 #include "includes/path.h"
 
 
-int *bellman_ford(graph_t *g, node_t *root, int *dist) {
+int *bellman_ford(adj_list_t *g, node_t *root, int *dist) {
 
 	/* grab src node, vertices and edges */ 
 	int v = g->v; 
@@ -41,7 +41,109 @@ int *bellman_ford(graph_t *g, node_t *root, int *dist) {
 }
 
 
-int *random_walk(graph_t *g, int start_vertex, int steps, int *path) {
+
+
+int *dijkstra(adj_list_t *g, int start_vertex) {
+	
+	/* start and current node */ 
+	node_t *start = g->items[start_vertex].head;
+	int *dist = malloc(g->v * sizeof(int));
+	int *prev = malloc(g->v * sizeof(int)); 
+	int *s = malloc(g->v * sizeof(int)); 
+
+	/* create queue using int values */ 
+	queue_t *q = init_queue(g->v); 
+
+	for(int i = 0; i < g->v; i++) {
+	   	if(i != start_vertex) {
+			dist[i] = INT_MAX; 
+			prev[i] = INT_MIN; 	
+		}
+	}
+
+	/* push start vertex to front of queue */
+	item_t *start_item = init_item(start_vertex, start->label, 0, start); 
+	push(q, start_item); 
+	dist[start_vertex] = 0; 
+
+	while(!is_empty(q)) {
+
+		/* get minimum distance */
+		int u = q->items[q->front_index]->integer; 
+		pop(q);  
+
+		node_t *head = g->items[u].head; 
+		while(head) {
+
+			if(dist[head->id] > dist[u] + head->weight) {
+				dist[head->id] = dist[u] + head->weight;
+				prev[head->id] = u; 
+				item_t *temp = init_item(head->id, head->label, 0, head); 
+				push(q, temp); 
+			}
+			head = head->next; 
+		}
+	}
+
+	return dist; 
+}	
+
+
+int shortest_path(adj_list_t *g, int start_vertex, int end_vertex) {
+
+	/* start and current node */ 
+	node_t *start = g->items[start_vertex].head;
+	int *dist = malloc(g->v * sizeof(int));
+	int *prev = malloc(g->v * sizeof(int)); 
+	int *s = malloc(g->v * sizeof(int)); 
+
+	/* create queue using int values */ 
+	queue_t *q = init_queue(g->v); 
+
+	for(int i = 0; i < g->v; i++) {
+	   	if(i != start_vertex) {
+			dist[i] = INT_MAX; 
+			prev[i] = INT_MIN; 	
+		}
+	}
+
+	/* push start vertex to front of queue */
+	item_t *start_item = init_item(start_vertex, start->label, 0, start); 
+	push(q, start_item); 
+	dist[start_vertex] = 0; 
+
+	while(!is_empty(q)) {
+
+		/* get minimum distance */
+		int u = q->items[q->front_index]->integer; 
+		pop(q);  
+
+		node_t *head = g->items[u].head; 
+		while(head) {
+
+			int x = dist[u] + head->weight; 
+			if(dist[head->id] > dist[u] + head->weight) {
+				/* otherwise keep looking */
+				dist[head->id] = dist[u] + head->weight;
+				prev[head->id] = u; 
+				item_t *temp = init_item(head->id, head->label, 0, head); 
+				push(q, temp); 
+			}
+
+			head = head->next; 
+		}
+
+	}
+
+	if(dist[end_vertex] != INT_MAX){
+		return dist[end_vertex]; 
+	}
+	/* in this case, there is no shortest path  */
+	return 0; 
+} 
+
+
+int *random_walk(adj_list_t *g, int start_vertex, int steps, int *path) {
 
 	/* variables */ 	
 	int v = g->v;
@@ -80,7 +182,7 @@ int *random_walk(graph_t *g, int start_vertex, int steps, int *path) {
 }
 
 
-walk_t *weighted_random_walk(graph_t *g, walk_t *w, int start_vertex) {
+walk_t *weighted_random_walk(adj_list_t *g, walk_t *w, int start_vertex) {
 		
 	/* variables */ 	
 	int v = g->v;
@@ -118,3 +220,147 @@ walk_t *weighted_random_walk(graph_t *g, walk_t *w, int start_vertex) {
 
 	return w; 	
 }
+
+
+walk_t *random_walk_mat(mat_t *m, int start_vertex, int steps) {
+
+	/* init random seed */
+   	time_t t; 	
+	srand((unsigned) time(&t));
+	int start = start_vertex;
+
+	/* create walk structure */
+	walk_t *walk = init_walk(steps); 	 
+
+	for(int n = 0; n < steps; n++){
+
+		int counter = 0;
+		int neighbors[m->vertices];
+
+		for(int j = 0; j < m->vertices; j++) {
+			int id = m->matrix[start*m->vertices+j]->id; 
+			if(id >= 0) {
+				neighbors[counter] = id; 
+				counter += 1; 
+			}
+		}
+
+		int rand_index = rand() % counter; 
+		int selected_neighbor = neighbors[rand_index]; 
+		int weight = m->weights[start*m->vertices+selected_neighbor];
+
+		start = selected_neighbor;
+		walk->weighted_sum += weight; 
+		walk->path[n] = selected_neighbor; 
+	}
+
+	return walk; 
+}
+
+
+int *dijkstra_mat(mat_t *m, int start_vertex) {
+
+	int *dist = malloc(m->vertices * sizeof(int));
+	int *prev = malloc(m->vertices * sizeof(int)); 
+	queue_t *q = init_queue(m->vertices); 
+
+	for(int i = 0; i < m->vertices; i++) {
+		if(i != start_vertex) {
+			dist[i] = INT_MAX; 
+			prev[i] = INT_MIN; 
+		}
+	}
+
+	/* push start vertex to front of queue */
+	entry_t *start = search_entry_by_id(m, start_vertex);
+	item_t *start_item = init_item(start->id, start->label, 0, NULL); 
+	push(q, start_item); 	
+	dist[start_vertex] = 0; 
+
+	while(!is_empty(q)) {
+
+		/* get minimum distance */
+		int u = q->items[q->front_index]->integer;
+		pop(q); 
+
+		/* get neighbors */
+		for(int n = 0; n < m->vertices; n++){
+
+			int id = m->matrix[start_vertex*m->vertices+n]->id; 
+			int weight = m->weights[start_vertex*m->vertices+n]; 
+			char *label = m->matrix[start_vertex*m->vertices+n]->label; 
+
+			if(id >= 0) {
+				if(dist[id] > dist[u] + weight) {
+					dist[id] = dist[u] + weight;
+					prev[id] = u; 
+					item_t *temp = init_item(id, label, 0, NULL); 
+					push(q, temp);
+				}
+				start_vertex = u; 
+			}
+		}
+	}
+
+	return dist;  	
+}
+
+
+
+int shortest_path_mat(mat_t *m, int start_vertex, int end_vertex) {
+
+	/* 
+		This method should be refactored. It does the same
+		logic as the Dijkstra code. Only difference is 
+		parameters and what it returns. 
+	*/
+
+	int *dist = malloc(m->vertices * sizeof(int));
+	int *prev = malloc(m->vertices * sizeof(int)); 
+	queue_t *q = init_queue(m->vertices); 
+
+	for(int i = 0; i < m->vertices; i++) {
+		if(i != start_vertex) {
+			dist[i] = INT_MAX; 
+			prev[i] = INT_MIN; 
+		}
+	}
+
+	/* push start vertex to front of queue */
+	entry_t *start = search_entry_by_id(m, start_vertex);
+	item_t *start_item = init_item(start->id, start->label, 0, NULL); 
+	push(q, start_item); 	
+	dist[start_vertex] = 0;
+
+
+	while(!is_empty(q)) {
+
+		/* get minimum distance */
+		int u = q->items[q->front_index]->integer;
+		pop(q); 
+
+		/* get neighbors */
+		for(int n = 0; n < m->vertices; n++){
+
+			int id = m->matrix[start_vertex*m->vertices+n]->id; 
+			int weight = m->weights[start_vertex*m->vertices+n]; 
+			char *label = m->matrix[start_vertex*m->vertices+n]->label; 
+
+			if(id >= 0) {
+				if(dist[id] > dist[u] + weight) {
+					dist[id] = dist[u] + weight;
+					prev[id] = u; 
+					item_t *temp = init_item(id, label, 0, NULL); 
+					push(q, temp);
+				}
+				start_vertex = u; 
+			}
+		}
+	}
+
+	if(dist[end_vertex] != INT_MAX){
+		return dist[end_vertex]; 
+	}
+
+	return 0; 
+} 
