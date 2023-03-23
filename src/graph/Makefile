@@ -33,7 +33,7 @@ FLAGS = -g -lm -lpthread
 all: unit_test source
 
 unit_test: unit_test.o $(GRAPH_OBJS) $(TEST_OBJS)
-	gcc -o $(TEST_TARGET) unit_test.o $(GRAPH_OBJS) $(TEST_OBJS)
+	gcc -o $(TEST_TARGET) unit_test.o $(GRAPH_OBJS) $(TEST_OBJS) $(FLAGS)
 
 source: main.o $(GRAPH_OBJS)
 	gcc -o $(TARGET) main.o $(GRAPH_OBJS) $(FLAGS)

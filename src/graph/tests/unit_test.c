@@ -37,6 +37,8 @@ int main(int argc, char **argv) {
 	test_weighted_degree_centrality();
 	test_degree_centrality_mat();
 	test_kosaraju();
+	test_label_nodes(); 
+	test_label_propogation(); 
 
 	/* centrality */
 	test_closeness_centrality();
