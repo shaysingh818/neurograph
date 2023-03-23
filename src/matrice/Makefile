@@ -13,7 +13,7 @@ FLAGS = -lm -lpthread
 all: unit_test source
 
 unit_test: unit_test.o $(ALL_OBJS)
-	$(CC) -o $(TEST_TARGET) unit_test.o $(ALL_OBJS)
+	$(CC) -o $(TEST_TARGET) unit_test.o $(ALL_OBJS) $(FLAGS)
 
 source: main.o $(OBJS)
 	$(CC) -o $(TARGET) main.o $(OBJS) $(FLAGS)

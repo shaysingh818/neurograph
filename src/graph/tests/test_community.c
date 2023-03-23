@@ -52,7 +52,7 @@ void test_weighted_degree_centrality() {
 	/* test weighted degree centrality */ 
 	int result = weighted_degree_centrality(g);
 	int equality_condition = result == 0; 
-		
+
 	if(!equality_condition) {
 		printf("%s::%s...  FAILED\n", __FILE__, __FUNCTION__); 
 	} else {
@@ -97,8 +97,8 @@ void test_kosaraju() {
         {4, 6, 5},
         {7}
     };
-	
-	/* question: can there be more communities then there are vertices? */
+
+
 	/* refine this method to have a specific structural return type for communities */ 
 	for(int i = 0; i < g->v; i++) {
 		for(int j = 0; j < g->v; j++) {
@@ -108,6 +108,7 @@ void test_kosaraju() {
 		}
 	}
 
+	
 	if(!equality_test) {
 		printf("%s::%s...  FAILED\n", __FILE__, __FUNCTION__); 
 	} else {
@@ -210,6 +211,99 @@ void test_degree_centrality_mat() {
 		if(result[i] != expected_results[i]){
 			equality_status = false; 
 		} 
+	}
+
+	if(!equality_status) {
+		printf("%s::%s...  FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
+	}	
+
+}
+
+
+void test_label_nodes(){
+
+	bool equality_status = true;  
+	int vertices = 7; 
+	mat_t *m = init_matrice_graph(vertices);
+
+    /* create unique nodes */
+    entry_t *a = init_entry(0, "A"); 
+    entry_t *b = init_entry(1, "B"); 
+    entry_t *c = init_entry(2, "C"); 
+    entry_t *d = init_entry(3, "D"); 
+    entry_t *e = init_entry(4, "E"); 
+    entry_t *f = init_entry(5, "F"); 
+    entry_t *g = init_entry(6, "G"); 
+
+	/* connect a to everyone */
+    insert(m, a, a, 0, false); 
+    insert(m, b, b, 0, false); 
+    insert(m, d, a, 0, false); 
+    insert(m, d, c, 0, false); 
+    insert(m, d, e, 0, false); 
+    insert(m, e, f, 0, false); 
+    insert(m, f, g, 0, false); 
+    insert(m, f, b, 0, false);
+
+	int labels[2] = {0, 1}; 
+	vec_t *result = label_nodes(m, labels); 
+
+
+
+
+
+}
+
+
+void test_label_propogation() {
+
+	/* create adjacency matrix graph with size 5 */
+	bool equality_status = true;  
+	int vertices = 7; 
+	mat_t *m = init_matrice_graph(vertices);
+
+	/* expected result */
+    double expected[7][7] = {
+        {1.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00},
+        {0.00, 1.00, 0.00, 0.00, 0.00, 0.00, 0.00},
+        {0.75, 0.25, 0.00, 0.00, 0.00, 0.00, 0.00},
+        {0.75, 0.25, 0.00, 0.00, 0.00, 0.00, 0.00},
+        {0.50, 0.50, 0.00, 0.00, 0.00, 0.00, 0.00},
+        {0.25, 0.75, 0.00, 0.00, 0.00, 0.00, 0.00},
+        {0.25, 0.75, 0.00, 0.00, 0.00, 0.00, 0.00}
+    };
+	
+
+    /* create unique nodes */
+    entry_t *a = init_entry(0, "A"); 
+    entry_t *b = init_entry(1, "B"); 
+    entry_t *c = init_entry(2, "C"); 
+    entry_t *d = init_entry(3, "D"); 
+    entry_t *e = init_entry(4, "E"); 
+    entry_t *f = init_entry(5, "F"); 
+    entry_t *g = init_entry(6, "G"); 
+
+	/* connect a to everyone */
+    insert(m, a, a, 0, true); 
+    insert(m, b, b, 0, true); 
+    insert(m, d, a, 0, true); 
+    insert(m, d, c, 0, false); 
+    insert(m, d, e, 0, false); 
+    insert(m, e, f, 0, false); 
+    insert(m, f, g, 0, false); 
+    insert(m, f, b, 0, true); 
+
+	vec_t *result = label_propogation(m, 50); 
+
+	for(int i = 0; i < vertices; i++){
+		for(int j = 0; j < vertices; j++){
+			double rounded_value = round(result->items[i][j]*100)/100; 
+			if(expected[i][j] != rounded_value){
+				equality_status = false; 
+			}
+		}
 	}
 
 	if(!equality_status) {

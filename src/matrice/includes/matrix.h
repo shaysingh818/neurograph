@@ -5,6 +5,15 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <math.h> 
+
+struct Vector {
+    int rows; 
+    int cols; 
+    double **items; 
+}; 
+
+typedef struct Vector vec_t; 
 
 
 /* represents an entry in a matrice */
@@ -16,7 +25,7 @@ struct Entry {
 typedef struct Entry entry_t; 
 
 
-struct Matrix {
+struct MatrixGraph {
     int rows;
     int cols; /* in case the rows and cols aren't equal*/
     int vertices;
@@ -24,7 +33,19 @@ struct Matrix {
     entry_t **matrix;
 };
 
-typedef struct Matrix mat_t;
+typedef struct MatrixGraph mat_t;
+
+/* create standard vector */
+vec_t *init_vec(int rows, int cols, bool identity);
+vec_t *multiply(vec_t *v1, vec_t *v2); 
+vec_t *scalar_multiply(vec_t *v1, double value);
+vec_t *power(vec_t *v1, int power); 
+
+/* useful utilities (for label propogation) */
+void copy_mat(vec_t *v1, vec_t *v2);
+
+/* print vec */
+void print_vec(vec_t *v1); 
 
 
 /* entry instance */
