@@ -240,19 +240,41 @@ void test_label_nodes(){
 	/* connect a to everyone */
     insert(m, a, a, 0, false); 
     insert(m, b, b, 0, false); 
-    insert(m, d, a, 0, false); 
+    insert(m, a, d, 0, false); 
     insert(m, d, c, 0, false); 
     insert(m, d, e, 0, false); 
     insert(m, e, f, 0, false); 
     insert(m, f, g, 0, false); 
-    insert(m, f, b, 0, false);
+    insert(m, b, f, 0, false);
 
-	int labels[2] = {0, 1}; 
-	vec_t *result = label_nodes(m, labels); 
+	int labels[2] = {0, 1}; // only works with these labels 
+	vec_t *result = label_nodes(m, labels);
 
+	/* expected result */
+    double expected[7][7] = {
+        {1.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00},
+        {0.00, 1.00, 0.00, 0.00, 0.00, 0.00, 0.00},
+        {0.00, 0.00, 0.00, 1.00, 0.00, 0.00, 0.00},
+        {1.00, 0.00, 1.00, 0.00, 1.00, 0.00, 0.00},
+        {0.00, 0.00, 0.00, 1.00, 0.00, 1.00, 0.00},
+        {0.00, 1.00, 0.00, 0.00, 1.00, 0.00, 1.00},
+        {0.00, 0.00, 0.00, 0.00, 0.00, 1.00, 0.00}
+    };
 
+	for(int i = 0; i < vertices; i++){
+		for(int j = 0; j < vertices; j++){
+			double rounded_value = round(result->items[i][j]*100)/100; 
+			if(expected[i][j] != rounded_value){
+				equality_status = false; 
+			}
+		}
+	}
 
-
+	if(!equality_status) {
+		printf("%s::%s...  FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
+	}	
 
 }
 
@@ -286,16 +308,18 @@ void test_label_propogation() {
     entry_t *g = init_entry(6, "G"); 
 
 	/* connect a to everyone */
-    insert(m, a, a, 0, true); 
-    insert(m, b, b, 0, true); 
-    insert(m, d, a, 0, true); 
+    insert(m, a, a, 0, false); 
+    insert(m, b, b, 0, false); 
+    insert(m, d, a, 0, false); 
     insert(m, d, c, 0, false); 
     insert(m, d, e, 0, false); 
     insert(m, e, f, 0, false); 
     insert(m, f, g, 0, false); 
-    insert(m, f, b, 0, true); 
+    insert(m, f, b, 0, false); 
 
-	vec_t *result = label_propogation(m, 50); 
+	int labels[2] = {0, 1}; //only works with these labels
+	vec_t *A = label_nodes(m, labels); 
+	vec_t *result = label_propogation(A, 50);
 
 	for(int i = 0; i < vertices; i++){
 		for(int j = 0; j < vertices; j++){
