@@ -173,21 +173,29 @@ int *degree_centrality_mat(mat_t *m) {
 
 vec_t *label_nodes(mat_t *m, int *labels) {
 
-
-	vec_t *result = init_vec(m->vertices, m->vertices, false);
+	vec_t *A = init_vec(m->vertices, m->vertices, false);
 	size_t n = sizeof(labels) / sizeof(labels[0]);
-	printf("array size: %ld\n", n); 
 
-	/* get size of labels array */
-	print_matrix_labels(m); 
-	return result; 
+	for(int i = 0; i < m->vertices; i++){
+		for(int j = 0; j < m->vertices; j++){
 
+			if(m->matrix[i*m->vertices+j]->label != NULL){
+				if(i == labels[i] && i == j){
+					A->items[i][j] = 1;
+				}
 
+				if(i != labels[i]){
+					A->items[i][j] = 1; 
+				}	
+			}
+		}
+	}
+
+	return A; 
 
 }
 
-vec_t *label_propogation(mat_t *m, int iterations) {
-
+vec_t *label_propogation(vec_t *A, int iterations) {
 
 	int node_count = 2; 
 	int labeled_nodes[2] = {0, 1};
@@ -196,18 +204,14 @@ vec_t *label_propogation(mat_t *m, int iterations) {
 	double prob;
 
 	/* probabilistic transition matrix */
-	vec_t *A = init_vec(m->vertices, m->vertices, false);
-	vec_t *d = init_vec(m->vertices, m->vertices, false); 
+	vec_t *d = init_vec(A->rows, A->cols, false); 
 
 	/* get adjacency and degree matrix   */
-	for(int i = 0; i < m->vertices; i++){
+	for(int i = 0; i < A->rows; i++){
 
 		int neighbor_count = 0; 
-		for(int j = 0; j < m->vertices; j++){
-			if(m->matrix[i*m->vertices+j]->label != NULL){
-
-				
-				A->items[i][j] = 1;
+		for(int j = 0; j < A->rows; j++){
+			if(A->items[i][j] > 0){	
 				neighbor_count += 1;  
 			}
 		}
