@@ -15,8 +15,15 @@ void test_init_vec();
 void test_scalar_multiply(); 
 void test_copy_vec(); 
 void test_vector_multiplication();
-void test_matrix_power();  
+void test_matrix_power(); 
 
+/* test neural network specific methods */
+void test_dot_product();
+void test_dot_unequal_dimensions();
+void test_backprop_dot_product(); 
+void test_add_mat();
+void test_scale_add();  
+void test_transpose_mat(); 
 
 
 #endif
