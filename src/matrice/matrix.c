@@ -40,7 +40,22 @@ vec_t *scalar_multiply(vec_t *v, double value) {
 	}
 
 	return result;
-} 
+}
+
+vec_t *scale(vec_t *v, double value) {
+
+	/* this assumes the matrix is upper triangular */
+	vec_t *result = init_vec(v->rows, v->cols, false); 
+
+	for(int i = 0; i < v->rows; i++){
+		double slot; 
+		for(int j = 0; j < v->cols; j++){
+			result->items[i][j] *= value; 		
+		}
+	}
+
+	return result;
+}
 
 
 void copy_mat(vec_t *v1, vec_t *v2){
@@ -111,6 +126,102 @@ vec_t *power(vec_t *v1, int power) {
 	return result; 
 
 } 
+
+vec_t *dot(vec_t *n, vec_t *m){
+	
+	// check if matrix m has equal rows as cols of n
+	vec_t *result_mat = init_vec(n->rows, m->cols, false);
+
+    if(n->cols == m->rows) {
+        for(int i = 0; i < n->rows; i++){
+            for(int j = 0; j < m->cols; j++){
+				double sum = 0; 
+				for(int k = 0; k < m->rows; k++){
+					sum += n->items[i][k] * m->items[k][j];
+				}
+				result_mat->items[i][j] = sum; 
+            }
+        }        
+    }
+
+	return result_mat; 	
+}
+
+vec_t *add(vec_t *n, vec_t *m){
+
+	vec_t *result_mat = init_vec(n->rows, n->cols, false); 
+	// confirm that cols of m are equal to n
+	for(int i = 0; i < n->rows; i++){
+		for(int j = 0; j < m->cols; j++){
+			double value = n->items[i][j] + m->items[i][j];
+			result_mat->items[i][j] = value;  
+		}
+	}
+
+	return result_mat; 
+}
+
+
+vec_t *scale_add(vec_t *n, vec_t *m){
+
+	vec_t *result_mat = init_vec(n->rows, n->cols, false); 
+	for(int i = 0; i < n->rows; i++){
+		for(int j = 0; j < n->cols; j++){
+			double value = n->items[i][j] +  m->items[0][j];  
+			result_mat->items[i][j] = value;
+		}
+	}
+
+	return result_mat; 
+}
+
+
+vec_t *transpose(vec_t *n){
+
+	vec_t *result_mat = init_vec(n->cols, n->rows, false); 
+	for(int i = 0; i < n->rows; i++){
+		for(int j = 0; j < n->cols; j++){
+			result_mat->items[j][i] = n->items[i][j];  
+		}
+	}		
+
+	return result_mat; 
+}
+
+
+vec_t *difference(vec_t *x, vec_t *y){
+
+	vec_t *result = init_vec(x->rows, x->cols, false); 
+	for(int i = 0; i < x->rows; i++){
+		for(int j = 0; j < x->cols; j++){
+			result->items[i][j] = x->items[i][j] - y->items[i][j];  
+		}
+	}
+
+	return result; 
+}
+
+vec_t *apply(double(*activation_function)(double), vec_t *m) {
+
+	vec_t *result = init_vec(m->rows, m->cols, false); 
+
+	for(int i = 0; i < m->rows; i++){
+		for(int j = 0; j < m->cols; j++){
+			result->items[i][j] = (*activation_function)(m->items[i][j]);
+		}
+	}
+
+	return result; 
+}
+
+
+double uniform_distribution(double low, double high) {
+	double difference = high - low; // The difference between the two
+	int scale = 10000;
+	int scaled_difference = (int)(difference * scale);
+	return low + (1.0 * (rand() % scaled_difference) / scale);
+}
+
 
 void print_vec(vec_t *v) {
 	for(int i = 0; i < v->rows; i++){
@@ -201,6 +312,16 @@ void insert(mat_t *m, entry_t *src, entry_t *dst, int weight,  bool directed) {
 	}
 }
 
+void randomize(vec_t *vec, int n){
+	srand((unsigned)time(NULL));
+	double min = -1.0 / sqrt(n);
+	double max = 1.0 / sqrt(n);
+	for(int i = 0; i < vec->rows; i++){
+		for(int j = 0; j < vec->cols; j++){
+			vec->items[i][j] = uniform_distribution(min, max); 	
+		}
+	}
+}
 
 void print_matrix_ids(mat_t *m) {
 	for(int i = 0; i < m->vertices; i++) {

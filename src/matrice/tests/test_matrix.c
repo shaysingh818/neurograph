@@ -281,3 +281,230 @@ void test_matrix_power() {
     }
 
 }
+
+void test_dot_product() {
+
+    int rows = 6; 
+    int cols = 6;
+    bool equality_status = true;  
+    vec_t *m = init_vec(rows, cols, false); 
+    vec_t *m2 = init_vec(rows, cols, false); 
+
+    double m_values[6][6] = {
+        {2, 0, 0, 0, 0, 0}, 
+        {0, 2, 0, 0, 0, 0},
+        {0, 0, 2, 0, 0, 0},
+        {0, 0, 0, 2, 0, 0},
+        {0, 0, 0, 0, 2, 0},
+        {0, 0, 0, 0, 0, 2},
+    };
+
+    double m2_values[6][6] = {
+        {3, 0, 0, 0, 0, 0}, 
+        {0, 3, 0, 0, 0, 0},
+        {0, 0, 3, 0, 0, 0},
+        {0, 0, 0, 3, 0, 0},
+        {0, 0, 0, 0, 3, 0},
+        {0, 0, 0, 0, 0, 3},
+    };
+
+    double expected_values[6][6] = {
+        {6, 0, 0, 0, 0, 0}, 
+        {0, 6, 0, 0, 0, 0},
+        {0, 0, 6, 0, 0, 0},
+        {0, 0, 0, 6, 0, 0},
+        {0, 0, 0, 0, 6, 0},
+        {0, 0, 0, 0, 0, 6},
+    };
+
+    /* copy values to matrice */
+    for(int i = 0; i < rows; i++){
+        for(int j = 0; j < cols; j++){
+            m->items[i][j] = m_values[i][j];
+            m2->items[i][j] = m2_values[i][j]; 
+        }
+    }
+
+    vec_t *result = dot(m, m2); 
+
+    for(int i = 0; i < rows; i++){
+        double rounded_value = round(result->items[i][i]*100)/100; 
+        if(expected_values[i][i] != rounded_value){
+            equality_status = false; 
+		}
+	}
+
+    if(!equality_status) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    } else {
+        printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+    } 
+}
+
+
+void test_add_mat() {
+
+    int rows = 6; 
+    int cols = 6;
+    bool equality_status = true;  
+    vec_t *m = init_vec(rows, cols, false); 
+    vec_t *m2 = init_vec(rows, cols, false); 
+
+    double m_values[6][6] = {
+        {2, 0, 0, 0, 0, 0}, 
+        {0, 2, 0, 0, 0, 0},
+        {0, 0, 2, 0, 0, 0},
+        {0, 0, 0, 2, 0, 0},
+        {0, 0, 0, 0, 2, 0},
+        {0, 0, 0, 0, 0, 2},
+    };
+
+    double m2_values[6][6] = {
+        {3, 0, 0, 0, 0, 0}, 
+        {0, 3, 0, 0, 0, 0},
+        {0, 0, 3, 0, 0, 0},
+        {0, 0, 0, 3, 0, 0},
+        {0, 0, 0, 0, 3, 0},
+        {0, 0, 0, 0, 0, 3},
+    };
+
+
+    double expected_values[6][6] = {
+        {5, 0, 0, 0, 0, 0}, 
+        {0, 5, 0, 0, 0, 0},
+        {0, 0, 5, 0, 0, 0},
+        {0, 0, 0, 5, 0, 0},
+        {0, 0, 0, 0, 5, 0},
+        {0, 0, 0, 0, 0, 5},
+    };
+
+    for(int i = 0; i < rows; i++){
+        for(int j = 0; j < cols; j++){
+            m->items[i][j] = m_values[i][j];
+            m2->items[i][j] = m2_values[i][j]; 
+        }
+    }
+
+    vec_t *result = add(m, m2);
+
+    for(int i = 0; i < rows; i++){
+        double rounded_value = round(result->items[i][i]*100)/100; 
+        if(expected_values[i][i] != rounded_value){
+            equality_status = false; 
+		}
+	}
+
+    if(!equality_status) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    } else {
+        printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+    } 
+        
+}
+
+void test_scale_add(){
+
+    vec_t *dot_product = init_vec(4, 3, false); 
+    vec_t *biases = init_vec(1, 3, false); 
+    bool equality_status = true; 
+
+    double m_values[4][3] = {
+        {0, 0, 0}, 
+        {2, 2, 2}, 
+        {2, 2, 2}, 
+        {4, 4, 4}, 
+    };
+
+    double biase_values[1][3] = {
+        {1, 1, 1}, 
+    };
+
+
+    double expected_values[4][3] = {
+        {1, 1, 1}, 
+        {3, 3, 3}, 
+        {3, 3, 3}, 
+        {5, 5, 5}, 
+    };
+
+
+    for(int i = 0; i < 4; i++){
+        for(int j = 0; j < 3; j++){
+            dot_product->items[i][j] = m_values[i][j];
+            if(i == 0){
+                biases->items[i][j] = biase_values[i][j]; 
+            }
+        }
+    }
+
+    vec_t *result = scale_add(dot_product, biases); 
+
+    for(int i = 0; i < 4; i++){
+        for(int j = 0; j < 3; j++){
+            double rounded_value = round(result->items[i][j]*100)/100; 
+            if(expected_values[i][j] != rounded_value){
+                equality_status = false; 
+		    }
+        }
+	}
+
+    if(!equality_status) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    } else {
+        printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+    } 
+
+}
+
+void test_transpose_mat(){
+
+
+    int rows = 6; 
+    int cols = 6;
+    bool equality_status = true;  
+    vec_t *m = init_vec(rows, cols, false); 
+
+    double m_values[6][6] = {
+        {1, 2, 3, 4, 5, 6}, 
+        {1, 2, 3, 4, 5, 6},
+        {0, 0, 2, 0, 0, 0},
+        {0, 0, 0, 2, 0, 0},
+        {0, 0, 0, 0, 2, 0},
+        {0, 0, 0, 0, 0, 2},
+    };
+
+    double expected_values[6][6] = {
+        {1, 1, 0, 0, 0, 0}, 
+        {2, 2, 0, 0, 0, 0},
+        {3, 3, 2, 0, 0, 0},
+        {4, 4, 0, 2, 0, 0},
+        {5, 5, 0, 0, 2, 0},
+        {6, 6, 0, 0, 0, 2},
+    };
+
+    for(int i = 0; i < rows; i++){
+        for(int j = 0; j < cols; j++){
+            m->items[i][j] = m_values[i][j];
+        }
+    }
+
+    vec_t *result = transpose(m); 
+
+    for(int i = 0; i < rows; i++){
+        for(int j = 0; j < cols; j++){
+            double rounded_value = round(result->items[i][j]*100)/100; 
+            if(expected_values[i][j] != rounded_value){
+                equality_status = false; 
+		    }
+        }
+	}
+
+    if(!equality_status) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    } else {
+        printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+    } 
+
+}
+
+
