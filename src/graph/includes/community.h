@@ -18,9 +18,9 @@ int page_rank(adj_list_t *g, node_t *root);
 int **kosaraju(adj_list_t *g, int start_vertex); 
 
 /* MATRICE REPRESENTATION */
-int *degree_centrality_mat(mat_t *m);
-vec_t *label_nodes(mat_t *m, int labels[]); 
-vec_t *label_propogation(vec_t *A, int iterations);  
+int *degree_centrality_mat(mat_graph_t *m);
+mat_t *label_nodes(mat_graph_t *m, int labels[]); 
+mat_t *label_propogation(mat_t *A, int iterations);  
 
 
 #endif

@@ -2,7 +2,7 @@
 #define TEST_GRAPH_H
 
 #include "../../includes/graph.h"
-#include "../../../queue/includes/queue.h"
+#include "../../../data_structures/includes/queue.h"
 
 /* test conversion methods */ 
 void test_to_list(); 

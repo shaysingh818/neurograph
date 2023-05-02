@@ -1,10 +1,12 @@
 #include "graph/includes/graph.h"
-#include "matrice/includes/matrix.h"
-#include "list/includes/adj_list.h"
-#include "queue/includes/queue.h"
-#include "map/includes/map.h"
 #include "graph/includes/path.h"
-#include "csv/includes/csv.h"
+#include "data_structures/includes/matrix.h"
+#include "data_structures/includes/adj_list.h"
+#include "data_structures/includes/queue.h"
+#include "data_structures/includes/map.h"
+#include "data_structures/includes/node.h"
+#include "extractors/includes/csv.h"
+
 
 int main(int argc, char **argv) {
 
@@ -25,7 +27,7 @@ int main(int argc, char **argv) {
 	printf("\n");
 
 	/* create adjacency matrix graph with size 5 */
-	mat_t *m = init_matrice_graph(5); 
+	mat_graph_t *m = init_matrice_graph(5); 
 
     /* create unique nodes */
     entry_t *a = init_entry(0, "A"); 
