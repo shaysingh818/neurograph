@@ -26,7 +26,7 @@ jobs:
       working-directory: src/networks/
       run: |
         make
-        ./target/test_network
+        ./target/test_layer
         make clean
     
     - name: Build and Test Data Structures Library
