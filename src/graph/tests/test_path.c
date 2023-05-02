@@ -359,7 +359,7 @@ void test_random_walk_mat() {
 	int equality_status = true; 
 
 	/* create adjacency matrix graph with size 5 */ 
-	mat_t *m = init_matrice_graph(5); 
+	mat_graph_t *m = init_matrice_graph(5); 
 
     /* create unique nodes */
     entry_t *a = init_entry(0, "A"); 
@@ -404,7 +404,7 @@ void test_dijkstra_mat() {
 	bool equality_status = true; 
 
 	/* create adjacency matrix graph with size 5 */ 
-	mat_t *m = init_matrice_graph(7); 
+	mat_graph_t *m = init_matrice_graph(7); 
 
     /* create unique nodes */
     entry_t *a = init_entry(0, "A"); 
@@ -449,7 +449,7 @@ void test_dijkstra_origin_vertex_mat() {
 	int vertices = 7; 
 	bool equality_status = true; 
 	/* create adjacency matrix graph with size 5 */ 
-	mat_t *m = init_matrice_graph(7); 
+	mat_graph_t *m = init_matrice_graph(7); 
 
     /* create unique nodes */
     entry_t *a = init_entry(0, "A"); 
@@ -496,7 +496,7 @@ void test_shortest_path_mat(){
 	bool equality_status = true; 
 
 	/* create adjacency matrix graph with size 5 */ 
-	mat_t *m = init_matrice_graph(7); 
+	mat_graph_t *m = init_matrice_graph(7); 
 
     /* create unique nodes */
     entry_t *a = init_entry(0, "A"); 

@@ -1,18 +1,22 @@
 # object files
-GRAPH_OBJS = graph/graph.o list/adj_list.o list/node.o graph/path.o graph/search.o graph/community.o
-QUEUE_OBJS = queue/queue.o
-MAP_OBJS = map/map.o
-MATRICE_OBJS = matrice/matrix.o
-CSV_OBJS = csv/csv.o
-UTIL_OBJS = utils.o
-OBJS = $(GRAPH_OBJS) $(CSV_OBJS) $(MATRICE_OBJS) $(MAP_OBJS) $(QUEUE_OBJS) $(UTIL_OBJS)
 
+DS_GRAPH = data_structures/matrix.o data_structures/adj_list.o
+DS_QUEUE = data_structures/map.o data_structures/node.o data_structures/queue.o
+DS_OBJS = $(DS_GRAPH)  $(DS_QUEUE)
+
+NETWORK_OBJS = networks/layer.o networks/activations.o networks/network.o
+GRAPH_OBJS = graph/graph.o graph/community.o graph/path.o graph/search.o
+EXTRACTOR_OBJS = extractors/csv.o
+UTIL_OBJS = utils/serializers.o utils/utils.o
+
+
+OBJS = $(DS_OBJS) $(NETWORK_OBJS) $(GRAPH_OBJS) $(EXTRACTOR_OBJS) $(UTIL_OBJS)
 
 # Outputs and compilation target
 BIN=bin
 CC=gcc
-TARGET=../target/diffusion
-SHARED_TARGET = ../dgraph/dg/lib/diffusion.so
+TARGET=../target/neurograph
+SHARED_TARGET = ../dgraph/dg/lib/neurograph.so
 
 
 FLAGS = -lm -lpthread
@@ -27,34 +31,25 @@ shared: main.o $(OBJS)
 source: main.o $(OBJS)
 	$(CC) -o $(TARGET) main.o $(OBJS)  $(FLAGS)
 
-build: queue matrice list map graph csv
+build: graph data_structures extractors networks utils
+
+data_structures:
+	$(MAKE) -C ./data_structures
+
+graph: 
+	$(MAKE) -C ./graph
+
+networks:
+	$(MAKE) -C ./networks
+
+extractors:
+	$(MAKE) -C ./extractors
+
+utils:
+	$(MAKE) -C ./utils
 
 
-csv:
-	$(MAKE) -C ../csv
-
-graph:
-	$(MAKE) -C ../graph
-
-matrice:
-	$(MAKE) -C ../matrice
-
-list:
-	$(MAKE) -C ../list
-
-queue:
-	$(MAKE) -C ../queue
-
-map:
-	$(MAKE) -C ../map
-
-
-# utilities for python
-utils.o: utils/utils.c utils/includes/utils.h
-	$(CC) -c utils/utils.c
-
-
-main.o: main.c graph/includes/graph.h
+main.o: main.c graph/includes/graph.h data_structures/includes/node.h
 	$(CC) -c main.c
 
 clean_binary:
@@ -63,9 +58,7 @@ clean_binary:
 clean:
 	rm -f *.o *~
 	rm ../dgraph/dg/lib/*.so
-	$(MAKE) -C  ./graph clean
-	$(MAKE) -C ./csv clean
-	$(MAKE) -C ./queue clean
-	$(MAKE) -C ./matrice clean
-	$(MAKE) -C ./map clean
-	$(MAKE) -C ./list clean
+	$(MAKE) -C  ./data_structures clean
+	$(MAKE) -C ./networks clean
+	$(MAKE) -C ./graph clean
+	$(MAKE) -C ./extractors clean

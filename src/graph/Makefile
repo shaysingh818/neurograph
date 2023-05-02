@@ -12,10 +12,9 @@ COMMUNITY_HEADER = tests/includes/test_community.h
 HEADERS = $(GRAPH_HEADER) $(PATH_HEADER) $(SEARCH_HEADER) $(COMMUNITY_HEADER)
 
 # source objects
-#
-MATRIX_OBJS = ../matrice/matrix.o
-LIST_OBJS = ../list/adj_list.o ../list/node.o
-SRC_OBJS = graph.o path.o search.o community.o queue.o 
+MATRIX_OBJS = ../data_structures/matrix.o ../data_structures/queue.o
+LIST_OBJS = ../data_structures/adj_list.o ../data_structures/node.o
+SRC_OBJS = graph.o path.o search.o community.o  
 GRAPH_OBJS = $(MATRIX_OBJS) $(LIST_OBJS) $(SRC_OBJS)
 
 # unit test objects
@@ -33,7 +32,7 @@ FLAGS = -g -lm -lpthread
 all: unit_test source
 
 unit_test: unit_test.o $(GRAPH_OBJS) $(TEST_OBJS)
-	gcc -o $(TEST_TARGET) unit_test.o $(GRAPH_OBJS) $(TEST_OBJS)
+	gcc -o $(TEST_TARGET) unit_test.o $(GRAPH_OBJS) $(TEST_OBJS) $(FLAGS)
 
 source: main.o $(GRAPH_OBJS)
 	gcc -o $(TARGET) main.o $(GRAPH_OBJS) $(FLAGS)
@@ -52,14 +51,8 @@ search.o: search.c includes/search.h
 community.o: community.c includes/community.h
 	gcc -c community.c
 
-queue.o: ../queue/queue.c ../queue/includes/queue.h
-	gcc -c ../queue/queue.c
-
-matrix.o:
-	$(MAKE) -C ../matrice
-
-adj_list.o:
-	$(MAKE) -C ../list
+data_structures.o:
+	$(MAKE) -C ../data_structures
 
 
 # object files for testing
@@ -90,5 +83,4 @@ clean_binary:
 
 clean:
 	rm -f *.o *~ *.pyc
-	$(MAKE) -C ../matrice clean
-	$(MAKE) -C ../list clean
+	$(MAKE) -C ../data_structures clean

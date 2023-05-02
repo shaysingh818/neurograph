@@ -1,5 +1,5 @@
 #include "includes/graph.h"
-#include "../queue/includes/queue.h"
+#include "../data_structures/includes/queue.h"
 
 
 walk_t *init_walk(int steps) {
@@ -13,7 +13,7 @@ walk_t *init_walk(int steps) {
 }
 
 
-mat_t *to_matrix(mat_t *m, adj_list_t *g, bool directed) {
+mat_graph_t *to_matrix(mat_graph_t *m, adj_list_t *g, bool directed) {
 	
 	/* iterate through list and populate matrix */
 	for(int i = 0; i < g->v; i++) {
@@ -41,7 +41,7 @@ mat_t *to_matrix(mat_t *m, adj_list_t *g, bool directed) {
 }
 
 
-adj_list_t *to_list(adj_list_t *g, mat_t *m, bool directed) {
+adj_list_t *to_list(adj_list_t *g, mat_graph_t *m, bool directed) {
 
 	for(int i = 0; i < m->vertices; i++) {
 		for(int j = 0; j < m->vertices; j++) {
