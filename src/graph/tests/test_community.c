@@ -190,7 +190,7 @@ void test_degree_centrality_mat() {
 	bool equality_status = true; 
 
 	/* create adjacency matrix graph with size 5 */ 
-	mat_t *m = init_matrice_graph(5); 
+	mat_graph_t *m = init_matrice_graph(5); 
 
     /* create unique nodes */
     entry_t *a = init_entry(0, "A"); 
@@ -226,7 +226,7 @@ void test_label_nodes(){
 
 	bool equality_status = true;  
 	int vertices = 7; 
-	mat_t *m = init_matrice_graph(vertices);
+	mat_graph_t *m = init_matrice_graph(vertices);
 
     /* create unique nodes */
     entry_t *a = init_entry(0, "A"); 
@@ -248,7 +248,7 @@ void test_label_nodes(){
     insert(m, b, f, 0, false);
 
 	int labels[2] = {0, 1}; // only works with these labels 
-	vec_t *result = label_nodes(m, labels);
+	mat_t *result = label_nodes(m, labels);
 
 	/* expected result */
     double expected[7][7] = {
@@ -263,7 +263,7 @@ void test_label_nodes(){
 
 	for(int i = 0; i < vertices; i++){
 		for(int j = 0; j < vertices; j++){
-			double rounded_value = round(result->items[i][j]*100)/100; 
+			double rounded_value = round(result->arr[i][j]*100)/100; 
 			if(expected[i][j] != rounded_value){
 				equality_status = false; 
 			}
@@ -284,7 +284,7 @@ void test_label_propogation() {
 	/* create adjacency matrix graph with size 5 */
 	bool equality_status = true;  
 	int vertices = 7; 
-	mat_t *m = init_matrice_graph(vertices);
+	mat_graph_t *m = init_matrice_graph(vertices);
 
 	/* expected result */
     double expected[7][7] = {
@@ -318,12 +318,12 @@ void test_label_propogation() {
     insert(m, f, b, 0, false); 
 
 	int labels[2] = {0, 1}; //only works with these labels
-	vec_t *A = label_nodes(m, labels); 
-	vec_t *result = label_propogation(A, 50);
+	mat_t *A = label_nodes(m, labels); 
+	mat_t *result = label_propogation(A, 50);
 
 	for(int i = 0; i < vertices; i++){
 		for(int j = 0; j < vertices; j++){
-			double rounded_value = round(result->items[i][j]*100)/100; 
+			double rounded_value = round(result->arr[i][j]*100)/100; 
 			if(expected[i][j] != rounded_value){
 				equality_status = false; 
 			}

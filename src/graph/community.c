@@ -153,7 +153,7 @@ int **kosaraju(adj_list_t *g, int start_vertex) {
 }
 
 
-int *degree_centrality_mat(mat_t *m) {
+int *degree_centrality_mat(mat_graph_t *m) {
 
 	/* allocate array for result of nodes */
 	int *results = malloc(m->vertices * sizeof(int)); 
@@ -171,9 +171,9 @@ int *degree_centrality_mat(mat_t *m) {
 	return results; 
 }
 
-vec_t *label_nodes(mat_t *m, int *labels) {
+mat_t *label_nodes(mat_graph_t *m, int *labels) {
 
-	vec_t *A = init_vec(m->vertices, m->vertices, false);
+	mat_t *A = init_vec(m->vertices, m->vertices, false);
 	size_t n = sizeof(labels) / sizeof(labels[0]);
 
 	for(int i = 0; i < m->vertices; i++){
@@ -181,11 +181,11 @@ vec_t *label_nodes(mat_t *m, int *labels) {
 
 			if(m->matrix[i*m->vertices+j]->label != NULL){
 				if(i == labels[i] && i == j){
-					A->items[i][j] = 1;
+					A->arr[i][j] = 1;
 				}
 
 				if(i != labels[i]){
-					A->items[i][j] = 1; 
+					A->arr[i][j] = 1; 
 				}	
 			}
 		}
@@ -195,7 +195,7 @@ vec_t *label_nodes(mat_t *m, int *labels) {
 
 }
 
-vec_t *label_propogation(vec_t *A, int iterations) {
+mat_t *label_propogation(mat_t *A, int iterations) {
 
 	int node_count = 2; 
 	int labeled_nodes[2] = {0, 1};
@@ -204,29 +204,29 @@ vec_t *label_propogation(vec_t *A, int iterations) {
 	double prob;
 
 	/* probabilistic transition matrix */
-	vec_t *d = init_vec(A->rows, A->cols, false); 
+	mat_t *d = init_vec(A->rows, A->cols, false); 
 
 	/* get adjacency and degree matrix   */
 	for(int i = 0; i < A->rows; i++){
 
 		int neighbor_count = 0; 
 		for(int j = 0; j < A->rows; j++){
-			if(A->items[i][j] > 0){	
+			if(A->arr[i][j] > 0){	
 				neighbor_count += 1;  
 			}
 		}
-		d->items[i][i] = neighbor_count; 
+		d->arr[i][i] = neighbor_count; 
 	}
 
 	/* get the determinant of degree matrix */
 	double  determinant = 1.00; 
 	for(int i = 0; i < d->rows; i++){
-		determinant *= d->items[i][i];
+		determinant *= d->arr[i][i];
 	}
 
-	vec_t *d_1 = scalar_multiply(d, determinant);
-	vec_t *result = multiply(A, d_1);
-	vec_t *m_power = power(result, iterations); 
+	mat_t *d_1 = scalar_multiply(d, determinant);
+	mat_t *result = multiply(A, d_1);
+	mat_t *m_power = power(result, iterations); 
 
 	return m_power; 
 }

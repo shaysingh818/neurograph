@@ -41,11 +41,15 @@ def graph_serialize(graph):
     node_list = graph.contents.items
     for i in range(graph.contents.v):
         head_node = node_list[i].head
+        #print(f"Vertex {i} head node: {head_node}")
         body["items"][i] = []
         while head_node:
             label = head_node.contents.label
-            body["items"][i].append(label)
-            head_node = head_node.contents.next
+            #print(f"Vertex {i} label: {label}")
+            label_decode = label.decode('utf-8')
+            body["items"][i].append(label_decode)
+            if head_node is not None:
+                head_node = head_node.contents.next
 
     return body
 
@@ -62,6 +66,4 @@ def graph_to_csv(filename, features, size, row_limit):
 
     # call add node from lib
     result = lib.g_to_csv_util(c_filename, c_features, c_size, c_row_limit)
-
-    graph = graph_serialize(result)
-    return graph
+    return result

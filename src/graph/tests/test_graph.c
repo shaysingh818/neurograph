@@ -9,7 +9,7 @@ void test_to_list() {
 
 	/* test first example of weighted matrix */ 
 	adj_list_t *g = init_graph(vertices, vertices, true);
-	mat_t *m = init_matrice_graph(vertices);
+	mat_graph_t *m = init_matrice_graph(vertices);
 
 	/*  create entries */
 	entry_t *a = init_entry(0, "A");  
@@ -67,7 +67,7 @@ void test_to_weighted_list() {
 
 	/* test first example of weighted matrix */ 
 	adj_list_t *g = init_graph(vertices, vertices, false);
-	mat_t *m = init_matrice_graph(vertices);
+	mat_graph_t *m = init_matrice_graph(vertices);
 
 	/*  create entries */
 	entry_t *a = init_entry(0, "A");  
@@ -125,7 +125,7 @@ void test_to_directed_list() {
 
 	/* test first example of weighted matrix */ 
 	adj_list_t *g = init_graph(vertices, vertices, true);
-	mat_t *m = init_matrice_graph(vertices);
+	mat_graph_t *m = init_matrice_graph(vertices);
 
 	entry_t *a = init_entry(0, "A"); 
 	entry_t *b = init_entry(1, "B"); 
@@ -182,7 +182,7 @@ void test_to_directed_weighted_list() {
 
 	/* test first example of weighted matrix */ 
 	adj_list_t *g = init_graph(vertices, vertices, true);
-	mat_t *m = init_matrice_graph(vertices);
+	mat_graph_t *m = init_matrice_graph(vertices);
 
 	/*  create entries */
 	entry_t *a = init_entry(0, "A");  
@@ -251,7 +251,7 @@ void test_to_matrix() {
 
 	/* create adjacency list */ 
 	adj_list_t *g = init_graph(vertices, vertices, false);
-	mat_t *result = init_matrice_graph(vertices); 
+	mat_graph_t *result = init_matrice_graph(vertices); 
 
 	/* first community */ 
 	add_node(g, 0, "A", 1, "B", 0);
@@ -270,7 +270,7 @@ void test_to_matrix() {
 	add_node(g, 7, "H", 7, "H", 0);
 
 	/* test to regular matrix conversion */ 
-	mat_t *output = to_matrix(result, g, false);
+	mat_graph_t *output = to_matrix(result, g, false);
 	int v = output->vertices;
 
 	/* check output */ 
@@ -314,7 +314,7 @@ void test_to_directed_matrix() {
 
 	/* create adjacency list */ 
 	adj_list_t *g = init_graph(vertices, vertices, true);
-	mat_t *result = init_matrice_graph(vertices); 
+	mat_graph_t *result = init_matrice_graph(vertices); 
 
 	/* first community */ 
 	add_node(g, 0, "A", 1, "B", 0);
@@ -333,7 +333,7 @@ void test_to_directed_matrix() {
 	add_node(g, 7, "H", 7, "H", 0);
 
 	/* test directed matrix conversion */ 
-	mat_t *output = to_matrix(result, g, true);
+	mat_graph_t *output = to_matrix(result, g, true);
 	int v = output->vertices; 
 
 
@@ -372,7 +372,7 @@ void test_to_weighted_matrix() {
 
 	/* create adj lists */ 
 	adj_list_t *g = init_graph(vertices, vertices, false);
-	mat_t *result = init_matrice_graph(vertices);
+	mat_graph_t *result = init_matrice_graph(vertices);
 
 
 	/* build graph */ 
@@ -384,7 +384,7 @@ void test_to_weighted_matrix() {
 
 
 	/* test directed matrix conversion */ 
-	mat_t *output = to_matrix(result, g, false);
+	mat_graph_t *output = to_matrix(result, g, false);
 	int v = output->vertices; 
 
 	/* check output */ 
@@ -425,7 +425,7 @@ void test_to_directed_weighted_matrix() {
 
 	/* test first example of weighted matrix */ 
 	adj_list_t *g = init_graph(vertices, vertices, true);
-	mat_t *result = init_matrice_graph(vertices);
+	mat_graph_t *result = init_matrice_graph(vertices);
 
 	/* first community */ 
 	add_node(g, 0, "A", 1, "B", 1);
@@ -444,7 +444,7 @@ void test_to_directed_weighted_matrix() {
 	add_node(g, 7, "H", 7, "H", 10);
 
 	/* test directed matrix conversion */ 
-	mat_t *output = to_matrix(result, g, true);
+	mat_graph_t *output = to_matrix(result, g, true);
 	int v = output->vertices; 
 
 
