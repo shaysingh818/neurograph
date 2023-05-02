@@ -1,10 +1,10 @@
 from ctypes import CDLL
-from .d_types import Graph
+from .d_types import Graph, AdjacencyList
 from ctypes import  *
 from ctypes.util import find_library
 import os
 
-lib_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'lib', 'diffusion.so')
+lib_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'lib', 'neurograph.so')
 my_lib = CDLL(lib_path, use_errno=True)
 if my_lib._handle is None:
     errno = get_errno()

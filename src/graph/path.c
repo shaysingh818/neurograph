@@ -222,7 +222,7 @@ walk_t *weighted_random_walk(adj_list_t *g, walk_t *w, int start_vertex) {
 }
 
 
-walk_t *random_walk_mat(mat_t *m, int start_vertex, int steps) {
+walk_t *random_walk_mat(mat_graph_t *m, int start_vertex, int steps) {
 
 	/* init random seed */
    	time_t t; 	
@@ -258,7 +258,7 @@ walk_t *random_walk_mat(mat_t *m, int start_vertex, int steps) {
 }
 
 
-int *dijkstra_mat(mat_t *m, int start_vertex) {
+int *dijkstra_mat(mat_graph_t *m, int start_vertex) {
 
 	int *dist = malloc(m->vertices * sizeof(int));
 	int *prev = malloc(m->vertices * sizeof(int)); 
@@ -307,7 +307,7 @@ int *dijkstra_mat(mat_t *m, int start_vertex) {
 
 
 
-int shortest_path_mat(mat_t *m, int start_vertex, int end_vertex) {
+int shortest_path_mat(mat_graph_t *m, int start_vertex, int end_vertex) {
 
 	/* 
 		This method should be refactored. It does the same

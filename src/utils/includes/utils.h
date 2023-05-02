@@ -1,11 +1,11 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#include "../../matrice/includes/matrix.h"
+#include "../../data_structures/includes/matrix.h"
+#include "../../data_structures/includes/queue.h"
 #include "../../graph/includes/graph.h"
-#include "../../queue/includes/queue.h"
 #include "../../graph/includes/path.h"
-#include "../../csv/includes/csv.h"
+#include "../../extractors/includes/csv.h"
 #include "serializers.h" 
 
 
