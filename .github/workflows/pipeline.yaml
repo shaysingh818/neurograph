@@ -1,4 +1,4 @@
-name: Diffusion CI
+name: Neurograph CI
 
 on:
   push:
@@ -22,46 +22,32 @@ jobs:
         ./target/test_graph
         make clean
 
-    - name: Build and Test CSV Package
-      working-directory: src/csv/
+    - name: Build and Test Deep Learning Package
+      working-directory: src/networks/
       run: |
         make
-        ./target/test_csv
+        ./target/test_network
         make clean
     
-    - name: Build and Test Hashing Library
-      working-directory: src/map/
+    - name: Build and Test Data Structures Library
+      working-directory: src/data_structures/
       run: |
         make
-        ./target/test_map
+        ./target/test_data_structures
         make clean
     
-    - name: Build and Test Matrix Library
-      working-directory: src/matrice/
+    - name: Build and Test Extractors Library
+      working-directory: src/extractors/
       run: |
         make
-        ./target/test_matrix
-        make clean
-
-    - name: Build and Test Adjacency List Library
-      working-directory: src/list/
-      run: |
-        make
-        ./target/test_adj_list
-        make clean
-
-    - name: Build and Test Queue Library
-      working-directory: src/queue/
-      run: |
-        make
-        ./target/test_queue
+        ./target/test_extractors
         make clean
 
     - name: Build Source
       working-directory: src/
       run: |
         make
-        ../target/diffusion
+        ../target/neurograph
         make clean
  
   # unit tests for python code base

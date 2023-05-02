@@ -1,12 +1,16 @@
 # object files
 
-DATA_STRUCTURE_OBJS = data_structures/matrix.o data_structures/adj_list.o data_structures/map.o data_structures/node.o data_structures/queue.o
+DS_GRAPH = data_structures/matrix.o data_structures/adj_list.o
+DS_QUEUE = data_structures/map.o data_structures/node.o data_structures/queue.o
+DS_OBJS = $(DS_GRAPH)  $(DS_QUEUE)
+
 NETWORK_OBJS = networks/layer.o networks/activations.o networks/network.o
 GRAPH_OBJS = graph/graph.o graph/community.o graph/path.o graph/search.o
 EXTRACTOR_OBJS = extractors/csv.o
+UTIL_OBJS = utils/serializers.o utils/utils.o
 
 
-OBJS = $(DATA_STRUCTURE_OBJS) $(NETWORK_OBJS) $(GRAPH_OBJS) $(EXTRACTOR_OBJS)
+OBJS = $(DS_OBJS) $(NETWORK_OBJS) $(GRAPH_OBJS) $(EXTRACTOR_OBJS) $(UTIL_OBJS)
 
 # Outputs and compilation target
 BIN=bin
@@ -27,7 +31,7 @@ shared: main.o $(OBJS)
 source: main.o $(OBJS)
 	$(CC) -o $(TARGET) main.o $(OBJS)  $(FLAGS)
 
-build: graph data_structures extractors networks
+build: graph data_structures extractors networks utils
 
 data_structures:
 	$(MAKE) -C ./data_structures
@@ -41,10 +45,8 @@ networks:
 extractors:
 	$(MAKE) -C ./extractors
 
-
-# utilities for python
-utils.o: utils/utils.c utils/includes/utils.h
-	$(CC) -c utils/utils.c
+utils:
+	$(MAKE) -C ./utils
 
 
 main.o: main.c graph/includes/graph.h data_structures/includes/node.h
