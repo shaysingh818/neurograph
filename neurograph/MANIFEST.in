@@ -1,0 +1,1 @@
+include ngraph/lib/*.so

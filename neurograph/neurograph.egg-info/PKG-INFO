@@ -1,7 +1,7 @@
 Metadata-Version: 1.0
-Name: dgraph
-Version: 0.2.0
-Summary: Diffusion graph library
+Name: neurograph
+Version: 0.4.0
+Summary: Graph Neural Network Library
 Home-page: UNKNOWN
 Author: Shalin Singh
 Author-email: UNKNOWN

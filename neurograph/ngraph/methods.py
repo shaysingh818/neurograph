@@ -66,4 +66,4 @@ def graph_to_csv(filename, features, size, row_limit):
 
     # call add node from lib
     result = lib.g_to_csv_util(c_filename, c_features, c_size, c_row_limit)
-    return result
+    return 

@@ -3,7 +3,7 @@ import unittest
 import os.path
 import sys
 
-from dg import 
+from ngraph import *
 
 class TestGraphMethods(unittest.TestCase):
 

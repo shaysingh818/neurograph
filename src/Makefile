@@ -16,7 +16,7 @@ OBJS = $(DS_OBJS) $(NETWORK_OBJS) $(GRAPH_OBJS) $(EXTRACTOR_OBJS) $(UTIL_OBJS)
 BIN=bin
 CC=gcc
 TARGET=../target/neurograph
-SHARED_TARGET = ../dgraph/dg/lib/neurograph.so
+SHARED_TARGET = ../neurograph/ngraph/lib/neurograph.so
 
 
 FLAGS = -lm -lpthread
@@ -57,7 +57,7 @@ clean_binary:
 
 clean:
 	rm -f *.o *~
-	rm ../dgraph/dg/lib/*.so
+	rm ../neurograph/ngraph/lib/*.so
 	$(MAKE) -C  ./data_structures clean
 	$(MAKE) -C ./networks clean
 	$(MAKE) -C ./graph clean
