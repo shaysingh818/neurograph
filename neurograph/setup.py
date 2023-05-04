@@ -3,15 +3,14 @@ import os
 
 
 setup(
-    name='dgraph',
-    packages=find_packages(include=['dg']),
-    version='0.2.0',
-    description='Diffusion graph library',
+    name='neurograph',
+    packages=find_packages(include=['ngraph']),
+    version='0.4.0',
+    description='Graph Neural Network Library',
     author='Shalin Singh',
     license='MIT',
     setup_requires=['pytest-runner'],
     tests_require=['pytest==4.4.1'],
     test_suite='tests',
-    package_data={'dg': ['*.so']}, 
-    include_package_data=True 
+    package_data={'ngraph': ['*.so']}, 
 )
