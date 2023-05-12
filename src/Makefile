@@ -7,7 +7,7 @@ DS_OBJS = $(DS_GRAPH)  $(DS_QUEUE)
 NETWORK_OBJS = networks/layer.o networks/activations.o networks/network.o
 GRAPH_OBJS = graph/graph.o graph/community.o graph/path.o graph/search.o
 EXTRACTOR_OBJS = extractors/csv.o
-UTIL_OBJS = utils/serializers.o utils/utils.o
+UTIL_OBJS = utils/utils.o
 
 
 OBJS = $(DS_OBJS) $(NETWORK_OBJS) $(GRAPH_OBJS) $(EXTRACTOR_OBJS) $(UTIL_OBJS)
@@ -45,9 +45,8 @@ networks:
 extractors:
 	$(MAKE) -C ./extractors
 
-utils:
+utils: 
 	$(MAKE) -C ./utils
-
 
 main.o: main.c graph/includes/graph.h data_structures/includes/node.h
 	$(CC) -c main.c
@@ -62,3 +61,4 @@ clean:
 	$(MAKE) -C ./networks clean
 	$(MAKE) -C ./graph clean
 	$(MAKE) -C ./extractors clean
+	$(MAKE) -C ./utils clean

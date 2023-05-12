@@ -37,8 +37,9 @@ adj_list_t *g_to_csv_util(char *filepath, int *features, int size, int row_limit
 	/* create instance of csv */ 
     csv_t *file = csv_init(filepath, FILE_BUFFER_SIZE, row_limit);
     if(!file->status) {
-		printf("[+] YOUR FILE does not abide by CSV standards\n"); 
-        exit(0);
+		printf("DO YOU WORK?\n"); 
+		printf("[+] YOUR FILE does not abide by CSV formatting\n"); 
+        //exit(0);
     }
 
 	/* test random walk */

@@ -11,6 +11,7 @@
 #define FILE_BUFFER_SIZE 1024
 #define DEBUG FALSE
 
+
 /* column structure for csv file */ 
 struct Column {
 	char *name; 

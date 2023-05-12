@@ -8,13 +8,12 @@ FLAGS = -g -lm -lpthread $(INCLUDES)
 
 # Graph dependencies
 GRAPH_OBJS = ../graph/graph.o ../graph/path.o ../graph/search.o ../graph/community.o 
-DATA_STRUCTURES = ../data_structures/queue.o ../data_structures/matrix.o ../data_structures/adj_list.o ../data_structures/node.o ../data_structures/map.o 
+DATA_STRUCTURES = ../data_structures/queue.o ../data_structures/matrix.o ../data_structures/adj_list.o ../data_structures/node.o ../data_structures/map.o ../data_structures/ll.o 
 GRAPH_LIBS = $(GRAPH_OBJS) $(DATA_STRUCTURES)
 
-# CSV source objects
-
-TEST_OBJS = test_csv.o
-CSV_OBJS = csv.o 
+# source objects for extractors library
+TEST_OBJS = test_csv.o test_frame.o test_re.o
+CSV_OBJS = csv.o frame.o re.o
 
 # Objects
 OBJS = $(CSV_OBJS) $(GRAPH_OBJS) $(DATA_STRUCTURES) $(TEST_OBJS)
@@ -39,9 +38,21 @@ data_structures:
 csv.o: csv.c includes/csv.h
 	gcc -c csv.c
 
-# test files
 test_csv.o: tests/test_csv.c includes/csv.h
 	gcc -c tests/test_csv.c
+
+frame.o: frame.c includes/frame.h
+	gcc -c frame.c
+
+test_frame.o: tests/test_frame.c includes/frame.h
+	gcc -c tests/test_frame.c
+
+re.o: re.c includes/re.h
+	gcc -c re.c
+
+test_re.o: tests/test_re.c includes/re.h
+	gcc -c tests/test_re.c
+
 
 # main files
 unit_test.o: tests/unit_test.c tests/includes/test_csv.h
