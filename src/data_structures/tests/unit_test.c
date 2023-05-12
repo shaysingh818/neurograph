@@ -2,9 +2,16 @@
 #include "includes/test_map.h"
 #include "includes/test_matrix.h"
 #include "includes/test_adj_list.h"
+#include "includes/test_ll.h"
 
 
 int main(int argc, char **argv) {
+
+
+    /* test list library methods */
+    test_push_ll();
+    test_insert_after_ll(); 
+    test_append_ll();  
 
 	/* queue methods */ 
 	test_init_queue();

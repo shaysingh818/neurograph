@@ -3,6 +3,7 @@ import unittest
 import os.path
 import sys
 
+sys.path.append("..")
 from ngraph import *
 
 class TestGraphMethods(unittest.TestCase):
@@ -140,7 +141,7 @@ class TestGraphMethods(unittest.TestCase):
     def test_csv_to_graph(self):
 
         graph = graph_to_csv(
-            filename="../../examples/data/power_generation.csv",
+            filename="../../examples/data/movies.csv",
             features=[1,3],
             size=2,
             row_limit=10

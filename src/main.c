@@ -6,7 +6,7 @@
 #include "data_structures/includes/map.h"
 #include "data_structures/includes/node.h"
 #include "extractors/includes/csv.h"
-
+#include "utils/includes/utils.h"
 
 int main(int argc, char **argv) {
 
@@ -61,6 +61,16 @@ int main(int argc, char **argv) {
 
 	printf("CSV library test\n");
 	csv_info(file);
+
+
+	int features[] = {1,3};
+	/* test csv util */ 
+	adj_list_t *csv_frame = g_to_csv_util(
+		"../examples/data/movies.csv",
+		features, 
+		2,
+		10
+	); 
 
 
 
