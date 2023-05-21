@@ -62,17 +62,17 @@ jobs:
           make
 
       - name: Install setuptools
-        working-directory: dgraph/
+        working-directory: neurograph/
         run: pip install setuptools
 
       - name: Install wheel
-        working-directory: dgraph/
+        working-directory: neurograph/
         run: pip install wheel
 
       - name: Build python package
-        working-directory: dgraph/
+        working-directory: neurograph/
         run: python3 setup.py bdist_wheel
 
       - name: Test Graph Construct
-        working-directory: dgraph/tests/
+        working-directory: neuroraph/tests/
         run: python -m unittest -v test_graph
