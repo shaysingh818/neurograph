@@ -51,7 +51,7 @@ jobs:
         make clean
  
   # unit tests for python code base
-  build-dgraph:
+  glue-package:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
