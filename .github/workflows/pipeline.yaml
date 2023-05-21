@@ -74,5 +74,5 @@ jobs:
         run: python3 setup.py bdist_wheel
 
       - name: Test Graph Construct
-        working-directory: neuroraph/tests/
+        working-directory: neurograph/tests/
         run: python -m unittest -v test_graph
