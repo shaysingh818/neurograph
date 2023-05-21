@@ -49,6 +49,18 @@ mat_t *copy_matrix(mat_t *m){
 	return new; 
 }
 
+void save_matrix(mat_t *m, char* filename) {
+	FILE* file = fopen(filename, "w");
+	fprintf(file, "%d\n", m->rows);
+	fprintf(file, "%d\n", m->cols);
+	for (int i = 0; i < m->rows; i++) {
+		for (int j = 0; j < m->cols; j++) {
+			fprintf(file, "%.2f\n", m->arr[i][j]);
+		}
+	}
+	fclose(file);
+}
+
 mat_t *load_matrix(char *filename) {
 	FILE* file = fopen(filename, "r");
 	char entry[MAXCHAR]; 

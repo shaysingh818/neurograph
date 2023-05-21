@@ -291,7 +291,9 @@ adj_list_t *csv_to_weighted_graph(csv_t *csv, int *cols, int size, bool directed
 			char *weight = csv->rows[j]->line[cols[i+2]];
 
 			/* convert weight to integer */ 
-			int weight_to_int = atoi(weight); 
+			int weight_to_int = atoi(weight);
+
+			/* need to catch error for converting from char* to int */ 
 
 			/* add nodes to unique linked list */ 
 			append(&head, src); 

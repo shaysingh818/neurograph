@@ -28,12 +28,19 @@ int main(int argc, char **argv) {
     test_scalar_multiply(); 
     test_vector_multiplication();
     test_matrix_power(); 
+    test_to_rows_cols(); 
+    test_uniform_distribution();
+    test_load_and_save_matrix(); 
     test_dot_product();
     test_dot_unequal_dimensions();
     test_backprop_dot_product(); 
     test_add_mat();
     test_scale_add();  
     test_transpose_mat();
+    test_scale_multiply();
+    test_elementwise_multiply(); 
+    test_add_matrix(); 
+    test_matrix_difference();
 
 
     /* test adjacency list representation */ 
@@ -41,8 +48,5 @@ int main(int argc, char **argv) {
     test_weighted_graph(); 
     test_transpose_graph();
     test_get_node_by_id(); 
-
-
-
 
 }
