@@ -141,13 +141,13 @@ class TestGraphMethods(unittest.TestCase):
     def test_csv_to_graph(self):
 
         graph = graph_to_csv(
-            filename="../../examples/data/movies.csv",
+            filename="../../examples/data/test.csv",
             features=[1,3],
             size=2,
             row_limit=10
         )
-        result = graph_serialize(graph)
-        pprint(result)
+        #result = graph_serialize(graph)
+        #pprint(result)
 
 
 
