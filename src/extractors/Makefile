@@ -2,9 +2,13 @@ BIN=bin
 CC=gcc
 TARGET=target/extractors
 TEST_TARGET=target/test_extractors
-INCLUDES = -I./includes -I../graph/includes -I../data_structures/includes -I./tests/includes
-
 FLAGS = -g -lm -lpthread $(INCLUDES)
+
+# source header files
+HEADERS = $(wildcard /includes/*.h)
+
+# test header files
+TEST_HEADERS = $(wildcard /tests/includes/*.h)
 
 # Graph dependencies
 GRAPH_OBJS = ../graph/graph.o ../graph/path.o ../graph/search.o ../graph/community.o 
@@ -13,52 +17,35 @@ GRAPH_LIBS = $(GRAPH_OBJS) $(DATA_STRUCTURES)
 
 # source objects for extractors library
 TEST_OBJS = test_csv.o test_frame.o test_re.o
-CSV_OBJS = csv.o frame.o re.o
-
-# Objects
-OBJS = $(CSV_OBJS) $(GRAPH_OBJS) $(DATA_STRUCTURES) $(TEST_OBJS)
+SRC_OBJS = $(GRAPH_OBJS) $(DATA_STRUCTURES) csv.o frame.o re.o
 
 
 # link all programs here
 all: graph source unit_test
 
-unit_test: unit_test.o $(OBJS)
-	gcc -o $(TEST_TARGET) unit_test.o $(OBJS) $(FLAGS)
-
-source: main.o $(OBJS)
-	gcc -o $(TARGET) main.o $(OBJS) $(FLAGS)
-
 graph:
 	$(MAKE) -C ../graph
 
-data_structures:
-	$(MAKE) -C ../data_structures
+unit_test: unit_test.o $(SRC_OBJS) $(TEST_OBJS)
+	gcc -o $(TEST_TARGET) unit_test.o $(SRC_OBJS) $(TEST_OBJS) $(FLAGS)
 
-# link files here
-csv.o: csv.c includes/csv.h
-	gcc -c csv.c
+source: main.o $(SRC_OBJS)
+	gcc -o $(TARGET) main.o  $(SRC_OBJS) $(FLAGS)
 
-test_csv.o: tests/test_csv.c includes/csv.h
-	gcc -c tests/test_csv.c
 
-frame.o: frame.c includes/frame.h
-	gcc -c frame.c
+# build source and test objects 
+$(SRC_OBJS): %.o: %.c $(HEADERS)
+	$(CC) -c $<
 
-test_frame.o: tests/test_frame.c includes/frame.h
-	gcc -c tests/test_frame.c
-
-re.o: re.c includes/re.h
-	gcc -c re.c
-
-test_re.o: tests/test_re.c includes/re.h
-	gcc -c tests/test_re.c
+$(TEST_OBJS): %.o: tests/%.c tests/includes/%.h $(HEADERS)
+	$(CC) -c $< -o $@
 
 
 # main files
-unit_test.o: tests/unit_test.c tests/includes/test_csv.h
+unit_test.o: tests/unit_test.c
 	gcc -c tests/unit_test.c
 
-main.o: main.c includes/csv.h
+main.o: main.c
 	gcc -c main.c
 
 # clean compilation (target doesn't work)
@@ -68,4 +55,3 @@ clean_binary:
 clean:
 	rm -f *.o *~ *.pyc
 	$(MAKE) -C ../graph clean
-	$(MAKE) -C ../data_structures clean

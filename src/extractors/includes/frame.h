@@ -17,6 +17,7 @@
 #define RE_JSON "None Yet"
 #define RE_YAML "Yaml"
 
+#define FRAME_DEBUG true
 
 struct Value {
 	size_t value_size;

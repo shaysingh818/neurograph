@@ -5,15 +5,41 @@
 void test_extract_frame_headers() {
 
     bool equality_status = true; 
+
+    /* test frame with movies.csv */
 	char movie_cols[9][100] = {
 		"index", "movie_name", "year_of_release", "category",
         "run_time", "genre", "imdb_rating", "votes", "gross_total"	
 	};
 
+	/* columns from power_generation.csv */ 
+	char power_gen_cols[11][100] = {
+		"Dates", "Power Station", "Monitored Cap.(MW)", "Total Cap. Under Maintenace (MW)",
+		"Planned Maintanence (MW)", "Forced Maintanence(MW)", "Other Reasons (MW)",
+		"Programme or Expected(MU)", "Actual(MU)", "Excess(+) / Shortfall (-)", "Deviation"
+	}; 
+
+
+    /* frame for movies.csv*/
     frame_t *f = init_frame("../../examples/data/movies.csv", 1024);
-    extract_frame_headers(f);
+	if(!f->status) {
+		equality_status = false;  
+	}
+
     for(int i = 0; i < f->header_count; i++){
         int name_compare = strcmp(f->headers[i]->name, movie_cols[i]) == 0;
+        if(!name_compare) { equality_status = false; }
+    }
+
+
+    /* frame for movies.csv*/
+    frame_t *power_gen = init_frame("../../examples/data/power_generation.csv", 1024);   
+	if(!power_gen->status) {
+		equality_status = false;  
+	}
+
+    for(int i = 0; i < power_gen->header_count; i++){
+        int name_compare = strcmp(power_gen->headers[i]->name, power_gen_cols[i]) == 0;
         if(!name_compare) { equality_status = false; }
     }
 
@@ -85,6 +111,130 @@ void test_init_frame_structure() {
     if(header_condition && row_condition && buffer_condition){
         equality_status = true; 
     } 
+
+ 	/* validate results */
+    if(!equality_status) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    }
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+
+}
+
+
+void test_frame_to_unweighted_graph() {
+
+    bool equality_status = true; 
+	int indices[2] = {1, 3}; 
+
+    /* expected graph results */
+	char *relationship_list[12][5] = {
+		{}, 
+		{"B", "C", "D"}, 
+		{"A", "C"},
+		{"A", "B", "E"},
+		{"A"},
+		{"C"},
+		{},
+		{},
+        {},
+        {},
+        {},
+        {}
+	}; 
+
+    frame_t *frame = init_frame("../../examples/data/test.csv", 1024);
+	if(!frame->status) {
+		equality_status = false;  
+	}
+
+    /* convert frame to un weighted graph */
+    adj_list_t *result = frame_to_unweighted_graph(
+       frame, indices, 2, false
+    ); 
+
+
+    if(result->err) {
+        exit(0); 
+    } 
+
+	/* check graph against relationships */ 
+	for(int i = 0; i < result->v; i++) {
+	    node_t *head = result->items[i].head; 
+	    int node_index = 0; 
+	    while(head) {
+			int condition = strcmp(head->label, relationship_list[i][node_index]);
+			if(condition != 0) {
+				equality_status = false; 
+			}  
+	        head = head->next;
+	        node_index += 1; 
+	    }
+	} 
+
+ 	/* validate results */
+    if(!equality_status) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    }
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+} 
+
+
+void test_frame_to_weighted_graph() {
+
+
+    bool equality_status = true; 
+	int indices[3] = {1,3,4}; 
+
+    /* expected graph results */
+	int weight_list[18][5] = {
+		{}, 
+		{1,1,1}, 
+		{1,2},
+		{1,2, 3},
+		{1},
+		{3},
+		{},
+		{},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+	}; 
+
+
+    frame_t *frame = init_frame("../../examples/data/test.csv", 1024);
+	if(!frame->status) {
+		equality_status = false;  
+	}
+
+    /* convert frame to un weighted graph */
+    adj_list_t *result = frame_to_weighted_graph(
+       frame, indices, 3, false
+    );
+
+    if(result->err) {
+        exit(0); 
+    } 
+
+	/* check graph against relationships */ 
+	for(int i = 0; i < result->v; i++) {
+	    node_t *head = result->items[i].head; 
+	    int node_index = 0; 
+	    while(head) {
+            if(head->weight != weight_list[i][node_index]) {
+                equality_status = false; 
+            } 
+	        head = head->next;
+	        node_index += 1; 
+	    }
+	} 
+
 
  	/* validate results */
     if(!equality_status) {

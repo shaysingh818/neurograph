@@ -32,7 +32,7 @@ void extract_frame_headers(frame_t *frame) {
 			for(int i = 0; i < headers_size; i++){
 				frame->headers[i] = malloc(sizeof(header_t)); 
 				frame->headers[i]->index = i; 
-				frame->headers[i]->name_size = strlen(row_values->tokens[i]);
+				frame->headers[i]->name_size = strlen(row_values->tokens[i]) + 1;
 				frame->headers[i]->name = malloc(frame->headers[i]->name_size * sizeof(char));  
 				strcpy(frame->headers[i]->name, row_values->tokens[i]); 
 			}
@@ -93,7 +93,8 @@ frame_t *init_frame(char *filename, int buffer_size){
 	frame = malloc(sizeof(frame_t));
    	frame->filename = (char*)malloc(name_size * sizeof(char)); 
 	frame->buffer_size = buffer_size;
-	frame->file_buffer = malloc(buffer_size * sizeof(char)); 
+	frame->file_buffer = malloc(buffer_size * sizeof(char));
+	frame->status = true;  
 	
    	strcpy(frame->filename, filename);
 
@@ -127,3 +128,105 @@ void f_cols(frame_t *frame) {
 }
 
 
+adj_list_t *frame_to_unweighted_graph(frame_t *frame, int *cols, int size, bool directed) {
+
+	/* create graph to be returned */ 
+	int vertex_count = frame->row_count * size;	
+	adj_list_t *g = init_graph(vertex_count, vertex_count, directed);
+
+
+	/* validate that graph is unweighted */
+	if(size % 2 != 0) {
+		if(FRAME_DEBUG) {
+			printf("Unweighted graph should be in pairs of 2\n"); 
+		}
+		g->err = true; 
+		return g; 
+	}
+
+	char *head_label = frame->headers[cols[0]]->values[0]->value;
+	int head_id = frame->headers[cols[0]]->values[0]->index;  
+	node_t *head = create_node(head_id, head_label, 0); 
+
+	for(int i = 0; i < size; i+=2){
+
+		/* extract values */
+		value_t **src_header_values = frame->headers[cols[i]]->values;
+		value_t **dst_header_values = frame->headers[cols[i+1]]->values;
+
+		for(int j = 1; j < frame->row_count; j++){
+
+			char *src = src_header_values[j]->value; 
+			char *dst = dst_header_values[j]->value;
+
+			node_t *src_node = create_node(j, src, 0);
+			node_t *dst_node = create_node(j, dst, 0);
+
+			/* add src and dst to ull (unique linked list) */ 
+			unique_append_ll(&head, src_node); 
+			unique_append_ll(&head, dst_node);
+
+			/* get the id for the head and src */
+			int src_id = get_id_ll(head, src); 
+			int dst_id = get_id_ll(head, dst);  
+
+			add_node(g, src_id, src, dst_id, dst, 0); 	
+		} 
+	}
+
+	return g; 
+}
+
+
+adj_list_t *frame_to_weighted_graph(frame_t *frame, int *cols, int size, bool directed) {
+
+	/* create graph */
+	int vertex_count = frame->row_count * size;	
+	adj_list_t *g = init_graph(vertex_count, vertex_count, directed);
+
+	/* validate that graph is unweighted */ 
+	if(size % 3 != 0) {
+		if(FRAME_DEBUG) {
+			printf("Weighted graph should be in pairs of 3\n"); 
+		}
+		g->err = true; 
+		return g; 
+	}
+
+	char *head_label = frame->headers[cols[0]]->values[0]->value;
+	int head_id = frame->headers[cols[0]]->values[0]->index;  
+	node_t *head = create_node(head_id, head_label, 0); 
+
+    for(int i = 0; i < size; i+=3){
+	
+		/* extract values */
+		value_t **src_header_values = frame->headers[cols[i]]->values;
+		value_t **dst_header_values = frame->headers[cols[i+1]]->values;
+		value_t **weight_header_values = frame->headers[cols[i+2]]->values;
+
+		for(int j = 1; j < frame->row_count; j++) {
+
+			char *src = src_header_values[j]->value; 
+			char *dst = dst_header_values[j]->value;
+			char *weight = weight_header_values[j]->value;
+
+			/* convert weight to integer */ 
+			int weight_to_int = atoi(weight);
+
+			node_t *src_node = create_node(j, src, weight_to_int);
+			node_t *dst_node = create_node(j, dst, weight_to_int);
+
+			/* add src and dst to ull (unique linked list) */ 
+			unique_append_ll(&head, src_node); 
+			unique_append_ll(&head, dst_node);
+
+			/* get the id for the head and src */
+			int src_id = get_id_ll(head, src); 
+			int dst_id = get_id_ll(head, dst);  
+
+			add_node(g, src_id, src, dst_id, dst, weight_to_int); 	
+		}
+	}
+
+	return g; 
+} 

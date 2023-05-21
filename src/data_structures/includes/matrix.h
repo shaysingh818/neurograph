@@ -46,12 +46,10 @@ mat_t *apply(double(*activation_function)(double), mat_t *m);
 mat_t *copy_matrix(mat_t *m);
 mat_t *load_matrix(char *filename);
 mat_t **to_rows(mat_t *m); 
-mat_t **to_cols(mat_t *m);
 
 double uniform_distribution(double low, double high); 
 void copy_mat(mat_t *v1, mat_t *v2);
 void print_vec(mat_t *v1);
-void matrix_fill(mat_t *m, int n); 
 void matrix_free(mat_t *m);  
 void randomize(mat_t *mat, int n); 
 void print_matrix(mat_t *mat);
