@@ -53,24 +53,7 @@ int main(int argc, char **argv) {
     node_t *node3 = create_node(3, "C", 0); 
     
 
-	/* csv library */
-   	csv_t *file = csv_init("../examples/data/test.csv", FILE_BUFFER_SIZE, 4);
-	if(!file->status) {
-		exit(0); 
-	}	
-
-	printf("CSV library test\n");
-	csv_info(file);
-
-
-	int features[] = {1,3};
-	/* test csv util */ 
-	adj_list_t *csv_frame = g_to_csv_util(
-		"../examples/data/movies.csv",
-		features, 
-		2,
-		10
-	); 
+	/* frame  library */
 
 
 
