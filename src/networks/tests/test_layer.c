@@ -19,7 +19,7 @@ void test_create_layer() {
         {0}
     };
 
-	    /* copy inputs to mat structure */
+	/* copy inputs to mat structure */
     mat_t *input = init_vec(1, 2, false);
     for(int i = 0; i < input->rows; i++){
         for(int j = 0; j < input->cols; j++){
