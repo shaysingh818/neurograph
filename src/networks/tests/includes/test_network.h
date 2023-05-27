@@ -7,6 +7,7 @@ void test_init_network();
 void test_add_layer(); 
 void test_train();
 void test_loss(); 
-void test_network_train();  
+void test_network_train(); 
+void test_computation_graph();  
 
 #endif

@@ -12,6 +12,7 @@ int main(int argc, char **argv) {
     test_create_layer(); 
     test_train();
     test_loss(); 
-    test_network_train(); 
+    test_network_train();
+	test_computation_graph();  
 
 }
