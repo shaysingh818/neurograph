@@ -326,34 +326,33 @@ void test_network_train() {
 }
 
 
-void test_computation_graph() {
+void test_base_concept() {
 
 
     /* create computation graph simple feed forward net */
-    int network_depth = 2; 
+    int network_depth = 2, epochs=10000; 
     double learning_rate = 0.1; 
+    bool equality_status = true; 
 
 	int inputs[4][2] = {
+        {0,0},
         {0,1},
         {1,0},
-        {1,1},
-        {0,0}
+        {1,1}
     };
 
     int outputs[4][1] = {
-        {1},
-        {1},
         {0},
+        {1},
+        {1},
         {0}
     };
 
     /* store wieghts, biases and outputs */
-    mat_t **h = malloc(network_depth * sizeof(mat_t*)); // activations 
     mat_t **W = malloc(network_depth * sizeof(mat_t*));  // weights
     mat_t **b = malloc(network_depth * sizeof(mat_t*));  // biases
 
     for(int i = 0; i < network_depth; i++){
-        h[i] = malloc(sizeof(mat_t)); 
         W[i] = malloc(sizeof(mat_t)); 
         b[i] = malloc(sizeof(mat_t)); 
     }    
@@ -375,51 +374,72 @@ void test_computation_graph() {
     }
  
     /* require weight matrices of model */
-    W[0] = init_matrix(2, 3); 
-    W[1] = init_matrix(3, 1);
-    randomize(W[0], W[0]->rows); 
-    randomize(W[1], W[1]->rows);  
+    mat_t *w1 = init_matrix(2, 3); 
+    mat_t *w2 = init_matrix(3, 1);
+    randomize(w1, 2); 
+    randomize(w2, 1);  
 
 
     /* require biase matrices of model */
-    b[0] = init_matrix(3, 1); 
-    b[1] = init_matrix(3, 1); 
+    b[0] = init_matrix(1, 3); 
+    b[1] = init_matrix(1, 3); 
     randomize(b[0], b[0]->rows); 
     randomize(b[1], b[1]->rows);  
 
+    for(int i = 0; i < epochs; i++) {
 
-    h[0] = x;
+        mat_t *z1 = dot(x, w1); 
+        mat_t *a1 = apply(tanh, z1); 
+        mat_t *z2 = dot(a1, w2); 
+        mat_t *a2 = apply(tanh, z2); 
 
-    /* feed forward */
-    for(int k = 1; k < network_depth+1; k++){
-        mat_t *a_k = dot(h[k-1], W[k-1]); 
-        h[k] = apply(sigmoid, a_k); 
+
+        double loss = mse(y, a2); 
+
+        /* get output and expected output*/
+        mat_t *output_error = difference(y, a2);
+        mat_t *output_delta = elementwise_multiply(
+            output_error, 
+            tanh_prime(z2)
+        ); 
+
+        /* back propagate activation  */
+        mat_t *hidden_error = dot(output_delta, transpose(w2));
+        mat_t *hidden_delta = elementwise_multiply(
+            hidden_error,
+            tanh_prime(z1)
+        );
+
+        // /* adjust weights and biases */
+        mat_t *dw2 = scale(dot(transpose(a1), output_delta), learning_rate);
+        mat_t *dw1 = scale(dot(transpose(x), hidden_delta), learning_rate);
+
+        w2 = add(w2, dw2); 
+        w1 = add(w1, dw1);
+
     }
 
-    /* get output and expected output*/
-    mat_t *y_hat = h[network_depth];
-    mat_t *g = difference(y, y_hat);
+    mat_t *z1 = dot(x, w1);
+    mat_t *a1 = apply(tanh, z1); 
+    mat_t *z2 = dot(a1, w2); 
+    mat_t *a2 = apply(tanh, z2); 
 
-    /* propgate first layer */
-    mat_t *f_prime = sigmoid_prime(h[network_depth]);
-    g = elementwise_multiply(g, f_prime); 
-
-    /* update first set of weights  */
-    mat_t *dw1 = dot(transpose(h[network_depth-1]), g);
-    mat_t *lr = scale(dw1, learning_rate);
+    double v0 = a2->arr[0][0]; 
+    double v1 = a2->arr[1][0]; 
+    double v2 = a2->arr[2][0]; 
+    double v3 = a2->arr[3][0]; 
 
 
-    /* back propagate activation  */
-    mat_t *f_prime_2 = sigmoid_prime(h[network_depth-1]);
-    g = elementwise_multiply(f_prime_2, h[network_depth-1]);
+    bool condition = (v0 < v1 && v0 < v2) && (v3 < v1 && v3 < v2); 
+    if(!condition) {
+        equality_status = false; 
+    }
 
-    /* adjust weights and biases */
-    mat_t *delta = dot(g, transpose(W[0]));
-    mat_t *dw2 = dot(transpose(delta), h[network_depth-1]);
-
-    //printf("Updated weights 2\n"); 
-    //print_vec(dw2); 
-
-    //W[1] = add(W[1], lr); 
+    /* validate test results */
+    if(!equality_status) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    } else {
+        printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+    } 
 
 }

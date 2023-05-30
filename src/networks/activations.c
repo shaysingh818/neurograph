@@ -19,7 +19,7 @@ double mse(mat_t *y_true, mat_t *y_pred) {
             sum += diff * diff; 
         }
     }
-    double mse = sum / (y_true->rows * y_true->cols); 
+    return sum / (y_true->rows * y_true->cols);
 }
 
 
