@@ -376,8 +376,8 @@ void test_base_concept() {
     /* require weight matrices of model */
     mat_t *w1 = init_matrix(2, 3); 
     mat_t *w2 = init_matrix(3, 1);
-    randomize(w1, 2); 
-    randomize(w2, 1);  
+    randomize(w1, w1->rows); 
+    randomize(w2, w2->rows);  
 
 
     /* require biase matrices of model */
@@ -393,7 +393,6 @@ void test_base_concept() {
         mat_t *z2 = dot(a1, w2); 
         mat_t *a2 = apply(tanh, z2); 
 
-
         double loss = mse(y, a2); 
 
         /* get output and expected output*/
@@ -403,18 +402,19 @@ void test_base_concept() {
             tanh_prime(z2)
         ); 
 
-        /* back propagate activation  */
+        
         mat_t *hidden_error = dot(output_delta, transpose(w2));
+        mat_t *dw2 = scale(dot(transpose(a1), output_delta), learning_rate);
+        w2 = add(w2, dw2);
+
+        /* back propagate activation  */
         mat_t *hidden_delta = elementwise_multiply(
             hidden_error,
             tanh_prime(z1)
         );
 
         // /* adjust weights and biases */
-        mat_t *dw2 = scale(dot(transpose(a1), output_delta), learning_rate);
         mat_t *dw1 = scale(dot(transpose(x), hidden_delta), learning_rate);
-
-        w2 = add(w2, dw2); 
         w1 = add(w1, dw1);
 
     }
@@ -434,6 +434,7 @@ void test_base_concept() {
     if(!condition) {
         equality_status = false; 
     }
+
 
     /* validate test results */
     if(!equality_status) {

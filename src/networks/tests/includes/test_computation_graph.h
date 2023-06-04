@@ -3,8 +3,8 @@
 
 #include "../../includes/computation_graph.h"
 
-void test_linear();
-void test_loss(); 
+void test_mlp();
+void test_dense(); 
 
 
 #endif
