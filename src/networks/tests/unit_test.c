@@ -17,6 +17,7 @@ int main(int argc, char **argv) {
 	test_base_concept(); 
 
 	/* computation graph tests */
-	test_linear();  
+	test_mlp();
+	test_dense();   
 
 }

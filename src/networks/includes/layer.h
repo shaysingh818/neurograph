@@ -3,6 +3,16 @@
 
 #include "../../data_structures/includes/matrix.h"
 #include "activations.h"
+#include "computation_graph.h"
+
+
+struct MultiLayer {
+	linear_t *linear; 
+	loss_t *loss; 
+	double(*activation_function)(double); 
+}; 
+
+typedef struct MultiLayer mlp_layer_t;
 
 
 struct Layer {

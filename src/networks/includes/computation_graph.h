@@ -13,22 +13,33 @@ typedef enum {
 
 struct CNode {
     int input_size, output_size; 
-    mat_t *inputs, *outputs; 
-	void(*forward)(void*); 
-	void(*backward)(void*); 
+    mat_t *inputs, *outputs, *gradients; 
+	void(*forward)(void*, mat_t*); 
+	void(*backward)(void*, mat_t*); 
 };
 
 typedef struct CNode c_node_t; 
 
 
+/* linear node */
 struct Linear {
     c_node_t *node; 
-    mat_t *weights, *biases; 
+    mat_t *weights, *biases;
+    double learning_rate; 
 }; 
 
 typedef struct Linear linear_t; 
 
 
+/* linear node methods */
+linear_t *linear(int input_size,int output_size, double learning_rate);
+void feedforward(void *linear_ptr, mat_t *set_inputs);
+void backprop(void *linear_ptr, mat_t *output_delta); 
+void debug_linear(linear_t *linear); 
+
+
+
+/* loss layer node */
 struct Loss {
     c_node_t *node; 
 	double(*loss)(double value); 
@@ -37,23 +48,17 @@ struct Loss {
 
 typedef struct Loss loss_t; 
 
-/* linear methods */
-linear_t *linear(mat_t *inputs, int input_size, int output_size);
-void feedforward(void *linear_ptr);
-void debug_linear(linear_t *linear); 
 
-/* loss methods */
+/* loss methods  */
 loss_t *loss(
-    mat_t *inputs, int input_size, int output_size, 
+    int input_size, int output_size, 
     double(*loss)(double value),
     mat_t*(*loss_prime)(mat_t *inputs)
 ); 
-void feedforward_activation(void *loss_ptr);
+void feedforward_activation(void *loss_ptr, mat_t *set_inputs);
+void backward_activation(void *loss_ptr, mat_t *output_error);
 void debug_loss(loss_t *loss);
 
 
-/* General computation graph methods */
-void forward_all(void *nodes[]); 
-void backward_all(void *nodes[]); 
 
 #endif
