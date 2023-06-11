@@ -28,6 +28,7 @@ adj_list_t *init_graph(int v, int e, bool directed) {
 		list->visited[n] = 0; 
 	}
 
+
 	return list; 
 }
 
@@ -82,6 +83,7 @@ int add_node(
 		}
 		check->next = new_node; 
 	}
+
 
 	if(g->directed == false) {
 
