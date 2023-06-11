@@ -13,6 +13,7 @@ void test_kosaraju();
 /* test matrice version */
 void test_degree_centrality_mat();
 void test_label_nodes(); 
-void test_label_propogation();  
+void test_label_propagation(); 
+void test_triangle_count();  
 
 #endif

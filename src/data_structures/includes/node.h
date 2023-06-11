@@ -10,7 +10,9 @@ struct Node {
 	int id; 
 	int weight; 
 	char *label;
-	struct Node* next; 
+	struct Node* next;
+	struct Node* left; 
+	struct Node* right;  
 }; 
 
 typedef struct Node node_t;

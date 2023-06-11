@@ -38,10 +38,11 @@ int main(int argc, char **argv) {
 	test_degree_centrality_mat();
 	test_kosaraju();
 	test_label_nodes(); 
-	test_label_propogation(); 
+	test_label_propagation();
+	test_triangle_count();  
 
 	/* centrality */
-	test_closeness_centrality();
-	test_normalized_closeness_centrality();
+	//test_closeness_centrality();
+	//test_normalized_closeness_centrality();
 
 }

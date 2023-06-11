@@ -1,7 +1,7 @@
 # object files
 
 DS_GRAPH = data_structures/matrix.o data_structures/adj_list.o
-DS_QUEUE = data_structures/map.o data_structures/node.o data_structures/queue.o
+DS_QUEUE = data_structures/map.o data_structures/node.o data_structures/queue.o data_structures/set.o
 DS_OBJS = $(DS_GRAPH)  $(DS_QUEUE)
 
 NETWORK_OBJS = networks/layer.o networks/activations.o networks/network.o

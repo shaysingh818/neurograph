@@ -279,54 +279,38 @@ void test_label_nodes(){
 }
 
 
-void test_label_propogation() {
+void test_label_propagation() {
 
 	/* create adjacency matrix graph with size 5 */
 	bool equality_status = true;  
 	int vertices = 7; 
-	mat_graph_t *m = init_matrice_graph(vertices);
+	int expected_output[7] = {
+		0, 1, 0, 0, -1, 1, 1
+	}; 
 
-	/* expected result */
-    double expected[7][7] = {
-        {1.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00},
-        {0.00, 1.00, 0.00, 0.00, 0.00, 0.00, 0.00},
-        {0.75, 0.25, 0.00, 0.00, 0.00, 0.00, 0.00},
-        {0.75, 0.25, 0.00, 0.00, 0.00, 0.00, 0.00},
-        {0.50, 0.50, 0.00, 0.00, 0.00, 0.00, 0.00},
-        {0.25, 0.75, 0.00, 0.00, 0.00, 0.00, 0.00},
-        {0.25, 0.75, 0.00, 0.00, 0.00, 0.00, 0.00}
-    };
-	
+	/* create adjacency list graph (test on smaller graph) */
+	adj_list_t *g = init_graph(vertices, vertices, false);
+    add_node(g, 0, "A", 3, "D", 2);
+    add_node(g, 2, "C", 3, "D", 2);
+    add_node(g, 3, "D", 4, "E", 2);
+    add_node(g, 4, "E", 5, "F", 2);
+    add_node(g, 5, "F", 6, "G", 2);
+    add_node(g, 5, "F", 1, "B", 2);
 
-    /* create unique nodes */
-    entry_t *a = init_entry(0, "A"); 
-    entry_t *b = init_entry(1, "B"); 
-    entry_t *c = init_entry(2, "C"); 
-    entry_t *d = init_entry(3, "D"); 
-    entry_t *e = init_entry(4, "E"); 
-    entry_t *f = init_entry(5, "F"); 
-    entry_t *g = init_entry(6, "G"); 
+	/* label nodes in graph */
+	int *labels = malloc(g->v * sizeof(int)); 
+	for(int i = 0; i < g->v; i++){
+		labels[i] = -1; 
+	}
 
-	/* connect a to everyone */
-    insert(m, a, a, 0, false); 
-    insert(m, b, b, 0, false); 
-    insert(m, d, a, 0, false); 
-    insert(m, d, c, 0, false); 
-    insert(m, d, e, 0, false); 
-    insert(m, e, f, 0, false); 
-    insert(m, f, g, 0, false); 
-    insert(m, f, b, 0, false); 
+	/* label the red nodes (red is 0, green is 1) */
+	labels[0] = 0; 
+	labels[1] = 1;
 
-	int labels[2] = {0, 1}; //only works with these labels
-	mat_t *A = label_nodes(m, labels); 
-	mat_t *result = label_propogation(A, 50);
-
-	for(int i = 0; i < vertices; i++){
-		for(int j = 0; j < vertices; j++){
-			double rounded_value = round(result->arr[i][j]*100)/100; 
-			if(expected[i][j] != rounded_value){
-				equality_status = false; 
-			}
+	int *predicted_labels = label_propagator(g, labels, 0);
+	for(int i = 0; i < g->v; i++){
+		if(predicted_labels[i] != expected_output[i]) {
+			equality_status = false; 
 		}
 	}
 
@@ -338,3 +322,31 @@ void test_label_propogation() {
 
 }
 
+
+void test_triangle_count() {
+
+	int vertices = 6; 
+	bool equality_status = true; 
+
+	adj_list_t *g = init_graph(vertices, vertices, false);
+    add_node(g, 0, "A", 1, "B", 2);
+    add_node(g, 0, "A", 2, "C", 2);
+    add_node(g, 1, "B", 2, "C", 2);
+    add_node(g, 2, "C", 3, "D", 2);
+    add_node(g, 1, "B", 3, "D", 2);
+    add_node(g, 2, "C", 4, "E", 2);
+    add_node(g, 2, "C", 5, "F", 2);
+
+	int count = triangle_count(g, 4);
+
+	if(count != 2){
+		equality_status = false; 
+	}
+
+	if(!equality_status) {
+		printf("%s::%s...  FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
+	}	
+
+}
