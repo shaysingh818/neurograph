@@ -12,7 +12,7 @@ TEST_HEADERS = $(wildcard /tests/includes/*.h)
 
 # Graph dependencies
 GRAPH_OBJS = ../graph/graph.o ../graph/path.o ../graph/search.o ../graph/community.o 
-DATA_STRUCTURES = ../data_structures/queue.o ../data_structures/matrix.o ../data_structures/adj_list.o ../data_structures/node.o ../data_structures/map.o ../data_structures/ll.o 
+DATA_STRUCTURES = ../data_structures/queue.o ../data_structures/matrix.o ../data_structures/adj_list.o ../data_structures/node.o ../data_structures/map.o ../data_structures/ll.o ../data_structures/set.o
 GRAPH_LIBS = $(GRAPH_OBJS) $(DATA_STRUCTURES)
 
 # source objects for extractors library
