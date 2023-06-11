@@ -1,6 +1,6 @@
 import unittest
 
-class TestDiffusionTypes(unittest.TestCase):
+class TestStructures(unittest.TestCase):
 
     def test_graph_type(self):
         pass
