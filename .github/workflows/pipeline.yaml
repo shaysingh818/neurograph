@@ -75,7 +75,7 @@ jobs:
 
       - name: Install Wheel File
         working-directory: neurograph/dist
-        run: pip3 install neurograph-0.4.0-py3.none-any.whl
+        run: pip3 install neurograph-0.4.0-py3-none-any.whl
 
       - name: Test Graph Construct
         working-directory: neurograph/tests/
