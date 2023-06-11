@@ -190,9 +190,7 @@ mat_t *label_nodes(mat_graph_t *m, int *labels) {
 			}
 		}
 	}
-
 	return A; 
-
 }
 
 mat_t *label_propogation(mat_t *A, int iterations) {
@@ -230,3 +228,100 @@ mat_t *label_propogation(mat_t *A, int iterations) {
 
 	return m_power; 
 }
+
+
+
+int *label_propagator(adj_list_t *g, int *labels, int start_vertex) {
+
+	node_t *start_node = g->items[start_vertex].head; 
+	bool labeled = false; 
+	int path[10]; 
+
+	/* create array to return list of nodes visited */ 
+	queue_t *q = init_queue(g->v);
+	int result = dfs(q, g, start_node); 
+	int curr_label = -1; 
+
+	/* allocate predicted labels for results */
+	int *predicted_labels = malloc(g->v * sizeof(int)); 
+	for(int i = 0; i < g->v; i++){
+		predicted_labels[i] = -1; 
+	}
+
+	/* get items from queue and calculate probabilities */
+	for(int i = q->front_index; i <= q->rear_index; i++) {
+
+		node_t *value = g->items[q->items[i]->integer].head;
+		int neighbor_counter = 0; 
+
+		while(value) {
+
+			if(labels[value->id] >= 0) {
+				curr_label = labels[value->id]; 
+			}
+			value = value->next;
+			neighbor_counter += 1;  
+		}
+
+		double delta = 1.00/neighbor_counter;
+		if(delta == 0.50) {
+			curr_label = -1; 
+		}
+
+		int node_index = q->items[i]->integer; 
+		predicted_labels[node_index] = curr_label; 		
+	}
+
+
+	return predicted_labels; 
+} 
+
+
+int triangle_count(adj_list_t *g, int vertex) {
+
+
+	/* perform a depth first search three times */
+	queue_t *q = init_queue(g->v);
+	node_t *start_node = g->items[vertex].head;
+	set_t *s = init_set(true);  
+	int result = dfs(q, g, start_node);
+	int triangle_count = 0; 
+
+
+	/* iterate through search results */
+	for(int i = q->front_index; i <= q->rear_index; i++) {
+
+		int index = q->items[i]->integer; 
+		node_t *temp = g->items[index].head; 
+		while(temp){	
+			node_t *temp2 = g->items[temp->id].head;
+			while(temp2) {
+				node_t *temp3 = g->items[temp2->id].head;
+				while(temp3){
+					if(temp3->id == index){
+						set_insert(s, temp->id); 
+						set_insert(s, temp2->id); 
+						set_insert(s, temp3->id); 
+					}
+					temp3 = temp3->next; 
+				}
+				temp2 = temp2->next;
+			}
+			temp = temp->next;
+		}
+	}
+
+
+	/* store set results in queue */
+    s->queue = init_queue(s->count); 
+    get_items(s->root, s->queue); 
+	int node_count = s->queue->item_count; 
+	if(node_count % 2 == 0){
+		triangle_count = node_count / 2; 
+	} else if (node_count % 3 == 0 || node_count == 3){
+		triangle_count = node_count / 3;
+	}
+
+
+	return triangle_count; 
+} 

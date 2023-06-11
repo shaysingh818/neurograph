@@ -8,7 +8,9 @@ node_t *create_node(int id, char *label, int weight) {
 	n->id = id; 
 	n->label = (char*)malloc(label_length * sizeof(char)); 
 	n->weight = weight; 
-	n->next = NULL; 
+	n->next = NULL;
+	n->right = NULL; 
+	n->left = NULL;  
 
 	/* copy in string value */ 
 	strcpy(n->label, label); 
