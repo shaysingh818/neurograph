@@ -47,8 +47,5 @@ main.o: main.c $(HEADERS)
 
 
 # clean compilation (target doesn't work)
-clean_binary:
-	rm $(TARGET)
-
 clean:
-	rm -f $(TARGET) $(TEST_TARGET) *.o *~ *.pyc
+	rm -f  *.o *~ *.pyc
