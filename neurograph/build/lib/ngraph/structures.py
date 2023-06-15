@@ -1,6 +1,5 @@
-from ctypes import c_double, c_int,c_bool, CDLL
+from ctypes import c_double, c_int,c_bool, c_uint, CDLL
 from ctypes import  *
-
 
 # Graph Structures
 class Node(Structure):
@@ -31,7 +30,6 @@ class Edge(Structure):
         ("dst", POINTER(Node))
     ]
 
-
 class Walk(Structure):
     _fields_ = [
         ("path", POINTER(c_int)),
@@ -60,14 +58,25 @@ class AdjacencyMatrix(Structure):
         ("matrix", POINTER(POINTER(Entry))),
     ]
 
+# queueing 
+class QueueItem(Structure):
+    pass
 
-# Queue
-# class QueueItem(Structure):
-#     _fields_ = [
-#         ("integer", c_int),
-#         ("string", c_char_p),
-#         ("priority", c_int),
-#         ("node", POINTER(Node))
-#     ]
-    
-# QueueItem._fields_ = [("next", POINTER(QueueItem))]
+QueueItem._fields_ = [
+    ("integer", c_int),
+    ("string", c_char_p),
+    ("priority", c_int),
+    ("node", POINTER(Node)),
+    ("next", POINTER(QueueItem)),
+]
+
+class Queue(Structure):
+    _fields_ = [
+        ("capacity", c_uint),
+        ("front_index", c_int),
+        ("rear_index", c_int),
+        ("item_count", c_int),
+        ("front", POINTER(QueueItem)),
+        ("rear", POINTER(QueueItem)),
+        ("items", POINTER(POINTER(QueueItem))),
+    ]

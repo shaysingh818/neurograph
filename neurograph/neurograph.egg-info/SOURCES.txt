@@ -8,5 +8,6 @@ neurograph.egg-info/top_level.txt
 ngraph/__init__.py
 ngraph/graph.py
 ngraph/main.py
+ngraph/queue_service.py
 ngraph/structures.py
 ngraph/utils.py
