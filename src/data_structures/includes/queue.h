@@ -11,8 +11,8 @@
 
 struct QueueItem {
 	int integer; 
-	char *string;
 	int priority;
+	char *string;
 	node_t *node;
 	struct QueueItem *next; 
 }; 

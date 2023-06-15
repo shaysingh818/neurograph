@@ -1,10 +1,10 @@
 from ctypes import  c_int,c_bool, c_char_p, POINTER
 from ngraph.utils import load_library
 from ngraph.structures import (
-    Node,
-    Walk,
     AdjacencyList,
-    AdjacencyMatrix
+    AdjacencyMatrix,
+    Walk,
+    Node,
 )
 
 
@@ -37,7 +37,7 @@ class Graph:
             src_id, src, 
             dst_id, dst, weight
         )
-
+    
     def shortest_path(self, start_vertex, end_vertex):
         self.lib.shortest_path.restype = c_int
         self.lib.shortest_path.argtypes = [POINTER(AdjacencyList), c_int, c_int]
