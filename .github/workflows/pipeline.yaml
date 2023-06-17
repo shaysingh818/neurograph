@@ -65,17 +65,12 @@ jobs:
         working-directory: neurograph/
         run: pip install -r requirements.txt
 
-      - name: Install setuptools
+      - name: Build Python Package
         working-directory: neurograph/
-        run: pip install setuptools
-
-      - name: Install wheel
-        working-directory: neurograph/
-        run: pip install wheel
-
-      - name: build python package
-        working-directory: neurograph/
-        run: python3 setup.py bdist_wheel
+        run: |
+          pip install setuptools
+          pip install wheel
+          python setup.py bdist_wheel
 
       - name: Install Wheel File
         working-directory: neurograph/dist
