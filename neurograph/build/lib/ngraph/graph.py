@@ -106,9 +106,7 @@ class Graph:
         self.lib.weighted_random_walk.restype = POINTER(Walk)
         self.lib.weighted_random_walk.argtypes = [POINTER(AdjacencyList), POINTER(Walk), c_int]
         walk_results = self.lib.weighted_random_walk(self.adj_list, walk, start_vertex)
-        return walk_results
-    
-        
+        return walk_results  
 
     def print_graph(self):
         self.lib.print_graph(self.adj_list)

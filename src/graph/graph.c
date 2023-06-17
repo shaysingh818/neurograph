@@ -13,6 +13,17 @@ walk_t *init_walk(int steps) {
 }
 
 
+void print_walk(walk_t *w){
+	printf("Steps: %d\n", w->steps); 
+	printf("Cycles: %d\n", w->cycles);
+	printf("Weighted sum: %d\n", w->weighted_sum); 
+	printf("Path:  "); 
+	for(int i = 0; i < w->steps; i++){
+		printf("-> %d", w->path[i]); 
+	}
+}
+
+
 mat_graph_t *to_matrix(mat_graph_t *m, adj_list_t *g, bool directed) {
 	
 	/* iterate through list and populate matrix */
