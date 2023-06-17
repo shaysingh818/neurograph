@@ -1,5 +1,11 @@
+from ctypes import POINTER, pointer
 from graph import Graph
 from queue_service import QueueService
+from pprint import pprint
+from structures import (
+    Node,
+    QueueItem
+)
 
 def main():
 
@@ -8,19 +14,23 @@ def main():
     testing.add_node(0, "A", 1, "B", 100)
     testing.add_node(0, "A", 2, "C", 100)
     testing.add_node(0, "A", 3, "D", 100)
+    testing.add_node(1, "B", 2, "C", 100)
+    testing.add_node(4, "E", 2, "C", 100)
     testing.print_graph()
-    
-    result = testing.shortest_path(0, 3)
-    print(result)
+    print("\n")
+ 
+    # Depth first search results
+    print("DFS Results")
+    print("============================")
+    queue_service = QueueService(7)
+    testing.dfs(1, queue_service=queue_service)
 
-    # queue structure
-    print("Queue tests go here: ")
-    instance = QueueService(100)
-    instance.push(1)
-    instance.push(2)
-    instance.push(3)
-    instance.push(4)
-    instance.print_queue()
-    
+    # Random Walk results
+    print("Weighted Random Walk Results")
+    print("============================")
+    testing.weighted_random_walk(steps=10, start_vertex=0)
+
+
+
 
 main()
