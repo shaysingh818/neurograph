@@ -32,7 +32,8 @@ struct Graph {
 typedef struct Graph graph_t; 
 
 /* init walk structure */
-walk_t *init_walk(int steps); 
+walk_t *init_walk(int steps);
+void print_walk(walk_t *w); 
 
 /* conversion methods to matrix */
 mat_graph_t *to_matrix(mat_graph_t *m, adj_list_t *g, bool directed);

@@ -67,5 +67,5 @@ class QueueService:
     def pop(self): 
         self.lib.pop.restype = None
         self.lib.pop.argtypes = [POINTER(Queue)]
-        self.lib.pop()
+        self.lib.pop(self.q)
 
