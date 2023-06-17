@@ -12,15 +12,19 @@ class QueueService:
         self.lib = load_library("neurograph.so")
         self.lib.init_queue.restype = POINTER(Queue)
         self.lib.init_queue.argtypes = [c_uint]
+        self.capacity = capacity
         self.q = self.lib.init_queue(capacity)
 
     def instance(self):
         return self.q
+
+    def set_instance(self, instance):
+        self.q = instance
     
     def print_queue(self):
         self.lib.print_queue.restype = None
         self.lib.print_queue.argtypes = [POINTER(Queue)]
-        self.lib.print_queue(self.q)        
+        self.lib.print_queue(self.q)
 
     def push(self, item: int, label: str, priority: int):
 

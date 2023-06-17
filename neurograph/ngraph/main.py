@@ -1,6 +1,7 @@
 from ctypes import POINTER, pointer
 from graph import Graph
 from queue_service import QueueService
+from pprint import pprint
 from structures import (
     Node,
     QueueItem
@@ -17,24 +18,19 @@ def main():
     testing.add_node(4, "E", 2, "C", 100)
     testing.print_graph()
     print("\n")
-    
-    # get shortest path results
-    result = testing.shortest_path(0, 3)
-    print("Shortest path results: ", result)
-    print("\n")
-
-    # Breath first search results
-    print("BFS Results")
-    testing.bfs(0)
-
+ 
     # Depth first search results
     print("DFS Results")
+    print("============================")
+    queue_service = QueueService(7)
+    testing.dfs(1, queue_service=queue_service)
+
+    # Random Walk results
+    print("Weighted Random Walk Results")
+    print("============================")
+    testing.weighted_random_walk(steps=10, start_vertex=0)
 
 
 
-
-
-
-    
 
 main()
