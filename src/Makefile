@@ -1,13 +1,13 @@
 # object files
 
 DS_GRAPH = data_structures/matrix.o data_structures/adj_list.o
-DS_QUEUE = data_structures/map.o data_structures/node.o data_structures/queue.o
+DS_QUEUE = data_structures/map.o data_structures/node.o data_structures/queue.o data_structures/set.o
 DS_OBJS = $(DS_GRAPH)  $(DS_QUEUE)
 
 NETWORK_OBJS = networks/layer.o networks/activations.o networks/network.o
 GRAPH_OBJS = graph/graph.o graph/community.o graph/path.o graph/search.o
 EXTRACTOR_OBJS = extractors/csv.o
-UTIL_OBJS = utils/serializers.o utils/utils.o
+UTIL_OBJS = utils/utils.o
 
 
 OBJS = $(DS_OBJS) $(NETWORK_OBJS) $(GRAPH_OBJS) $(EXTRACTOR_OBJS) $(UTIL_OBJS)
@@ -16,7 +16,7 @@ OBJS = $(DS_OBJS) $(NETWORK_OBJS) $(GRAPH_OBJS) $(EXTRACTOR_OBJS) $(UTIL_OBJS)
 BIN=bin
 CC=gcc
 TARGET=../target/neurograph
-SHARED_TARGET = ../dgraph/dg/lib/neurograph.so
+SHARED_TARGET = ../neurograph/ngraph/lib/neurograph.so
 
 
 FLAGS = -lm -lpthread
@@ -45,9 +45,8 @@ networks:
 extractors:
 	$(MAKE) -C ./extractors
 
-utils:
+utils: 
 	$(MAKE) -C ./utils
-
 
 main.o: main.c graph/includes/graph.h data_structures/includes/node.h
 	$(CC) -c main.c
@@ -57,8 +56,9 @@ clean_binary:
 
 clean:
 	rm -f *.o *~
-	rm ../dgraph/dg/lib/*.so
+	rm ../neurograph/ngraph/lib/*.so
 	$(MAKE) -C  ./data_structures clean
 	$(MAKE) -C ./networks clean
 	$(MAKE) -C ./graph clean
 	$(MAKE) -C ./extractors clean
+	$(MAKE) -C ./utils clean

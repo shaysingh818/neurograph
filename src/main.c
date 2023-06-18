@@ -6,7 +6,7 @@
 #include "data_structures/includes/map.h"
 #include "data_structures/includes/node.h"
 #include "extractors/includes/csv.h"
-
+#include "utils/includes/utils.h"
 
 int main(int argc, char **argv) {
 
@@ -53,14 +53,7 @@ int main(int argc, char **argv) {
     node_t *node3 = create_node(3, "C", 0); 
     
 
-	/* csv library */
-   	csv_t *file = csv_init("../examples/data/test.csv", FILE_BUFFER_SIZE, 4);
-	if(!file->status) {
-		exit(0); 
-	}	
-
-	printf("CSV library test\n");
-	csv_info(file);
+	/* frame  library */
 
 
 

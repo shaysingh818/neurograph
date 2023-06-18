@@ -195,7 +195,7 @@ void test_vector_multiplication(){
     };
 
     /* copy degree matrix */
-    mat_t *d_1 = init_vec(dim, dim, false); 
+    mat_t *d_1 = init_matrix(dim, dim); 
     for(int i = 0; i < dim; i++){
         for(int j = 0; j < dim; j++){
             d_1->arr[i][j] = d_inverse[i][j];
@@ -245,7 +245,7 @@ void test_matrix_power() {
     };
 
     /* copy inverse to vec */
-    mat_t *A = init_vec(dim, dim, false); 
+    mat_t *A = init_matrix(dim, dim); 
     for(int i = 0; i < dim; i++){
         for(int j = 0; j < dim; j++){
             A->arr[i][j] = inverse[i][j];
@@ -281,6 +281,121 @@ void test_matrix_power() {
     }
 
 }
+
+void test_to_rows_cols() {
+
+    bool equality_status = true; 
+    int rows = 3, cols = 3; 
+    mat_t *m = init_matrix(rows, cols); 
+
+    double m_values[3][3] = {
+        {1,2,3}, 
+        {1,2,3},
+        {1,2,3},
+    };
+
+    /* copy values to matrice */
+    for(int i = 0; i < rows; i++){
+        for(int j = 0; j < cols; j++){
+            m->arr[i][j] = m_values[i][j];
+        }
+    }
+
+    /* test to rows */
+    mat_t **results = to_rows(m); 
+    for(int i = 0; i < m->rows; i++){
+
+        /* scan results for matrix */
+        for(int j = 0; j < results[i]->rows; j++){
+            for(int k = 0; k < results[i]->cols; k++){
+                if(results[i]->arr[j][k] != m_values[j][k]) {
+                    equality_status = false; 
+                }
+            }
+        }
+    }
+
+    /* add to cols method test here for next release */
+
+    if(!equality_status) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    } else {
+        printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+    }
+}
+
+
+void test_uniform_distribution() {
+
+    int dims = 3; 
+    bool equality_status = true; 
+    mat_t *m = init_matrix(dims, dims); 
+    randomize(m, dims);
+
+
+    for(int i = 0; i < dims; i++){
+        for(int j = 0; j < dims; j++){
+            if(m->arr[i][j] == 0){
+                equality_status = false;                 
+            }
+        }
+    }
+
+    if(!equality_status) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    } else {
+        printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+    }
+}
+
+
+void test_load_and_save_matrix() {
+
+    char *filepath = "../../examples/data/saved_matrix"; 
+    bool equality_status = true; 
+    int dims = 3; 
+    mat_t *m = init_matrix(dims, dims); 
+
+    double m_values[3][3] = {
+        {1.00,2.00,3.00}, 
+        {1.00,2.00,3.00},
+        {1.00,2.00,3.00},
+    };
+
+    /* copy values to matrice */
+    for(int i = 0; i < dims; i++){
+        for(int j = 0; j < dims; j++){
+            m->arr[i][j] = m_values[i][j];
+        }
+    }
+
+    /* save matrix instance in file */
+    save_matrix(m, filepath);
+
+
+    /* try and load matrix from file */
+    mat_t *loaded_matrix = load_matrix(filepath); 
+
+    for(int i = 0; i < dims; i++){
+        for(int j = 0; j < dims; j++){
+            m->arr[i][j] = m_values[i][j];
+            if(loaded_matrix->arr[i][j] != m->arr[i][j]) {
+                equality_status = false; 
+            }
+        }
+    }
+
+    /* remove file */
+    system("rm ../../examples/data/saved_matrix"); 
+
+    if(!equality_status) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    } else {
+        printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+    }
+
+}
+
 
 void test_dot_product() {
 
@@ -602,6 +717,230 @@ void test_transpose_mat(){
 		    }
         }
 	}
+
+    if(!equality_status) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    } else {
+        printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+    } 
+
+}
+
+
+void test_scale_multiply() {
+
+    int dims = 3; 
+    bool equality_status = true; 
+    mat_t *m = init_matrix(dims, dims); 
+
+    double m_values[3][3] = {
+        {2, 2, 2}, 
+        {2, 2, 2}, 
+        {4, 4, 4}, 
+    };
+
+
+    double expected_values[3][3] = {
+        {4.00, 4.00, 4.00}, 
+        {4.00, 4.00, 4.00}, 
+        {8.00, 8.00, 8.00}
+    };
+
+
+    for(int i = 0; i < dims; i++){
+        for(int j = 0; j < dims; j++){
+            m->arr[i][j] = m_values[i][j];
+        }
+    }
+
+    /* test scale multiply */
+    mat_t *result = scale(m, 2.00);
+
+    /* match result */
+    for(int i = 0; i < dims; i++){
+        for(int j = 0; j < dims; j++){
+            double rounded_value = round(result->arr[i][j]*100)/100; 
+            if(expected_values[i][j] != rounded_value){
+                equality_status = false; 
+		    }
+        }
+	}
+
+
+    if(!equality_status) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    } else {
+        printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+    } 
+
+}
+
+
+void test_elementwise_multiply() {
+
+    int dims = 3; 
+    bool equality_status = true; 
+    mat_t *m1 = init_matrix(dims, dims); 
+    mat_t *m2 = init_matrix(dims, dims); 
+
+    double m1_values[3][3] = {
+        {2, 2, 2}, 
+        {2, 2, 2}, 
+        {4, 4, 4}, 
+    };
+
+
+    double m2_values[3][3] = {
+        {4, 4, 4}, 
+        {4, 4, 4}, 
+        {5, 5, 5}, 
+    };
+    
+    double expected_values[3][3] = {
+        {8.00, 8.00, 8.00}, 
+        {8.00, 8.00, 8.00}, 
+        {20.00, 20.00, 20.00}
+    };
+
+
+    /* copy values to matrix */
+    for(int i = 0; i < dims; i++){
+        for(int j = 0; j < dims; j++){
+            m1->arr[i][j] = m1_values[i][j];
+            m2->arr[i][j] = m2_values[i][j]; 
+        }
+    }
+
+
+    /* test elementwise multiply */
+    mat_t *result = elementwise_multiply(m1, m2); 
+
+    /* match result */
+    for(int i = 0; i < dims; i++){
+        for(int j = 0; j < dims; j++){
+            double rounded_value = round(result->arr[i][j]*100)/100; 
+            if(expected_values[i][j] != rounded_value){
+                equality_status = false; 
+		    }
+        }
+	}
+
+
+    if(!equality_status) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    } else {
+        printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+    } 
+
+}
+
+
+
+void test_add_matrix() {
+
+    int dims = 3; 
+    bool equality_status = true; 
+    mat_t *m1 = init_matrix(dims, dims); 
+    mat_t *m2 = init_matrix(dims, dims); 
+
+    double m1_values[3][3] = {
+        {2, 2, 2}, 
+        {2, 2, 2}, 
+        {4, 4, 4}, 
+    };
+
+
+    double m2_values[3][3] = {
+        {4, 4, 4}, 
+        {4, 4, 4}, 
+        {5, 5, 5}, 
+    };
+
+
+    double expected_values[3][3] = {
+        {6.00, 6.00, 6.00}, 
+        {6.00, 6.00, 6.00}, 
+        {9.00, 9.00, 9.00}
+    };
+
+    /* copy values to matrix */
+    for(int i = 0; i < dims; i++){
+        for(int j = 0; j < dims; j++){
+            m1->arr[i][j] = m1_values[i][j];
+            m2->arr[i][j] = m2_values[i][j]; 
+        }
+    }
+
+    /* test add result */
+    mat_t *result = add(m1, m2);
+
+    /* match result */
+    for(int i = 0; i < dims; i++){
+        for(int j = 0; j < dims; j++){
+            double rounded_value = round(result->arr[i][j]*100)/100; 
+            if(expected_values[i][j] != rounded_value){
+                equality_status = false; 
+		    }
+        }
+	}
+
+    if(!equality_status) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    } else {
+        printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+    } 
+
+}
+
+
+void test_matrix_difference() {
+
+    int dims = 3; 
+    bool equality_status = true; 
+    mat_t *m1 = init_matrix(dims, dims); 
+    mat_t *m2 = init_matrix(dims, dims); 
+
+    double m1_values[3][3] = {
+        {2, 2, 2}, 
+        {2, 2, 2}, 
+        {4, 4, 4}, 
+    };
+
+
+    double m2_values[3][3] = {
+        {4, 4, 4}, 
+        {4, 4, 4}, 
+        {5, 5, 5}, 
+    };
+
+
+    double expected_values[3][3] = {
+        {2.00, 2.00, 2.00}, 
+        {2.00, 2.00, 2.00}, 
+        {1.00, 1.00, 1.00}
+    };
+
+    /* copy values to matrix */
+    for(int i = 0; i < dims; i++){
+        for(int j = 0; j < dims; j++){
+            m1->arr[i][j] = m1_values[i][j];
+            m2->arr[i][j] = m2_values[i][j]; 
+        }
+    }
+
+
+    mat_t *result = difference(m2, m1); 
+
+    /* match result */
+    for(int i = 0; i < dims; i++){
+        for(int j = 0; j < dims; j++){
+            double rounded_value = round(result->arr[i][j]*100)/100; 
+            if(expected_values[i][j] != rounded_value){
+                equality_status = false; 
+		    }
+        }
+	}
+
 
     if(!equality_status) {
         printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
