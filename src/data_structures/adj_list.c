@@ -28,6 +28,7 @@ adj_list_t *init_graph(int v, int e, bool directed) {
 		list->visited[n] = 0; 
 	}
 
+
 	return list; 
 }
 
@@ -83,6 +84,7 @@ int add_node(
 		check->next = new_node; 
 	}
 
+
 	if(g->directed == false) {
 
 		/* check if head is NULL again */ 
@@ -132,7 +134,7 @@ void print_graph(adj_list_t *g) {
 		printf("%d ", i); 
 		while(head) {
 			printf("-> (%d, %s)", head->id, head->label); 
-			if(head->weight > 0) {
+			if(head->weight >= 0) {
 				printf(" [%d] ", head->weight); 
 			}
 			head  = head->next; 

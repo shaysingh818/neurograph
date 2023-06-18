@@ -1,5 +1,6 @@
 #include "includes/test_layer.h" 
 #include "includes/test_network.h"
+#include "includes/test_computation_graph.h"
 
 int main(int argc, char **argv) {
 	
@@ -12,6 +13,11 @@ int main(int argc, char **argv) {
     test_create_layer(); 
     test_train();
     test_loss(); 
-    test_network_train(); 
+    test_network_train();
+	test_base_concept(); 
+
+	/* computation graph tests */
+	test_mlp();
+	test_dense();   
 
 }

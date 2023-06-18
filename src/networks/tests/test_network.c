@@ -324,3 +324,123 @@ void test_network_train() {
     } 
 
 }
+
+
+void test_base_concept() {
+
+
+    /* create computation graph simple feed forward net */
+    int network_depth = 2, epochs=10000; 
+    double learning_rate = 0.1; 
+    bool equality_status = true; 
+
+	int inputs[4][2] = {
+        {0,0},
+        {0,1},
+        {1,0},
+        {1,1}
+    };
+
+    int outputs[4][1] = {
+        {0},
+        {1},
+        {1},
+        {0}
+    };
+
+    /* store wieghts, biases and outputs */
+    mat_t **W = malloc(network_depth * sizeof(mat_t*));  // weights
+    mat_t **b = malloc(network_depth * sizeof(mat_t*));  // biases
+
+    for(int i = 0; i < network_depth; i++){
+        W[i] = malloc(sizeof(mat_t)); 
+        b[i] = malloc(sizeof(mat_t)); 
+    }    
+
+    /* require inputs and outputs */
+    mat_t *x = init_matrix(4, 2);
+    mat_t *y = init_matrix(4, 1); 
+
+    for(int i = 0; i < x->rows; i++){
+        for(int j = 0; j < x->cols; j++){
+            x->arr[i][j] = inputs[i][j];
+        }
+    }
+
+    for(int i = 0; i < y->rows; i++){
+        for(int j = 0; j < y->cols; j++){
+            y->arr[i][j] = outputs[i][j];
+        }
+    }
+ 
+    /* require weight matrices of model */
+    mat_t *w1 = init_matrix(2, 3); 
+    mat_t *w2 = init_matrix(3, 1);
+    randomize(w1, w1->rows); 
+    randomize(w2, w2->rows);  
+
+
+    /* require biase matrices of model */
+    b[0] = init_matrix(1, 3); 
+    b[1] = init_matrix(1, 3); 
+    randomize(b[0], b[0]->rows); 
+    randomize(b[1], b[1]->rows);  
+
+    for(int i = 0; i < epochs; i++) {
+
+        mat_t *z1 = dot(x, w1); 
+        mat_t *a1 = apply(tanh, z1); 
+        mat_t *z2 = dot(a1, w2); 
+        mat_t *a2 = apply(tanh, z2); 
+
+        double loss = mse(y, a2); 
+
+        /* get output and expected output*/
+        mat_t *output_error = difference(y, a2);
+        mat_t *output_delta = elementwise_multiply(
+            output_error, 
+            tanh_prime(z2)
+        ); 
+
+        
+        mat_t *hidden_error = dot(output_delta, transpose(w2));
+        mat_t *dw2 = scale(dot(transpose(a1), output_delta), learning_rate);
+        w2 = add(w2, dw2);
+
+        /* back propagate activation  */
+        mat_t *hidden_delta = elementwise_multiply(
+            hidden_error,
+            tanh_prime(z1)
+        );
+
+        // /* adjust weights and biases */
+        mat_t *dw1 = scale(dot(transpose(x), hidden_delta), learning_rate);
+        w1 = add(w1, dw1);
+
+    }
+
+    mat_t *z1 = dot(x, w1);
+    mat_t *a1 = apply(tanh, z1); 
+    mat_t *z2 = dot(a1, w2); 
+    mat_t *a2 = apply(tanh, z2); 
+
+    double v0 = a2->arr[0][0]; 
+    double v1 = a2->arr[1][0]; 
+    double v2 = a2->arr[2][0]; 
+    double v3 = a2->arr[3][0]; 
+
+
+    bool condition = (v0 < v1 && v0 < v2) && (v3 < v1 && v3 < v2); 
+    if(!condition) {
+        equality_status = false; 
+    }
+
+
+    /* validate test results */
+    if(!equality_status) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    } else {
+        printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+    } 
+
+}

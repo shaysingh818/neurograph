@@ -37,6 +37,9 @@ void test_populate_headers_two() {
 	int equality_status = TRUE; 
 	csv_t *file = csv_init("../../examples/data/movies.csv", FILE_BUFFER_SIZE, 10);
 
+	printf("COL COUNT: %d\n", file->col_count); 
+	printf("RESULT: %d\n", file->status); 
+
 	/* expected results */
    	if(!file->status) {
 		equality_status = true; 

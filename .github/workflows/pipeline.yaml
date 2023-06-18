@@ -51,7 +51,7 @@ jobs:
         make clean
  
   # unit tests for python code base
-  build-dgraph:
+  glue-package:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -61,18 +61,21 @@ jobs:
         run: |
           make
 
-      - name: Install setuptools
-        working-directory: dgraph/
-        run: pip install setuptools
+      - name: Install Dependencies
+        working-directory: neurograph/
+        run: pip install -r requirements.txt
 
-      - name: Install wheel
-        working-directory: dgraph/
-        run: pip install wheel
+      - name: Build Python Package
+        working-directory: neurograph/
+        run: |
+          pip install setuptools
+          pip install wheel
+          python setup.py bdist_wheel
 
-      - name: Build python package
-        working-directory: dgraph/
-        run: python3 setup.py bdist_wheel
+      - name: Install Wheel File
+        working-directory: neurograph/dist
+        run: pip3 install neurograph-0.4.0-py3-none-any.whl
 
-      - name: Test Graph Construct
-        working-directory: dgraph/tests/
-        run: python -m unittest -v test_graph
+      - name: Unit Tests
+        working-directory: neurograph/tests/
+        run: python -m pytest

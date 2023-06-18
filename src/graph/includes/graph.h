@@ -2,6 +2,8 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
+
+#include "../../data_structures/includes/set.h"
 #include "../../data_structures/includes/queue.h"
 #include "../../data_structures/includes/matrix.h"
 #include "../../data_structures/includes/adj_list.h"
@@ -19,8 +21,19 @@ struct Walk {
 
 typedef struct Walk walk_t;
 
+/* improved graph structure for the future */
+struct Graph {
+	int *visited;
+	bool directed; 
+	adj_list_t *adj_list; 
+	mat_t *adj_matrix;
+};
+
+typedef struct Graph graph_t; 
+
 /* init walk structure */
-walk_t *init_walk(int steps); 
+walk_t *init_walk(int steps);
+void print_walk(walk_t *w); 
 
 /* conversion methods to matrix */
 mat_graph_t *to_matrix(mat_graph_t *m, adj_list_t *g, bool directed);
