@@ -50,6 +50,13 @@ int main(int argc, char **argv) {
     test_get_node_by_id();
 
     /* test set data structure */
-    test_set();  
+    test_set(); 
+
+    /* test hash map */
+    test_hash_table(); 
+    test_additive_hash(); 
+    test_compare_char();
+    test_hash_linked_list(); 
+    test_duplicates();  
 
 }

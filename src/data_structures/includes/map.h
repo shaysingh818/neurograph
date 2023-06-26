@@ -5,65 +5,74 @@
 #include <string.h> 
 #include <stdio.h>
 #include <unistd.h>
-#include <stdbool.h> 
-
-/* 
- * This library is meant to handle unique character values with associated indexes
- * Ideally a Hashing Data structure would be useful to solve this
- * Temporarily, we'll create a "hacky" version of a set list. 
- * Instead of falling down a rabbit, pick this back up in later versions
- */
+#include <stdbool.h>
+#include "node.h" 
 
 
-struct UniqueLinkedList {
-	char *value; 
-	int index; 
-	struct UniqueLinkedList *next; 
+/* not sure what these do yet */
+typedef void (*destructor_func)(void*); 
+typedef bool (*compare_func)(void*, void*);
+typedef int (*hash_func)(int, char*, size_t); 
+
+
+struct hash_linked_list {
+	int hash_key;
+	void *key;
+	void *value;  
+	struct hash_linked_list *next; 
 }; 
 
-typedef struct UniqueLinkedList u_ll_t; 
-
-
-struct MapList {
-	int key; 
-	struct MapList *next; 
-}; 
-
-typedef struct MapList ll_t; 
-
-
-struct Bin {
-	int is_free; 
-	int key;
-}; 
-
-typedef struct Bin bin_t; 
+typedef struct hash_linked_list h_ll_t; 
 
 
 struct HashTable {
-	bin_t *table;  
-	int size;
+	h_ll_t **table;  
+	int size, used, active; 
+	compare_func key_cmp; 
+	destructor_func key_destructor;
+	destructor_func val_destructor;  
+	hash_func hash_function; 
 }; 
 
 typedef struct HashTable map_t; 
 
 
-/* unique linked list  methods */
-u_ll_t *create_ull(char *set_key); 
-int append(u_ll_t **head, char *set_key);
-int pop_node(u_ll_t *head); 
-int contains_value(u_ll_t *head, char *key);
-int get_id(u_ll_t *head, char *key); 
-
-void print_u_ll_t(u_ll_t *head); 
-
 /* hash table util methods */ 
-map_t *init(int size); 
-void delete_table(map_t *table); 
+map_t *init_table(
+	int size, 
+	compare_func key_cmp, 
+	destructor_func key_destructor, 
+	destructor_func val_destructor,
+	hash_func hash_function
+);
 
-/* key methods */ 
-void insert_key(map_t *table, int key); 
-bool contains_key(map_t *table, int key); 
-void delete_key(map_t *table, int key); 
+
+/* hash map methods */ 
+void delete_table(map_t *table); 
+void *lookup_key(map_t *table, void *key); 
+void insert_key(map_t *table, void* key); 
+void delete_key(map_t *table, void* key);
+void add_map(map_t *table, void *key, void *value); 
+void resize(map_t *table, int new_size);  
+bool contains_key(map_t *table, void* key); 
+
+
+/* linked list hash table methods */
+h_ll_t *new_hash_ll();
+h_ll_t *get_prev_link(h_ll_t *list, int hash_key, void *key, compare_func key_cmp);
+h_ll_t *lookup_key_list(h_ll_t *list, int hash_key, void *key, compare_func key_cmp);  
+bool contains_key_list(h_ll_t *list, int hash_key, void *key, compare_func key_cmp); 
+bool delete_key_list(h_ll_t *list, int hash_key, void *key, compare_func key_cmp, destructor_func key_destructor, destructor_func val_destructor); 
+void add_map_list(h_ll_t *list, int hash_key, void *key, void *value);
+void insert_key_list(h_ll_t *list, int hash_key, void *key, compare_func key_cmp); 
+void delete_hash_ll(h_ll_t *list, destructor_func key_destructor, destructor_func val_destructor, bool free_resources);
+
+
+/* hashing functions for bytes */
+int additive_hash(int state, char *input, size_t len); 
+int jenkins_hash(int state, char *input, size_t len); 
+
+/* comparison functions */
+bool compare_char(void *key1, void *key2); 
 
 #endif
