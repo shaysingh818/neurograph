@@ -37,7 +37,7 @@ void test_to_list() {
 
 	/* iterate through list and match relationships */ 
 	for(int i = 0; i < g->v; i++) {
-		node_t *head = g->items[i].head; 
+		node_t *head = g->items[i]->head; 
 		int node_index = 0; 
 		while(head) {
 			int condition = strcmp(head->label, relationship_list[i][node_index]); 
@@ -95,7 +95,7 @@ void test_to_weighted_list() {
 
 	/* iterate through list and match relationships */ 
 	for(int i = 0; i < g->v; i++) {
-		node_t *head = g->items[i].head; 
+		node_t *head = g->items[i]->head; 
 		int node_index = 0; 
 		while(head) {
 			if(head->weight != relationship_list[i][node_index]) {
@@ -152,7 +152,7 @@ void test_to_directed_list() {
 
 	/* iterate through list and match relationships */ 
 	for(int i = 0; i < g->v; i++) {
-		node_t *head = g->items[i].head; 
+		node_t *head = g->items[i]->head; 
 		int node_index = 0; 
 		while(head) {
 			int condition = strcmp(head->label, relationship_list[i][node_index]); 
@@ -209,7 +209,7 @@ void test_to_directed_weighted_list() {
 
 	/* iterate through list and match relationships */ 
 	for(int i = 0; i < g->v; i++) {
-		node_t *head = g->items[i].head; 
+		node_t *head = g->items[i]->head; 
 		int node_index = 0; 
 		while(head) {
 			int condition = strcmp(head->label, relationship_list[i][node_index]); 
