@@ -29,7 +29,7 @@ mat_graph_t *to_matrix(mat_graph_t *m, adj_list_t *g, bool directed) {
 	/* iterate through list and populate matrix */
 	for(int i = 0; i < g->v; i++) {
 
-		node_t *head = g->items[i].head;
+		node_t *head = g->items[i]->head;
 		node_t *src_node = get_node_by_id(g, i); 
 		int row = src_node->id; 
 		int col = head->id; 

@@ -45,7 +45,9 @@ mat_t *init_matrix(int rows, int cols);
 mat_t *apply(double(*activation_function)(double), mat_t *m);  
 mat_t *copy_matrix(mat_t *m);
 mat_t *load_matrix(char *filename);
-mat_t **to_rows(mat_t *m); 
+mat_t **to_rows(mat_t *m);
+mat_t **to_cols(mat_t *m); 
+mat_t **batch_rows(mat_t *m, int limit);  
 
 double uniform_distribution(double low, double high); 
 void copy_mat(mat_t *v1, mat_t *v2);

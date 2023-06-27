@@ -15,5 +15,6 @@ void test_init_frame_structure();
 void test_frame_to_unweighted_graph(); 
 void test_frame_to_weighted_graph(); 
 void test_frame_to_matrice_graph(); 
+void test_unused_slots(); 
 
 #endif
