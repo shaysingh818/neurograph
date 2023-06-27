@@ -159,7 +159,7 @@ void test_frame_to_unweighted_graph() {
 
 	/* check graph against relationships */ 
 	for(int i = 0; i < result->v; i++) {
-	    node_t *head = result->items[i].head; 
+	    node_t *head = result->items[i]->head; 
 	    int node_index = 0; 
 	    while(head) {
 			int condition = strcmp(head->label, relationship_list[i][node_index]);
@@ -224,7 +224,7 @@ void test_frame_to_weighted_graph() {
 
 	/* check graph against relationships */ 
 	for(int i = 0; i < result->v; i++) {
-	    node_t *head = result->items[i].head; 
+	    node_t *head = result->items[i]->head; 
 	    int node_index = 0; 
 	    while(head) {
             if(head->weight != weight_list[i][node_index]) {
