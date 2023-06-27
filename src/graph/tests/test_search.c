@@ -15,7 +15,7 @@ void test_bfs_one() {
 
 	/* check queue state against it */ 
 	char *order[5] = {"A", "B", "C", "D", "E"}; 
-	node_t *head = g->items[1].head;
+	node_t *head = g->items[1]->head;
 	queue_t *result = bfs(g, head); 
 
 	/* iterate through queue and confirm order */ 
@@ -52,7 +52,7 @@ void test_bfs_two() {
 
 	/* get head node of graph */
 	char *order[5] = {"S", "A", "B", "C", "D"}; 
-	node_t *head = g->items[1].head;
+	node_t *head = g->items[1]->head;
 	queue_t *result = bfs(g, head); 
 
 	/* iterate through queue and confirm order */ 
@@ -89,7 +89,7 @@ void test_dfs_one() {
 	queue_t *q = init_queue(g->v); 	
 
 	/* get head node of graph */ 
-	node_t *head = g->items[1].head;
+	node_t *head = g->items[1]->head;
 
 	/* check result of bfs */ 
 	int result = dfs(q, g, head); 

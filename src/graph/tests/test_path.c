@@ -334,7 +334,7 @@ void test_weighted_random_walk() {
 	/* iterate through walk results and check if sum matches path */ 
    	int test_sum = 0; 	
 	for(int i = 0; i < result->steps; i++) {
-	   	node_t *node = g->items[w->path[i]].head; 	
+	   	node_t *node = g->items[w->path[i]]->head; 	
 		test_sum += node->weight; 
 	}
 
