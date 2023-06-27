@@ -24,7 +24,7 @@ struct AdjacencyList {
 	bool directed;
    	bool err; 	
    	edge_t **edges;
-	node_list_t *items; 	
+	node_list_t **items; 	
 }; 
 
 typedef struct AdjacencyList adj_list_t; 
@@ -47,7 +47,8 @@ int push_unweighted_node(adj_list_t *g, char *src, char *dst);
 int push_weighted_node(adj_list_t *g, char *src, char *dst, int weight);
 
 /* utiltiy */ 
-node_t *get_node_by_id(adj_list_t *g, int id); 
+node_t *get_node_by_id(adj_list_t *g, int id);
+void resize_adj_list(adj_list_t *g, int new_size);  
 
 /* printers formatters */ 
 void print_graph(adj_list_t *g);

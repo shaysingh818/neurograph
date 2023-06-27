@@ -94,7 +94,53 @@ mat_t **to_rows(mat_t *m) {
 		rows[i] = copy_matrix(temp); 
 	}
 	return rows; 
+}
+
+
+mat_t **to_cols(mat_t *m) {
+
+    mat_t **cols = (mat_t**)malloc(sizeof(mat_t*));
+	for(int i = 0; i < m->cols; i++){
+		cols[i] = malloc(sizeof(mat_t)); 	
+	}
+
+	for(int i = 0; i < m->rows; i++){
+		mat_t *temp = init_matrix(1, m->cols); 
+		for(int j = 0; j < m->cols; j++){
+			temp->arr[0][j] = m->arr[j][i]; 
+		}
+		cols[i] = copy_matrix(temp); 
+	}
+
+	return cols; 
+}
+
+
+mat_t **batch_rows(mat_t *m, int limit) {
+
+	/* limit can't be greater than the rows */
+	if(limit > m->rows) {
+		printf("Limit supplied is greater than the amount of rows\n"); 
+		exit(1); 
+	}
+
+	/* batch rows */
+    mat_t **rows = (mat_t**)malloc(sizeof(mat_t*));
+	for(int i = 0; i < limit; i++){
+		rows[i] = malloc(sizeof(mat_t)); 	
+	}
+
+	for(int i = 0; i < limit; i++){
+		mat_t *temp = init_matrix(1, m->cols); 
+		for(int j = 0; j < m->cols; j++){
+            temp->arr[0][j] = m->arr[i][j];
+		}
+		rows[i] = copy_matrix(temp); 
+	}
+	return rows; 
 } 
+
+
 
 bool compare_matrix(mat_t *n, mat_t *m){
 	bool result = true; 

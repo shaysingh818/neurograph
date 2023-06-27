@@ -52,7 +52,7 @@ int weighted_degree_centrality(adj_list_t *g) {
 	   	int connection_count = 0; 
 
 		/* get current head node */ 	
-		node_t *head = g->items[i].head;
+		node_t *head = g->items[i]->head;
 
 		while(head) {
 			weighted_sum += head->weight; 
@@ -110,14 +110,14 @@ int **kosaraju(adj_list_t *g, int start_vertex) {
    	int num_components = 0; 	
 
 	/* perform DFS on first instance of graph */ 
-	node_t *head = g->items[3].head;
+	node_t *head = g->items[3]->head;
 	int result = dfs(q, g, head); 
 
 	/* transposed graph */
 	adj_list_t *transpose = transpose_items(g, r); 
 
 	/* perform DFS on transposed graph */
-	node_t *t_head = g->items[6].head;
+	node_t *t_head = g->items[6]->head;
 	item_t *queue_item = init_item(head->id, head->label, 0, head); 
 	push(q1, queue_item); //push head node before
 	int transpose_result = dfs(q1, transpose, t_head); 
@@ -233,7 +233,7 @@ mat_t *label_propogation(mat_t *A, int iterations) {
 
 int *label_propagator(adj_list_t *g, int *labels, int start_vertex) {
 
-	node_t *start_node = g->items[start_vertex].head; 
+	node_t *start_node = g->items[start_vertex]->head; 
 	bool labeled = false; 
 	int path[10]; 
 
@@ -251,7 +251,7 @@ int *label_propagator(adj_list_t *g, int *labels, int start_vertex) {
 	/* get items from queue and calculate probabilities */
 	for(int i = q->front_index; i <= q->rear_index; i++) {
 
-		node_t *value = g->items[q->items[i]->integer].head;
+		node_t *value = g->items[q->items[i]->integer]->head;
 		int neighbor_counter = 0; 
 
 		while(value) {
@@ -282,7 +282,7 @@ int triangle_count(adj_list_t *g, int vertex) {
 
 	/* perform a depth first search three times */
 	queue_t *q = init_queue(g->v);
-	node_t *start_node = g->items[vertex].head;
+	node_t *start_node = g->items[vertex]->head;
 	set_t *s = init_set(true);  
 	int result = dfs(q, g, start_node);
 	int triangle_count = 0; 
@@ -292,11 +292,11 @@ int triangle_count(adj_list_t *g, int vertex) {
 	for(int i = q->front_index; i <= q->rear_index; i++) {
 
 		int index = q->items[i]->integer; 
-		node_t *temp = g->items[index].head; 
+		node_t *temp = g->items[index]->head; 
 		while(temp){	
-			node_t *temp2 = g->items[temp->id].head;
+			node_t *temp2 = g->items[temp->id]->head;
 			while(temp2) {
-				node_t *temp3 = g->items[temp2->id].head;
+				node_t *temp3 = g->items[temp2->id]->head;
 				while(temp3){
 					if(temp3->id == index){
 						set_insert(s, temp->id); 

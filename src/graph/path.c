@@ -46,7 +46,7 @@ int *bellman_ford(adj_list_t *g, node_t *root, int *dist) {
 int *dijkstra(adj_list_t *g, int start_vertex) {
 	
 	/* start and current node */ 
-	node_t *start = g->items[start_vertex].head;
+	node_t *start = g->items[start_vertex]->head;
 	int *dist = malloc(g->v * sizeof(int));
 	int *prev = malloc(g->v * sizeof(int)); 
 	int *s = malloc(g->v * sizeof(int)); 
@@ -72,7 +72,7 @@ int *dijkstra(adj_list_t *g, int start_vertex) {
 		int u = q->items[q->front_index]->integer; 
 		pop(q);  
 
-		node_t *head = g->items[u].head; 
+		node_t *head = g->items[u]->head; 
 		while(head) {
 
 			if(dist[head->id] > dist[u] + head->weight) {
@@ -92,7 +92,7 @@ int *dijkstra(adj_list_t *g, int start_vertex) {
 int shortest_path(adj_list_t *g, int start_vertex, int end_vertex) {
 
 	/* start and current node */ 
-	node_t *start = g->items[start_vertex].head;
+	node_t *start = g->items[start_vertex]->head;
 	int *dist = malloc(g->v * sizeof(int));
 	int *prev = malloc(g->v * sizeof(int)); 
 	int *s = malloc(g->v * sizeof(int)); 
@@ -118,7 +118,7 @@ int shortest_path(adj_list_t *g, int start_vertex, int end_vertex) {
 		int u = q->items[q->front_index]->integer; 
 		pop(q);  
 
-		node_t *head = g->items[u].head; 
+		node_t *head = g->items[u]->head; 
 		while(head) {
 
 			int x = dist[u] + head->weight; 
@@ -150,7 +150,7 @@ int *random_walk(adj_list_t *g, int start_vertex, int steps, int *path) {
    	time_t t; 	
 
 	/* start with the src node */
-	node_t *start = g->items[start_vertex].head;
+	node_t *start = g->items[start_vertex]->head;
 
 	/* init random seed */ 
 	srand((unsigned) time(&t));
@@ -174,7 +174,7 @@ int *random_walk(adj_list_t *g, int start_vertex, int steps, int *path) {
 		int selected_neighbor = neighbors[rand_index]; 
 
 		/* set as new starting node and add visited node to path */ 
-		start = g->items[selected_neighbor].head;
+		start = g->items[selected_neighbor]->head;
 		path[n] = selected_neighbor; 
 	}	
 	
@@ -189,7 +189,7 @@ walk_t *weighted_random_walk(adj_list_t *g, walk_t *w, int start_vertex) {
    	time_t t; 	
 
 	/* start with the src node */
-	node_t *start = g->items[start_vertex].head;
+	node_t *start = g->items[start_vertex]->head;
 
 	/* init random seed */ 
 	srand((unsigned) time(&t));
@@ -213,7 +213,7 @@ walk_t *weighted_random_walk(adj_list_t *g, walk_t *w, int start_vertex) {
 		int selected_neighbor = neighbors[rand_index]; 
 
 		/* set as new starting node and add visited node to path */ 
-		start = g->items[selected_neighbor].head;
+		start = g->items[selected_neighbor]->head;
 		w->weighted_sum += start->weight;
 		w->path[n] = selected_neighbor; 
 	}	

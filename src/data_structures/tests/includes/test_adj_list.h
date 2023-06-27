@@ -7,6 +7,7 @@
 void test_graph();
 void test_weighted_graph(); 
 void test_transpose_graph();
-void test_get_node_by_id(); 
+void test_get_node_by_id();
+void test_resize_adj_list();  
 
 #endif

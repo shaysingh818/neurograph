@@ -243,3 +243,47 @@ void test_frame_to_weighted_graph() {
     printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 
 }
+
+
+void test_unused_slots() {
+
+
+    bool equality_status = true; 
+	int indices[3] = {1,3,4}; 
+
+    frame_t *frame = init_frame("../../examples/data/movies.csv", 1024);
+	if(!frame->status) {
+		equality_status = false;  
+	}
+
+    /* convert frame to un weighted graph */
+    adj_list_t *result = frame_to_weighted_graph(
+       frame, indices, 3, false
+    );
+
+    if(result->v != 107){
+        equality_status = false; 
+    }
+
+
+    frame = init_frame("../../examples/data/city_population_density.csv", 1024);
+	if(!frame->status) {
+		equality_status = false;  
+	}
+
+    /* convert frame to un weighted graph */
+    result = frame_to_weighted_graph(
+       frame, indices, 3, false
+    );
+
+    if(result->v != 126){
+        equality_status = false; 
+    }
+
+ 	/* validate results */
+    if(!equality_status) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    }
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+
+}

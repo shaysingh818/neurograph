@@ -228,5 +228,19 @@ adj_list_t *frame_to_weighted_graph(frame_t *frame, int *cols, int size, bool di
 		}
 	}
 
+	/* clear unused empty slots */
+	int last_used_indice = 0;  
+	for(int i = g->v; i > 0; i--){
+		node_t *head = g->items[i].head;
+		if(head && i != g->v){
+			last_used_indice = i; 
+			break; 
+		}
+	}
+
+	int remainder = g->v - last_used_indice; 
+	int new_size = g->v - remainder; 
+	resize_adj_list(g, new_size+1); 
+
 	return g; 
 } 
