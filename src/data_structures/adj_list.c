@@ -6,7 +6,8 @@ adj_list_t *init_graph(int v, int e, bool directed) {
 	adj_list_t *list;
 	list = (adj_list_t*)malloc(sizeof(adj_list_t)); 
 	list->edges = malloc(e * sizeof(edge_t));
-   	list->visited = malloc(v * sizeof(int)); 	
+   	list->visited = malloc(v * sizeof(int)); 
+	list->used = malloc(v * sizeof(int)); 
 	list->items = malloc(v * sizeof(node_list_t*)); 
 	list->directed = directed;
    	list->err = false; 	
@@ -26,7 +27,8 @@ adj_list_t *init_graph(int v, int e, bool directed) {
 	
 	/* add all nodes as unvisited */ 
 	for(int n = 0; n < v; n++){
-		list->visited[n] = 0; 
+		list->visited[n] = 0;
+		list->used[n] = 0;  
 	}
 
 	return list; 
@@ -77,11 +79,13 @@ int add_node(
 
 	node_t *check = NULL; 
 	node_t *new_node = create_node(dest_id, dest_label, weight);
+	g->used[dest_id] = 1;  
 
 	/* check if head is null */ 
 	if(g->items[src_id]->head == NULL) {
 		new_node->next = g->items[src_id]->head; 
-		g->items[src_id]->head = new_node; 
+		g->items[src_id]->head = new_node;
+		g->used[src_id] = 1;
 	} else {
 		check = g->items[src_id]->head; 
 		while(check->next != NULL){
@@ -104,7 +108,6 @@ int add_node(
 			}
 			check->next = new_node; 
 		} 
-
 	}
 
 	return TRUE; 
