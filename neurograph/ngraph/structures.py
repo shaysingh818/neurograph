@@ -43,6 +43,7 @@ class AdjacencyList(Structure):
         ("v", c_int),
         ("e", c_int),
         ("visited", POINTER(c_int)),
+        ("used", POINTER(c_int)),
         ("directed", c_bool),
         ("err", c_bool),
         ("edges", POINTER(POINTER(Edge))),
