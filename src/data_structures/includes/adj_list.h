@@ -20,7 +20,7 @@
 struct AdjacencyList {
 	int v;
    	int e; 	
-	int *visited; 
+	int *visited, *used;
 	bool directed;
    	bool err; 	
    	edge_t **edges;

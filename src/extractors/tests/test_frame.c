@@ -186,25 +186,13 @@ void test_frame_to_weighted_graph() {
 	int indices[3] = {1,3,4}; 
 
     /* expected graph results */
-	int weight_list[18][5] = {
+	int weight_list[6][5] = {
 		{}, 
 		{1,1,1}, 
 		{1,2},
 		{1,2, 3},
 		{1},
-		{3},
-		{},
-		{},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {}
+		{3}
 	}; 
 
 
@@ -233,8 +221,7 @@ void test_frame_to_weighted_graph() {
 	        head = head->next;
 	        node_index += 1; 
 	    }
-	} 
-
+	}
 
  	/* validate results */
     if(!equality_status) {
@@ -251,19 +238,30 @@ void test_unused_slots() {
     bool equality_status = true; 
 	int indices[3] = {1,3,4}; 
 
-    frame_t *frame = init_frame("../../examples/data/movies.csv", 1024);
+    frame_t *frame = init_frame("../../examples/data/test.csv", 1024);
 	if(!frame->status) {
 		equality_status = false;  
 	}
 
-    /* convert frame to un weighted graph */
+    /* convert frame to weighted graph */
     adj_list_t *result = frame_to_weighted_graph(
        frame, indices, 3, false
     );
 
-    if(result->v != 107){
+    if(result->v != 6){
         equality_status = false; 
     }
+
+
+    frame = init_frame("../../examples/data/test.csv", 1024);
+	if(!frame->status) {
+		equality_status = false;  
+	}
+
+    /* convert frame to weighted graph */
+    result = frame_to_weighted_graph(
+       frame, indices, 3, true
+    );
 
 
     frame = init_frame("../../examples/data/city_population_density.csv", 1024);
@@ -271,7 +269,7 @@ void test_unused_slots() {
 		equality_status = false;  
 	}
 
-    /* convert frame to un weighted graph */
+    /* convert frame to weighted graph */
     result = frame_to_weighted_graph(
        frame, indices, 3, false
     );
