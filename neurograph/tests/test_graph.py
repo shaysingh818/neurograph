@@ -25,7 +25,7 @@ class TestGraphMethods(unittest.TestCase):
         # asserts
         self.assertEqual(vertices, 7)
         self.assertEqual(edges, 7)
-        self.assertEqual(directed, False)
+        self.assertEqual(directed, True)
         self.assertEqual(err, False)
 
     def test_dijkstra(self):
