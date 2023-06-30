@@ -41,7 +41,11 @@ void *lookup_key(map_t *table, void *key){
 	int hash_key = table->hash_function(0, (char*)key, strlen(key)+1); 
 	int index = hash_key & mask;
 	h_ll_t *list = table->table[index]; 
-	h_ll_t *link = lookup_key_list(list, hash_key, key, table->key_cmp); 
+	h_ll_t *link = lookup_key_list(list, hash_key, key, table->key_cmp);
+	if(link == 0){
+		printf("Key does not exist: %s\n", (char*)key); 
+		exit(1); 
+	}
 	return link ? link->value : 0; 
 }
 

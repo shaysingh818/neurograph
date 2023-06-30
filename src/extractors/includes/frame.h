@@ -12,6 +12,7 @@
 #include "../../data_structures/includes/node.h"
 #include "../../data_structures/includes/adj_list.h"
 #include "../../data_structures/includes/matrix.h"
+#include "../../data_structures/includes/map.h"
 
 #define RE_CSV "\"[^\"]*\"|[^,]+"
 #define RE_JSON "None Yet"
@@ -46,7 +47,8 @@ struct Frame {
 	char *file_buffer; 
 	char separator;
 	bool status; 
-	header_t **headers;  
+	header_t **headers;
+	map_t *map; 
 };
 
 typedef struct Frame frame_t; 
@@ -57,6 +59,7 @@ frame_t *init_frame(char *filepath, int buffer_size);
 
 void extract_frame_headers(frame_t *frame);  
 void init_frame_rows(frame_t *frame);
+void init_frame_map(frame_t *frame); 
 
 void f_cols(frame_t *frame); 
 void f_rows(frame_t *frame, header_t *header); 
@@ -64,6 +67,6 @@ void f_rows(frame_t *frame, header_t *header);
 /* dataframe to graph methods */ 
 adj_list_t *frame_to_unweighted_graph(frame_t *frame, int *cols, int size, bool directed);
 adj_list_t *frame_to_weighted_graph(frame_t *frame, int *cols, int size, bool directed); 
-mat_t *frame_g_mat(frame_t *frame, int *cols, int size, int directed); 
+mat_t *frame_g_mat(frame_t *frame, int *cols, int size, int directed);
 
 #endif

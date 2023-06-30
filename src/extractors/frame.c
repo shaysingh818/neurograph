@@ -85,6 +85,42 @@ void init_frame_rows(frame_t *frame) {
 } 
 
 
+void init_frame_map(frame_t *frame) {
+
+	/* variables */
+	FILE* fp = fopen(frame->filename, "r");
+
+	for(int i = 0; i < frame->header_count; i++){
+
+		char *key = frame->headers[i]->name;
+		int row_count = 0;
+
+		/* allocate row values array for column */
+		value_t **values = malloc(frame->row_count * sizeof(value_t*));
+		for(int n = 0; n < frame->row_count; n++){
+			values[n] = malloc(sizeof(value_t)); 
+		}
+
+		/* rewind to beginning of file */
+		fseek(fp, 0, SEEK_SET);
+
+		while(fgets(frame->file_buffer, frame->buffer_size, fp)) {
+
+			tokens_t *row_values = match_single(frame->file_buffer, RE_CSV); 
+			int size = row_values->result_size;
+
+			size_t token_size = strlen(row_values->tokens[i])+1;
+			values[row_count]->value = malloc(token_size * sizeof(char)); 
+			strcpy(values[row_count]->value, row_values->tokens[i]);
+			row_count += 1;
+		}
+		add_map(frame->map, key, values);
+	}
+
+	fclose(fp);
+}
+
+
 frame_t *init_frame(char *filename, int buffer_size){
 
 	/* add to structure properties */ 
@@ -94,7 +130,8 @@ frame_t *init_frame(char *filename, int buffer_size){
    	frame->filename = (char*)malloc(name_size * sizeof(char)); 
 	frame->buffer_size = buffer_size;
 	frame->file_buffer = malloc(buffer_size * sizeof(char));
-	frame->status = true;  
+	frame->status = true; 
+	frame->map = init_table(1, compare_char, NULL, NULL, additive_hash);
 	
    	strcpy(frame->filename, filename);
 
@@ -112,6 +149,8 @@ frame_t *init_frame(char *filename, int buffer_size){
 
     return frame; 
 }
+
+
 
 
 void f_cols(frame_t *frame) {

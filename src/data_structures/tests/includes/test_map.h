@@ -11,6 +11,7 @@ void test_resize();
 /* test cases for linked list methods */
 void test_hash_linked_list();
 void test_compare_char();
-void test_duplicates();  
+void test_duplicates(); 
+void test_invalid_key(); 
 
 #endif
