@@ -9,18 +9,6 @@ cd into the src directory and run the makefile
 ```
 make
 ```
-### Expected compilation output
-```
-gcc -c main.c
-gcc -c graph.c
-gcc -c matrix.c
-gcc -c queue.c
-gcc -c node.c
-gcc -c path.c
-gcc -c search.c
-gcc -c community.c
-gcc -o ../target/diffusion main.o graph.o matrix.o queue.o node.o path.o search.o community.o -lm -lpthread
-```
 
 ## Compiling the test cases
 cd into the test directory and run the makefile
