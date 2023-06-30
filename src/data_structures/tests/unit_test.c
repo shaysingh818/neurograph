@@ -61,6 +61,6 @@ int main(int argc, char **argv) {
     test_additive_hash(); 
     test_compare_char();
     test_hash_linked_list(); 
-    test_duplicates();  
+    test_duplicates(); 
 
 }

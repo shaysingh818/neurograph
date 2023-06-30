@@ -36,6 +36,7 @@ int main(int argc, char **argv) {
 	test_init_frame_structure();  
 	test_frame_to_unweighted_graph();
 	test_frame_to_weighted_graph(); 
-	test_unused_slots();  
+	test_unused_slots();
+	test_hash_map_frame();   
 
 }
