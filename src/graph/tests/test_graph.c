@@ -8,7 +8,7 @@ void test_to_list() {
 	int equality_status = TRUE;
 
 	/* test first example of weighted matrix */ 
-	adj_list_t *g = init_graph(vertices, vertices, true);
+	adj_list_t *g = init_adj_list(vertices, vertices, true);
 	mat_graph_t *m = init_matrice_graph(vertices);
 
 	/*  create entries */
@@ -66,7 +66,7 @@ void test_to_weighted_list() {
 	int equality_status = TRUE;
 
 	/* test first example of weighted matrix */ 
-	adj_list_t *g = init_graph(vertices, vertices, false);
+	adj_list_t *g = init_adj_list(vertices, vertices, false);
 	mat_graph_t *m = init_matrice_graph(vertices);
 
 	/*  create entries */
@@ -124,7 +124,7 @@ void test_to_directed_list() {
 	int equality_status = TRUE;
 
 	/* test first example of weighted matrix */ 
-	adj_list_t *g = init_graph(vertices, vertices, true);
+	adj_list_t *g = init_adj_list(vertices, vertices, true);
 	mat_graph_t *m = init_matrice_graph(vertices);
 
 	entry_t *a = init_entry(0, "A"); 
@@ -181,7 +181,7 @@ void test_to_directed_weighted_list() {
 	int equality_status = TRUE;
 
 	/* test first example of weighted matrix */ 
-	adj_list_t *g = init_graph(vertices, vertices, true);
+	adj_list_t *g = init_adj_list(vertices, vertices, true);
 	mat_graph_t *m = init_matrice_graph(vertices);
 
 	/*  create entries */
@@ -250,7 +250,7 @@ void test_to_matrix() {
 	};	
 
 	/* create adjacency list */ 
-	adj_list_t *g = init_graph(vertices, vertices, false);
+	adj_list_t *g = init_adj_list(vertices, vertices, false);
 	mat_graph_t *result = init_matrice_graph(vertices); 
 
 	/* first community */ 
@@ -313,7 +313,7 @@ void test_to_directed_matrix() {
 	};	
 
 	/* create adjacency list */ 
-	adj_list_t *g = init_graph(vertices, vertices, true);
+	adj_list_t *g = init_adj_list(vertices, vertices, true);
 	mat_graph_t *result = init_matrice_graph(vertices); 
 
 	/* first community */ 
@@ -371,7 +371,7 @@ void test_to_weighted_matrix() {
 	};	
 
 	/* create adj lists */ 
-	adj_list_t *g = init_graph(vertices, vertices, false);
+	adj_list_t *g = init_adj_list(vertices, vertices, false);
 	mat_graph_t *result = init_matrice_graph(vertices);
 
 
@@ -424,7 +424,7 @@ void test_to_directed_weighted_matrix() {
 	};	
 
 	/* test first example of weighted matrix */ 
-	adj_list_t *g = init_graph(vertices, vertices, true);
+	adj_list_t *g = init_adj_list(vertices, vertices, true);
 	mat_graph_t *result = init_matrice_graph(vertices);
 
 	/* first community */ 

@@ -1,7 +1,7 @@
 #include "includes/adj_list.h"
 
 
-adj_list_t *init_graph(int v, int e, bool directed) {
+adj_list_t *init_adj_list(int v, int e, bool directed) {
 
 	adj_list_t *list;
 	list = (adj_list_t*)malloc(sizeof(adj_list_t)); 

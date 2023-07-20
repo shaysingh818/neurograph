@@ -148,18 +148,18 @@ void test_frame_to_unweighted_graph() {
 	}
 
     /* convert frame to un weighted graph */
-    adj_list_t *result = frame_to_unweighted_graph(
+    graph_t *result = frame_to_unweighted_graph(
        frame, indices, 2, false
     ); 
 
 
-    if(result->err) {
+    if(result->list->err) {
         exit(0); 
     } 
 
 	/* check graph against relationships */ 
-	for(int i = 0; i < result->v; i++) {
-	    node_t *head = result->items[i]->head; 
+	for(int i = 0; i < result->vertices; i++) {
+	    node_t *head = result->list->items[i]->head; 
 	    int node_index = 0; 
 	    while(head) {
 			int condition = strcmp(head->label, relationship_list[i][node_index]);
@@ -202,17 +202,19 @@ void test_frame_to_weighted_graph() {
 	}
 
     /* convert frame to un weighted graph */
-    adj_list_t *result = frame_to_weighted_graph(
+    graph_t *result = frame_to_weighted_graph(
        frame, indices, 3, false
     );
 
-    if(result->err) {
+
+    if(result->list->err) {
         exit(0); 
     } 
 
+
 	/* check graph against relationships */ 
-	for(int i = 0; i < result->v; i++) {
-	    node_t *head = result->items[i]->head; 
+	for(int i = 0; i < result->list->v; i++) {
+	    node_t *head = result->list->items[i]->head; 
 	    int node_index = 0; 
 	    while(head) {
             if(head->weight != weight_list[i][node_index]) {
@@ -222,6 +224,7 @@ void test_frame_to_weighted_graph() {
 	        node_index += 1; 
 	    }
 	}
+
 
  	/* validate results */
     if(!equality_status) {
@@ -244,11 +247,11 @@ void test_unused_slots() {
 	}
 
     /* convert frame to weighted graph */
-    adj_list_t *result = frame_to_weighted_graph(
+    graph_t *result = frame_to_weighted_graph(
        frame, indices, 3, false
     );
 
-    if(result->v != 6){
+    if(result->list->v != 6){
         equality_status = false; 
     }
 
@@ -274,7 +277,7 @@ void test_unused_slots() {
        frame, indices, 3, false
     );
 
-    if(result->v != 126){
+    if(result->list->v != 126){
         equality_status = false; 
     }
 

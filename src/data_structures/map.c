@@ -246,6 +246,215 @@ void delete_hash_ll(
 }
 
 
+hash_set_t *empty_bin_table(int size, compare_func cmp, destructor_func key_destructor, destructor_func val_destructor) {
+	hash_set_t *table = malloc(sizeof(hash_set_t));
+	table->table = malloc(size * sizeof(bin_t)); 
+	bin_t *end = table->table + size; 
+	for(bin_t *bin = table->table; bin != end; ++bin) {
+		bin->is_free = true; 
+		bin->is_deleted = false; 
+	}
+	table->size = size; 
+	table->active = table->used = 0; 
+	table->key_cmp = cmp; 
+	table->key_destructor = key_destructor;
+	table->val_destructor = val_destructor; 
+	return table; 
+} 
+
+
+void delete_bin_table(hash_set_t *table) {
+	if(table->val_destructor){
+		bin_t *end = table->table + table->size; 
+		for(bin_t *bin = table->table; bin != end; ++bin) {
+			if(bin->is_free || bin->is_deleted) continue;
+			if(table->key_destructor) table->key_destructor(bin->key);
+			if(table->val_destructor) table->val_destructor(bin->value); 
+		}
+	}
+	free(table->table);
+	free(table); 
+} 
+
+
+void add_bin_map(hash_set_t *table, void *key, void *value) {
+
+	int index; 
+	int hash_key = table->hash_function(0, (char*)key, strlen(key)+1); 
+	bool contains = (bool)lookup_bin_key(table, hash_key, key);
+	for(int i = 0; i < table->size; i++){
+		index = p(hash_key, i, table->size); 
+		bin_t *bin = &table->table[index]; 
+
+		if(bin->is_free){
+			bin->is_free = bin->is_deleted = false; 
+			bin->hash_key = hash_key; 
+			bin->key = key; 
+			bin->value = value; 
+			table->active++; table->used++; 
+			break; 
+		}
+
+		if(bin->is_deleted && !contains) {
+			bin->is_free = bin->is_deleted = false; 
+			bin->hash_key = hash_key; 
+			bin->key = key; 
+			bin->value = value; 
+			table->active++;
+			break; 
+		}
+
+		if(bin->hash_key == hash_key) {
+			if(table->key_cmp(bin->key, key)) {
+				delete_bin_key(table, hash_key, key); 
+				add_bin_map(table, key, value); 
+				return; 
+			}
+		} else {
+			continue; 
+		}
+	}
+
+	if(table->used > table->size / 2){
+		resize_bin_table(table, table->size * 2); 
+	}
+
+} 
+
+
+void resize_bin_table(hash_set_t *table, int new_size) {
+	bin_t *old_bins = table->table; 
+	int old_size = table->size; 
+
+	/* update table so it has new bins */
+	table->table = malloc(new_size * sizeof(bin_t));
+	bin_t *end = table->table + new_size; 
+
+	for(bin_t *bin = table->table; bin != end; ++bin) {
+		bin->is_free = true; 
+		bin->is_deleted = false; 
+	}
+	table->size = new_size; 
+	table->active = table->used = 0; 
+
+	end = old_bins + old_size;
+	for(bin_t *bin = old_bins; bin != end; ++bin) {
+		if(bin->is_free || bin->is_deleted) continue;
+		insert_bin_key(table, bin->hash_key, bin->key); 		
+	}
+
+	free(old_bins);
+}
+
+
+void insert_bin_key(hash_set_t *table, int hash_key, void *key) {
+
+	int index; 
+	bool contains = contains_bin_key(table, hash_key, key); 
+	for(int i = 0; i < table->size; i++){
+		index = p(hash_key, i, table->size); 
+		bin_t *bin = &table->table[index]; 
+
+		if(bin->is_free) {
+			bin->hash_key = hash_key; bin->key = key; 
+			bin->is_free = bin->is_deleted = false; 
+
+			table->active++; table->used++; 
+			break; 
+		}
+
+		if(bin->is_deleted && !contains){
+			bin->hash_key = hash_key; bin->key = key; 
+			bin->is_free = bin->is_deleted = false; 
+			table->active++;
+			break; 
+		}
+
+		if(bin->hash_key == hash_key){
+			if(table->key_cmp(bin->key, key)){
+				delete_bin_key(table, hash_key, key);
+				insert_bin_key(table, hash_key, key); 
+				return; 
+			}
+		} else {
+			continue; 
+		}
+	}
+
+	if(table->used > table->size / 2){
+		resize_bin_table(table, table->size * 2); 
+	}
+} 
+
+
+bool contains_bin_key(hash_set_t *table, int hash_key, void *key) {
+
+	for(int i = 0; i < table->size; i++){
+		int index = p(hash_key, i, table->size);
+		bin_t *bin = &table->table[index]; 
+
+		if(bin->is_free){
+			return false; 
+		}
+
+		if(!bin->is_deleted && bin->hash_key == hash_key &&
+		table->key_cmp(bin->key, key)){
+			return true; 
+		}
+	}
+	return false; 
+}
+
+
+void delete_bin_key(hash_set_t *table, int hash_key, void *key) {
+
+	for(int i = 0; i < table->size; i++){
+
+		int index = p(hash_key, i, table->size);
+		bin_t *bin = &table->table[index]; 
+
+		if(bin->is_free) return; 
+		
+		if(!bin->is_deleted && bin->hash_key == hash_key && table->key_cmp(bin->key, key)){
+			bin->is_deleted = true; 
+
+			if(table->key_destructor){
+				table->key_destructor(table->table[index].key);
+				table->active--;
+				if(table->key_destructor) table->key_destructor(bin->key);
+				if(table->val_destructor) table->val_destructor(bin->value); 
+				break;
+			}
+		}
+	}
+
+	if(table->active < table->size / 8){
+		resize_bin_table(table, table->size / 2); 
+	}
+}
+
+void *lookup_bin_key(hash_set_t *table, int hash_key, void *key) {
+	
+	for(int i = 0; i < table->size; i++){
+
+		int index = p(hash_key, i, table->size);
+		bin_t *bin = &table->table[index]; 
+
+		if(bin->is_free) return 0;
+
+		if(!bin->is_deleted && bin->hash_key == hash_key && table->key_cmp(bin->key, key)){
+			return bin->value; 
+		}			
+	}
+
+	return 0; 
+}
+
+int p(int k, int i, int m) {
+	return (k+i) & (m-1);	
+} 
+
+
 int additive_hash(int state, char *input, size_t len) {
 	int hash = state; 
 	for(int i = 0; i < len; i++){

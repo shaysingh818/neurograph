@@ -3,17 +3,20 @@
 
 node_t *create_node(int id, char *label, int weight) {
 	node_t *n;
-	size_t label_length = strlen(label) + 1;
 	n = (node_t*)malloc(sizeof(node_t)); 
 	n->id = id; 
-	n->label = (char*)malloc(label_length * sizeof(char)); 
-	n->weight = weight; 
+	n->weight = weight;
+	n->label = NULL;  
 	n->next = NULL;
 	n->right = NULL; 
 	n->left = NULL;  
 
-	/* copy in string value */ 
-	strcpy(n->label, label); 
+	/* copy in string value if not NULL  */
+	if(label != NULL) {
+		size_t label_length = strlen(label) + 1;
+		n->label = (char*)malloc(label_length * sizeof(char));
+		strcpy(n->label, label); 
+	} 
 	return n; 
 }
 
