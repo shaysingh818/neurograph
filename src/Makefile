@@ -6,11 +6,10 @@ DS_OBJS = $(DS_GRAPH)  $(DS_QUEUE)
 
 NETWORK_OBJS = networks/layer.o networks/activations.o networks/network.o
 GRAPH_OBJS = graph/graph.o graph/community.o graph/path.o graph/search.o
-EXTRACTOR_OBJS = extractors/csv.o
-UTIL_OBJS = utils/utils.o
+EXTRACTOR_OBJS = extractors/re.o extractors/frame.o extractors/gml.o
 
 
-OBJS = $(DS_OBJS) $(NETWORK_OBJS) $(GRAPH_OBJS) $(EXTRACTOR_OBJS) $(UTIL_OBJS)
+OBJS = $(DS_OBJS) $(NETWORK_OBJS) $(GRAPH_OBJS) $(EXTRACTOR_OBJS)
 
 # Outputs and compilation target
 BIN=bin
@@ -31,7 +30,7 @@ shared: main.o $(OBJS)
 source: main.o $(OBJS)
 	$(CC) -o $(TARGET) main.o $(OBJS)  $(FLAGS)
 
-build: graph data_structures extractors networks utils
+build: graph data_structures extractors networks
 
 data_structures:
 	$(MAKE) -C ./data_structures
@@ -44,9 +43,6 @@ networks:
 
 extractors:
 	$(MAKE) -C ./extractors
-
-utils: 
-	$(MAKE) -C ./utils
 
 main.o: main.c graph/includes/graph.h data_structures/includes/node.h
 	$(CC) -c main.c
@@ -61,4 +57,3 @@ clean:
 	$(MAKE) -C ./networks clean
 	$(MAKE) -C ./graph clean
 	$(MAKE) -C ./extractors clean
-	$(MAKE) -C ./utils clean

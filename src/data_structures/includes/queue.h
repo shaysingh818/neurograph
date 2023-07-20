@@ -8,7 +8,7 @@
 #include <limits.h>
 #include "node.h"
 
-
+/* @TODO get rid of this */
 struct QueueItem {
 	int integer; 
 	int priority;

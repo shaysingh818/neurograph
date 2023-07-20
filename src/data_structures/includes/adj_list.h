@@ -31,7 +31,7 @@ typedef struct AdjacencyList adj_list_t;
 
 
 /* structural methods */ 
-adj_list_t *init_graph(int v, int e, bool directed);
+adj_list_t *init_adj_list(int v, int e, bool directed);
 
 /* mutators for structural methods */ 
 adj_list_t *transpose_items(adj_list_t *g, adj_list_t *r); 

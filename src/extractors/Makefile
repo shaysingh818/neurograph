@@ -16,8 +16,8 @@ DATA_STRUCTURES = ../data_structures/queue.o ../data_structures/matrix.o ../data
 GRAPH_LIBS = $(GRAPH_OBJS) $(DATA_STRUCTURES)
 
 # source objects for extractors library
-TEST_OBJS = test_csv.o test_frame.o test_re.o
-SRC_OBJS = $(GRAPH_OBJS) $(DATA_STRUCTURES) csv.o frame.o re.o
+TEST_OBJS = test_frame.o test_re.o test_gml.o
+SRC_OBJS = $(GRAPH_OBJS) $(DATA_STRUCTURES) frame.o re.o gml.o
 
 
 # link all programs here

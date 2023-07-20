@@ -54,13 +54,20 @@ int main(int argc, char **argv) {
     test_resize_adj_list(); 
 
     /* test set data structure */
-    test_set(); 
+    test_set_ordered();
+    test_unique_entries_ordered(); 
+    test_index_lookup_ordered();
+    test_get_items_ordered();   
+    test_set_sorted();
+    test_unique_entries_sorted(); 
+    test_lexographic_ordering_sorted();
+    test_index_lookup_sorted();  
 
     /* test hash map */
     test_hash_table(); 
     test_additive_hash(); 
     test_compare_char();
     test_hash_linked_list(); 
-    test_duplicates(); 
+    test_duplicates();
 
 }

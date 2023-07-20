@@ -14,4 +14,8 @@ void test_compare_char();
 void test_duplicates(); 
 void test_invalid_key(); 
 
+/* hash set */
+void test_hash_set();
+void test_bin_table();  
+
 #endif

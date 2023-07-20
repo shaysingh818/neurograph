@@ -2,6 +2,21 @@
 #include "../data_structures/includes/queue.h"
 
 
+
+graph_t *init_graph(int v, int e, bool directed) {
+	graph_t *g;
+	g = (graph_t*)malloc(sizeof(graph_t)); 
+	g->edges = e; 
+	g->vertices = v;
+	g->directed = directed; 
+	g->labels = malloc(v * sizeof(int)); 
+	g->visited = malloc(v * sizeof(int));  
+	g->list = init_adj_list(g->vertices, g->edges, g->directed); 
+	g->matrix = init_matrice_graph(g->vertices); 
+	return g; 
+} 
+
+
 walk_t *init_walk(int steps) {
 	walk_t *w;
 	w = (walk_t*)malloc(sizeof(walk_t));
@@ -68,4 +83,20 @@ adj_list_t *to_list(adj_list_t *g, mat_graph_t *m, bool directed) {
 	}
 
 	return g; 
+}
+
+
+void print_graph_list(graph_t *g) {
+	for(int i = 0; i < g->vertices; i++){
+		node_t *head = g->list->items[i]->head;
+		printf("%d ", i); 
+		while(head) {
+			printf("-> (%d, %s)", head->id, head->label); 
+			if(head->weight >= 0) {
+				printf(" [%d] ", head->weight); 
+			}
+			head  = head->next; 
+		}
+		printf("\n"); 
+	}
 }

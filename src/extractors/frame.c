@@ -167,11 +167,11 @@ void f_cols(frame_t *frame) {
 }
 
 
-adj_list_t *frame_to_unweighted_graph(frame_t *frame, int *cols, int size, bool directed) {
+graph_t *frame_to_unweighted_graph(frame_t *frame, int *cols, int size, bool directed) {
 
 	/* create graph to be returned */ 
 	int vertex_count = frame->row_count * size;	
-	adj_list_t *g = init_graph(vertex_count, vertex_count, directed);
+	graph_t *g = init_graph(vertex_count, vertex_count, directed);
 
 
 	/* validate that graph is unweighted */
@@ -179,7 +179,7 @@ adj_list_t *frame_to_unweighted_graph(frame_t *frame, int *cols, int size, bool 
 		if(FRAME_DEBUG) {
 			printf("Unweighted graph should be in pairs of 2\n"); 
 		}
-		g->err = true; 
+		g->list->err = true; 
 		return g; 
 	}
 
@@ -209,7 +209,7 @@ adj_list_t *frame_to_unweighted_graph(frame_t *frame, int *cols, int size, bool 
 			int src_id = get_id_ll(head, src); 
 			int dst_id = get_id_ll(head, dst);  
 
-			add_node(g, src_id, src, dst_id, dst, 0); 	
+			add_node(g->list, src_id, src, dst_id, dst, 0); 	
 		} 
 	}
 
@@ -217,18 +217,18 @@ adj_list_t *frame_to_unweighted_graph(frame_t *frame, int *cols, int size, bool 
 }
 
 
-adj_list_t *frame_to_weighted_graph(frame_t *frame, int *cols, int size, bool directed) {
+graph_t *frame_to_weighted_graph(frame_t *frame, int *cols, int size, bool directed) {
 
 	/* create graph */
 	int vertex_count = frame->row_count * size;	
-	adj_list_t *g = init_graph(vertex_count, vertex_count, directed);
+	graph_t *g = init_graph(vertex_count, vertex_count, directed);
 
 	/* validate that graph is unweighted */ 
 	if(size % 3 != 0) {
 		if(FRAME_DEBUG) {
 			printf("Weighted graph should be in pairs of 3\n"); 
 		}
-		g->err = true; 
+		g->list->err = true; 
 		return g; 
 	}
 
@@ -263,22 +263,39 @@ adj_list_t *frame_to_weighted_graph(frame_t *frame, int *cols, int size, bool di
 			int src_id = get_id_ll(head, src); 
 			int dst_id = get_id_ll(head, dst);  
 
-			add_node(g, src_id, src, dst_id, dst, weight_to_int); 	
+			add_node(g->list, src_id, src, dst_id, dst, weight_to_int); 	
 		}
 	}
 
 	// /* clear unused empty slots */
 	int last_used_indice = 0;  
-	for(int i = g->v; i > 0; i--){
-		if(g->used[i] == 1){
+	for(int i = g->vertices; i > 0; i--){
+		if(g->list->used[i] == 1){
 			last_used_indice = i;
 			break;
 		}
 	}
 
-	int remainder = g->v - last_used_indice; 
-	int new_size = g->v - remainder; 
-	resize_adj_list(g, new_size+1);
+	int remainder = g->vertices - last_used_indice; 
+	int new_size = g->vertices - remainder; 
+	resize_adj_list(g->list, new_size+1);
 
 	return g; 
+}
+
+
+
+int count_lines(char *filename, int file_size) {
+
+	/* variables */
+	FILE* fp = fopen(filename, "r");
+	char *file_buffer = malloc(file_size * sizeof(char));
+	int row_count = 0; 
+
+	while(fgets(file_buffer, file_size, fp)) {
+		row_count += 1;
+	}
+
+	fclose(fp);
+	return row_count; 
 } 

@@ -3,7 +3,7 @@
 void test_graph() {
 
 	/* test first example of bfs */ 
-	adj_list_t *g = init_graph(5, 5, false);
+	adj_list_t *g = init_adj_list(5, 5, false);
 	add_node(g, 0, "A", 1, "B", 0);
 	add_node(g, 0, "A", 2, "C", 0); 
 	add_node(g, 0, "A", 3, "D", 0); 
@@ -47,7 +47,7 @@ void test_graph() {
 void test_weighted_graph() {
 
 	/* test first example of bfs */ 
-	adj_list_t *g = init_graph(5, 5, false);
+	adj_list_t *g = init_adj_list(5, 5, false);
 	add_node(g, 0, "A", 1, "B", 1);
 	add_node(g, 0, "A", 2, "C", 1); 
 	add_node(g, 0, "A", 3, "D", 1); 
@@ -97,8 +97,8 @@ void test_transpose_graph() {
 	int adj_list_test = TRUE; 
 
 	/* create adjacency list */ 
-	adj_list_t *g = init_graph(vertices, vertices, true);
-	adj_list_t *result_list = init_graph(vertices, vertices, true); 
+	adj_list_t *g = init_adj_list(vertices, vertices, true);
+	adj_list_t *result_list = init_adj_list(vertices, vertices, true); 
 
 	/* first community */ 
 	add_node(g, 0, "A", 1, "B", 0);
@@ -164,8 +164,8 @@ void test_get_node_by_id() {
 	bool equality_test = false; 
 
 	/* create adjacency list */ 
-	adj_list_t *g = init_graph(vertices, vertices, true);
-	adj_list_t *result_list = init_graph(vertices, vertices, true); 
+	adj_list_t *g = init_adj_list(vertices, vertices, true);
+	adj_list_t *result_list = init_adj_list(vertices, vertices, true); 
 
 	/* first community */ 
 	add_node(g, 0, "A", 1, "B", 0);
@@ -208,8 +208,8 @@ void test_resize_adj_list() {
 	/* create adjacency list */
 	bool equality_status = true; 
 	int vertices = 100;  
-	adj_list_t *g = init_graph(vertices, vertices, true);
-	adj_list_t *result_list = init_graph(vertices, vertices, true); 
+	adj_list_t *g = init_adj_list(vertices, vertices, true);
+	adj_list_t *result_list = init_adj_list(vertices, vertices, true); 
 
 	/* first community */ 
 	add_node(g, 0, "A", 1, "B", 0);
