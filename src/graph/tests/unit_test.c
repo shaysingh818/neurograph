@@ -9,7 +9,16 @@ int main(int argc, char **argv) {
    	test_to_list();
 	test_to_weighted_list();
    	test_to_directed_list(); 	
-	test_to_directed_weighted_list(); 
+	test_to_directed_weighted_list();
+
+	/* frame to graph methods */
+	test_frame_to_unweighted_graph(); 
+	test_frame_to_weighted_graph(); 
+	test_unused_slots();
+
+	/* graph markup language methods */
+	test_get_unique_nodes(); 
+	test_serialize_adj_list(); 
 
 	/* searching */
 	test_bfs_one();
@@ -39,10 +48,8 @@ int main(int argc, char **argv) {
 	test_kosaraju();
 	test_label_nodes(); 
 	test_label_propagation();
+	test_iterative_label_propagation(); 
 	test_triangle_count();  
 
-	/* centrality */
-	//test_closeness_centrality();
-	//test_normalized_closeness_centrality();
 
 }

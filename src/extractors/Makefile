@@ -11,20 +11,18 @@ HEADERS = $(wildcard /includes/*.h)
 TEST_HEADERS = $(wildcard /tests/includes/*.h)
 
 # Graph dependencies
-GRAPH_OBJS = ../graph/graph.o ../graph/path.o ../graph/search.o ../graph/community.o 
 DATA_STRUCTURES = ../data_structures/queue.o ../data_structures/matrix.o ../data_structures/adj_list.o ../data_structures/node.o ../data_structures/map.o ../data_structures/ll.o ../data_structures/set.o
-GRAPH_LIBS = $(GRAPH_OBJS) $(DATA_STRUCTURES)
 
 # source objects for extractors library
 TEST_OBJS = test_frame.o test_re.o test_gml.o
-SRC_OBJS = $(GRAPH_OBJS) $(DATA_STRUCTURES) frame.o re.o gml.o
+SRC_OBJS = $(DATA_STRUCTURES) frame.o re.o gml.o
 
 
 # link all programs here
-all: graph source unit_test
+all: data_structures source unit_test
 
-graph:
-	$(MAKE) -C ../graph
+data_structures:
+	$(MAKE) -C ../data_structures
 
 unit_test: unit_test.o $(SRC_OBJS) $(TEST_OBJS)
 	gcc -o $(TEST_TARGET) unit_test.o $(SRC_OBJS) $(TEST_OBJS) $(FLAGS)

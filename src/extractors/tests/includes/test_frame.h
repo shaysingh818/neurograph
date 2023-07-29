@@ -12,10 +12,6 @@ void test_init_frame_rows();
 void test_init_frame_structure();
 
 /* graph conversion */
-void test_frame_to_unweighted_graph(); 
-void test_frame_to_weighted_graph(); 
-void test_frame_to_matrice_graph(); 
-void test_unused_slots();
 void test_hash_map_frame();  
 
 #endif

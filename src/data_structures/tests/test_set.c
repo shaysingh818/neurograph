@@ -96,6 +96,27 @@ void test_index_lookup_ordered() {
 		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 	}
 
+} 
+
+
+void test_insert_count_lookup() {
+
+    char *expected_items[3] = {"aaa", "bbb", "ccc"};  
+    bool equality_status = true; 
+
+    set_t *s = init_set(true);
+    insert_ordered(s, 1, NULL, 0);  
+    insert_ordered(s, 2, NULL, 0);  
+    insert_ordered(s, 3, NULL, 0);  
+    insert_ordered(s, 4, NULL, 0); 
+    insert_ordered(s, 5, NULL, 0); 
+    insert_ordered(s, 5, NULL, 0); 
+    insert_ordered(s, 5, NULL, 0); 
+    insert_ordered(s, 5, NULL, 0); 
+    insert_ordered(s, 5, NULL, 0); 
+
+    print_items_ordered(s);     
+
 }  
 
 

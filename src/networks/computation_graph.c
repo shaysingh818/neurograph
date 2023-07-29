@@ -1,6 +1,85 @@
 #include "includes/computation_graph.h"
 
 
+node_type_t *init_node_type(layer_type_t layer_type, void *node) {
+    node_type_t *node_type = malloc(sizeof(node_type_t)); 
+    node_type->layer_type = layer_type; 
+    node_type->node_structure = node; 
+    return node_type; 
+}
+
+
+node_type_t **init_nodes(int length){
+    node_type_t **nodes = malloc(length * sizeof(node_type_t*)); 
+    for(int i = 0; i < length; i++){
+        nodes[i] = malloc(sizeof(node_type_t)); 
+    }
+    return nodes; 
+}
+
+
+void add_c_node(node_type_t **nodes, node_type_t *node, int index) {
+    nodes[index] = node; 
+}
+
+
+void forward_all(node_type_t **nodes, int length, mat_t *inputs) {
+
+    mat_t *prev_outputs; 
+
+    for(int i = 0; i < length; i++){
+
+        node_type_t *value = nodes[i]; 
+        switch(value->layer_type){
+
+            case LINEAR: ;  
+
+                linear_t *linear = (linear_t*)value->node_structure;
+                if(i == 0){
+                    linear->node->forward(linear, inputs); 
+                    prev_outputs = linear->node->outputs;
+                } else {
+                    linear->node->forward(linear, prev_outputs);
+                    prev_outputs = linear->node->outputs; 
+                }
+                break;  
+
+            case LOSS: ; 
+                loss_t *loss = (loss_t*)value->node_structure;
+                loss->node->forward(loss, prev_outputs);
+                prev_outputs = loss->node->outputs;  
+                break; 
+        }
+    }
+}
+
+
+void backward_all(node_type_t **nodes, int length, mat_t *output_error) {
+
+    mat_t *curr_output_err = output_error;  
+
+    for(int i = length-1; i >= 0; i--){
+
+        node_type_t *value = nodes[i]; 
+
+        switch(value->layer_type){
+
+            case LINEAR: ;  
+                linear_t *linear = (linear_t*)value->node_structure;
+                linear->node->backward(linear, curr_output_err); 
+                curr_output_err = linear->node->gradients; 
+                break;  
+
+            case LOSS: ; 
+                loss_t *loss = (loss_t*)value->node_structure;
+                loss->node->backward(loss, curr_output_err); 
+                curr_output_err = loss->node->gradients;
+                break; 
+        }
+    }
+}
+
+
 linear_t *linear(int input_size, int output_size, double learning_rate) {
 
     linear_t *linear = malloc(sizeof(linear_t)); 
@@ -9,6 +88,8 @@ linear_t *linear(int input_size, int output_size, double learning_rate) {
     linear->node->output_size = output_size;
     linear->node->forward = feedforward;
     linear->node->backward = backprop;
+    linear->node->outputs = NULL; 
+    linear->node->inputs = NULL; 
     linear->weights = init_matrix(input_size, output_size); 
     linear->biases = init_matrix(1, output_size);
     linear->learning_rate = learning_rate;
@@ -55,12 +136,12 @@ void debug_linear(linear_t *linear) {
     print_vec(linear->weights);
     printf("\n");  
 
-    // printf(
-    //     "Biases: (%d X %d)\n", 
-    //     linear->biases->rows, linear->biases->cols
-    // );
-    // print_vec(linear->biases); 
-    //printf("\n"); 
+    printf(
+        "Biases: (%d X %d)\n", 
+        linear->biases->rows, linear->biases->cols
+    );
+    print_vec(linear->biases); 
+    printf("\n"); 
 
 }
 
@@ -75,6 +156,8 @@ loss_t *loss(
     loss_layer->node->output_size = output_size;
     loss_layer->node->forward = feedforward_activation;
     loss_layer->node->backward = backward_activation;
+    loss_layer->node->outputs = NULL; 
+    loss_layer->node->inputs = NULL; 
     loss_layer->loss = loss; 
     loss_layer->loss_prime = loss_prime; 
     return loss_layer; 
@@ -118,11 +201,3 @@ void debug_loss(loss_t *loss) {
     
 }
 
-
-void forward_all(void *nodes[], int length) {
-    for(int i = 0; i < length; i++){
-        printf("Node: %d\n", i);  
-        c_node_t *value = (c_node_t*)nodes[i]; 
-        //value->forward(value);       
-    }
-}

@@ -28,9 +28,9 @@ bool insert_ordered(set_t *s, int id, char *string_value, int weight) {
 	while(last != NULL) {
 
         if(last->label != NULL){
-		    /* check if existing key is in list */ 
 		    int condition = strcmp(last->label, new_node->label); 
 		    if(condition == 0) {
+                last->counter += 1;
 			    return false; 
 		    } else if (condition > 0){
                 prev->next = new_node;
@@ -38,19 +38,19 @@ bool insert_ordered(set_t *s, int id, char *string_value, int weight) {
             }
         } else {
             if(last->id == new_node->id) {
+                last->counter += 1;
                 return false; 
             }
         }
-
 
         prev = last; 
 		last = last->next; 
 	}
 
-	/* adjust indices */ 
+	/* adjust indices */
+    s->count += 1;
 	prev->next = new_node; 
-	new_node->next = NULL;	
-    s->count += 1; 
+	new_node->next = NULL;
 	return true; 
 
 }
@@ -78,16 +78,39 @@ int get_value_ordered(set_t *s, char *key) {
 } 
 
 
+int get_insert_count(set_t *s, int index) {
+
+    node_t **head = &s->root;
+    node_t *last = *head;  
+
+    if(last->label == NULL){
+        printf("Set does not store character values\n"); 
+        return false; 
+    }
+
+    int count = 0; 
+    while(last != NULL){
+        if(last->id == index){
+            return last->counter;
+        }
+        last = last->next;
+        count += 1;  
+    } 
+
+    return 0; 
+} 
+
+
 void print_items_ordered(set_t *s){
-    s->count = 0; 
+    int count = 0; 
     while(s->root != NULL) {
         if(s->root->label == NULL){
-            printf("[%d] -> %d\n", s->count, s->root->id); 
+            printf("[%d] -> (%d, %d)\n", count, s->root->id, s->root->counter); 
         } else {
-            printf("[%d] -> %s\n", s->count, s->root->label); 
+            printf("[%d] -> (%s, %d)\n", count, s->root->label, s->root->counter); 
         }
         s->root = s->root->next; 
-        s->count += 1; 
+        count += 1; 
     }
 }
 

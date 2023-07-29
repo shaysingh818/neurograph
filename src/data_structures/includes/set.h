@@ -26,7 +26,8 @@ set_t *init_set(bool set_order);
 /* unordered set methods */
 bool insert_ordered(set_t *s, int id, char *string_value, int weight);
 bool insert_set_value_ordered(node_t **root, node_t *item);
-int get_value_ordered(set_t *s, char *key);  
+int get_value_ordered(set_t *s, char *key);
+int get_insert_count(set_t *s, int index);  
 void print_items_ordered(set_t *s);
 void get_items_ordered(set_t *s, queue_t *q);  
 

@@ -2,6 +2,7 @@
 #define TEST_MAP_H
 
 #include "../../includes/map.h"
+#include <assert.h>
 
 void test_ull();
 void test_hash_table();
