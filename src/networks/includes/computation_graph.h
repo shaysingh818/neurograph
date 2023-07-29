@@ -26,6 +26,12 @@ struct CNode {
 
 typedef struct CNode c_node_t; 
 
+/* Node Type Methods */
+node_type_t *init_node_type(layer_type_t layer_type, void *node); 
+node_type_t **init_nodes(int length); 
+void add_c_node(node_type_t **nodes, node_type_t *node, int index); 
+void forward_all(node_type_t **nodes, int length, mat_t *inputs); 
+void backward_all(node_type_t **nodes, int length, mat_t *output_error); 
 
 /* linear node */
 struct Linear {
@@ -35,6 +41,13 @@ struct Linear {
 }; 
 
 typedef struct Linear linear_t; 
+
+
+/* linear node methods */
+void linear_forward(void *linear_ptr, mat_t *set_inputs);
+void linear_backward(void *linear_ptr, mat_t *output_delta); 
+linear_t *linear(int input_size,int output_size, double learning_rate);
+void debug_linear(linear_t *linear); 
 
 
 /* loss layer node */
@@ -47,28 +60,14 @@ struct Loss {
 typedef struct Loss loss_t; 
 
 
-/* Node Type Methods */
-node_type_t *init_node_type(layer_type_t layer_type, void *node); 
-node_type_t **init_nodes(int length); 
-void add_c_node(node_type_t **nodes, node_type_t *node, int index); 
-void forward_all(node_type_t **nodes, int length, mat_t *inputs); 
-void backward_all(node_type_t **nodes, int length, mat_t *output_error); 
-
-/* linear node methods */
-linear_t *linear(int input_size,int output_size, double learning_rate);
-void feedforward(void *linear_ptr, mat_t *set_inputs);
-void backprop(void *linear_ptr, mat_t *output_delta); 
-void debug_linear(linear_t *linear); 
-
-
 /* loss methods  */
+void loss_forward(void *loss_ptr, mat_t *set_inputs);
+void loss_backward(void *loss_ptr, mat_t *output_error);
 loss_t *loss(
     int input_size, int output_size, 
     double(*loss)(double value),
     mat_t*(*loss_prime)(mat_t *inputs)
 ); 
-void feedforward_activation(void *loss_ptr, mat_t *set_inputs);
-void backward_activation(void *loss_ptr, mat_t *output_error);
 void debug_loss(loss_t *loss);
 
 

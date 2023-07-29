@@ -21,7 +21,7 @@ SRC_OBJS = network.o activations.o computation_graph.o $(MATRIX)
 TEST_OBJS =  test_network.o test_computation_graph.o
 
 # flags
-FLAGS = -g -lm -lpthread
+FLAGS = -g -lm -lpthread -fPIC
 
 
 # link all programs here
