@@ -8,6 +8,7 @@
 #include "extractors/includes/frame.h"
 #include "extractors/includes/gml.h"
 #include "extractors/includes/re.h"
+#include "networks/includes/network.h"
 
 int main(int argc, char **argv) {
 
@@ -54,7 +55,23 @@ int main(int argc, char **argv) {
     node_t *node3 = create_node(3, "C", 0); 
     
 
-	/* frame  library */
+	/* neural net library  */
+    double learning_rate = 0.1; 
+    bool equality_status = true; 
+    int epochs = 1000, num_layers = 4;
+    net_t *nn = init_network(num_layers, learning_rate);
+
+    linear_t *l1 = linear(2, 3, learning_rate); 
+    layer(nn, init_node_type(LINEAR, l1));
+
+    loss_t *loss1 = loss(2, 3, tanh, tanh_prime);
+    layer(nn, init_node_type(LOSS, loss1));
+
+    linear_t *l2 = linear(3, 1, learning_rate);
+    layer(nn, init_node_type(LINEAR, l2));
+
+    loss_t *loss2 = loss(3, 1, tanh, tanh_prime);
+    layer(nn, init_node_type(LOSS, loss2));
 
 
 

@@ -80,26 +80,7 @@ void backward_all(node_type_t **nodes, int length, mat_t *output_error) {
 }
 
 
-linear_t *linear(int input_size, int output_size, double learning_rate) {
-
-    linear_t *linear = malloc(sizeof(linear_t)); 
-    linear->node = malloc(sizeof(c_node_t)); 
-    linear->node->input_size = input_size; 
-    linear->node->output_size = output_size;
-    linear->node->forward = feedforward;
-    linear->node->backward = backprop;
-    linear->node->outputs = NULL; 
-    linear->node->inputs = NULL; 
-    linear->weights = init_matrix(input_size, output_size); 
-    linear->biases = init_matrix(1, output_size);
-    linear->learning_rate = learning_rate;
-    randomize(linear->weights, linear->weights->rows); 
-    randomize(linear->biases, linear->biases->rows); 
-    return linear; 
-} 
-
-
-void feedforward(void *linear_ptr, mat_t *set_inputs) {
+void linear_forward(void *linear_ptr, mat_t *set_inputs) {
     linear_t *linear = (linear_t*)linear_ptr; 
     linear->node->inputs = set_inputs; 
     mat_t *mult = dot(linear->node->inputs, linear->weights);
@@ -108,7 +89,7 @@ void feedforward(void *linear_ptr, mat_t *set_inputs) {
 }
 
 
-void backprop(void *linear_ptr, mat_t *delta_error) {
+void linear_backward(void *linear_ptr, mat_t *delta_error) {
 
     /* dereference inputs */
     linear_t *linear = (linear_t*)linear_ptr; 
@@ -125,6 +106,27 @@ void backprop(void *linear_ptr, mat_t *delta_error) {
     linear->biases = add(linear->biases, db); 
     linear->node->gradients = input_error;
 }
+
+
+linear_t *linear(int input_size, int output_size, double learning_rate) {
+
+    linear_t *linear = malloc(sizeof(linear_t)); 
+    linear->node = malloc(sizeof(c_node_t)); 
+    linear->node->input_size = input_size; 
+    linear->node->output_size = output_size;
+    linear->node->forward = linear_forward;
+    linear->node->backward = linear_backward;
+    linear->node->outputs = NULL; 
+    linear->node->inputs = NULL; 
+    linear->weights = init_matrix(input_size, output_size); 
+    linear->biases = init_matrix(1, output_size);
+    linear->learning_rate = learning_rate;
+    randomize(linear->weights, linear->weights->rows); 
+    randomize(linear->biases, linear->biases->rows); 
+    return linear; 
+} 
+
+
 
 
 void debug_linear(linear_t *linear) {
@@ -145,26 +147,8 @@ void debug_linear(linear_t *linear) {
 
 }
 
-loss_t *loss(
-    int input_size, int output_size,
-    double(*loss)(double value),
-    mat_t*(*loss_prime)(mat_t *inputs)) {
 
-    loss_t *loss_layer = malloc(sizeof(loss_t));
-    loss_layer->node = malloc(sizeof(c_node_t));
-    loss_layer->node->input_size = input_size; 
-    loss_layer->node->output_size = output_size;
-    loss_layer->node->forward = feedforward_activation;
-    loss_layer->node->backward = backward_activation;
-    loss_layer->node->outputs = NULL; 
-    loss_layer->node->inputs = NULL; 
-    loss_layer->loss = loss; 
-    loss_layer->loss_prime = loss_prime; 
-    return loss_layer; 
-} 
-
-
-void feedforward_activation(void *loss_ptr, mat_t *set_inputs) {
+void loss_forward(void *loss_ptr, mat_t *set_inputs) {
     loss_t *loss_layer = (loss_t*)loss_ptr;
     loss_layer->node->inputs = set_inputs; 
     mat_t *result = apply(
@@ -175,7 +159,7 @@ void feedforward_activation(void *loss_ptr, mat_t *set_inputs) {
 }
 
 
-void backward_activation(void *loss_ptr, mat_t *output_error) {
+void loss_backward(void *loss_ptr, mat_t *output_error) {
 
     /* Dereference structures */
     loss_t *loss_layer = (loss_t*)loss_ptr;
@@ -187,6 +171,27 @@ void backward_activation(void *loss_ptr, mat_t *output_error) {
     );
     loss_layer->node->gradients = result; 
 }
+
+
+loss_t *loss(
+    int input_size, int output_size,
+    double(*loss)(double value),
+    mat_t*(*loss_prime)(mat_t *inputs)) {
+
+    loss_t *loss_layer = malloc(sizeof(loss_t));
+    loss_layer->node = malloc(sizeof(c_node_t));
+    loss_layer->node->input_size = input_size; 
+    loss_layer->node->output_size = output_size;
+    loss_layer->node->forward = loss_forward;
+    loss_layer->node->backward = loss_backward;
+    loss_layer->node->outputs = NULL; 
+    loss_layer->node->inputs = NULL; 
+    loss_layer->loss = loss; 
+    loss_layer->loss_prime = loss_prime; 
+    return loss_layer; 
+} 
+
+
 
 
 void debug_loss(loss_t *loss) {
