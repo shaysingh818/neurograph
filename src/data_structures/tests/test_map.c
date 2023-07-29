@@ -21,15 +21,8 @@ void test_hash_table() {
 	/* lookup key value pair */
 	void *results = lookup_key(hash_table, "testing2"); 
 	char *value = (char*)results; 
-
-	if(strcmp(value, "my_value2") != 0) {
-		equality_status = false; 
-	}
-
-
-	if(hash_table->size != 2 && hash_table->used != 3){
-		equality_status = false;
-	}
+	assert(strcmp(value, "my_value2") == 0); 
+	assert(hash_table->size == 2 && hash_table->used == 3); 
 
 	/* test using a char key with struct as value */
 	map_t *struct_table = init_table(
@@ -66,9 +59,9 @@ void test_hash_table() {
 		bool weight_condition = value->weight == weights[i]; 
 		bool label_condition = strcmp(expected_values[i], value->label) == 0;  
 
-		if(!id_condition || !weight_condition || !label_condition) {
-			equality_status = false; 
-		}
+		assert(id_condition); 
+		assert(weight_condition);
+		assert(label_condition);
 	}
 	
     if(!equality_status) {

@@ -323,6 +323,44 @@ void test_label_propagation() {
 }
 
 
+void test_iterative_label_propagation() {
+
+	/* create adjacency matrix graph with size 5 */
+	bool equality_status = true;  
+	int vertices = 7; 
+	int expected_output[7] = {
+		0, 1, 0, 0, -1, 1, 1
+	}; 
+
+	/* work on this in future release */
+	graph_t *g = init_graph(vertices, vertices, false);
+    add_node(g->list, 0, "A", 3, "D", 2);
+    add_node(g->list, 2, "C", 3, "D", 2);
+    add_node(g->list, 3, "D", 4, "E", 2);
+    add_node(g->list, 4, "E", 5, "F", 2);
+    add_node(g->list, 5, "F", 6, "G", 2);
+    add_node(g->list, 5, "F", 1, "B", 2);
+
+	/* label nodes */
+	label_node(g, 0, 0); 
+	label_node(g, 1, 1); 
+
+
+	int *labels = label_propagation_iterative_list(g, 0); 
+	for(int i = 0; i < g->vertices; i++){
+		assert(labels[i] == expected_output[i]);
+	}
+
+	if(!equality_status) {
+		printf("%s::%s...  FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
+	}	
+
+}
+
+
+
 void test_triangle_count() {
 
 	int vertices = 6; 
@@ -338,10 +376,7 @@ void test_triangle_count() {
     add_node(g->list, 2, "C", 5, "F", 2);
 
 	int count = triangle_count_list(g, 4);
-
-	if(count != 2){
-		equality_status = false; 
-	}
+	assert(count == 2);
 
 	if(!equality_status) {
 		printf("%s::%s...  FAILED\n", __FILE__, __FUNCTION__); 

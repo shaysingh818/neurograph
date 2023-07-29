@@ -5,10 +5,16 @@
 #include "../../data_structures/includes/matrix.h"
 #include "activations.h"
 
-typedef enum {
-    LINEAR,
-    LOSS
-} LayerType; 
+
+typedef enum {LINEAR, LOSS} layer_type_t;
+
+
+struct NodeType {
+    layer_type_t layer_type; 
+    void *node_structure; 
+}; 
+
+typedef struct NodeType node_type_t; 
 
 
 struct CNode {
@@ -31,22 +37,28 @@ struct Linear {
 typedef struct Linear linear_t; 
 
 
+/* loss layer node */
+struct Loss {
+    c_node_t *node; 
+	double(*loss)(double value); 
+	mat_t*(*loss_prime)(mat_t *inputs);
+}; 
+
+typedef struct Loss loss_t; 
+
+
+/* Node Type Methods */
+node_type_t *init_node_type(layer_type_t layer_type, void *node); 
+node_type_t **init_nodes(int length); 
+void add_c_node(node_type_t **nodes, node_type_t *node, int index); 
+void forward_all(node_type_t **nodes, int length, mat_t *inputs); 
+void backward_all(node_type_t **nodes, int length, mat_t *output_error); 
+
 /* linear node methods */
 linear_t *linear(int input_size,int output_size, double learning_rate);
 void feedforward(void *linear_ptr, mat_t *set_inputs);
 void backprop(void *linear_ptr, mat_t *output_delta); 
 void debug_linear(linear_t *linear); 
-
-
-
-/* loss layer node */
-struct Loss {
-    c_node_t *node; 
-	double(*loss)(double value); 
-	mat_t*(*loss_prime)(mat_t *inputs); 
-}; 
-
-typedef struct Loss loss_t; 
 
 
 /* loss methods  */

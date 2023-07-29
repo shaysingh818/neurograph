@@ -3,7 +3,7 @@
 
 #include "../../data_structures/includes/matrix.h"
 #include "activations.h"
-#include "layer.h"
+#include "computation_graph.h"
 
 #define DEBUG false
 
@@ -11,14 +11,14 @@ struct Network {
     int num_layers, layer_count;
     int front_index, rear_index;  
     double learning_rate, loss;   
-    layer_t **layers; 
-    layer_t *front, rear; 
+    node_type_t **layers; 
+    node_type_t *front, *rear; 
 }; 
 
 typedef struct Network net_t; 
 
-net_t *init_network(double learning_rate, int num_layers);
-void add_layer(net_t *nn, int input_size, int output_size, bool activation);  
+net_t *init_network(int num_layers, double learning_rate);
+void layer(net_t *nn, node_type_t *layer_node);  
 void train(net_t *nn, mat_t *x, mat_t *y, int epochs); 
 void save_model(net_t *nn, char *file_path);
 void debug(net_t *n);

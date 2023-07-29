@@ -7,8 +7,7 @@
 
 /* Generic node */ 
 struct Node {
-	int id; 
-	int weight; 
+	int id, weight, counter; 
 	char *label;
 	struct Node* next;
 	struct Node* left; 

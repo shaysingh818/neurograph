@@ -11,7 +11,8 @@
 
 #include "../../data_structures/includes/ll.h"
 #include "../../data_structures/includes/map.h"
-#include "../../graph/includes/graph.h"
+#include "../../data_structures/includes/matrix.h"
+#include "../../data_structures/includes/set.h"
 
 #define RE_CSV "\"[^\"]*\"|[^,]+"
 #define RE_JSON "None Yet"
@@ -64,8 +65,6 @@ void f_cols(frame_t *frame);
 void f_rows(frame_t *frame, header_t *header); 
 
 /* dataframe to graph methods */ 
-graph_t *frame_to_unweighted_graph(frame_t *frame, int *cols, int size, bool directed);
-graph_t *frame_to_weighted_graph(frame_t *frame, int *cols, int size, bool directed); 
 mat_t *frame_g_mat(frame_t *frame, int *cols, int size, int directed);
 
 /* utilities for working with files */

@@ -172,6 +172,7 @@ int *label_propagator_list(graph_t *g, int *labels, int start_vertex) {
 		predicted_labels[i] = -1; 
 	}
 
+
 	/* get items from queue and calculate probabilities */
 	for(int i = q->front_index; i <= q->rear_index; i++) {
 
@@ -199,6 +200,53 @@ int *label_propagator_list(graph_t *g, int *labels, int start_vertex) {
 
 	return predicted_labels; 
 } 
+
+
+int *label_propagation_iterative_list(graph_t *g, int start_vertex) {
+
+	node_t *start_node = g->list->items[start_vertex]->head; 
+	queue_t *q = init_queue(g->vertices);
+	int result = dfs(q, g, start_node); 
+	int curr_label = -1;
+
+
+	for(int i = q->front_index; i <= q->rear_index; i++) {
+
+		int node_id = q->items[i]->integer;
+		int neighbor_count = 0, curr_label = -1, label_count=0;  
+		set_t *label_set = init_set(false); 
+
+		node_t *value = g->list->items[node_id]->head;
+		while(value){
+			int label = g->labels[value->id];
+			if(label > -1){
+				insert_ordered(label_set, label, NULL, 0); 
+			}
+			value = value->next; 
+			neighbor_count += 1;
+		}
+
+		/* if there are more than one label, get the one with the highest freq*/
+		node_t **head = &label_set->root;
+		node_t *last = *head;  
+		while(last != NULL){
+			if(last->counter > label_count){
+				label_count = last->counter; 
+				curr_label = last->id; 
+			}
+			last = last->next;
+		}
+		
+		double delta = 1.00/neighbor_count;
+		if(delta == 0.50) {
+			curr_label = -1; 
+		}
+
+		g->labels[node_id] = curr_label; 		
+	}
+
+	return g->labels; 
+}
 
 
 int triangle_count_list(graph_t *g, int vertex) {

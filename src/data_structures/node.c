@@ -4,7 +4,8 @@
 node_t *create_node(int id, char *label, int weight) {
 	node_t *n;
 	n = (node_t*)malloc(sizeof(node_t)); 
-	n->id = id; 
+	n->id = id;
+	n->counter = 1; // Keep track of nodes being created 
 	n->weight = weight;
 	n->label = NULL;  
 	n->next = NULL;

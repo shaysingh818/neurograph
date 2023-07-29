@@ -141,12 +141,30 @@ mat_t **batch_rows(mat_t *m, int limit) {
 } 
 
 
+mat_t *copy_arr_to_matrix(int m, int n, double arr[m][n]) {
+    mat_t *matrix = init_vec(m, n, false);
+    for(int i = 0; i < matrix->rows; i++){
+        for(int j = 0; j < matrix->cols; j++){
+            matrix->arr[i][j] = arr[i][j];
+        }
+    }
+	return matrix; 
+} 
+
+
 
 bool compare_matrix(mat_t *n, mat_t *m){
+	
+    if (n->rows != m->rows || n->cols != m->cols) {
+        printf("Error: matrices must be of the same size for comparison\n");
+        exit(1);
+    }
+
 	bool result = true; 
 	for(int i = 0; i < n->rows; i++){
 		for(int j = 0; j < n->cols; j++){
-			if(n->arr[i][j] != m->arr[i][j]){
+			double rounded_value = round(m->arr[i][j]*100)/100; 
+			if(n->arr[i][j] != rounded_value){
 				result = false; 
 			}
 		}

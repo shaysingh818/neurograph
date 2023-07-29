@@ -13,9 +13,11 @@ TEST_HEADERS = $(wildcard /tests/includes/*.h)
 # Data structures library dependency
 DATA_STRUCTURES = ../data_structures/set.o ../data_structures/queue.o ../data_structures/matrix.o ../data_structures/adj_list.o ../data_structures/node.o ../data_structures/map.o ../data_structures/ll.o 
 
+EXTRACTORS = ../extractors/re.o ../extractors/gml.o ../extractors/frame.o
+
 # source objects for extractors library
 TEST_OBJS = test_path.o test_search.o test_community.o test_graph.o
-SRC_OBJS = $(DATA_STRUCTURES) graph.o path.o search.o community.o
+SRC_OBJS = $(DATA_STRUCTURES) $(EXTRACTORS) graph.o path.o search.o community.o
 
 # flags
 FLAGS = -g -lm -lpthread
@@ -31,6 +33,7 @@ source: main.o $(SRC_OBJS)
 
 data_structures:
 	$(MAKE) -C ../data_structures
+
 
 # build source and test objects 
 $(SRC_OBJS): %.o: %.c $(HEADERS)

@@ -1,6 +1,210 @@
 #include "includes/test_graph.h" 
 
 
+void test_frame_to_unweighted_graph() {
+
+    bool equality_status = true; 
+	int indices[2] = {1, 3}; 
+
+    /* expected graph results */
+	char *relationship_list[12][5] = {
+		{}, 
+		{"B", "C", "D"}, 
+		{"A", "C"},
+		{"A", "B", "E"},
+		{"A"},
+		{"C"},
+		{},
+		{},
+        {},
+        {},
+        {},
+        {}
+	}; 
+
+    frame_t *frame = init_frame("../../examples/data/test.csv", 1024);
+	assert(frame->status);
+
+    /* convert frame to un weighted graph */
+    graph_t *result = frame_to_unweighted_graph(
+       frame, indices, 2, false
+    ); 
+	assert(!result->list->err); 
+
+	/* check graph against relationships */ 
+	for(int i = 0; i < result->vertices; i++) {
+	    node_t *head = result->list->items[i]->head; 
+	    int node_index = 0; 
+	    while(head) {
+			int condition = strcmp(head->label, relationship_list[i][node_index]);
+			assert(condition == 0);
+	        head = head->next;
+	        node_index += 1; 
+	    }
+	} 
+
+ 	/* validate results */
+    if(!equality_status) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    }
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+} 
+
+
+void test_frame_to_weighted_graph() {
+
+
+    bool equality_status = true; 
+	int indices[3] = {1,3,4}; 
+
+    /* expected graph results */
+	int weight_list[6][5] = {
+		{}, 
+		{1,1,1}, 
+		{1,2},
+		{1,2, 3},
+		{1},
+		{3}
+	}; 
+
+
+    frame_t *frame = init_frame("../../examples/data/test.csv", 1024);
+	assert(frame->status); 
+
+    /* convert frame to un weighted graph */
+    graph_t *result = frame_to_weighted_graph(
+       frame, indices, 3, false
+    );
+	assert(!result->list->err); 
+
+	/* check graph against relationships */ 
+	for(int i = 0; i < result->list->v; i++) {
+	    node_t *head = result->list->items[i]->head; 
+	    int node_index = 0; 
+	    while(head) {
+			assert(head->weight == weight_list[i][node_index]); 
+	        head = head->next;
+	        node_index += 1; 
+	    }
+	}
+
+ 	/* validate results */
+    if(!equality_status) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    }
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+
+}
+
+
+void test_unused_slots() {
+
+
+    bool equality_status = true; 
+	int indices[3] = {1,3,4}; 
+
+    frame_t *frame = init_frame("../../examples/data/test.csv", 1024);
+	assert(frame->status); 
+
+    /* convert frame to weighted graph */
+    graph_t *result = frame_to_weighted_graph(
+       frame, indices, 3, false
+    );
+	assert(result->list->v == 6); 
+
+    frame = init_frame("../../examples/data/test.csv", 1024);
+	assert(frame->status);
+
+    /* convert frame to weighted graph */
+    result = frame_to_weighted_graph(
+       frame, indices, 3, true
+    );
+
+    frame = init_frame("../../examples/data/city_population_density.csv", 1024);
+	if(!frame->status) {
+		equality_status = false;  
+	}
+
+    /* convert frame to weighted graph */
+    result = frame_to_weighted_graph(
+       frame, indices, 3, false
+    );
+
+	assert(result->list->v == 126); 
+
+ 	/* validate results */
+    if(!equality_status) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    }
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+}
+
+
+void test_get_unique_nodes() {
+
+	bool equality_status = true; 
+
+	/* get unique nodes for graph */
+	char *path = "../../examples/gml/unit_tests/label_prop.gmul";
+	set_t *node_set = get_graph_nodes(path, 1024); 	
+
+	/* work on this in future releases */	
+
+
+} 
+
+void test_serialize_adj_list(){
+
+
+    bool equality_status = true;
+    // graph_t *g = serialize_graph_list("../../examples/gml/test.gmul", 1024);
+
+	// /* expected relationships from adjacency list */ 
+	// char *relationship_list[7][10] = {
+	// 	{"b", "c", "d", "e", "f", "b"}, 
+	// 	{"a", "a", "d", "c", "f", "g"},
+	// 	{"a", "b"},
+	// 	{"a", "b"},
+    //     {"a"},
+    //     {"a", "b"},
+    //     {"b"}
+	// };
+
+	// /* iterate through list and match relationships */ 
+	// for(int i = 0; i < g->vertices; i++) {
+	// 	node_t *head = g->list->items[i]->head; 
+	// 	int node_index = 0; 
+	// 	while(head) {
+	// 		int condition = strcmp(head->label, relationship_list[i][node_index]);
+	// 		if(condition != 0) {
+	// 			equality_status = FALSE; 
+	// 		}
+
+	// 		head = head->next;
+	// 	   	node_index += 1; 
+	// 	}
+	// }
+
+    if(!equality_status) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    }
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+
+}
+
+
+void test_deserialize_adj_list() {
+
+	int file_size = 1024; 
+	char *file_path = "../../examples/gml/output/result.gmul";
+    bool equality_status = true;
+    graph_t *g = serialize_graph_list("../../examples/gml/test.gmul", file_size);
+
+	/* deserialize results */	
+	//deserialize_graph_list(g, file_path);
+} 
+
+
 void test_to_list() {
 
 	/* vertices and equality status */ 
@@ -155,10 +359,8 @@ void test_to_directed_list() {
 		node_t *head = g->items[i]->head; 
 		int node_index = 0; 
 		while(head) {
-			int condition = strcmp(head->label, relationship_list[i][node_index]); 
-			if(condition != 0) {
-				equality_status = FALSE; 
-			}
+			int condition = strcmp(head->label, relationship_list[i][node_index]);
+			assert(condition == 0); 
 			head = head->next;
 		   	node_index += 1; 
 		}	
@@ -213,9 +415,7 @@ void test_to_directed_weighted_list() {
 		int node_index = 0; 
 		while(head) {
 			int condition = strcmp(head->label, relationship_list[i][node_index]); 
-			if(condition != 0) {
-				equality_status = FALSE; 
-			}
+			assert(condition == 0);
 			head = head->next;
 		   	node_index += 1; 
 		}	
@@ -276,9 +476,7 @@ void test_to_matrix() {
 	/* check output */ 
 	for(int i = 0; i < vertices; i++) {
 		for(int j = 0; j < vertices; j++) {
-			if(output->matrix[i*v+j]->id != expected_output[i][j]) {
-				equality_status = FALSE; 
-			}
+			assert(output->matrix[i*v+j]->id == expected_output[i][j]);
 		}
 	}
 
@@ -340,9 +538,7 @@ void test_to_directed_matrix() {
 	/* check output */ 
 	for(int i = 0; i < vertices; i++) {
 		for(int j = 0; j < vertices; j++) {
-			if(output->matrix[i*v+j]->id != expected_output[i][j]) {
-				equality_status = FALSE; 
-			}
+			assert(output->matrix[i*v+j]->id == expected_output[i][j]);
 		}
 	}
 
@@ -391,7 +587,7 @@ void test_to_weighted_matrix() {
 	for(int i = 0; i < vertices; i++) {
 		for(int j = 0; j < vertices; j++) {
 			if(output->weights[i*v+j] != expected_output[i][j]) {
-				equality_status = FALSE; 
+				assert(output->matrix[i*v+j]->id == expected_output[i][j]);
 			}
 		}
 	}
@@ -451,9 +647,7 @@ void test_to_directed_weighted_matrix() {
 	/* check output */ 
 	for(int i = 0; i < vertices; i++) {
 		for(int j = 0; j < vertices; j++) {
-			if(output->weights[i*v+j] != expected_output[i][j]) {
-				equality_status = FALSE; 
-			}
+			assert(output->matrix[i*v+j]->id == expected_output[i][j]);
 		}
 	}
 
@@ -464,5 +658,5 @@ void test_to_directed_weighted_matrix() {
 		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 	}
 
-
 }
+

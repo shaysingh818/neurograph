@@ -57,6 +57,7 @@ int main(int argc, char **argv) {
     test_set_ordered();
     test_unique_entries_ordered(); 
     test_index_lookup_ordered();
+    test_insert_count_lookup(); 
     test_get_items_ordered();   
     test_set_sorted();
     test_unique_entries_sorted(); 
