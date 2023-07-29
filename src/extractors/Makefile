@@ -52,4 +52,3 @@ clean_binary:
 
 clean:
 	rm -f *.o *~ *.pyc
-	$(MAKE) -C ../graph clean
