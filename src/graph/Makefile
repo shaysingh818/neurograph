@@ -23,7 +23,7 @@ SRC_OBJS = $(DATA_STRUCTURES) $(EXTRACTORS) graph.o path.o search.o community.o
 FLAGS = -g -lm -lpthread
 
 # link all programs here
-all: data_structures unit_test source
+all: data_structures extractors unit_test source
 
 unit_test: unit_test.o $(SRC_OBJS) $(TEST_OBJS)
 	gcc -o $(TEST_TARGET) unit_test.o $(SRC_OBJS) $(TEST_OBJS) $(FLAGS)
@@ -34,6 +34,8 @@ source: main.o $(SRC_OBJS)
 data_structures:
 	$(MAKE) -C ../data_structures
 
+extractors:
+	$(MAKE) -C ../extractors
 
 # build source and test objects 
 $(SRC_OBJS): %.o: %.c $(HEADERS)
@@ -57,3 +59,4 @@ clean_binary:
 clean:
 	rm -f *.o *~ *.pyc
 	$(MAKE) -C ../data_structures clean
+	$(MAKE) -C ../extractors clean
