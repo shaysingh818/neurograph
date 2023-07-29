@@ -78,4 +78,4 @@ jobs:
 
       - name: Unit Tests
         working-directory: neurograph/tests/
-        run: python -m pytest
+        run: python3 -m pytest
