@@ -15,13 +15,13 @@ TEST_HEADERS = $(wildcard /tests/includes/*.h)
 MATRIX = ../data_structures/matrix.o
 
 # source objects
-SRC_OBJS = layer.o network.o activations.o computation_graph.o $(MATRIX)
+SRC_OBJS = network.o activations.o computation_graph.o $(MATRIX)
 
 # unit test objects
-TEST_OBJS = test_layer.o test_network.o test_computation_graph.o
+TEST_OBJS =  test_network.o test_computation_graph.o
 
 # flags
-FLAGS = -g -lm -lpthread
+FLAGS = -g -lm -lpthread -fPIC
 
 
 # link all programs here

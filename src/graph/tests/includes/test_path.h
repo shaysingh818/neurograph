@@ -3,6 +3,7 @@
 
 #include "../../includes/path.h"
 #include "../../includes/graph.h"
+#include <assert.h>
 
 void test_bellman_ford();
 void test_dijkstra();

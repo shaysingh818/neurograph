@@ -121,120 +121,35 @@ void test_init_frame_structure() {
 }
 
 
-void test_frame_to_unweighted_graph() {
+void test_hash_map_frame() {
+
 
     bool equality_status = true; 
-	int indices[2] = {1, 3}; 
-
-    /* expected graph results */
-	char *relationship_list[12][5] = {
-		{}, 
-		{"B", "C", "D"}, 
-		{"A", "C"},
-		{"A", "B", "E"},
-		{"A"},
-		{"C"},
-		{},
-		{},
-        {},
-        {},
-        {},
-        {}
-	}; 
-
-    frame_t *frame = init_frame("../../examples/data/test.csv", 1024);
+    frame_t *frame = init_frame("../../examples/data/city_population_density.csv", 1024);
 	if(!frame->status) {
 		equality_status = false;  
 	}
 
-    /* convert frame to un weighted graph */
-    adj_list_t *result = frame_to_unweighted_graph(
-       frame, indices, 2, false
-    ); 
+    init_frame_map(frame);
 
+    char *keys[100] = {
+        "Rank", "City", "Population", "Area KM2", "Area M2", "Density KM2",
+        "Density  M2", "Country", "Year"
+    };
 
-    if(result->err) {
-        exit(0); 
-    } 
-
-	/* check graph against relationships */ 
-	for(int i = 0; i < result->v; i++) {
-	    node_t *head = result->items[i].head; 
-	    int node_index = 0; 
-	    while(head) {
-			int condition = strcmp(head->label, relationship_list[i][node_index]);
-			if(condition != 0) {
-				equality_status = false; 
-			}  
-	        head = head->next;
-	        node_index += 1; 
-	    }
-	} 
-
- 	/* validate results */
-    if(!equality_status) {
-        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
-    }
-    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-} 
-
-
-void test_frame_to_weighted_graph() {
-
-
-    bool equality_status = true; 
-	int indices[3] = {1,3,4}; 
-
-    /* expected graph results */
-	int weight_list[18][5] = {
-		{}, 
-		{1,1,1}, 
-		{1,2},
-		{1,2, 3},
-		{1},
-		{3},
-		{},
-		{},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {}
-	}; 
-
-
-    frame_t *frame = init_frame("../../examples/data/test.csv", 1024);
-	if(!frame->status) {
-		equality_status = false;  
-	}
-
-    /* convert frame to un weighted graph */
-    adj_list_t *result = frame_to_weighted_graph(
-       frame, indices, 3, false
-    );
-
-    if(result->err) {
-        exit(0); 
-    } 
-
-	/* check graph against relationships */ 
-	for(int i = 0; i < result->v; i++) {
-	    node_t *head = result->items[i].head; 
-	    int node_index = 0; 
-	    while(head) {
-            if(head->weight != weight_list[i][node_index]) {
+    for(int j = 0; j < frame->header_count; j++){
+        void *results = lookup_key(frame->map, frame->headers[j]->name); 
+        bool condition = strcmp(frame->headers[j]->name, keys[j]) == 0;
+        if(!condition){
+            equality_status = false; 
+        }
+        value_t **values = (value_t**)results; 
+        for(int i = 0; i < frame->row_count; i++){
+            if(values[i]->value == NULL){
                 equality_status = false; 
-            } 
-	        head = head->next;
-	        node_index += 1; 
-	    }
-	} 
-
+            }
+        }
+    }
 
  	/* validate results */
     if(!equality_status) {
@@ -242,4 +157,5 @@ void test_frame_to_weighted_graph() {
     }
     printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 
-}
+
+} 

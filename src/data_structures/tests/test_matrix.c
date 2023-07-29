@@ -316,6 +316,19 @@ void test_to_rows_cols() {
     }
 
     /* add to cols method test here for next release */
+    mat_t **col_results = to_cols(m); 
+    for(int i = 0; i < m->cols; i++){
+
+        /* scan results for matrix */
+        for(int j = 0; j < col_results[i]->rows; j++){
+            for(int k = 0; k < col_results[i]->cols; k++){
+                if(col_results[i]->arr[j][k] != m_values[k][i]) {
+                    equality_status = false; 
+                }
+            }
+        }
+    }
+
 
     if(!equality_status) {
         printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
@@ -323,6 +336,53 @@ void test_to_rows_cols() {
         printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
     }
 }
+
+
+void test_batch_rows() {
+
+    int rows = 6; 
+    int cols = 6;
+    bool equality_status = true;  
+    mat_t *m = init_vec(rows, cols, false); 
+    mat_t *m2 = init_vec(rows, cols, false); 
+
+    double m_values[6][6] = {
+        {2, 0, 0, 0, 0, 0}, 
+        {0, 2, 0, 0, 0, 0},
+        {0, 0, 2, 0, 0, 0},
+        {0, 0, 0, 2, 0, 0},
+        {0, 0, 0, 0, 2, 0},
+        {0, 0, 0, 0, 0, 2},
+    };
+
+
+    /* copy values to matrice */
+    for(int i = 0; i < rows; i++){
+        for(int j = 0; j < cols; j++){
+            m->arr[i][j] = m_values[i][j];
+        }
+    }
+
+    int limit = 3; 
+    mat_t **batch = batch_rows(m, limit);
+
+    for(int j = 0; j < limit; j++){
+        for(int k = 0; k < m->cols; k++){
+            bool condition = m->arr[j][k] == batch[j]->arr[0][k]; 
+            if(!condition){
+                equality_status = false; 
+            }
+        }
+    }
+
+
+    if(!equality_status) {
+        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
+    } else {
+        printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+    }
+
+}  
 
 
 void test_uniform_distribution() {

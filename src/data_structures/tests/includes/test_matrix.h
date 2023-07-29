@@ -17,8 +17,10 @@ void test_copy_vec();
 void test_vector_multiplication();
 void test_matrix_power();
 void test_to_rows_cols(); 
+void test_batch_rows();  
 void test_uniform_distribution();
 void test_load_and_save_matrix();
+void test_copy_arr_to_matrix(); 
 
 /* test matrix operations  */
 void test_dot_product();

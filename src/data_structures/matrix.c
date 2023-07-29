@@ -94,13 +94,77 @@ mat_t **to_rows(mat_t *m) {
 		rows[i] = copy_matrix(temp); 
 	}
 	return rows; 
+}
+
+
+mat_t **to_cols(mat_t *m) {
+
+    mat_t **cols = (mat_t**)malloc(sizeof(mat_t*));
+	for(int i = 0; i < m->cols; i++){
+		cols[i] = malloc(sizeof(mat_t)); 	
+	}
+
+	for(int i = 0; i < m->rows; i++){
+		mat_t *temp = init_matrix(1, m->cols); 
+		for(int j = 0; j < m->cols; j++){
+			temp->arr[0][j] = m->arr[j][i]; 
+		}
+		cols[i] = copy_matrix(temp); 
+	}
+
+	return cols; 
+}
+
+
+mat_t **batch_rows(mat_t *m, int limit) {
+
+	/* limit can't be greater than the rows */
+	if(limit > m->rows) {
+		printf("Limit supplied is greater than the amount of rows\n"); 
+		exit(1); 
+	}
+
+	/* batch rows */
+    mat_t **rows = (mat_t**)malloc(sizeof(mat_t*));
+	for(int i = 0; i < limit; i++){
+		rows[i] = malloc(sizeof(mat_t)); 	
+	}
+
+	for(int i = 0; i < limit; i++){
+		mat_t *temp = init_matrix(1, m->cols); 
+		for(int j = 0; j < m->cols; j++){
+            temp->arr[0][j] = m->arr[i][j];
+		}
+		rows[i] = copy_matrix(temp); 
+	}
+	return rows; 
 } 
 
+
+mat_t *copy_arr_to_matrix(int m, int n, double arr[m][n]) {
+    mat_t *matrix = init_vec(m, n, false);
+    for(int i = 0; i < matrix->rows; i++){
+        for(int j = 0; j < matrix->cols; j++){
+            matrix->arr[i][j] = arr[i][j];
+        }
+    }
+	return matrix; 
+} 
+
+
+
 bool compare_matrix(mat_t *n, mat_t *m){
+	
+    if (n->rows != m->rows || n->cols != m->cols) {
+        printf("Error: matrices must be of the same size for comparison\n");
+        exit(1);
+    }
+
 	bool result = true; 
 	for(int i = 0; i < n->rows; i++){
 		for(int j = 0; j < n->cols; j++){
-			if(n->arr[i][j] != m->arr[i][j]){
+			double rounded_value = round(m->arr[i][j]*100)/100; 
+			if(n->arr[i][j] != rounded_value){
 				result = false; 
 			}
 		}

@@ -19,16 +19,18 @@ queue_t *init_queue(unsigned capacity) {
 
 item_t *init_item(int integer, char *string, int priority, node_t *node) {
 	
-	/* get size of string*/
-	size_t string_size = strlen(string) + 1; 
-
 	item_t *item = (item_t*)malloc(sizeof(item_t)); 
 	item->integer = integer;
-	item->string = malloc(string_size * sizeof(char));
    	item->priority = priority; 	
+	item->string = NULL;
 	item->node = node;
 
-	strcpy(item->string, string); 	
+	/* copy in string value if not NULL  */
+	if(string != NULL) {
+		size_t string_size = strlen(string) + 1; 
+		item->string = (char*)malloc(string_size * sizeof(char));
+		strcpy(item->string, string); 
+	} 
 
 	return item; 
 }

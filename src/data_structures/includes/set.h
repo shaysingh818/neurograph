@@ -19,12 +19,23 @@ struct Set {
 
 typedef struct Set set_t; 
 
-/* set methods */
-set_t *init_set(bool set_order); 
-void set_insert(set_t *s, int data);
-void print_set(set_t *s); 
 
-node_t *push_set(node_t *root, int data);
-void get_items(node_t *root, queue_t *q); 
+/* set methods */
+set_t *init_set(bool set_order);
+
+/* unordered set methods */
+bool insert_ordered(set_t *s, int id, char *string_value, int weight);
+bool insert_set_value_ordered(node_t **root, node_t *item);
+int get_value_ordered(set_t *s, char *key);
+int get_insert_count(set_t *s, int index);  
+void print_items_ordered(set_t *s);
+void get_items_ordered(set_t *s, queue_t *q);  
+
+/* ordered set methods */
+bool insert_sorted(set_t *s, int id, char *string_value, int weight);
+node_t *insert_set_value_sorted(node_t *root, node_t *item);
+int get_item_sorted(set_t *s, char *key); 
+void get_items_sorted(node_t *root, queue_t *q);
+void print_set_sorted(set_t *s); 
 
 #endif
