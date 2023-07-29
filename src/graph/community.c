@@ -2,13 +2,13 @@
 #include "includes/community.h"
 
 
-int degree_centrality(adj_list_t *g, node_t *root) {
+int degree_centrality_list(graph_t *g, node_t *root) {
 
 	/* online implementations are vague */ 
 	/* for now use best attempt to get the most popular node */ 
 
-	int v = g->v;
-	int e = g->e; 
+	int v = g->vertices;
+	int e = g->edges; 
 	int max_count = 0;
    	int max_vertex = 0; 	
 
@@ -16,9 +16,9 @@ int degree_centrality(adj_list_t *g, node_t *root) {
 	for(int i = 0; i < v; i++){
 		int current_edge_count = 0; 
 		for(int j = 0; j < e; j++){
-			int u = g->edges[j]->src->id; 
-			int v = g->edges[j]->dest->id; 
-			int weight = g->edges[j]->weight;
+			int u = g->list->edges[j]->src->id; 
+			int v = g->list->edges[j]->dest->id; 
+			int weight = g->list->edges[j]->weight;
 		   	if(u == i) {
 				current_edge_count += 1; 
 			}	
@@ -37,22 +37,22 @@ int degree_centrality(adj_list_t *g, node_t *root) {
 
 
 
-int weighted_degree_centrality(adj_list_t *g) {
+int weighted_degree_centrality_list(graph_t *g) {
 
 	/* variables */ 	
-	int v = g->v;
+	int v = g->vertices;
 	int max_score = 0; 
 	int max_vertex = 0; 
 
 	/* traverse adjacency list */ 
-	for(int i = 0; i < g->v; i++){
+	for(int i = 0; i < g->vertices; i++){
 
 		/* variables to keep track of most popular node */ 
 		int weighted_sum = 0;
 	   	int connection_count = 0; 
 
 		/* get current head node */ 	
-		node_t *head = g->items[i].head;
+		node_t *head = g->list->items[i]->head;
 
 		while(head) {
 			weighted_sum += head->weight; 
@@ -74,12 +74,12 @@ int weighted_degree_centrality(adj_list_t *g) {
 }
 
 
-float closeness_centrality(adj_list_t *g, int vertex){
+float closeness_centrality_list(graph_t *g, int vertex){
 
 	int sum = 0; 
 	/* traverse adjacency list */ 
-	for(int i = 0; i < g->v; i++){
-		int dist = shortest_path(g, vertex, i);
+	for(int i = 0; i < g->vertices; i++){
+		int dist = shortest_path_list(g, vertex, i);
 		sum += dist;  
 	}
 
@@ -87,59 +87,61 @@ float closeness_centrality(adj_list_t *g, int vertex){
 	
 }
 
-float normalized_closeness_centrality(adj_list_t *g, int vertex){
+float normalized_closeness_centrality_list(graph_t *g, int vertex){
 
 	int sum = 0; 
 	/* traverse adjacency list */ 
-	for(int i = 0; i < g->v; i++){
-		int dist = shortest_path(g, vertex, i);
+	for(int i = 0; i < g->vertices; i++){
+		int dist = shortest_path_list(g, vertex, i);
 		sum += dist;  
 	}
 
-	int n = g->v - 1; 
+	int n = g->vertices - 1; 
 	return (float)n / (float)sum; 
 }  
 
-int **kosaraju(adj_list_t *g, int start_vertex) {
+
+int **kosaraju_list(graph_t *g, int start_vertex) {
 
 	/* variables */ 	
-	int v = g->v;
-	queue_t *q = init_queue(g->v);
-	queue_t *q1 = init_queue(g->v);
-	adj_list_t *r = init_graph(g->v, g->v, true);
+	int v = g->vertices;
+	queue_t *q = init_queue(g->vertices);
+	queue_t *q1 = init_queue(g->vertices);
+	graph_t *r = init_graph(g->vertices, g->vertices, true);
    	int num_components = 0; 	
 
 	/* perform DFS on first instance of graph */ 
-	node_t *head = g->items[3].head;
+	node_t *head = g->list->items[3]->head;
 	int result = dfs(q, g, head); 
 
 	/* transposed graph */
-	adj_list_t *transpose = transpose_items(g, r); 
+	graph_t *transposed = init_graph(g->vertices, g->vertices, true);  
+	transposed->list = transpose_items(g->list, r->list); 
 
 	/* perform DFS on transposed graph */
-	node_t *t_head = g->items[6].head;
+	node_t *t_head = g->list->items[6]->head;
 	item_t *queue_item = init_item(head->id, head->label, 0, head); 
 	push(q1, queue_item); //push head node before
-	int transpose_result = dfs(q1, transpose, t_head); 
+	int transpose_result = dfs(q1, transposed, t_head); 
 
 	/* mark all as unvisited */ 
-	for(int i = 0; i < g->v; i++){
-		transpose->visited[i] = 0; 
+	for(int i = 0; i < g->vertices; i++){
+		transposed->visited[i] = 0; 
 	}
 
 	/* allocate space for final results */ 
-	int **communities = malloc(sizeof(int*)*g->v);  
-	for(int i = 0; i < g->v; i++) {
-		communities[i] = malloc(sizeof(int)*g->v); 
+	int **communities = malloc(sizeof(int*)*g->vertices);  
+	for(int i = 0; i < g->vertices; i++) {
+		communities[i] = malloc(sizeof(int)*g->vertices); 
 	}
 
 	/* pop stack and find components */ 
    	while(!is_empty(q)) {
 		item_t *item = q->items[q->front_index]; 
 		pop(q);
-	   	if(!transpose->visited[item->node->id]) {
-			queue_t *q2 = init_queue(g->v);
-			int transpose_result = k_dfs(q2, transpose, item->node);
+	   	if(!transposed->visited[item->node->id]) {
+			queue_t *q2 = init_queue(g->vertices);
+			int transpose_result = k_dfs(q2, transposed, item->node);
 
 			/* get results from queue */ 
 			for(int i = q2->front_index; i <= q2->rear_index; i++) {
@@ -153,15 +155,159 @@ int **kosaraju(adj_list_t *g, int start_vertex) {
 }
 
 
-int *degree_centrality_mat(mat_graph_t *m) {
+int *label_propagator_list(graph_t *g, int *labels, int start_vertex) {
+
+	node_t *start_node = g->list->items[start_vertex]->head; 
+	bool labeled = false; 
+	int path[10]; 
+
+	/* create array to return list of nodes visited */ 
+	queue_t *q = init_queue(g->vertices);
+	int result = dfs(q, g, start_node); 
+	int curr_label = -1; 
+
+	/* allocate predicted labels for results */
+	int *predicted_labels = malloc(g->vertices * sizeof(int)); 
+	for(int i = 0; i < g->vertices; i++){
+		predicted_labels[i] = -1; 
+	}
+
+
+	/* get items from queue and calculate probabilities */
+	for(int i = q->front_index; i <= q->rear_index; i++) {
+
+		node_t *value = g->list->items[q->items[i]->integer]->head;
+		int neighbor_counter = 0; 
+
+		while(value) {
+
+			if(labels[value->id] >= 0) {
+				curr_label = labels[value->id]; 
+			}
+			value = value->next;
+			neighbor_counter += 1;  
+		}
+
+		double delta = 1.00/neighbor_counter;
+		if(delta == 0.50) {
+			curr_label = -1; 
+		}
+
+		int node_index = q->items[i]->integer; 
+		predicted_labels[node_index] = curr_label; 		
+	}
+
+
+	return predicted_labels; 
+} 
+
+
+int *label_propagation_iterative_list(graph_t *g, int start_vertex) {
+
+	node_t *start_node = g->list->items[start_vertex]->head; 
+	queue_t *q = init_queue(g->vertices);
+	int result = dfs(q, g, start_node); 
+	int curr_label = -1;
+
+
+	for(int i = q->front_index; i <= q->rear_index; i++) {
+
+		int node_id = q->items[i]->integer;
+		int neighbor_count = 0, curr_label = -1, label_count=0;  
+		set_t *label_set = init_set(false); 
+
+		node_t *value = g->list->items[node_id]->head;
+		while(value){
+			int label = g->labels[value->id];
+			if(label > -1){
+				insert_ordered(label_set, label, NULL, 0); 
+			}
+			value = value->next; 
+			neighbor_count += 1;
+		}
+
+		/* if there are more than one label, get the one with the highest freq*/
+		node_t **head = &label_set->root;
+		node_t *last = *head;  
+		while(last != NULL){
+			if(last->counter > label_count){
+				label_count = last->counter; 
+				curr_label = last->id; 
+			}
+			last = last->next;
+		}
+		
+		double delta = 1.00/neighbor_count;
+		if(delta == 0.50) {
+			curr_label = -1; 
+		}
+
+		g->labels[node_id] = curr_label; 		
+	}
+
+	return g->labels; 
+}
+
+
+int triangle_count_list(graph_t *g, int vertex) {
+
+
+	/* perform a depth first search three times */
+	queue_t *q = init_queue(g->vertices);
+	node_t *start_node = g->list->items[vertex]->head;
+	set_t *s = init_set(true);  
+	int result = dfs(q, g, start_node);
+	int triangle_count = 0; 
+
+
+	/* iterate through search results */
+	for(int i = q->front_index; i <= q->rear_index; i++) {
+
+		int index = q->items[i]->integer; 
+		node_t *temp = g->list->items[index]->head; 
+		while(temp){	
+			node_t *temp2 = g->list->items[temp->id]->head;
+			while(temp2) {
+				node_t *temp3 = g->list->items[temp2->id]->head;
+				while(temp3){
+					if(temp3->id == index){
+						insert_sorted(s, temp->id, NULL, 0); 
+						insert_sorted(s, temp2->id, NULL, 0); 
+						insert_sorted(s, temp3->id, NULL, 0);
+					}
+					temp3 = temp3->next; 
+				}
+				temp2 = temp2->next;
+			}
+			temp = temp->next;
+		}
+	}
+
+
+	/* store set results in queue */
+    s->queue = init_queue(s->count); 
+    get_items_sorted(s->root, s->queue);
+	int node_count = s->queue->item_count; 
+	if(node_count % 2 == 0){
+		triangle_count = node_count / 2; 
+	} else if (node_count % 3 == 0 || node_count == 3){
+		triangle_count = node_count / 3;
+	}
+
+
+	return triangle_count; 
+} 
+
+
+int *degree_centrality_mat(graph_t *g) {
 
 	/* allocate array for result of nodes */
-	int *results = malloc(m->vertices * sizeof(int)); 
+	int *results = malloc(g->vertices * sizeof(int)); 
 
-	for(int i = 0; i < m->vertices; i++){
+	for(int i = 0; i < g->vertices; i++){
 		int count = 0; 
-		for(int j = 0; j < m->vertices; j++){
-			int id = m->matrix[i*m->vertices+j]->id;
+		for(int j = 0; j < g->vertices; j++){
+			int id = g->matrix->matrix[i*g->vertices+j]->id;
 			if(id >= 0) {
 				count += 1; 
 			} 
@@ -171,7 +317,7 @@ int *degree_centrality_mat(mat_graph_t *m) {
 	return results; 
 }
 
-mat_t *label_nodes(mat_graph_t *m, int *labels) {
+mat_t *label_nodes_mat(graph_t *m, int *labels) {
 
 	mat_t *A = init_vec(m->vertices, m->vertices, false);
 	size_t n = sizeof(labels) / sizeof(labels[0]);
@@ -179,7 +325,7 @@ mat_t *label_nodes(mat_graph_t *m, int *labels) {
 	for(int i = 0; i < m->vertices; i++){
 		for(int j = 0; j < m->vertices; j++){
 
-			if(m->matrix[i*m->vertices+j]->label != NULL){
+			if(m->matrix->matrix[i*m->vertices+j]->label != NULL){
 				if(i == labels[i] && i == j){
 					A->arr[i][j] = 1;
 				}
@@ -228,100 +374,3 @@ mat_t *label_propogation(mat_t *A, int iterations) {
 
 	return m_power; 
 }
-
-
-
-int *label_propagator(adj_list_t *g, int *labels, int start_vertex) {
-
-	node_t *start_node = g->items[start_vertex].head; 
-	bool labeled = false; 
-	int path[10]; 
-
-	/* create array to return list of nodes visited */ 
-	queue_t *q = init_queue(g->v);
-	int result = dfs(q, g, start_node); 
-	int curr_label = -1; 
-
-	/* allocate predicted labels for results */
-	int *predicted_labels = malloc(g->v * sizeof(int)); 
-	for(int i = 0; i < g->v; i++){
-		predicted_labels[i] = -1; 
-	}
-
-	/* get items from queue and calculate probabilities */
-	for(int i = q->front_index; i <= q->rear_index; i++) {
-
-		node_t *value = g->items[q->items[i]->integer].head;
-		int neighbor_counter = 0; 
-
-		while(value) {
-
-			if(labels[value->id] >= 0) {
-				curr_label = labels[value->id]; 
-			}
-			value = value->next;
-			neighbor_counter += 1;  
-		}
-
-		double delta = 1.00/neighbor_counter;
-		if(delta == 0.50) {
-			curr_label = -1; 
-		}
-
-		int node_index = q->items[i]->integer; 
-		predicted_labels[node_index] = curr_label; 		
-	}
-
-
-	return predicted_labels; 
-} 
-
-
-int triangle_count(adj_list_t *g, int vertex) {
-
-
-	/* perform a depth first search three times */
-	queue_t *q = init_queue(g->v);
-	node_t *start_node = g->items[vertex].head;
-	set_t *s = init_set(true);  
-	int result = dfs(q, g, start_node);
-	int triangle_count = 0; 
-
-
-	/* iterate through search results */
-	for(int i = q->front_index; i <= q->rear_index; i++) {
-
-		int index = q->items[i]->integer; 
-		node_t *temp = g->items[index].head; 
-		while(temp){	
-			node_t *temp2 = g->items[temp->id].head;
-			while(temp2) {
-				node_t *temp3 = g->items[temp2->id].head;
-				while(temp3){
-					if(temp3->id == index){
-						set_insert(s, temp->id); 
-						set_insert(s, temp2->id); 
-						set_insert(s, temp3->id); 
-					}
-					temp3 = temp3->next; 
-				}
-				temp2 = temp2->next;
-			}
-			temp = temp->next;
-		}
-	}
-
-
-	/* store set results in queue */
-    s->queue = init_queue(s->count); 
-    get_items(s->root, s->queue); 
-	int node_count = s->queue->item_count; 
-	if(node_count % 2 == 0){
-		triangle_count = node_count / 2; 
-	} else if (node_count % 3 == 0 || node_count == 3){
-		triangle_count = node_count / 3;
-	}
-
-
-	return triangle_count; 
-} 

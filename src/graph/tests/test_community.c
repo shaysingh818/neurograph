@@ -5,7 +5,7 @@ void test_degree_centrality() {
 
   	int vertices = 5; // num of vertices
     int edges = 8; // num of edges
-    adj_list_t *g = init_graph(vertices, edges, false);
+    graph_t *g = init_graph(vertices, edges, false);
 
     /* create nodes for graph */
     node_t *a = create_node(0, "A", 0); // create unweighted nodes
@@ -15,16 +15,16 @@ void test_degree_centrality() {
     node_t *e = create_node(4, "E", 0);
 
     /* add relationships */
-    g->edges[0] = create_edge(a, b, -1);
-    g->edges[1] = create_edge(a, c, 4);
-    g->edges[2] = create_edge(b, c, 3);
-    g->edges[3] = create_edge(b, d, 2);
-    g->edges[4] = create_edge(b, e, 2);
-    g->edges[5] = create_edge(d, b, 5);
-    g->edges[6] = create_edge(d, b, 1);
-    g->edges[7] = create_edge(e, d, -3);
+    g->list->edges[0] = create_edge(a, b, -1);
+    g->list->edges[1] = create_edge(a, c, 4);
+    g->list->edges[2] = create_edge(b, c, 3);
+    g->list->edges[3] = create_edge(b, d, 2);
+    g->list->edges[4] = create_edge(b, e, 2);
+    g->list->edges[5] = create_edge(d, b, 5);
+    g->list->edges[6] = create_edge(d, b, 1);
+    g->list->edges[7] = create_edge(e, d, -3);
 
-	int result = degree_centrality(g, a);
+	int result = degree_centrality_list(g, a);
 	int equality_condition = result == 1;
 
 	if(!equality_condition) {
@@ -42,15 +42,15 @@ void test_weighted_degree_centrality() {
     int vertices = 5; 
 
 	/* create weighted adjacency list */ 
-	adj_list_t *g = init_graph(vertices, vertices, false);
-	add_node(g, 0, "A", 1, "B", 2);
-	add_node(g, 0, "A", 2, "C", 1); 
-	add_node(g, 0, "A", 3, "D", 1); 
-	add_node(g, 1, "B", 2, "C", 2);
-	add_node(g, 4, "E", 2, "C", 1);
+	graph_t *g = init_graph(vertices, vertices, false);
+	add_node(g->list, 0, "A", 1, "B", 2);
+	add_node(g->list, 0, "A", 2, "C", 1); 
+	add_node(g->list, 0, "A", 3, "D", 1); 
+	add_node(g->list, 1, "B", 2, "C", 2);
+	add_node(g->list, 4, "E", 2, "C", 1);
 
 	/* test weighted degree centrality */ 
-	int result = weighted_degree_centrality(g);
+	int result = weighted_degree_centrality_list(g);
 	int equality_condition = result == 0; 
 
 	if(!equality_condition) {
@@ -69,27 +69,27 @@ void test_kosaraju() {
 	int equality_test = TRUE; 
 
 	/* create adjacency list */ 
-	adj_list_t *g = init_graph(vertices, vertices, true);
+	graph_t *g = init_graph(vertices, vertices, true);
 
 	/* first community */ 
-	add_node(g, 0, "A", 1, "B", 0);
-	add_node(g, 1, "B", 2, "C", 0);
-	add_node(g, 2, "C", 3, "D", 0);
-	add_node(g, 3, "D", 0, "A", 0);
+	add_node(g->list, 0, "A", 1, "B", 0);
+	add_node(g->list, 1, "B", 2, "C", 0);
+	add_node(g->list, 2, "C", 3, "D", 0);
+	add_node(g->list, 3, "D", 0, "A", 0);
 
 	/* bridge */ 
-	add_node(g, 2, "C", 4, "E", 0);
+	add_node(g->list, 2, "C", 4, "E", 0);
 
 	/* second community */ 
-	add_node(g, 4, "E", 5, "F", 0);
-	add_node(g, 5, "F", 6, "G", 0);
-	add_node(g, 6, "G", 4, "E", 0);
-	add_node(g, 6, "G", 7, "H", 0);
-	add_end_node(g, 7, "H", 0);
+	add_node(g->list, 4, "E", 5, "F", 0);
+	add_node(g->list, 5, "F", 6, "G", 0);
+	add_node(g->list, 6, "G", 4, "E", 0);
+	add_node(g->list, 6, "G", 7, "H", 0);
+	add_end_node(g->list, 7, "H", 0);
 
 	char test1[2] = {'A', 'B'}; 
 	char test2[3] = {'C', 'D', 'E'}; 	
-	int **result = kosaraju(g, 0);
+	int **result = kosaraju_list(g, 0);
 	
 	/* expected output from communities */
     int output[8][8] = {
@@ -100,8 +100,8 @@ void test_kosaraju() {
 
 
 	/* refine this method to have a specific structural return type for communities */ 
-	for(int i = 0; i < g->v; i++) {
-		for(int j = 0; j < g->v; j++) {
+	for(int i = 0; i < g->vertices; i++) {
+		for(int j = 0; j < g->vertices; j++) {
 			if(result[i][j] != output[i][j]) {
 				equality_test = FALSE; 
 			}
@@ -124,18 +124,18 @@ void test_closeness_centrality() {
 	int equality_status = false; 
 	float expected_result = 0.014706;  
 
-	adj_list_t *g = init_graph(vertices, vertices, false);
-    add_node(g, 0, "A", 1, "B", 2);
-    add_node(g, 0, "A", 2, "C", 6);
-    add_node(g, 1, "B", 3, "D", 5);
-    add_node(g, 2, "C", 3, "D", 8);
-    add_node(g, 3, "D", 4, "E", 10);
-	add_node(g, 3, "D", 5, "F", 15);
-	add_node(g, 4, "E", 5, "F", 6);
-	add_node(g, 5, "F", 6, "G", 6);
-	add_node(g, 4, "E", 6, "G", 2);
+	graph_t *g = init_graph(vertices, vertices, false);
+    add_node(g->list, 0, "A", 1, "B", 2);
+    add_node(g->list, 0, "A", 2, "C", 6);
+    add_node(g->list, 1, "B", 3, "D", 5);
+    add_node(g->list, 2, "C", 3, "D", 8);
+    add_node(g->list, 3, "D", 4, "E", 10);
+	add_node(g->list, 3, "D", 5, "F", 15);
+	add_node(g->list, 4, "E", 5, "F", 6);
+	add_node(g->list, 5, "F", 6, "G", 6);
+	add_node(g->list, 4, "E", 6, "G", 2);
 
-	float result = closeness_centrality(g, vertex); 
+	float result = closeness_centrality_list(g, vertex); 
 
 	if(fabs(result - expected_result) < 0.0001){
 		equality_status = true;  
@@ -156,18 +156,18 @@ void test_normalized_closeness_centrality() {
 	int equality_status = false;
 	float expected_result = 0.088235;  
 
-	adj_list_t *g = init_graph(vertices, vertices, false);
-    add_node(g, 0, "A", 1, "B", 2);
-    add_node(g, 0, "A", 2, "C", 6);
-    add_node(g, 1, "B", 3, "D", 5);
-    add_node(g, 2, "C", 3, "D", 8);
-    add_node(g, 3, "D", 4, "E", 10);
-	add_node(g, 3, "D", 5, "F", 15);
-	add_node(g, 4, "E", 5, "F", 6);
-	add_node(g, 5, "F", 6, "G", 6);
-	add_node(g, 4, "E", 6, "G", 2);
+	graph_t *g = init_graph(vertices, vertices, false);
+    add_node(g->list, 0, "A", 1, "B", 2);
+    add_node(g->list, 0, "A", 2, "C", 6);
+    add_node(g->list, 1, "B", 3, "D", 5);
+    add_node(g->list, 2, "C", 3, "D", 8);
+    add_node(g->list, 3, "D", 4, "E", 10);
+	add_node(g->list, 3, "D", 5, "F", 15);
+	add_node(g->list, 4, "E", 5, "F", 6);
+	add_node(g->list, 5, "F", 6, "G", 6);
+	add_node(g->list, 4, "E", 6, "G", 2);
 
-	float result = normalized_closeness_centrality(g, vertex);
+	float result = normalized_closeness_centrality_list(g, vertex);
 
 	if(fabs(result - expected_result) < 0.0001){
 		equality_status = true;  
@@ -190,7 +190,7 @@ void test_degree_centrality_mat() {
 	bool equality_status = true; 
 
 	/* create adjacency matrix graph with size 5 */ 
-	mat_graph_t *m = init_matrice_graph(5); 
+	graph_t *m = init_graph(5, 5, false); 
 
     /* create unique nodes */
     entry_t *a = init_entry(0, "A"); 
@@ -199,11 +199,11 @@ void test_degree_centrality_mat() {
     entry_t *d = init_entry(3, "D"); 
 
 	/* connect a to everyone */ 
-    insert(m, a, b, 0, false); 
-    insert(m, a, c, 0, false); 
-    insert(m, b, c, 0, false); 
-    insert(m, b, d, 0, false); 
-    insert(m, c, d, 0, false); 
+    insert(m->matrix, a, b, 0, false); 
+    insert(m->matrix, a, c, 0, false); 
+    insert(m->matrix, b, c, 0, false); 
+    insert(m->matrix, b, d, 0, false); 
+    insert(m->matrix, c, d, 0, false); 
 
 	int *result = degree_centrality_mat(m);
 
@@ -226,7 +226,7 @@ void test_label_nodes(){
 
 	bool equality_status = true;  
 	int vertices = 7; 
-	mat_graph_t *m = init_matrice_graph(vertices);
+	graph_t *m = init_graph(vertices, vertices, false);
 
     /* create unique nodes */
     entry_t *a = init_entry(0, "A"); 
@@ -238,17 +238,17 @@ void test_label_nodes(){
     entry_t *g = init_entry(6, "G"); 
 
 	/* connect a to everyone */
-    insert(m, a, a, 0, false); 
-    insert(m, b, b, 0, false); 
-    insert(m, a, d, 0, false); 
-    insert(m, d, c, 0, false); 
-    insert(m, d, e, 0, false); 
-    insert(m, e, f, 0, false); 
-    insert(m, f, g, 0, false); 
-    insert(m, b, f, 0, false);
+    insert(m->matrix, a, a, 0, false); 
+    insert(m->matrix, b, b, 0, false); 
+    insert(m->matrix, a, d, 0, false); 
+    insert(m->matrix, d, c, 0, false); 
+    insert(m->matrix, d, e, 0, false); 
+    insert(m->matrix, e, f, 0, false); 
+    insert(m->matrix, f, g, 0, false); 
+    insert(m->matrix, b, f, 0, false);
 
 	int labels[2] = {0, 1}; // only works with these labels 
-	mat_t *result = label_nodes(m, labels);
+	mat_t *result = label_nodes_mat(m, labels);
 
 	/* expected result */
     double expected[7][7] = {
@@ -289,17 +289,17 @@ void test_label_propagation() {
 	}; 
 
 	/* create adjacency list graph (test on smaller graph) */
-	adj_list_t *g = init_graph(vertices, vertices, false);
-    add_node(g, 0, "A", 3, "D", 2);
-    add_node(g, 2, "C", 3, "D", 2);
-    add_node(g, 3, "D", 4, "E", 2);
-    add_node(g, 4, "E", 5, "F", 2);
-    add_node(g, 5, "F", 6, "G", 2);
-    add_node(g, 5, "F", 1, "B", 2);
+	graph_t *g = init_graph(vertices, vertices, false);
+    add_node(g->list, 0, "A", 3, "D", 2);
+    add_node(g->list, 2, "C", 3, "D", 2);
+    add_node(g->list, 3, "D", 4, "E", 2);
+    add_node(g->list, 4, "E", 5, "F", 2);
+    add_node(g->list, 5, "F", 6, "G", 2);
+    add_node(g->list, 5, "F", 1, "B", 2);
 
 	/* label nodes in graph */
-	int *labels = malloc(g->v * sizeof(int)); 
-	for(int i = 0; i < g->v; i++){
+	int *labels = malloc(g->vertices * sizeof(int)); 
+	for(int i = 0; i < g->vertices; i++){
 		labels[i] = -1; 
 	}
 
@@ -307,8 +307,8 @@ void test_label_propagation() {
 	labels[0] = 0; 
 	labels[1] = 1;
 
-	int *predicted_labels = label_propagator(g, labels, 0);
-	for(int i = 0; i < g->v; i++){
+	int *predicted_labels = label_propagator_list(g, labels, 0);
+	for(int i = 0; i < g->vertices; i++){
 		if(predicted_labels[i] != expected_output[i]) {
 			equality_status = false; 
 		}
@@ -323,25 +323,60 @@ void test_label_propagation() {
 }
 
 
+void test_iterative_label_propagation() {
+
+	/* create adjacency matrix graph with size 5 */
+	bool equality_status = true;  
+	int vertices = 7; 
+	int expected_output[7] = {
+		0, 1, 0, 0, -1, 1, 1
+	}; 
+
+	/* work on this in future release */
+	graph_t *g = init_graph(vertices, vertices, false);
+    add_node(g->list, 0, "A", 3, "D", 2);
+    add_node(g->list, 2, "C", 3, "D", 2);
+    add_node(g->list, 3, "D", 4, "E", 2);
+    add_node(g->list, 4, "E", 5, "F", 2);
+    add_node(g->list, 5, "F", 6, "G", 2);
+    add_node(g->list, 5, "F", 1, "B", 2);
+
+	/* label nodes */
+	label_node(g, 0, 0); 
+	label_node(g, 1, 1); 
+
+
+	int *labels = label_propagation_iterative_list(g, 0); 
+	for(int i = 0; i < g->vertices; i++){
+		assert(labels[i] == expected_output[i]);
+	}
+
+	if(!equality_status) {
+		printf("%s::%s...  FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
+	}	
+
+}
+
+
+
 void test_triangle_count() {
 
 	int vertices = 6; 
 	bool equality_status = true; 
 
-	adj_list_t *g = init_graph(vertices, vertices, false);
-    add_node(g, 0, "A", 1, "B", 2);
-    add_node(g, 0, "A", 2, "C", 2);
-    add_node(g, 1, "B", 2, "C", 2);
-    add_node(g, 2, "C", 3, "D", 2);
-    add_node(g, 1, "B", 3, "D", 2);
-    add_node(g, 2, "C", 4, "E", 2);
-    add_node(g, 2, "C", 5, "F", 2);
+	graph_t *g = init_graph(vertices, vertices, false);
+    add_node(g->list, 0, "A", 1, "B", 2);
+    add_node(g->list, 0, "A", 2, "C", 2);
+    add_node(g->list, 1, "B", 2, "C", 2);
+    add_node(g->list, 2, "C", 3, "D", 2);
+    add_node(g->list, 1, "B", 3, "D", 2);
+    add_node(g->list, 2, "C", 4, "E", 2);
+    add_node(g->list, 2, "C", 5, "F", 2);
 
-	int count = triangle_count(g, 4);
-
-	if(count != 2){
-		equality_status = false; 
-	}
+	int count = triangle_count_list(g, 4);
+	assert(count == 2);
 
 	if(!equality_status) {
 		printf("%s::%s...  FAILED\n", __FILE__, __FUNCTION__); 

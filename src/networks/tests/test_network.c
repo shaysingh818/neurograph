@@ -4,12 +4,40 @@ void test_init_network() {
 
     int sizes[3] = {2,3,1}; 
     bool equality_status = true;
-    double learning_rate = 0.01;  
-    net_t *nn = init_network(learning_rate, 3);
+    double learning_rate = 0.1;  
+    net_t *nn = init_network(4, learning_rate);
 
-    if(nn->learning_rate != learning_rate){
-        equality_status = false; 
-    }    
+    assert(nn->num_layers == 4); 
+    assert(nn->learning_rate == 0.1);  
+    assert(nn->rear_index == 3 && nn->front_index == 0); 
+
+    /* first MLP layer */
+    linear_t *l1 = linear(2, 3, learning_rate);
+    loss_t *loss1 = loss(2, 3, tanh, tanh_prime);
+
+    /* second MLP layer */
+    linear_t *l2 = linear(3, 1, learning_rate);
+    loss_t *loss2 = loss(3, 1, tanh, tanh_prime);
+
+
+    nn->layers[0]->layer_type = LINEAR; 
+    nn->layers[0]->node_structure = l1; 
+
+    nn->layers[1]->layer_type = LOSS; 
+    nn->layers[1]->node_structure = loss1; 
+
+    nn->layers[2]->layer_type = LINEAR; 
+    nn->layers[2]->node_structure = l2; 
+
+    nn->layers[3]->layer_type = LOSS; 
+    nn->layers[3]->node_structure = loss2;
+
+    /* check layers */
+    assert(nn->layers[0]->layer_type == LINEAR); 
+    assert(nn->layers[1]->layer_type == LOSS); 
+    assert(nn->layers[2]->layer_type == LINEAR); 
+    assert(nn->layers[3]->layer_type == LOSS); 
+
 
     if(!equality_status) {
         printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
@@ -24,29 +52,39 @@ void test_add_layer() {
     bool equality_status = true;
     double learning_rate = 0.1;  
     int num_layers = 4; 
-    net_t *nn = init_network(learning_rate, num_layers);
+    net_t *nn = init_network(num_layers, learning_rate);
 
-    add_layer(nn, 2, 3, false); 
-    add_layer(nn, 2, 3, true); 
-    add_layer(nn, 3, 1, false); 
-    add_layer(nn, 3, 1, true);
+    /* create network architecture here  */
+    linear_t *l1 = linear(2, 3, learning_rate); 
+    layer(nn, init_node_type(LINEAR, l1));
 
-    /* store counts for each type of layer */
-    int dense_counter = 0;
-    int activation_counter = 0; 
-    
-    /* feed forward */
-    for(int i = nn->front_index; i <= nn->rear_index; i++){
-        if(nn->layers[i]->activation) {
-            activation_counter += 1; 
-        } else {
-            dense_counter += 1; 
-        }
-    } 
+    assert(nn->layer_count == 1); 
+    assert(nn->rear_index == 0);  
 
-    if(dense_counter != 2 && activation_counter != 2){
-        equality_status = false; 
-    } 
+    loss_t *loss1 = loss(2, 3, tanh, tanh_prime);
+    layer(nn, init_node_type(LOSS, loss1));
+
+    assert(nn->layer_count == 2);  
+    assert(nn->rear_index == 1);  
+
+    linear_t *l2 = linear(3, 1, learning_rate);
+    layer(nn, init_node_type(LINEAR, l2));
+
+    assert(nn->layer_count == 3);  
+    assert(nn->rear_index == 2);  
+
+    loss_t *loss2 = loss(3, 1, tanh, tanh_prime);
+    layer(nn, init_node_type(LOSS, loss2));
+
+    assert(nn->layer_count == 4);  
+    assert(nn->rear_index == 3);  
+
+    /* validate layers are in network structure */
+    assert(nn->layers[0]->layer_type == LINEAR); 
+    assert(nn->layers[1]->layer_type == LOSS); 
+    assert(nn->layers[2]->layer_type == LINEAR); 
+    assert(nn->layers[3]->layer_type == LOSS); 
+
 
     if(!equality_status) {
         printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
@@ -59,388 +97,60 @@ void test_add_layer() {
 
 void test_train() {
 
-    int inputs[4][2] = {
-        {0,0},
-        {0,1},
-        {1,0},
-        {1,1}
-    };
+    double inputs[4][2] = {{0,0},{0,1},{1,0},{1,1}};
+    double outputs[4][1] = {{0},{1},{1},{0}};
 
-    int outputs[4][1] = {
-        {0},
-        {1},
-        {1},
-        {0}
-    };
-
-
-    mat_t *x = init_vec(4, 2, false); 
-    mat_t *y = init_vec(4, 1, false); 
-
-    for(int i = 0; i < 4; i++){
-        for(int j = 0; j < 2; j++){
-            x->arr[i][j] = inputs[i][j]; 
-        }
-
-        for(int n = 0; n < 1; n++){
-            y->arr[i][n] = outputs[i][n];
-        }
-    }
+    mat_t *x = copy_arr_to_matrix(4, 2, inputs); 
+    mat_t *y = copy_arr_to_matrix(4, 1, outputs);
 
     /* training data */
     mat_t **train_x = to_rows(x);
     mat_t **train_y = to_rows(y); 
-
 
     /* create network */
     double learning_rate = 0.1; 
     bool equality_status = true; 
-    int epochs = 1000; 
+    int epochs = 1000, num_layers = 4;
+    net_t *nn = init_network(num_layers, learning_rate);
 
+    /* create network architecture here  */
+    linear_t *l1 = linear(2, 3, learning_rate); 
+    layer(nn, init_node_type(LINEAR, l1));
 
-    /* create collection of layers */
-    int num_layers = 4;
+    loss_t *loss1 = loss(2, 3, tanh, tanh_prime);
+    layer(nn, init_node_type(LOSS, loss1));
 
-    /* create instance of network */
-    net_t *nn = init_network(learning_rate, num_layers);
-    add_layer(nn, 2, 3, false); 
-    add_layer(nn, 2, 3, true); 
-    add_layer(nn, 3, 1, false); 
-    add_layer(nn, 3, 1, true);
+    linear_t *l2 = linear(3, 1, learning_rate);
+    layer(nn, init_node_type(LINEAR, l2));
+
+    loss_t *loss2 = loss(3, 1, tanh, tanh_prime);
+    layer(nn, init_node_type(LOSS, loss2));
 
 
     for(int i = 0; i < epochs; i++){
-
-        /* forward */
-        mat_t *forward_input = x; 
-        for(int i = nn->front_index; i <= nn->rear_index; i++){
-            mat_t *result = forward(nn->layers[i], forward_input);
-            forward_input = copy_matrix(result);         
-        }
-
-        nn->loss = mse(y, forward_input);
-
-        /* Get derivative of error */
-        mat_t *delta_error = difference(y, forward_input);
-
-        /* backward */
-        for(int n = nn->rear_index; n >= nn->front_index; n--){
-            mat_t *result = backward(
-                nn->layers[n], 
-                delta_error, 
-                nn->learning_rate
-            );
-            delta_error = copy_matrix(result);   
-        }
-
-    }
-
-    /* predict */
-    mat_t *result = predict(nn, x, y);
-
-    if(nn->loss > 0.1) {
-        equality_status = false; 
-    } 
-
-
-    if(!equality_status) {
-        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
-    } else {
-        printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-    } 
-
-
-}
-
-void test_loss() {
-
-
-    int inputs[4][2] = {
-        {0,0},
-        {0,1},
-        {1,0},
-        {1,1}
-    };
-
-    int outputs[4][1] = {
-        {0},
-        {1},
-        {1},
-        {0}
-    };
-
-    //srand(time(NULL));
-
-
-    mat_t *x = init_vec(4, 2, false); 
-    mat_t *y = init_vec(4, 1, false); 
-
-    for(int i = 0; i < 4; i++){
-        for(int j = 0; j < 2; j++){
-            x->arr[i][j] = inputs[i][j]; 
-        }
-
-        for(int n = 0; n < 1; n++){
-            y->arr[i][n] = outputs[i][n];
-        }
-    }
-
-    /* training data */
-    mat_t **train_x = to_rows(x);
-    mat_t **train_y = to_rows(y); 
-
-    bool equality_status = true; 
-    int input_size = 2, hidden_size = 3, output_size = 1; 
-    int epochs = 1000; 
-    double learning_rate = 0.1; 
-    double loss; 
-
-    srand(time(NULL));
-
-    mat_t *w1 = init_vec(input_size, hidden_size, false);
-    mat_t *w2 = init_vec(hidden_size, output_size, false);
-    mat_t *b1 = init_vec(1, hidden_size, false);
-    mat_t *b2 = init_vec(1, output_size, false);
-
-
-    randomize(w1, 2); 
-    randomize(w2, 1);
-
-    randomize(b1, 3); 
-    randomize(b2, 1); 
-
-    for(int i = 0; i < epochs; i++){
-
-        /* forward */
-        mat_t *z1 = scale_add(dot(x, w1), b1);
-        mat_t *a1 = apply(tanh_activation, z1); 
-        mat_t *z2 = scale_add(dot(a1, w2), b2); 
-        mat_t *a2 = apply(tanh_activation, z2); 
-
-
-        loss = mse(y, a2); 
-
-        /* back prop*/
-        mat_t *output_error = difference(y, a2); 
-        mat_t *output_delta = elementwise_multiply(output_error, tanh_prime(z2));
-        mat_t *hidden_error = dot(output_delta, transpose(w2));
-        mat_t *hidden_delta = elementwise_multiply(hidden_error, tanh_prime(z1)); 
-
-
-        mat_t *dw2 = scale(dot(transpose(a1), output_delta), learning_rate); 
-        mat_t *dw1 = scale(dot(transpose(x), hidden_delta), learning_rate);
-        mat_t *db2 = scale(output_delta, learning_rate); 
-        mat_t *db1 = scale(hidden_delta, learning_rate); 
-
-        w2 = add(w2, dw2); 
-        w1 = add(w1, dw1);
-        b2 = add(b2, db2); 
-        b1 = add(b1, db1); 
-
-    }
-
-    /* check the loss value */
-    if(loss > 0.1){
-        equality_status = false; 
-    }
-
-    /* predict */
-    mat_t *z1 = scale_add(dot(x, w1), b1); 
-    mat_t *a1 = apply(tanh, z1); 
-    mat_t *z2 = scale_add(dot(a1, w2), b1); 
-    mat_t *a2 = apply(tanh, z2); 
-
-    /* validate test results */
-    if(!equality_status) {
-        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
-    } else {
-        printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-    } 
-
-
-}
-
-
-void test_network_train() {
-
-    int inputs[4][2] = {
-        {0,0},
-        {0,1},
-        {1,0},
-        {1,1}
-    };
-
-    int outputs[4][1] = {
-        {0},
-        {1},
-        {1},
-        {0}
-    };
-
-    srand(time(NULL));
-
-
-    bool equality_status = true; 
-    double learning_rate = 0.1; 
-    int epochs = 1000, num_layers = 4; 
-    mat_t *x = init_vec(4, 2, false); 
-    mat_t *y = init_vec(4, 1, false);
-     
-
-    for(int i = 0; i < 4; i++){
-        for(int j = 0; j < 2; j++){
-            x->arr[i][j] = inputs[i][j]; 
-        }
-
-        for(int n = 0; n < 1; n++){
-            y->arr[i][n] = outputs[i][n];
-        }
-    }
-
-
-    /* create instance of network */
-    net_t *nn = init_network(learning_rate, num_layers);
-    add_layer(nn, 2, 3, false); 
-    add_layer(nn, 2, 3, true); 
-    add_layer(nn, 3, 1, false); 
-    add_layer(nn, 3, 1, true);
-
-
-    /* fit and train */
-    train(nn, x, y, epochs);
-
-    /* predict */
-    mat_t *result = predict(nn, x, y);
-
-    if(nn->loss > 0.1) {
-        equality_status = false; 
-    }
-
-    /* validate test results */
-    if(!equality_status) {
-        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
-    } else {
-        printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-    } 
-
-}
-
-
-void test_base_concept() {
-
-
-    /* create computation graph simple feed forward net */
-    int network_depth = 2, epochs=10000; 
-    double learning_rate = 0.1; 
-    bool equality_status = true; 
-
-	int inputs[4][2] = {
-        {0,0},
-        {0,1},
-        {1,0},
-        {1,1}
-    };
-
-    int outputs[4][1] = {
-        {0},
-        {1},
-        {1},
-        {0}
-    };
-
-    /* store wieghts, biases and outputs */
-    mat_t **W = malloc(network_depth * sizeof(mat_t*));  // weights
-    mat_t **b = malloc(network_depth * sizeof(mat_t*));  // biases
-
-    for(int i = 0; i < network_depth; i++){
-        W[i] = malloc(sizeof(mat_t)); 
-        b[i] = malloc(sizeof(mat_t)); 
-    }    
-
-    /* require inputs and outputs */
-    mat_t *x = init_matrix(4, 2);
-    mat_t *y = init_matrix(4, 1); 
-
-    for(int i = 0; i < x->rows; i++){
-        for(int j = 0; j < x->cols; j++){
-            x->arr[i][j] = inputs[i][j];
-        }
-    }
-
-    for(int i = 0; i < y->rows; i++){
-        for(int j = 0; j < y->cols; j++){
-            y->arr[i][j] = outputs[i][j];
-        }
-    }
- 
-    /* require weight matrices of model */
-    mat_t *w1 = init_matrix(2, 3); 
-    mat_t *w2 = init_matrix(3, 1);
-    randomize(w1, w1->rows); 
-    randomize(w2, w2->rows);  
-
-
-    /* require biase matrices of model */
-    b[0] = init_matrix(1, 3); 
-    b[1] = init_matrix(1, 3); 
-    randomize(b[0], b[0]->rows); 
-    randomize(b[1], b[1]->rows);  
-
-    for(int i = 0; i < epochs; i++) {
-
-        mat_t *z1 = dot(x, w1); 
-        mat_t *a1 = apply(tanh, z1); 
-        mat_t *z2 = dot(a1, w2); 
-        mat_t *a2 = apply(tanh, z2); 
-
-        double loss = mse(y, a2); 
-
-        /* get output and expected output*/
-        mat_t *output_error = difference(y, a2);
-        mat_t *output_delta = elementwise_multiply(
-            output_error, 
-            tanh_prime(z2)
-        ); 
-
         
-        mat_t *hidden_error = dot(output_delta, transpose(w2));
-        mat_t *dw2 = scale(dot(transpose(a1), output_delta), learning_rate);
-        w2 = add(w2, dw2);
+        forward_all(nn->layers, nn->layer_count,  x);
 
-        /* back propagate activation  */
-        mat_t *hidden_delta = elementwise_multiply(
-            hidden_error,
-            tanh_prime(z1)
-        );
+        /* get loss and output error */
+        double loss = mse(y, loss2->node->outputs);  
+        mat_t *output_error = difference(y, loss2->node->outputs);
 
-        // /* adjust weights and biases */
-        mat_t *dw1 = scale(dot(transpose(x), hidden_delta), learning_rate);
-        w1 = add(w1, dw1);
+        backward_all(nn->layers, nn->layer_count, output_error);
 
     }
 
-    mat_t *z1 = dot(x, w1);
-    mat_t *a1 = apply(tanh, z1); 
-    mat_t *z2 = dot(a1, w2); 
-    mat_t *a2 = apply(tanh, z2); 
-
-    double v0 = a2->arr[0][0]; 
-    double v1 = a2->arr[1][0]; 
-    double v2 = a2->arr[2][0]; 
-    double v3 = a2->arr[3][0]; 
-
+    mat_t *a2 = loss2->node->outputs; 
+    double v0 = a2->arr[0][0], v1 = a2->arr[1][0], v2 = a2->arr[2][0], v3 = a2->arr[3][0]; 
 
     bool condition = (v0 < v1 && v0 < v2) && (v3 < v1 && v3 < v2); 
-    if(!condition) {
-        equality_status = false; 
-    }
+    assert(condition);
 
 
-    /* validate test results */
     if(!equality_status) {
         printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
     } else {
         printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
     } 
+
 
 }

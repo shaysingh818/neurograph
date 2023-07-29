@@ -85,6 +85,42 @@ void init_frame_rows(frame_t *frame) {
 } 
 
 
+void init_frame_map(frame_t *frame) {
+
+	/* variables */
+	FILE* fp = fopen(frame->filename, "r");
+
+	for(int i = 0; i < frame->header_count; i++){
+
+		char *key = frame->headers[i]->name;
+		int row_count = 0;
+
+		/* allocate row values array for column */
+		value_t **values = malloc(frame->row_count * sizeof(value_t*));
+		for(int n = 0; n < frame->row_count; n++){
+			values[n] = malloc(sizeof(value_t)); 
+		}
+
+		/* rewind to beginning of file */
+		fseek(fp, 0, SEEK_SET);
+
+		while(fgets(frame->file_buffer, frame->buffer_size, fp)) {
+
+			tokens_t *row_values = match_single(frame->file_buffer, RE_CSV); 
+			int size = row_values->result_size;
+
+			size_t token_size = strlen(row_values->tokens[i])+1;
+			values[row_count]->value = malloc(token_size * sizeof(char)); 
+			strcpy(values[row_count]->value, row_values->tokens[i]);
+			row_count += 1;
+		}
+		add_map(frame->map, key, values);
+	}
+
+	fclose(fp);
+}
+
+
 frame_t *init_frame(char *filename, int buffer_size){
 
 	/* add to structure properties */ 
@@ -94,7 +130,8 @@ frame_t *init_frame(char *filename, int buffer_size){
    	frame->filename = (char*)malloc(name_size * sizeof(char)); 
 	frame->buffer_size = buffer_size;
 	frame->file_buffer = malloc(buffer_size * sizeof(char));
-	frame->status = true;  
+	frame->status = true; 
+	frame->map = init_table(1, compare_char, NULL, NULL, additive_hash);
 	
    	strcpy(frame->filename, filename);
 
@@ -128,105 +165,17 @@ void f_cols(frame_t *frame) {
 }
 
 
-adj_list_t *frame_to_unweighted_graph(frame_t *frame, int *cols, int size, bool directed) {
+int count_lines(char *filename, int file_size) {
 
-	/* create graph to be returned */ 
-	int vertex_count = frame->row_count * size;	
-	adj_list_t *g = init_graph(vertex_count, vertex_count, directed);
+	/* variables */
+	FILE* fp = fopen(filename, "r");
+	char *file_buffer = malloc(file_size * sizeof(char));
+	int row_count = 0; 
 
-
-	/* validate that graph is unweighted */
-	if(size % 2 != 0) {
-		if(FRAME_DEBUG) {
-			printf("Unweighted graph should be in pairs of 2\n"); 
-		}
-		g->err = true; 
-		return g; 
+	while(fgets(file_buffer, file_size, fp)) {
+		row_count += 1;
 	}
 
-	char *head_label = frame->headers[cols[0]]->values[0]->value;
-	int head_id = frame->headers[cols[0]]->values[0]->index;  
-	node_t *head = create_node(head_id, head_label, 0); 
-
-	for(int i = 0; i < size; i+=2){
-
-		/* extract values */
-		value_t **src_header_values = frame->headers[cols[i]]->values;
-		value_t **dst_header_values = frame->headers[cols[i+1]]->values;
-
-		for(int j = 1; j < frame->row_count; j++){
-
-			char *src = src_header_values[j]->value; 
-			char *dst = dst_header_values[j]->value;
-
-			node_t *src_node = create_node(j, src, 0);
-			node_t *dst_node = create_node(j, dst, 0);
-
-			/* add src and dst to ull (unique linked list) */ 
-			unique_append_ll(&head, src_node); 
-			unique_append_ll(&head, dst_node);
-
-			/* get the id for the head and src */
-			int src_id = get_id_ll(head, src); 
-			int dst_id = get_id_ll(head, dst);  
-
-			add_node(g, src_id, src, dst_id, dst, 0); 	
-		} 
-	}
-
-	return g; 
-}
-
-
-adj_list_t *frame_to_weighted_graph(frame_t *frame, int *cols, int size, bool directed) {
-
-	/* create graph */
-	int vertex_count = frame->row_count * size;	
-	adj_list_t *g = init_graph(vertex_count, vertex_count, directed);
-
-	/* validate that graph is unweighted */ 
-	if(size % 3 != 0) {
-		if(FRAME_DEBUG) {
-			printf("Weighted graph should be in pairs of 3\n"); 
-		}
-		g->err = true; 
-		return g; 
-	}
-
-	char *head_label = frame->headers[cols[0]]->values[0]->value;
-	int head_id = frame->headers[cols[0]]->values[0]->index;  
-	node_t *head = create_node(head_id, head_label, 0); 
-
-    for(int i = 0; i < size; i+=3){
-	
-		/* extract values */
-		value_t **src_header_values = frame->headers[cols[i]]->values;
-		value_t **dst_header_values = frame->headers[cols[i+1]]->values;
-		value_t **weight_header_values = frame->headers[cols[i+2]]->values;
-
-		for(int j = 1; j < frame->row_count; j++) {
-
-			char *src = src_header_values[j]->value; 
-			char *dst = dst_header_values[j]->value;
-			char *weight = weight_header_values[j]->value;
-
-			/* convert weight to integer */ 
-			int weight_to_int = atoi(weight);
-
-			node_t *src_node = create_node(j, src, weight_to_int);
-			node_t *dst_node = create_node(j, dst, weight_to_int);
-
-			/* add src and dst to ull (unique linked list) */ 
-			unique_append_ll(&head, src_node); 
-			unique_append_ll(&head, dst_node);
-
-			/* get the id for the head and src */
-			int src_id = get_id_ll(head, src); 
-			int dst_id = get_id_ll(head, dst);  
-
-			add_node(g, src_id, src, dst_id, dst, weight_to_int); 	
-		}
-	}
-
-	return g; 
+	fclose(fp);
+	return row_count; 
 } 

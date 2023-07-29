@@ -1,14 +1,14 @@
 #include "includes/search.h"
 
-queue_t *bfs(adj_list_t *g, node_t *root) {	
+queue_t *bfs(graph_t *g, node_t *root) {	
 
 	/* create array to return list of nodes visited */ 
-	int *nodes = malloc(g->v * sizeof(int));
+	int *nodes = malloc(g->vertices * sizeof(int));
 	int current_index = 0; 
 
 	/* create queue */ 
-	queue_t *q = init_queue(g->v);
-   	queue_t *visit = init_queue(g->v); 	
+	queue_t *q = init_queue(g->vertices);
+   	queue_t *visit = init_queue(g->vertices); 	
    	g->visited[root->id] = 1; 
 
 	item_t *item = init_item(root->id, root->label, 0, root); 
@@ -18,7 +18,7 @@ queue_t *bfs(adj_list_t *g, node_t *root) {
 
 		/* get current item in queue */ 
 		int current_vertex = front(q);
-		node_t *temp = g->items[current_vertex].head; 
+		node_t *temp = g->list->items[current_vertex]->head; 
 
 		/* pop element from queue and add to visited */ 
 		push(visit, q->items[q->front_index]); 
@@ -41,9 +41,9 @@ queue_t *bfs(adj_list_t *g, node_t *root) {
 }
 
 
-int dfs(queue_t *q, adj_list_t *g, node_t *root) {
+int dfs(queue_t *q, graph_t *g, node_t *root) {
 
-	node_t *adj_list = g->items[root->id].head; 
+	node_t *adj_list = g->list->items[root->id]->head; 
 	node_t *temp = adj_list;
    	g->visited[root->id] = 1;
 
@@ -62,10 +62,10 @@ int dfs(queue_t *q, adj_list_t *g, node_t *root) {
 }
 
 
-int k_dfs(queue_t *q, adj_list_t *g, node_t *root) {
+int k_dfs(queue_t *q, graph_t *g, node_t *root) {
 
 	/* grab the ID of the head node */ 
-	node_t *temp = g->items[root->id].head; 
+	node_t *temp = g->list->items[root->id]->head; 
    	g->visited[root->id] = 1;
 
 	item_t *item = init_item(root->id, root->label, 0, root); 

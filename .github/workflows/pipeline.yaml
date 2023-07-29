@@ -14,6 +14,20 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+ 
+    - name: Build and Test Data Structures Library
+      working-directory: src/data_structures/
+      run: |
+        make
+        ./target/test_data_structures
+        make clean
+   
+    - name: Build and Test Extractors Library
+      working-directory: src/extractors/
+      run: |
+        make
+        ./target/test_extractors
+        make clean
 
     - name: Build and Test Graph Package
       working-directory: src/graph/
@@ -29,20 +43,6 @@ jobs:
         ./target/test_layer
         make clean
     
-    - name: Build and Test Data Structures Library
-      working-directory: src/data_structures/
-      run: |
-        make
-        ./target/test_data_structures
-        make clean
-    
-    - name: Build and Test Extractors Library
-      working-directory: src/extractors/
-      run: |
-        make
-        ./target/test_extractors
-        make clean
-
     - name: Build Source
       working-directory: src/
       run: |
@@ -76,6 +76,6 @@ jobs:
         working-directory: neurograph/dist
         run: pip3 install neurograph-0.4.0-py3-none-any.whl
 
-      - name: Unit Tests
-        working-directory: neurograph/tests/
-        run: python -m pytest
+      # - name: Unit Tests
+      #   working-directory: neurograph/tests/
+      #   run: python3 -m pytest

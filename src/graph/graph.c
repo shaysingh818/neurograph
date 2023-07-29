@@ -2,6 +2,22 @@
 #include "../data_structures/includes/queue.h"
 
 
+
+graph_t *init_graph(int v, int e, bool directed) {
+	graph_t *g;
+	g = (graph_t*)malloc(sizeof(graph_t)); 
+	g->edges = e; 
+	g->vertices = v;
+	g->directed = directed; 
+	g->visited = malloc(v * sizeof(int));  
+	g->list = init_adj_list(g->vertices, g->edges, g->directed); 
+	g->matrix = init_matrice_graph(g->vertices); 
+	g->labels = malloc(v * sizeof(int)); 
+	for (int i = 0; i < v; i++){ g->labels[i] = -1; }
+	return g; 
+} 
+
+
 walk_t *init_walk(int steps) {
 	walk_t *w;
 	w = (walk_t*)malloc(sizeof(walk_t));
@@ -24,12 +40,21 @@ void print_walk(walk_t *w){
 }
 
 
+void label_node(graph_t *g, int index, int label) {
+	if(index > g->vertices){
+		printf("Index is out of bounds with graph size\n"); 
+		exit(1); 
+	}
+	g->labels[index] = label; 	
+} 
+
+
 mat_graph_t *to_matrix(mat_graph_t *m, adj_list_t *g, bool directed) {
 	
 	/* iterate through list and populate matrix */
 	for(int i = 0; i < g->v; i++) {
 
-		node_t *head = g->items[i].head;
+		node_t *head = g->items[i]->head;
 		node_t *src_node = get_node_by_id(g, i); 
 		int row = src_node->id; 
 		int col = head->id; 
@@ -69,3 +94,242 @@ adj_list_t *to_list(adj_list_t *g, mat_graph_t *m, bool directed) {
 
 	return g; 
 }
+
+
+void print_graph_list(graph_t *g) {
+	for(int i = 0; i < g->vertices; i++){
+		node_t *head = g->list->items[i]->head;
+		printf("%d ", i); 
+		while(head) {
+			printf("-> (%d, %s)", head->id, head->label); 
+			if(head->weight >= 0) {
+				printf(" [%d] ", head->weight); 
+			}
+			head  = head->next; 
+		}
+		printf("\n"); 
+	}
+}
+
+
+graph_t *frame_to_unweighted_graph(frame_t *frame, int *cols, int size, bool directed) {
+
+	/* create graph to be returned */ 
+	int vertex_count = frame->row_count * size;	
+	graph_t *g = init_graph(vertex_count, vertex_count, directed);
+
+
+	/* validate that graph is unweighted */
+	if(size % 2 != 0) {
+		if(FRAME_DEBUG) {
+			printf("Unweighted graph should be in pairs of 2\n"); 
+		}
+		g->list->err = true; 
+		return g; 
+	}
+
+	char *head_label = frame->headers[cols[0]]->values[0]->value;
+	int head_id = frame->headers[cols[0]]->values[0]->index;  
+	node_t *head = create_node(head_id, head_label, 0); 
+
+	for(int i = 0; i < size; i+=2){
+
+		/* extract values */
+		value_t **src_header_values = frame->headers[cols[i]]->values;
+		value_t **dst_header_values = frame->headers[cols[i+1]]->values;
+
+		for(int j = 1; j < frame->row_count; j++){
+
+			char *src = src_header_values[j]->value; 
+			char *dst = dst_header_values[j]->value;
+
+			node_t *src_node = create_node(j, src, 0);
+			node_t *dst_node = create_node(j, dst, 0);
+
+			/* add src and dst to ull (unique linked list) */ 
+			unique_append_ll(&head, src_node); 
+			unique_append_ll(&head, dst_node);
+
+			/* get the id for the head and src */
+			int src_id = get_id_ll(head, src); 
+			int dst_id = get_id_ll(head, dst);  
+
+			add_node(g->list, src_id, src, dst_id, dst, 0); 	
+		} 
+	}
+
+	return g; 
+}
+
+
+graph_t *frame_to_weighted_graph(frame_t *frame, int *cols, int size, bool directed) {
+
+	/* create graph */
+	int vertex_count = frame->row_count * size;	
+	graph_t *g = init_graph(vertex_count, vertex_count, directed);
+
+	/* validate that graph is unweighted */ 
+	if(size % 3 != 0) {
+		if(FRAME_DEBUG) {
+			printf("Weighted graph should be in pairs of 3\n"); 
+		}
+		g->list->err = true; 
+		return g; 
+	}
+
+	char *head_label = frame->headers[cols[0]]->values[0]->value;
+	int head_id = frame->headers[cols[0]]->values[0]->index;  
+	node_t *head = create_node(head_id, head_label, 0); 
+
+    for(int i = 0; i < size; i+=3){
+	
+		/* extract values */
+		value_t **src_header_values = frame->headers[cols[i]]->values;
+		value_t **dst_header_values = frame->headers[cols[i+1]]->values;
+		value_t **weight_header_values = frame->headers[cols[i+2]]->values;
+
+		for(int j = 1; j < frame->row_count; j++) {
+
+			char *src = src_header_values[j]->value; 
+			char *dst = dst_header_values[j]->value;
+			char *weight = weight_header_values[j]->value;
+
+			/* convert weight to integer */ 
+			int weight_to_int = atoi(weight);
+
+			node_t *src_node = create_node(j, src, weight_to_int);
+			node_t *dst_node = create_node(j, dst, weight_to_int);
+
+			/* add src and dst to ull (unique linked list) */ 
+			unique_append_ll(&head, src_node); 
+			unique_append_ll(&head, dst_node);
+
+			/* get the id for the head and src */
+			int src_id = get_id_ll(head, src); 
+			int dst_id = get_id_ll(head, dst);  
+
+			add_node(g->list, src_id, src, dst_id, dst, weight_to_int); 	
+		}
+	}
+
+	// /* clear unused empty slots */
+	int last_used_indice = 0;  
+	for(int i = g->vertices; i > 0; i--){
+		if(g->list->used[i] == 1){
+			last_used_indice = i;
+			break;
+		}
+	}
+
+	int remainder = g->vertices - last_used_indice; 
+	int new_size = g->vertices - remainder; 
+	resize_adj_list(g->list, new_size+1);
+
+	return g; 
+}
+
+
+set_t *get_graph_nodes(char *filename, int file_size) {
+
+	/* variables */
+	FILE* fp = fopen(filename, "r");
+   	int row_count = 0;
+    char *head_label; 
+    char* buffer = malloc(file_size * sizeof(char));
+    node_t *head;
+    set_t *node_set =  init_set(true); 
+
+
+	while(fgets(buffer, file_size, fp)) {
+
+		/* null terminate the buffer */ 
+		int len = strlen(buffer); 
+		if(buffer[len-1] == '\n') {
+			buffer[len-1] = 0; 
+		}
+
+		/* extract tokens from regular expression */
+		tokens_t *row_values = match_single(buffer, RE_GML); 
+		int size = row_values->result_size;
+
+        /* extract node */
+		tokens_t *r_quotes = match_single(row_values->tokens[0], REMOVE_QUOTES); 
+        char *node = r_quotes->tokens[0];
+        insert_ordered(node_set, row_count, node, 0); 
+
+        /* extract neighbors */
+        for(int i = 1; i < size; i++){
+		    r_quotes = match_single(row_values->tokens[i], REMOVE_QUOTES); 
+            char *neighbor = r_quotes->tokens[0];
+            insert_ordered(node_set, row_count, neighbor, 0);
+        }
+
+		row_count += 1;
+	}    
+    return node_set;
+}
+
+
+graph_t *serialize_graph_list(char *filename, int file_size) {
+
+	/* variables */
+	FILE* fp = fopen(filename, "r");
+   	int row_count = 0;
+    char *head_label; 
+    char* buffer = malloc(file_size * sizeof(char));
+    set_t *nodes = get_graph_nodes(filename, file_size); 
+    graph_t *g = init_graph(nodes->count-1, nodes->count-1, false);
+
+
+	while(fgets(buffer, file_size, fp)) {
+
+		/* null terminate the buffer */ 
+		int len = strlen(buffer); 
+		if(buffer[len-1] == '\n') {
+			buffer[len-1] = 0; 
+		}
+
+		/* extract tokens from regular expression */
+		tokens_t *row_values = match_single(buffer, RE_GML); 
+		int size = row_values->result_size;
+
+        /* extract node */
+		tokens_t *r_quotes = match_single(row_values->tokens[0], REMOVE_QUOTES); 
+        char *node = r_quotes->tokens[0];
+
+        /* add all nodes in graph to set */
+        for(int i = 1; i < size; i++){
+
+		    r_quotes = match_single(row_values->tokens[i], REMOVE_QUOTES); 
+            char *neighbor = r_quotes->tokens[0];
+
+            char *dst = neighbor;
+            char *src = node;
+
+            int dst_id = get_value_ordered(nodes, dst); 
+            int src_id = get_value_ordered(nodes, src); 
+
+			printf("(%d, %s) -> (%d, %s)\n", src_id, src, dst_id, dst);
+
+            add_node(g->list, src_id, src, dst_id, dst, 0);
+
+        }
+		row_count += 1;
+	}
+
+    return g;
+}
+
+
+void deserialize_graph_list(graph_t *list, char *filename) {
+    printf("De Serialize\n");
+	FILE* fp = fopen(filename, "r");    
+} 
+
+graph_t *serialize_mat_graph(char *filename, int file_size) {
+    printf("Serialize Mat\n");
+}
+
+void deserialize_mat_graph(graph_t *mat) {
+    printf("De Serialize Mat\n");
+} 

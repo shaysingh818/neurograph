@@ -13,15 +13,17 @@ TEST_HEADERS = $(wildcard /tests/includes/*.h)
 # Data structures library dependency
 DATA_STRUCTURES = ../data_structures/set.o ../data_structures/queue.o ../data_structures/matrix.o ../data_structures/adj_list.o ../data_structures/node.o ../data_structures/map.o ../data_structures/ll.o 
 
+EXTRACTORS = ../extractors/re.o ../extractors/gml.o ../extractors/frame.o
+
 # source objects for extractors library
 TEST_OBJS = test_path.o test_search.o test_community.o test_graph.o
-SRC_OBJS = $(DATA_STRUCTURES) graph.o path.o search.o community.o
+SRC_OBJS = $(DATA_STRUCTURES) $(EXTRACTORS) graph.o path.o search.o community.o
 
 # flags
 FLAGS = -g -lm -lpthread
 
 # link all programs here
-all: data_structures unit_test source
+all: data_structures extractors unit_test source
 
 unit_test: unit_test.o $(SRC_OBJS) $(TEST_OBJS)
 	gcc -o $(TEST_TARGET) unit_test.o $(SRC_OBJS) $(TEST_OBJS) $(FLAGS)
@@ -31,6 +33,9 @@ source: main.o $(SRC_OBJS)
 
 data_structures:
 	$(MAKE) -C ../data_structures
+
+extractors:
+	$(MAKE) -C ../extractors
 
 # build source and test objects 
 $(SRC_OBJS): %.o: %.c $(HEADERS)
@@ -54,3 +59,4 @@ clean_binary:
 clean:
 	rm -f *.o *~ *.pyc
 	$(MAKE) -C ../data_structures clean
+	$(MAKE) -C ../extractors clean
