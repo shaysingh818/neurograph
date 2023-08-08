@@ -2,6 +2,7 @@
 #define TEST_QUEUE_H
 
 #include "../../includes/queue.h"
+#include <assert.h>
 
 /* test searching methods */ 
 void test_init_queue();

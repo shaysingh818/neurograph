@@ -47,9 +47,7 @@ void test_gml_expression_set() {
     //print_items_ordered(node_set); 
 	int counter = 0;  
 	while(node_set->root != NULL) {
-		if(strcmp(node_set->root->label, expected_node_set[counter]) != 0){
-			equality_status = false; 
-		}
+		assert(strcmp(node_set->root->label, expected_node_set[counter]) == 0); 
 		node_set->root = node_set->root->next; 
 		counter += 1; 
 	}

@@ -16,9 +16,7 @@ void test_set_ordered() {
 
     int counter = 0; 
     while(s->root != NULL) {
-        if(s->root->id != expected_items[counter]){
-            equality_status = false; 
-        }
+        assert(s->root->id == expected_items[counter]); 
         counter += 1; 
         s->root = s->root->next; 
     }
@@ -46,16 +44,12 @@ void test_unique_entries_ordered() {
     insert_ordered(s, 2, "bbb", 0); 
     insert_ordered(s, 1, "ccc", 0); 
 
-
     int counter = 0; 
     while(s->root != NULL) {
-        if(strcmp(s->root->label,expected_items[counter]) != 0){
-            equality_status = false; 
-        }
+        assert(strcmp(s->root->label, expected_items[counter]) == 0); 
         counter += 1; 
         s->root = s->root->next; 
     }
-
 
 	if(!equality_status) {
 		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
@@ -85,10 +79,8 @@ void test_index_lookup_ordered() {
     int condition_two = index_two == 1; 
     int condition_three = index_three == 2; 
 
-    if(!condition_one || !condition_two || !condition_three) {
-        equality_status = false; 
-    }
-
+    assert(condition_one == true || condition_two == true); 
+    assert(condition_three == true); 
 
 	if(!equality_status) {
 		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
@@ -138,9 +130,7 @@ void test_get_items_ordered() {
 
 	for(int i = q->front_index; i <= q->rear_index; i++) {
         int condition = strcmp(q->items[i]->string, expected_items[i]) == 0; 
-        if(!condition){
-            equality_status = false; 
-        }
+        assert(condition == true); 
     }
 
 	if(!equality_status) {
@@ -171,9 +161,7 @@ void test_set_sorted() {
     get_items_sorted(s->root, q);
 
 	for(int i = q->front_index; i <= q->rear_index; i++) {
-        if(q->items[i]->integer != expected_items[i]){
-            equality_status = false; 
-        }        
+        assert(q->items[i]->integer == expected_items[i]);        
     }
 
 	if(!equality_status) {
@@ -205,9 +193,7 @@ void test_unique_entries_sorted() {
 
     /* check that ordering works */
 	for(int i = q->front_index; i <= q->rear_index; i++) {
-        if(q->items[i]->integer != expected_items[i]){
-            equality_status = false; 
-        }        
+        assert(q->items[i]->integer == expected_items[i]);      
     }
 
 	if(!equality_status) {
@@ -243,10 +229,7 @@ void test_lexographic_ordering_sorted() {
 
     /* check that ordering works */
 	for(int i = q->front_index; i <= q->rear_index; i++) {
-
-        if(strcmp(q->items[i]->string, expected_items[i]) != 0){
-            equality_status = false; 
-        }        
+        assert(strcmp(q->items[i]->string, expected_items[i]) == 0);       
     }
 
 	if(!equality_status) {
@@ -274,17 +257,8 @@ void test_index_lookup_sorted() {
     int second_index = get_item_sorted(s, "b");
     int third_index = get_item_sorted(s, "C");
 
-    if(first_index != 2){
-        equality_status = false; 
-    } 
-
-    if(second_index != 1){
-        equality_status = false; 
-    } 
-
-    if(third_index != 0){
-        equality_status = false; 
-    }
+    assert(first_index == 2 && second_index == 1);
+    assert(third_index == 0);  
 
 
 	if(!equality_status) {

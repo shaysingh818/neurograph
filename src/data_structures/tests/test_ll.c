@@ -18,10 +18,8 @@ void test_push_ll() {
     }
 
     while(head != NULL) {
-        int compare = strcmp(head->label, values[head->id]) == 0; 
-        if(!compare) {
-            equality_status = false; 
-        }
+        int compare = strcmp(head->label, values[head->id]) == 0;
+        assert(compare == true);  
         head = head->next; 
     } 
 
@@ -59,10 +57,7 @@ void test_insert_after_ll() {
         if(counter == 1) {
             compare = strcmp(head->label, "insert_after") == 0; 
         }
-
-        if(!compare) {
-            equality_status = false; 
-        }
+        assert(compare == true); 
         head = head->next;
         counter += 1;  
     }
@@ -91,10 +86,8 @@ void test_append_ll() {
 
     /* get list results */
     while(head != NULL) {
-        int compare = strcmp(head->label, values[head->id]) == 0; 
-        if(!compare) {
-            equality_status = false; 
-        }
+        int compare = strcmp(head->label, values[head->id]) == 0;
+        assert(compare == true);  
         head = head->next;
     }
 
@@ -124,10 +117,8 @@ void test_ull() {
 	};
 
 	while(n != NULL) {
-		int condition = strcmp(n->value, expected_output[n->index]) == 0; 
-		if(!condition) {
-			equality_status = false; 
-		}
+		int condition = strcmp(n->value, expected_output[n->index]) == 0;
+        assert(condition == true);  
 		n = n->next; 
 	}
 

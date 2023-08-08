@@ -82,16 +82,11 @@ void test_init_vec() {
     int start = 100;
 
     mat_t *v = init_vec(start, start, true);
-
-    if(v->rows == start && v->cols == start){
-        equality_status = true; 
-    } 
+    assert(v->rows == start && v->cols == start);  
 
     /* init identity matrix */
     for(int i = 0; i < v->cols; i++){
-        if(v->arr[i][i] == 1.00){
-            equality_status = true; 
-        }
+        assert(v->arr[i][i] == 1.00); 
     }
 
     if(!equality_status) {
@@ -144,10 +139,7 @@ void test_scalar_multiply() {
     mat_t *result = scalar_multiply(v, det);  
 	for(int i = 0; i < result->rows; i++){
 		double rounded_value = round(result->arr[i][i]*100)/100; 
-		if(expected[i][i] != rounded_value){
-            printf("%f -> %f\n", expected[i][i], rounded_value); 
-			equality_status = false; 
-		}
+        assert(expected[i][i] == rounded_value); 
 	}
 
     if(!equality_status) {
@@ -210,13 +202,9 @@ void test_vector_multiplication(){
     }
 
     mat_t *result = multiply(A, d_1);
-
 	for(int i = 0; i < result->rows; i++){
-		double rounded_value = round(result->arr[i][i]*100)/100; 
-		if(expected[i][i] != rounded_value){
-            printf("%f -> %f\n", expected[i][i], rounded_value); 
-			equality_status = false; 
-		}
+		double rounded_value = round(result->arr[i][i]*100)/100;
+        assert(expected[i][i] == rounded_value); 
 	}
 
     if(!equality_status) {
@@ -268,10 +256,7 @@ void test_matrix_power() {
 
 	for(int i = 0; i < result->rows; i++){
 		double rounded_value = round(result->arr[i][i]*100)/100; 
-		if(expected[i][i] != rounded_value){
-            printf("%f -> %f\n", expected[i][i], rounded_value); 
-			equality_status = false; 
-		}
+        assert(expected[i][i] == rounded_value); 
 	}
 
     if(!equality_status) {
@@ -308,9 +293,7 @@ void test_to_rows_cols() {
         /* scan results for matrix */
         for(int j = 0; j < results[i]->rows; j++){
             for(int k = 0; k < results[i]->cols; k++){
-                if(results[i]->arr[j][k] != m_values[j][k]) {
-                    equality_status = false; 
-                }
+                assert(results[i]->arr[j][k] == m_values[j][k]); 
             }
         }
     }
@@ -325,6 +308,7 @@ void test_to_rows_cols() {
                 if(col_results[i]->arr[j][k] != m_values[k][i]) {
                     equality_status = false; 
                 }
+                assert(col_results[i]->arr[j][k] == m_values[k][i]);
             }
         }
     }
@@ -368,10 +352,8 @@ void test_batch_rows() {
 
     for(int j = 0; j < limit; j++){
         for(int k = 0; k < m->cols; k++){
-            bool condition = m->arr[j][k] == batch[j]->arr[0][k]; 
-            if(!condition){
-                equality_status = false; 
-            }
+            bool condition = m->arr[j][k] == batch[j]->arr[0][k];
+            assert(condition == true);  
         }
     }
 
@@ -392,12 +374,9 @@ void test_uniform_distribution() {
     mat_t *m = init_matrix(dims, dims); 
     randomize(m, dims);
 
-
     for(int i = 0; i < dims; i++){
         for(int j = 0; j < dims; j++){
-            if(m->arr[i][j] == 0){
-                equality_status = false;                 
-            }
+            assert(m->arr[i][j] != 0); 
         }
     }
 
@@ -439,9 +418,7 @@ void test_load_and_save_matrix() {
     for(int i = 0; i < dims; i++){
         for(int j = 0; j < dims; j++){
             m->arr[i][j] = m_values[i][j];
-            if(loaded_matrix->arr[i][j] != m->arr[i][j]) {
-                equality_status = false; 
-            }
+            assert(loaded_matrix->arr[i][j] == m->arr[i][j]); 
         }
     }
 
@@ -504,9 +481,7 @@ void test_dot_product() {
 
     for(int i = 0; i < rows; i++){
         double rounded_value = round(result->arr[i][i]*100)/100; 
-        if(expected_values[i][i] != rounded_value){
-            equality_status = false; 
-		}
+        assert(expected_values[i][i] == rounded_value); 
 	}
 
     if(!equality_status) {
@@ -551,9 +526,7 @@ void test_backprop_dot_product(){
     }
 
     mat_t *result = dot(m1, m2); 
-    if(result->rows == 4 && result->cols == 3){
-        equality_status = true;             
-    }
+    assert(result->rows == 4 && result->cols == 3); 
 
     if(!equality_status) {
         printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
@@ -604,9 +577,7 @@ void test_dot_unequal_dimensions(){
     for(int i = 0; i < result->rows; i++){
         for(int j = 0; j < result->cols; j++){
             double rounded_value = round(result->arr[i][j]*100)/100; 
-            if(results[i][j] != rounded_value){
-                equality_status = false; 
-		    }
+            assert(results[i][j] == rounded_value); 
         }
 	}
 
@@ -668,9 +639,7 @@ void test_add_mat() {
 
     for(int i = 0; i < rows; i++){
         double rounded_value = round(result->arr[i][i]*100)/100; 
-        if(expected_values[i][i] != rounded_value){
-            equality_status = false; 
-		}
+        assert(expected_values[i][i] == rounded_value); 
 	}
 
     if(!equality_status) {
@@ -721,9 +690,7 @@ void test_scale_add(){
     for(int i = 0; i < 4; i++){
         for(int j = 0; j < 3; j++){
             double rounded_value = round(result->arr[i][j]*100)/100; 
-            if(expected_values[i][j] != rounded_value){
-                equality_status = false; 
-		    }
+            assert(expected_values[i][j] == rounded_value); 
         }
 	}
 
@@ -772,9 +739,8 @@ void test_transpose_mat(){
     for(int i = 0; i < rows; i++){
         for(int j = 0; j < cols; j++){
             double rounded_value = round(result->arr[i][j]*100)/100; 
-            if(expected_values[i][j] != rounded_value){
-                equality_status = false; 
-		    }
+            assert(expected_values[i][j] == rounded_value); 
+
         }
 	}
 
@@ -820,9 +786,8 @@ void test_scale_multiply() {
     for(int i = 0; i < dims; i++){
         for(int j = 0; j < dims; j++){
             double rounded_value = round(result->arr[i][j]*100)/100; 
-            if(expected_values[i][j] != rounded_value){
-                equality_status = false; 
-		    }
+            assert(expected_values[i][j] == rounded_value); 
+
         }
 	}
 
@@ -879,9 +844,8 @@ void test_elementwise_multiply() {
     for(int i = 0; i < dims; i++){
         for(int j = 0; j < dims; j++){
             double rounded_value = round(result->arr[i][j]*100)/100; 
-            if(expected_values[i][j] != rounded_value){
-                equality_status = false; 
-		    }
+            assert(expected_values[i][j] == rounded_value); 
+
         }
 	}
 
@@ -938,9 +902,7 @@ void test_add_matrix() {
     for(int i = 0; i < dims; i++){
         for(int j = 0; j < dims; j++){
             double rounded_value = round(result->arr[i][j]*100)/100; 
-            if(expected_values[i][j] != rounded_value){
-                equality_status = false; 
-		    }
+            assert(expected_values[i][j] == rounded_value); 
         }
 	}
 
@@ -995,9 +957,8 @@ void test_matrix_difference() {
     for(int i = 0; i < dims; i++){
         for(int j = 0; j < dims; j++){
             double rounded_value = round(result->arr[i][j]*100)/100; 
-            if(expected_values[i][j] != rounded_value){
-                equality_status = false; 
-		    }
+            assert(expected_values[i][j] == rounded_value); 
+
         }
 	}
 

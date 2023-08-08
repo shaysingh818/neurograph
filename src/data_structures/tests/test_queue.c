@@ -5,7 +5,7 @@
 void test_init_queue(){
 
 	int count = 5; 
-	bool equality_status = false; 
+	bool equality_status = true; 
 
 	/* create nodes */ 
     item_t *item1 = init_item(1, "String Item 1", 0, NULL);  
@@ -21,10 +21,7 @@ void test_init_queue(){
     push(q, item3); 
     push(q, item4); 
     push(q, item5);
-
-	if(q->item_count == count){
-		equality_status = true; 
-	}
+	assert(q->item_count == count); 
 
 	if(!equality_status) {
 		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
@@ -36,7 +33,7 @@ void test_init_queue(){
 void test_is_full() {
 
 	int count = 5; 
-	bool equality_status = false; 
+	bool equality_status = true; 
 
 	/* create nodes */ 
     item_t *item1 = init_item(1, "String Item 1", 0, NULL);  
@@ -54,17 +51,13 @@ void test_is_full() {
 
 	/* should not be full at this point */
 	bool result = is_full(q);
-	if(result) {
-		equality_status = false; 
-	}
+	assert(result == false); 
 
 	/* last insert here makes it full*/
     push(q, item5);
 
-	result = is_full(q); 
-	if(result){
-		equality_status = true; 
-	}
+	result = is_full(q);
+	assert(result == true);  
 
 	if(!equality_status) {
 		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
@@ -77,7 +70,7 @@ void test_is_full() {
 void test_is_empty(){
 
 	int count = 5; 
-	bool equality_status = false; 
+	bool equality_status = true; 
 
 	/* create nodes */ 
     item_t *item1 = init_item(1, "String Item 1", 0, NULL);  
@@ -98,9 +91,7 @@ void test_is_empty(){
 	}
 
 	bool result = is_empty(q);
-	if(result){
-		equality_status = true; 
-	}
+	assert(result == true); 
 
 	if(!equality_status) {
 		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
@@ -113,7 +104,7 @@ void test_is_empty(){
 void test_front_rear() {
 
 	int count = 5; 
-	bool equality_status = false; 
+	bool equality_status = true; 
 
 	/* create nodes */ 
     item_t *item1 = init_item(1, "String Item 1", 0, NULL);  
@@ -134,11 +125,8 @@ void test_front_rear() {
 	int rear_index = rear(q); 
 
 	bool front_condition = q->items[front_index]->integer == 1; 
-	bool rear_condition = q->items[rear_index]->integer == 5; 
-
-	if(front_condition && rear_condition) {
-		equality_status = true; 
-	}
+	bool rear_condition = q->items[rear_index]->integer == 5;
+	assert(front_condition == true && rear_condition == true);  
 
 	if(!equality_status) {
 		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 

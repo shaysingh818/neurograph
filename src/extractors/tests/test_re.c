@@ -15,10 +15,7 @@ void test_match_single() {
     tokens_t *results = match_single(str, csv_pattern);  
     for(int i = 0; i < results->result_size; i++){
         char *value = results->tokens[i]; 
-        int compare = strcmp(value, expected_results[i]) == 0; 
-        if(!compare) {
-            equality_status = false; 
-        }
+        assert(strcmp(value, expected_results[i]) == 0);  
     }
 
     char *expected_gml_results[2] = {
@@ -31,10 +28,7 @@ void test_match_single() {
     tokens_t *gml_results = match_single(str_2, gml_pattern); 
     for(int i = 0; i < gml_results->result_size; i++){
         char *value = gml_results->tokens[i]; 
-        int compare = strcmp(value, expected_gml_results[i]) == 0; 
-        if(!compare) {
-            equality_status = false; 
-        }
+        assert(strcmp(value, expected_gml_results[i]) == 0);  
     }
 
  	/* validate results */
@@ -59,10 +53,8 @@ void test_csv_line() {
     tokens_t *results = match_single(line, csv_pattern);  
     for(int i = 0; i < results->result_size; i++){
         char *value = results->tokens[i];
-        int compare = strcmp(value, expected_results[i]) == 0; 
-        if(!compare) {
-            equality_status = false; 
-        }
+        int compare = strcmp(value, expected_results[i]) == 0;
+        assert(compare == true);  
     }
 
  	/* validate results */

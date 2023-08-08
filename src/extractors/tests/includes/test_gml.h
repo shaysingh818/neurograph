@@ -2,6 +2,7 @@
 #define TEST_GML_H
 
 #include "../../includes/gml.h"
+#include <assert.h> 
 
 void test_gml_expression_set();
 void test_gml_expression_adj_list();  
