@@ -105,9 +105,14 @@ void test_insert_count_lookup() {
     insert_ordered(s, 5, NULL, 0); 
     insert_ordered(s, 5, NULL, 0); 
     insert_ordered(s, 5, NULL, 0); 
-    insert_ordered(s, 5, NULL, 0); 
+    insert_ordered(s, 5, NULL, 0);
 
-    print_items_ordered(s);     
+	if(!equality_status) {
+		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
+	} else {
+		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+	}
+
 
 }  
 
@@ -129,7 +134,7 @@ void test_get_items_ordered() {
     get_items_ordered(s, q); 
 
 	for(int i = q->front_index; i <= q->rear_index; i++) {
-        int condition = strcmp(q->items[i]->string, expected_items[i]) == 0; 
+        int condition = strcmp(q->items[i]->label, expected_items[i]) == 0; 
         assert(condition == true); 
     }
 
@@ -161,7 +166,7 @@ void test_set_sorted() {
     get_items_sorted(s->root, q);
 
 	for(int i = q->front_index; i <= q->rear_index; i++) {
-        assert(q->items[i]->integer == expected_items[i]);        
+        assert(q->items[i]->id == expected_items[i]);        
     }
 
 	if(!equality_status) {
@@ -193,7 +198,7 @@ void test_unique_entries_sorted() {
 
     /* check that ordering works */
 	for(int i = q->front_index; i <= q->rear_index; i++) {
-        assert(q->items[i]->integer == expected_items[i]);      
+        assert(q->items[i]->id == expected_items[i]);      
     }
 
 	if(!equality_status) {
@@ -229,7 +234,7 @@ void test_lexographic_ordering_sorted() {
 
     /* check that ordering works */
 	for(int i = q->front_index; i <= q->rear_index; i++) {
-        assert(strcmp(q->items[i]->string, expected_items[i]) == 0);       
+        assert(strcmp(q->items[i]->label, expected_items[i]) == 0);       
     }
 
 	if(!equality_status) {

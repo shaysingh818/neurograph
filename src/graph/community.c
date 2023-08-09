@@ -120,8 +120,7 @@ int **kosaraju_list(graph_t *g, int start_vertex) {
 
 	/* perform DFS on transposed graph */
 	node_t *t_head = g->list->items[6]->head;
-	item_t *queue_item = init_item(head->id, head->label, 0, head); 
-	push(q1, queue_item); //push head node before
+	push(q1, head); //push head node before
 	int transpose_result = dfs(q1, transposed, t_head); 
 
 	/* mark all as unvisited */ 
@@ -137,15 +136,15 @@ int **kosaraju_list(graph_t *g, int start_vertex) {
 
 	/* pop stack and find components */ 
    	while(!is_empty(q)) {
-		item_t *item = q->items[q->front_index]; 
+		node_t *item = q->items[q->front_index]; 
 		pop(q);
-	   	if(!transposed->visited[item->node->id]) {
+	   	if(!transposed->visited[item->id]) {
 			queue_t *q2 = init_queue(g->vertices);
-			int transpose_result = k_dfs(q2, transposed, item->node);
+			int transpose_result = k_dfs(q2, transposed, item);
 
 			/* get results from queue */ 
 			for(int i = q2->front_index; i <= q2->rear_index; i++) {
-				communities[num_components][i] = q2->items[i]->node->id;
+				communities[num_components][i] = q2->items[i]->id;
 			}
 			num_components += 1; 
 		}	
@@ -176,7 +175,7 @@ int *label_propagator_list(graph_t *g, int *labels, int start_vertex) {
 	/* get items from queue and calculate probabilities */
 	for(int i = q->front_index; i <= q->rear_index; i++) {
 
-		node_t *value = g->list->items[q->items[i]->integer]->head;
+		node_t *value = g->list->items[q->items[i]->id]->head;
 		int neighbor_counter = 0; 
 
 		while(value) {
@@ -193,7 +192,7 @@ int *label_propagator_list(graph_t *g, int *labels, int start_vertex) {
 			curr_label = -1; 
 		}
 
-		int node_index = q->items[i]->integer; 
+		int node_index = q->items[i]->id; 
 		predicted_labels[node_index] = curr_label; 		
 	}
 
@@ -212,7 +211,7 @@ int *label_propagation_iterative_list(graph_t *g, int start_vertex) {
 
 	for(int i = q->front_index; i <= q->rear_index; i++) {
 
-		int node_id = q->items[i]->integer;
+		int node_id = q->items[i]->id;
 		int neighbor_count = 0, curr_label = -1, label_count=0;  
 		set_t *label_set = init_set(false); 
 
@@ -263,7 +262,7 @@ int triangle_count_list(graph_t *g, int vertex) {
 	/* iterate through search results */
 	for(int i = q->front_index; i <= q->rear_index; i++) {
 
-		int index = q->items[i]->integer; 
+		int index = q->items[i]->id; 
 		node_t *temp = g->list->items[index]->head; 
 		while(temp){	
 			node_t *temp2 = g->list->items[temp->id]->head;

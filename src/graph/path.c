@@ -62,14 +62,14 @@ int *dijkstra_list(graph_t *g, int start_vertex) {
 	}
 
 	/* push start vertex to front of queue */
-	item_t *start_item = init_item(start_vertex, start->label, 0, start); 
+	node_t *start_item = create_node(start_vertex, start->label, 0); 
 	push(q, start_item); 
 	dist[start_vertex] = 0; 
 
 	while(!is_empty(q)) {
 
 		/* get minimum distance */
-		int u = q->items[q->front_index]->integer; 
+		int u = q->items[q->front_index]->id; 
 		pop(q);  
 
 		node_t *head = g->list->items[u]->head; 
@@ -78,8 +78,7 @@ int *dijkstra_list(graph_t *g, int start_vertex) {
 			if(dist[head->id] > dist[u] + head->weight) {
 				dist[head->id] = dist[u] + head->weight;
 				prev[head->id] = u; 
-				item_t *temp = init_item(head->id, head->label, 0, head); 
-				push(q, temp); 
+				push(q, head); 
 			}
 			head = head->next; 
 		}
@@ -108,14 +107,14 @@ int shortest_path_list(graph_t *g, int start_vertex, int end_vertex) {
 	}
 
 	/* push start vertex to front of queue */
-	item_t *start_item = init_item(start_vertex, start->label, 0, start); 
+	node_t *start_item = create_node(start_vertex, start->label, 0); 
 	push(q, start_item); 
 	dist[start_vertex] = 0; 
 
 	while(!is_empty(q)) {
 
 		/* get minimum distance */
-		int u = q->items[q->front_index]->integer; 
+		int u = q->items[q->front_index]->id; 
 		pop(q);  
 
 		node_t *head = g->list->items[u]->head; 
@@ -125,9 +124,8 @@ int shortest_path_list(graph_t *g, int start_vertex, int end_vertex) {
 			if(dist[head->id] > dist[u] + head->weight) {
 				/* otherwise keep looking */
 				dist[head->id] = dist[u] + head->weight;
-				prev[head->id] = u; 
-				item_t *temp = init_item(head->id, head->label, 0, head); 
-				push(q, temp); 
+				prev[head->id] = u;
+				push(q, head); 
 			}
 
 			head = head->next; 
@@ -276,14 +274,14 @@ int *dijkstra_mat(graph_t *m, int start_vertex) {
 
 	/* push start vertex to front of queue */
 	entry_t *start = search_entry_by_id(m->matrix, start_vertex);
-	item_t *start_item = init_item(start->id, start->label, 0, NULL); 
+	node_t *start_item = create_node(start->id, start->label, 0); 
 	push(q, start_item); 	
 	dist[start_vertex] = 0; 
 
 	while(!is_empty(q)) {
 
 		/* get minimum distance */
-		int u = q->items[q->front_index]->integer;
+		int u = q->items[q->front_index]->id;
 		pop(q); 
 
 		/* get neighbors */
@@ -297,7 +295,7 @@ int *dijkstra_mat(graph_t *m, int start_vertex) {
 				if(dist[id] > dist[u] + weight) {
 					dist[id] = dist[u] + weight;
 					prev[id] = u; 
-					item_t *temp = init_item(id, label, 0, NULL); 
+					node_t *temp = create_node(id, label, 0); 
 					push(q, temp);
 				}
 				start_vertex = u; 
@@ -331,7 +329,7 @@ int shortest_path_mat(graph_t *m, int start_vertex, int end_vertex) {
 
 	/* push start vertex to front of queue */
 	entry_t *start = search_entry_by_id(m->matrix, start_vertex);
-	item_t *start_item = init_item(start->id, start->label, 0, NULL); 
+	node_t *start_item = create_node(start->id, start->label, 0); 
 	push(q, start_item); 	
 	dist[start_vertex] = 0;
 
@@ -339,7 +337,7 @@ int shortest_path_mat(graph_t *m, int start_vertex, int end_vertex) {
 	while(!is_empty(q)) {
 
 		/* get minimum distance */
-		int u = q->items[q->front_index]->integer;
+		int u = q->items[q->front_index]->id;
 		pop(q); 
 
 		/* get neighbors */
@@ -353,7 +351,7 @@ int shortest_path_mat(graph_t *m, int start_vertex, int end_vertex) {
 				if(dist[id] > dist[u] + weight) {
 					dist[id] = dist[u] + weight;
 					prev[id] = u; 
-					item_t *temp = init_item(id, label, 0, NULL); 
+					node_t *temp = create_node(id, label, 0); 
 					push(q, temp);
 				}
 				start_vertex = u; 

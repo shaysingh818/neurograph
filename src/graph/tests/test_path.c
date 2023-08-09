@@ -68,9 +68,7 @@ void test_dijkstra(){
 
 	/* print vertices */
 	for(int i = 0; i < g->vertices; i++) {
-		if(result[i] != output[i]) {
-			equality_status = false; 			
-		}
+		assert(result[i] == output[i]); 
 	}
 
 	/* validate results */ 

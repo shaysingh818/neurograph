@@ -127,13 +127,7 @@ void get_items_ordered(set_t *s, queue_t *q) {
 
     int count = 0; 
     while(last != NULL){
-        item_t *item = init_item(
-            last->id, 
-            last->label, 
-            last->id,
-            last
-        ); 
-        push(q, item);
+        push(q, last);
         last = last->next;
     } 
 } 
@@ -184,7 +178,7 @@ int get_item_sorted(set_t *s, char *key) {
     queue_t *q = init_queue(s->count);
     get_items_sorted(s->root, q);
 	for(int i = q->front_index; i <= q->rear_index; i++) {
-        if(strcmp(q->items[i]->string, key) == 0){
+        if(strcmp(q->items[i]->label, key) == 0){
             return i;
         }
     }
@@ -197,13 +191,7 @@ void get_items_sorted(node_t *root, queue_t *q) {
         return; 
     }
     get_items_sorted(root->left, q);
-    item_t *item = init_item(
-        root->id, 
-        root->label, 
-        root->id,
-        root
-    ); 
-    push(q, item); 
+    push(q, root); 
     get_items_sorted(root->right, q); 
 } 
 
@@ -212,6 +200,6 @@ void print_set_sorted(set_t *s) {
     s->queue = init_queue(s->count); 
     get_items_sorted(s->root, s->queue); 
 	for(int i = s->queue->front_index; i <= s->queue->rear_index; i++) {
-        printf("%s\n", s->queue->items[i]->string); 
+        printf("%s\n", s->queue->items[i]->label); 
     }
 } 

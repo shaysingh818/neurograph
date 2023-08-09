@@ -78,7 +78,7 @@ void test_directed_matrix() {
 
 void test_init_vec() {
 	
-	int equality_status = false; 
+	int equality_status = true; 
     int start = 100;
 
     mat_t *v = init_vec(start, start, true);
@@ -494,7 +494,7 @@ void test_dot_product() {
 void test_backprop_dot_product(){
 
 
-    bool equality_status = false;  
+    bool equality_status = true;  
     mat_t *m1 = init_matrix(4, 1); 
     mat_t *m2 = init_matrix(1, 3); 
 

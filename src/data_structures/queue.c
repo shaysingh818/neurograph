@@ -17,25 +17,6 @@ queue_t *init_queue(unsigned capacity) {
 }
 
 
-item_t *init_item(int integer, char *string, int priority, node_t *node) {
-	
-	item_t *item = (item_t*)malloc(sizeof(item_t)); 
-	item->integer = integer;
-   	item->priority = priority; 	
-	item->string = NULL;
-	item->node = node;
-
-	/* copy in string value if not NULL  */
-	if(string != NULL) {
-		size_t string_size = strlen(string) + 1; 
-		item->string = (char*)malloc(string_size * sizeof(char));
-		strcpy(item->string, string); 
-	} 
-
-	return item; 
-}
-
-
 int is_full(queue_t* q) {
 	return (q->item_count == q->capacity); 
 }
@@ -64,7 +45,7 @@ int rear(queue_t* q){
 
 
 /* insertion methods */ 
-void push(queue_t *q, item_t *item) {
+void push(queue_t *q, node_t *item) {
 	
 	if(is_full(q)) {
 		return; 
@@ -87,18 +68,9 @@ void pop(queue_t * q) {
 	q->item_count = q->item_count - 1; 
 }
 
-
-/* printing methods */
-void print_queue_item(item_t *item) {
-	printf("Integer: %d\n", item->integer);
-	printf("String: %s\n", item->string); 
-	printf("Priority: %d\n", item->priority);
-   	printf("=================================\n"); 	
-}
-
 void print_queue(queue_t *q) {	
 	for(int i = q->front_index; i <= q->rear_index; i++) {
-		print_queue_item(q->items[i]); 
+		print_node(q->items[i]); 
 	}
 	printf("\n"); 
 }

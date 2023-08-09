@@ -10,9 +10,7 @@ queue_t *bfs(graph_t *g, node_t *root) {
 	queue_t *q = init_queue(g->vertices);
    	queue_t *visit = init_queue(g->vertices); 	
    	g->visited[root->id] = 1; 
-
-	item_t *item = init_item(root->id, root->label, 0, root); 
-	push(q, item); 	
+	push(q, root); 	
 
 	while(!is_empty(q)) {
 
@@ -28,10 +26,8 @@ queue_t *bfs(graph_t *g, node_t *root) {
 		while(temp) {
 			int adj_vertex = temp->id; 
 			if(g->visited[adj_vertex] == 0){
-
 				g->visited[adj_vertex] = 1; 
-				item_t *temp_item = init_item(temp->id,temp->label, 0, temp);
-				push(q, temp_item); 
+				push(q, temp); 
 			}
 			temp  = temp->next; 
 		}
@@ -46,9 +42,7 @@ int dfs(queue_t *q, graph_t *g, node_t *root) {
 	node_t *adj_list = g->list->items[root->id]->head; 
 	node_t *temp = adj_list;
    	g->visited[root->id] = 1;
-
-	item_t *item = init_item(root->id, root->label, 0, root); 
-	push(q, item); 
+	push(q, root); 
 
 	while(temp != NULL) {
 		int connected_vertex = temp->id; 
@@ -67,9 +61,7 @@ int k_dfs(queue_t *q, graph_t *g, node_t *root) {
 	/* grab the ID of the head node */ 
 	node_t *temp = g->list->items[root->id]->head; 
    	g->visited[root->id] = 1;
-
-	item_t *item = init_item(root->id, root->label, 0, root); 
-	push(q, item); 
+	push(q, root); 
 
 	while(temp != NULL) {
 		int connected_vertex = temp->id; 
