@@ -1,9 +1,5 @@
 # [![Bevy](screenshots/neurograph_logo.png)](https://github.com/shaysingh818/Diffusion)
 
-* Experiment and research algorithms in graph theory and understand it's applications
-* Use graph theory concepts for deep learning architectures
-* Create data manipulation tools that utilize graph representations
-
 
 # Table of Contents
 
@@ -12,6 +8,15 @@
 * [Deep Learning](Deep%20Learning/MLP)
 * [Graph Algorithms](Algorithms.md)
 * [User Interface](User%20Interface/User%20Interface)
+
+
+# Purpose
+
+* Experiment and research algorithms in graph theory and understand it's applications
+* Tie concepts from graph theory to deep learning
+* Data manipulation tool that utilize graph representations
+* Invent a new graph neural network architecture
+* Framework to visualize graphs
 
 # Design
 
