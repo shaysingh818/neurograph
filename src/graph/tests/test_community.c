@@ -208,17 +208,10 @@ void test_degree_centrality_mat() {
 	int *result = degree_centrality_mat(m);
 
 	for(int i = 0; i < m->vertices; i++){
-		if(result[i] != expected_results[i]){
-			equality_status = false; 
-		} 
+		assert(result[i] == expected_results[i]);  
 	}
 
-	if(!equality_status) {
-		printf("%s::%s...  FAILED\n", __FILE__, __FUNCTION__); 
-	} else {
-		printf("%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
-	}	
-
+	printf("%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
 }
 
 
@@ -264,18 +257,11 @@ void test_label_nodes(){
 	for(int i = 0; i < vertices; i++){
 		for(int j = 0; j < vertices; j++){
 			double rounded_value = round(result->arr[i][j]*100)/100; 
-			if(expected[i][j] != rounded_value){
-				equality_status = false; 
-			}
+			assert(expected[i][j] == rounded_value);
 		}
 	}
 
-	if(!equality_status) {
-		printf("%s::%s...  FAILED\n", __FILE__, __FUNCTION__); 
-	} else {
-		printf("%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
-	}	
-
+	printf("%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
 }
 
 
@@ -309,17 +295,10 @@ void test_label_propagation() {
 
 	int *predicted_labels = label_propagator_list(g, labels, 0);
 	for(int i = 0; i < g->vertices; i++){
-		if(predicted_labels[i] != expected_output[i]) {
-			equality_status = false; 
-		}
+		assert(predicted_labels[i] == expected_output[i]); 
 	}
 
-	if(!equality_status) {
-		printf("%s::%s...  FAILED\n", __FILE__, __FUNCTION__); 
-	} else {
-		printf("%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
-	}	
-
+	printf("%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
 }
 
 
@@ -330,7 +309,8 @@ void test_iterative_label_propagation() {
 	int vertices = 7; 
 	int expected_output[7] = {
 		0, 1, 0, 0, -1, 1, 1
-	}; 
+	};
+
 
 	/* work on this in future release */
 	graph_t *g = init_graph(vertices, vertices, false);
@@ -347,16 +327,11 @@ void test_iterative_label_propagation() {
 
 
 	int *labels = label_propagation_iterative_list(g, 0); 
-	for(int i = 0; i < g->vertices; i++){
+	for(int i = 0; i < g->list->v; i++){
 		assert(labels[i] == expected_output[i]);
 	}
 
-	if(!equality_status) {
-		printf("%s::%s...  FAILED\n", __FILE__, __FUNCTION__); 
-	} else {
-		printf("%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
-	}	
-
+	printf("%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
 }
 
 
@@ -378,10 +353,6 @@ void test_triangle_count() {
 	int count = triangle_count_list(g, 4);
 	assert(count == 2);
 
-	if(!equality_status) {
-		printf("%s::%s...  FAILED\n", __FILE__, __FUNCTION__); 
-	} else {
-		printf("%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
-	}	
+	printf("%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
 
 }

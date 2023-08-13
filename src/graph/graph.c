@@ -117,6 +117,7 @@ graph_t *frame_to_unweighted_graph(frame_t *frame, int *cols, int size, bool dir
 	/* create graph to be returned */ 
 	int vertex_count = frame->row_count * size;	
 	graph_t *g = init_graph(vertex_count, vertex_count, directed);
+	ordered_set_t *set = init_array_set(vertex_count); 
 
 
 	/* validate that graph is unweighted */
@@ -128,9 +129,6 @@ graph_t *frame_to_unweighted_graph(frame_t *frame, int *cols, int size, bool dir
 		return g; 
 	}
 
-	char *head_label = frame->headers[cols[0]]->values[0]->value;
-	int head_id = frame->headers[cols[0]]->values[0]->index;  
-	node_t *head = create_node(head_id, head_label, 0); 
 
 	for(int i = 0; i < size; i+=2){
 
@@ -143,16 +141,11 @@ graph_t *frame_to_unweighted_graph(frame_t *frame, int *cols, int size, bool dir
 			char *src = src_header_values[j]->value; 
 			char *dst = dst_header_values[j]->value;
 
-			node_t *src_node = create_node(j, src, 0);
-			node_t *dst_node = create_node(j, dst, 0);
+			insert_ordered(set, j, src, 0); 
+			insert_ordered(set, j, dst, 0); 
 
-			/* add src and dst to ull (unique linked list) */ 
-			unique_append_ll(&head, src_node); 
-			unique_append_ll(&head, dst_node);
-
-			/* get the id for the head and src */
-			int src_id = get_id_ll(head, src); 
-			int dst_id = get_id_ll(head, dst);  
+			int src_id = get_value_key(set, src); 
+			int dst_id = get_value_key(set, dst);
 
 			add_node(g->list, src_id, src, dst_id, dst, 0); 	
 		} 
@@ -167,6 +160,7 @@ graph_t *frame_to_weighted_graph(frame_t *frame, int *cols, int size, bool direc
 	/* create graph */
 	int vertex_count = frame->row_count * size;	
 	graph_t *g = init_graph(vertex_count, vertex_count, directed);
+	ordered_set_t *set = init_array_set(vertex_count); 
 
 	/* validate that graph is unweighted */ 
 	if(size % 3 != 0) {
@@ -176,10 +170,6 @@ graph_t *frame_to_weighted_graph(frame_t *frame, int *cols, int size, bool direc
 		g->list->err = true; 
 		return g; 
 	}
-
-	char *head_label = frame->headers[cols[0]]->values[0]->value;
-	int head_id = frame->headers[cols[0]]->values[0]->index;  
-	node_t *head = create_node(head_id, head_label, 0); 
 
     for(int i = 0; i < size; i+=3){
 	
@@ -197,16 +187,11 @@ graph_t *frame_to_weighted_graph(frame_t *frame, int *cols, int size, bool direc
 			/* convert weight to integer */ 
 			int weight_to_int = atoi(weight);
 
-			node_t *src_node = create_node(j, src, weight_to_int);
-			node_t *dst_node = create_node(j, dst, weight_to_int);
+			insert_ordered(set, j, src, 0); 
+			insert_ordered(set, j, dst, 0); 
 
-			/* add src and dst to ull (unique linked list) */ 
-			unique_append_ll(&head, src_node); 
-			unique_append_ll(&head, dst_node);
-
-			/* get the id for the head and src */
-			int src_id = get_id_ll(head, src); 
-			int dst_id = get_id_ll(head, dst);  
+			int src_id = get_value_key(set, src); 
+			int dst_id = get_value_key(set, dst);
 
 			add_node(g->list, src_id, src, dst_id, dst, weight_to_int); 	
 		}
@@ -229,11 +214,25 @@ graph_t *frame_to_weighted_graph(frame_t *frame, int *cols, int size, bool direc
 }
 
 
-set_t *get_graph_nodes(char *filename, int file_size) {
+ordered_set_t *get_graph_nodes(graph_t *g) {
+	ordered_set_t *set = init_array_set(g->vertices); 
+	for(int i = 0; i < g->list->v; i++){
+		node_t *head = g->list->items[i]->head;
+		insert_ordered(set, head->id, head->label, 0); 
+		while(head) {
+			insert_ordered(set, head->id, head->label, 0); 
+			head  = head->next;
+		}
+	}
+	return set; 
+} 
+
+
+set_t *get_graph_nodes_from_file(char *filename, int file_size) {
 
 	/* variables */
 	FILE* fp = fopen(filename, "r");
-   	int row_count = 0;
+   	int row_count = 0, insert_count = 0;
     char *head_label; 
     char* buffer = malloc(file_size * sizeof(char));
     node_t *head;
@@ -255,13 +254,15 @@ set_t *get_graph_nodes(char *filename, int file_size) {
         /* extract node */
 		tokens_t *r_quotes = match_single(row_values->tokens[0], REMOVE_QUOTES); 
         char *node = r_quotes->tokens[0];
-        insert_ordered(node_set, row_count, node, 0); 
+        insert_sorted(node_set, insert_count, node, 0); 
+		insert_count += 1; 
 
-        /* extract neighbors */
+        // /* extract neighbors */
         for(int i = 1; i < size; i++){
 		    r_quotes = match_single(row_values->tokens[i], REMOVE_QUOTES); 
             char *neighbor = r_quotes->tokens[0];
-            insert_ordered(node_set, row_count, neighbor, 0);
+            insert_sorted(node_set, insert_count, neighbor, 0);
+			insert_count += 1; 
         }
 
 		row_count += 1;
@@ -270,14 +271,14 @@ set_t *get_graph_nodes(char *filename, int file_size) {
 }
 
 
-graph_t *serialize_graph_list(char *filename, int file_size) {
+graph_t *serialize_graph_list_sorted_label(char *filename, int file_size) {
 
 	/* variables */
 	FILE* fp = fopen(filename, "r");
    	int row_count = 0;
     char *head_label; 
     char* buffer = malloc(file_size * sizeof(char));
-    set_t *nodes = get_graph_nodes(filename, file_size); 
+    set_t *nodes = get_graph_nodes_from_file(filename, file_size); 
     graph_t *g = init_graph(nodes->count-1, nodes->count-1, false);
 
 
@@ -306,16 +307,28 @@ graph_t *serialize_graph_list(char *filename, int file_size) {
             char *dst = neighbor;
             char *src = node;
 
-            int dst_id = get_value_ordered(nodes, dst); 
-            int src_id = get_value_ordered(nodes, src); 
-
-			printf("(%d, %s) -> (%d, %s)\n", src_id, src, dst_id, dst);
+            int dst_id = get_item_sorted(nodes, dst); 
+            int src_id = get_item_sorted(nodes, src); 
 
             add_node(g->list, src_id, src, dst_id, dst, 0);
 
         }
 		row_count += 1;
 	}
+
+	/* remove unused slots from graph */
+	int last_used_indice = 0;  
+	for(int i = g->list->v; i > 0; i--){
+		if(g->list->used[i] == 1){
+			last_used_indice = i;
+			break;
+		}
+	}
+
+	int remainder = g->list->v - last_used_indice; 
+	int new_size = g->list->v - remainder; 
+	resize_adj_list(g->list, new_size+1);
+	g->vertices = new_size+1; 
 
     return g;
 }

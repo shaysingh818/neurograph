@@ -204,7 +204,7 @@ int *label_propagator_list(graph_t *g, int *labels, int start_vertex) {
 int *label_propagation_iterative_list(graph_t *g, int start_vertex) {
 
 	node_t *start_node = g->list->items[start_vertex]->head; 
-	queue_t *q = init_queue(g->vertices);
+	queue_t *q = init_queue(g->list->v);
 	int result = dfs(q, g, start_node); 
 	int curr_label = -1;
 
@@ -213,7 +213,7 @@ int *label_propagation_iterative_list(graph_t *g, int start_vertex) {
 
 		int node_id = q->items[i]->id;
 		int neighbor_count = 0, curr_label = -1, label_count=0;  
-		set_t *label_set = init_set(false); 
+		ordered_set_t *label_set = init_array_set(g->list->v); 
 
 		node_t *value = g->list->items[node_id]->head;
 		while(value){
@@ -225,17 +225,15 @@ int *label_propagation_iterative_list(graph_t *g, int start_vertex) {
 			neighbor_count += 1;
 		}
 
-		/* if there are more than one label, get the one with the highest freq*/
-		node_t **head = &label_set->root;
-		node_t *last = *head;  
-		while(last != NULL){
-			if(last->counter > label_count){
-				label_count = last->counter; 
-				curr_label = last->id; 
+		for(int i = 0; i < label_set->used; i++){
+			node_t *item = label_set->items[i]; 
+			int insert_count = get_insert_count(label_set, item);
+			if(insert_count >= label_count){
+				label_count = insert_count; 
+				curr_label = item->id; 
 			}
-			last = last->next;
 		}
-		
+	
 		double delta = 1.00/neighbor_count;
 		if(delta == 0.50) {
 			curr_label = -1; 
@@ -254,7 +252,7 @@ int triangle_count_list(graph_t *g, int vertex) {
 	/* perform a depth first search three times */
 	queue_t *q = init_queue(g->vertices);
 	node_t *start_node = g->list->items[vertex]->head;
-	set_t *s = init_set(true);  
+	ordered_set_t *s = init_array_set(g->vertices);  
 	int result = dfs(q, g, start_node);
 	int triangle_count = 0; 
 
@@ -270,9 +268,9 @@ int triangle_count_list(graph_t *g, int vertex) {
 				node_t *temp3 = g->list->items[temp2->id]->head;
 				while(temp3){
 					if(temp3->id == index){
-						insert_sorted(s, temp->id, NULL, 0); 
-						insert_sorted(s, temp2->id, NULL, 0); 
-						insert_sorted(s, temp3->id, NULL, 0);
+						insert_ordered(s, temp->id, NULL, 0); 
+						insert_ordered(s, temp2->id, NULL, 0); 
+						insert_ordered(s, temp3->id, NULL, 0);
 					}
 					temp3 = temp3->next; 
 				}
@@ -284,9 +282,7 @@ int triangle_count_list(graph_t *g, int vertex) {
 
 
 	/* store set results in queue */
-    s->queue = init_queue(s->count); 
-    get_items_sorted(s->root, s->queue);
-	int node_count = s->queue->item_count; 
+	int node_count = s->used; 
 	if(node_count % 2 == 0){
 		triangle_count = node_count / 2; 
 	} else if (node_count % 3 == 0 || node_count == 3){

@@ -61,8 +61,12 @@ graph_t *frame_to_unweighted_graph(frame_t *frame, int *cols, int size, bool dir
 graph_t *frame_to_weighted_graph(frame_t *frame, int *cols, int size, bool directed); 
 
 /* adj list */
-set_t *get_graph_nodes(char *filename, int file_size); 
-graph_t *serialize_graph_list(char *filename, int file_size);
+set_t *get_graph_node_ids(graph_t *g); 
+ordered_set_t *get_graph_nodes(graph_t *g); 
+set_t *get_graph_node_ids_file(char *filename, int file_size); 
+set_t *get_graph_nodes_from_file(char *filename, int file_size);
+graph_t *serialize_graph_list(char *filename, int file_size); 
+graph_t *serialize_graph_list_sorted_label(char *filename, int file_size);
 void deserialize_graph_list(graph_t *list, char *filename); 
 
 /* matrice methods */

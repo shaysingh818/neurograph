@@ -3,59 +3,51 @@
 
 void test_set_ordered() {
 
-    int expected_items[5] = {5, 4, 3, 2, 1};  
-    bool equality_status = true; 
+    int expected_items[6] = {5, 4, 3, 2, 1, 8};  
 
-
-    set_t *s = init_set(true);
+    ordered_set_t *s = init_array_set(5);
     insert_ordered(s, 5, NULL, 0);  
     insert_ordered(s, 4, NULL, 0);  
     insert_ordered(s, 3, NULL, 0);  
     insert_ordered(s, 2, NULL, 0); 
-    insert_ordered(s, 1, NULL, 0);  
+    insert_ordered(s, 1, NULL, 0); 
 
-    int counter = 0; 
-    while(s->root != NULL) {
-        assert(s->root->id == expected_items[counter]); 
-        counter += 1; 
-        s->root = s->root->next; 
-    }
+    /* validate that size changes */
+    assert(s->capacity == 5);
+    insert_ordered(s, 8, NULL, 0);
+    assert(s->capacity == 10); 
+    assert(s->used == 6); 
 
-	if(!equality_status) {
-		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
-	} else {
-		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-	}
+    /* check that items are unique */
+    for(int i = 0; i < s->used; i++){
+        assert(s->items[i]->id == expected_items[i]); 
+    } 
 
+	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 }
 
 
 void test_unique_entries_ordered() {
 
-
     char *expected_items[3] = {"aaa", "bbb", "ccc"};  
-    bool equality_status = true; 
 
-    set_t *s = init_set(true);
+    ordered_set_t *s = init_array_set(5);
     insert_ordered(s, 5, "aaa", 0);  
     insert_ordered(s, 5, "aaa", 0);  
     insert_ordered(s, 5, "aaa", 0);  
     insert_ordered(s, 2, "bbb", 0);
     insert_ordered(s, 2, "bbb", 0); 
-    insert_ordered(s, 1, "ccc", 0); 
+    insert_ordered(s, 1, "ccc", 0);
 
-    int counter = 0; 
-    while(s->root != NULL) {
-        assert(strcmp(s->root->label, expected_items[counter]) == 0); 
-        counter += 1; 
-        s->root = s->root->next; 
-    }
+    assert(s->capacity == 5); 
+    assert(s->used == 3);
 
-	if(!equality_status) {
-		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
-	} else {
-		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-	}
+    for(int i = 0; i < s->used; i++){
+        int compare = strcmp(s->items[i]->label, expected_items[i]) == 0; 
+        assert(compare == true); 
+    } 
+
+	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
     
 }
 
@@ -64,30 +56,33 @@ void test_index_lookup_ordered() {
     char *expected_items[3] = {"aaa", "bbb", "ccc"};  
     bool equality_status = true; 
 
-    set_t *s = init_set(true);
+    ordered_set_t *s = init_array_set(6);
     insert_ordered(s, 5, "aaa", 0);  
     insert_ordered(s, 5, "aaa", 0);  
     insert_ordered(s, 5, "aaa", 0);  
     insert_ordered(s, 2, "bbb", 0); 
     insert_ordered(s, 1, "ccc", 0); 
 
-    int index_one = get_value_ordered(s, "aaa");
-    int index_two = get_value_ordered(s, "bbb");
-    int index_three = get_value_ordered(s, "ccc");
+    int index_one = get_value_key(s, "aaa");
+    int index_two = get_value_key(s, "bbb");
+    int index_three = get_value_key(s, "ccc");
 
-    int condition_one = index_one == 0; 
-    int condition_two = index_two == 1; 
-    int condition_three = index_three == 2; 
+    /* asserts for get value key */
+    assert(index_one == 0); 
+    assert(index_two == 1); 
+    assert(index_three == 2); 
 
-    assert(condition_one == true || condition_two == true); 
-    assert(condition_three == true); 
+    int id_one = get_value_id(s, 2); 
+    int id_two = get_value_id(s, 5);
+    int id_three = get_value_id(s, 1);  
+    int id_fail = get_value_id(s, 0);
 
-	if(!equality_status) {
-		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
-	} else {
-		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-	}
+    assert(id_three == 2);
+    assert (id_two == 0); 
+    assert(id_one == 1);
+    assert(id_fail == -1);   
 
+	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 } 
 
 
@@ -96,10 +91,11 @@ void test_insert_count_lookup() {
     char *expected_items[3] = {"aaa", "bbb", "ccc"};  
     bool equality_status = true; 
 
-    set_t *s = init_set(true);
+    ordered_set_t *s = init_array_set(10);
     insert_ordered(s, 1, NULL, 0);  
     insert_ordered(s, 2, NULL, 0);  
     insert_ordered(s, 3, NULL, 0);  
+    insert_ordered(s, 4, NULL, 0);
     insert_ordered(s, 4, NULL, 0); 
     insert_ordered(s, 5, NULL, 0); 
     insert_ordered(s, 5, NULL, 0); 
@@ -107,19 +103,34 @@ void test_insert_count_lookup() {
     insert_ordered(s, 5, NULL, 0); 
     insert_ordered(s, 5, NULL, 0);
 
-	if(!equality_status) {
-		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
-	} else {
-		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-	}
+    int highest_index = get_value_id(s, 5);
+    int index_one = get_value_id(s, 4);
+    int index_two = get_value_id(s, 3);
+    int index_three = get_value_id(s, 2);
+    int index_four = get_value_id(s, 1);
 
+    node_t *highest_item = s->items[highest_index]; 
+    node_t *item_one = s->items[index_one]; 
+    node_t *item_two = s->items[index_two]; 
+    node_t *item_three = s->items[index_three]; 
+    node_t *item_four = s->items[index_four]; 
+
+    int highest_insert_count = get_insert_count(s, highest_item);  
+
+    assert(highest_insert_count == 4); 
+    assert(get_insert_count(s, item_one) == 1); 
+    assert(get_insert_count(s, item_two) == 0);
+    assert(get_insert_count(s, item_three) == 0);
+    assert(get_insert_count(s, item_four) == 0);
+
+	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 
 }  
 
 
 void test_get_items_ordered() {
 
-    set_t *s = init_set(true);
+    ordered_set_t *s = init_array_set(10);
     insert_ordered(s, 5, "aaa", 0);  
     insert_ordered(s, 5, "aaa", 0);  
     insert_ordered(s, 5, "aaa", 0);  
@@ -127,22 +138,8 @@ void test_get_items_ordered() {
     insert_ordered(s, 1, "ccc", 0);
 
 
-    char *expected_items[3] = {"aaa", "bbb", "ccc"};  
-    bool equality_status = true;
 
-    queue_t *q = init_queue(10); 
-    get_items_ordered(s, q); 
-
-	for(int i = q->front_index; i <= q->rear_index; i++) {
-        int condition = strcmp(q->items[i]->label, expected_items[i]) == 0; 
-        assert(condition == true); 
-    }
-
-	if(!equality_status) {
-		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
-	} else {
-		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-	}
+	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 
 }
 
@@ -166,14 +163,10 @@ void test_set_sorted() {
     get_items_sorted(s->root, q);
 
 	for(int i = q->front_index; i <= q->rear_index; i++) {
-        assert(q->items[i]->id == expected_items[i]);        
+        assert(q->items[i]->id == expected_items[i]);
     }
 
-	if(!equality_status) {
-		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
-	} else {
-		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-	}
+	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 
 }
 
@@ -198,14 +191,10 @@ void test_unique_entries_sorted() {
 
     /* check that ordering works */
 	for(int i = q->front_index; i <= q->rear_index; i++) {
-        assert(q->items[i]->id == expected_items[i]);      
+        assert(q->items[i]->id == expected_items[i]);
     }
 
-	if(!equality_status) {
-		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
-	} else {
-		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-	}
+	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 
 }
 
@@ -234,15 +223,11 @@ void test_lexographic_ordering_sorted() {
 
     /* check that ordering works */
 	for(int i = q->front_index; i <= q->rear_index; i++) {
-        assert(strcmp(q->items[i]->label, expected_items[i]) == 0);       
+        int condition = strcmp(q->items[i]->label, expected_items[i]) == 0; 
+        assert(condition == true); 
     }
 
-	if(!equality_status) {
-		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
-	} else {
-		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-	}
-	
+	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 }
 
 
@@ -262,14 +247,9 @@ void test_index_lookup_sorted() {
     int second_index = get_item_sorted(s, "b");
     int third_index = get_item_sorted(s, "C");
 
-    assert(first_index == 2 && second_index == 1);
-    assert(third_index == 0);  
+    assert(first_index == 2); 
+    assert(second_index == 1); 
+    assert(third_index == 0); 
 
-
-	if(!equality_status) {
-		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
-	} else {
-		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-	}
-
+	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 } 

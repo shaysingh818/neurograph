@@ -17,7 +17,8 @@ int main(int argc, char **argv) {
 	test_unused_slots();
 
 	/* graph markup language methods */
-	test_get_unique_nodes(); 
+	test_get_nodes(); 
+	test_get_nodes_from_file(); 
 	test_serialize_adj_list(); 
 
 	/* searching */
