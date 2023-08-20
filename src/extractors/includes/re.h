@@ -6,7 +6,10 @@
 #include <stdbool.h>
 #include <string.h> 
 #include <stdlib.h>
-#include <regex.h> 
+#include <regex.h>
+
+/* data structures import */
+#include "../../data_structures/includes/set.h"
 
 struct Tokens {
     char **tokens; 
@@ -15,9 +18,13 @@ struct Tokens {
 
 typedef struct Tokens tokens_t; 
 
-tokens_t *match_single(char *buffer, char *pattern); 
-tokens_t *match_multi_single(char **buffers, char *pattern); 
-tokens_t *match_multi(char **buffers, char **patterns); 
-tokens_t *match_file(char *file_path, char *pattern); 
+tokens_t *match_single(char *buffer, char *pattern);
+
+/* using set instead */
+ordered_set_t *match_pattern(char *buffer, char *pattern); 
+
+/* replace sub string with pattern */ 
+void remove_char(char *test_string, char char_to_remove);
+
 
 #endif

@@ -2,6 +2,7 @@
 #include "includes/test_map.h"
 #include "includes/test_matrix.h"
 #include "includes/test_adj_list.h"
+#include "includes/test_adj_mat.h"
 #include "includes/test_ll.h"
 #include "includes/test_set.h"
 
@@ -18,10 +19,6 @@ int main(int argc, char **argv) {
 	test_is_full();
 	test_is_empty(); 
 	test_front_rear();
-
-    /* test matrix graph  methods */ 
-    test_init_matrix(); 
-    test_directed_matrix();
 
     /* test matrice utility methods */
     test_init_vec(); 
@@ -45,13 +42,19 @@ int main(int argc, char **argv) {
     test_add_matrix(); 
     test_matrix_difference();
 
-
     /* test adjacency list representation */ 
     test_graph();
     test_weighted_graph(); 
     test_transpose_graph();
     test_get_node_by_id();
-    test_resize_adj_list(); 
+    test_resize_adj_list();
+
+    /* test adjacency matrix representation */
+    test_init_adj_mat();
+    test_add_node_mat_undirected();
+    test_add_node_mat_directed();  
+    test_search_by_id_mat(); 
+    test_transpose_items_mat();  
 
     /* test set data structure */
     test_set_ordered();

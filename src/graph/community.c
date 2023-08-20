@@ -302,7 +302,7 @@ int *degree_centrality_mat(graph_t *g) {
 	for(int i = 0; i < g->vertices; i++){
 		int count = 0; 
 		for(int j = 0; j < g->vertices; j++){
-			int id = g->matrix->matrix[i*g->vertices+j]->id;
+			int id = g->matrix->items[i*g->vertices+j]->id;
 			if(id >= 0) {
 				count += 1; 
 			} 
@@ -320,7 +320,7 @@ mat_t *label_nodes_mat(graph_t *m, int *labels) {
 	for(int i = 0; i < m->vertices; i++){
 		for(int j = 0; j < m->vertices; j++){
 
-			if(m->matrix->matrix[i*m->vertices+j]->label != NULL){
+			if(m->matrix->items[i*m->vertices+j]->label != NULL){
 				if(i == labels[i] && i == j){
 					A->arr[i][j] = 1;
 				}

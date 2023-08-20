@@ -7,9 +7,6 @@
 #define TRUE 1
 #define FALSE 0
 
-/* test matrix graph  methods */ 
-void test_init_matrix(); 
-void test_directed_matrix();
 
 /* test vector methods */
 void test_init_vec(); 

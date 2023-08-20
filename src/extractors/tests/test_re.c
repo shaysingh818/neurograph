@@ -40,6 +40,42 @@ void test_match_single() {
 
 }
 
+void test_match_pattern() {
+
+    /* buffer and pattern */
+    char *buffer = "shaydawg,test,three,\"hello,test,two\"";
+    char *gml_line = "[0,\"B\"]: ([1,\"A\",0],[2,\"C\",0])";
+    char *pattern = "\"[^\"]*\"|[^,]+";
+    char *expected_results[4] = {
+        "shaydawg", "test", "three",
+        "\"hello,test,two\""
+    };
+    char *expected_neighbors[5] = {"1", "A", "0", "2", "C"};  
+
+    ordered_set_t *values = match_pattern(buffer, pattern);
+    assert(values->capacity == 10); 
+    assert(values->used == 4);
+
+    for(int i = 0; i < values->used; i++){
+        int compare = strcmp(values->items[i]->label, expected_results[i]) == 0; 
+        assert(compare == true);  
+    }
+
+
+    ordered_set_t *gml_values = match_pattern(gml_line, RE_GML_NODE);
+    int counter = 0;  
+    for(int i = 2; i < gml_values->used; i++){
+        char *label = gml_values->items[i]->label;
+        remove_char(label, '"'); 
+        int compare = strcmp(label, expected_neighbors[counter]) == 0; 
+        assert(compare == true); 
+        counter += 1; 
+    }
+
+
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
+}
+
 
 void test_csv_line() {
 

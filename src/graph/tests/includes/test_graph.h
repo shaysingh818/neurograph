@@ -6,11 +6,13 @@
 #include <assert.h>
 
 /* general utilties */
+void test_get_max_vertex_count(); 
 void test_get_nodes_from_file(); 
 void test_get_nodes();  
 
 /* graph markup language methods */
 void test_gml_expression_adj_list(); 
+void test_serialize_adj_list_sorted_labels(); 
 void test_serialize_adj_list(); 
 void test_deserialize_adj_list(); 
 void test_serialize_mat_graph();

@@ -72,7 +72,7 @@ mat_t *load_matrix(char *filename) {
 	for (int i = 0; i < m->rows; i++) {
 		for (int j = 0; j < m->cols; j++) {
 			fgets(entry, MAXCHAR, file);
-			m->arr[i][j] = strtod(entry, NULL);
+			m->arr[i][j] = atof(entry);
 		}
 	}
 	fclose(file);
@@ -163,7 +163,9 @@ bool compare_matrix(mat_t *n, mat_t *m){
 	bool result = true; 
 	for(int i = 0; i < n->rows; i++){
 		for(int j = 0; j < n->cols; j++){
-			double rounded_value = round(m->arr[i][j]*100)/100; 
+			double rounded_value = round(m->arr[i][j]*100)/100;
+			bool test = n->arr[i][j] == rounded_value; 
+			printf("%.2f : %.2f -> %d\n", rounded_value, n->arr[i][j], test); 
 			if(n->arr[i][j] != rounded_value){
 				result = false; 
 			}
@@ -399,86 +401,6 @@ void print_vec(mat_t *v) {
 	}
 }
 
-
-entry_t *init_entry(int id, char *label) {
-
-	entry_t *e;
-	e = (entry_t*)malloc(sizeof(entry_t)); 
-
-	size_t label_size = strlen(label) + 1; 
-	e->label = malloc(label_size * sizeof(char)); 
-	e->id = id;
-
-	strcpy(e->label, label); 
-	return e; 
-}
-
-entry_t *search_entry_by_id(mat_graph_t *m, int search_id){
-
-	for(int i = 0; i < m->vertices; i++) {
-		for(int j = 0; j < m->vertices; j++){
-			int id = m->matrix[i*m->vertices+j]->id; 
-			if(search_id == id){
-				return m->matrix[i*m->vertices+j]; 
-			}
-		}
-	}
-}
-
-
-mat_graph_t *init_matrice_graph(int vertices) {
-
-	mat_graph_t *m;
-	m = (mat_graph_t*)malloc(sizeof(mat_graph_t)); 
-	m->vertices = vertices;
-
-	/* allocate matrice */
-	m->matrix = malloc(sizeof(entry_t*) * vertices * vertices); 
-	if(m->matrix != NULL) {
-		for(int i = 0; i < vertices; i++){
-			for(int j = 0; j < vertices; j++){
-				m->matrix[i*vertices+j] = (entry_t*)malloc(sizeof(entry_t));
-				m->matrix[i*vertices+j]->id = -1;  
-			}
-		}
-	}
-
-	/* allocate weights with samed dimension */
-	m->weights = malloc(sizeof(int*) * vertices * vertices); 
-	if(m->weights != NULL) {
-		for(int i = 0; i < vertices; i++){
-			for(int j = 0; j < vertices; j++){
-				m->weights[i*vertices+j] = -1;  
-			}
-		}
-	}
-
-	return m; 
-}
-
-
-void insert(mat_graph_t *m, entry_t *src, entry_t *dst, int weight,  bool directed) {
-
-	int src_id = src->id; 
-	int dst_id = dst->id; 	
-	int directed_index = src_id*m->vertices+dst_id;
-	int undirected_index = dst_id*m->vertices+src_id; 
-
-	if(directed) {
-		m->matrix[directed_index] = dst;
-		m->weights[directed_index] = weight;  
-	} else {
-
-		/* add node values */
-		m->matrix[directed_index] = dst; 
-		m->matrix[undirected_index] = src;  
-
-		/* add weights */
-		m->weights[directed_index] = weight; 
-		m->weights[undirected_index] = weight;  
-	}
-}
-
 void randomize(mat_t *vec, int n){
 	srand((unsigned)time(NULL));
 	double min = -1.0 / sqrt(n);
@@ -487,40 +409,5 @@ void randomize(mat_t *vec, int n){
 		for(int j = 0; j < vec->cols; j++){
 			vec->arr[i][j] = uniform_distribution(min, max); 	
 		}
-	}
-}
-
-void print_matrix_ids(mat_graph_t *m) {
-	for(int i = 0; i < m->vertices; i++) {
-		for(int j = 0; j < m->vertices; j++){
-			printf("%d ", m->matrix[i*m->vertices+j]->id); 			
-		}
-		printf("\n"); 
-	}
-}
-
-
-void print_matrix_labels(mat_graph_t *m) {
-	for(int i = 0; i < m->vertices; i++) {
-		printf("%d : ", i); 
-		for(int j = 0; j < m->vertices; j++){
-			if(m->matrix[i*m->vertices+j]->label != NULL){
-				printf("-> %s", m->matrix[i*m->vertices+j]->label); 			
-			}
-		}
-		printf("\n"); 
-	}
-}
-
-
-void print_matrix_weights(mat_graph_t *m) {
-	for(int i = 0; i < m->vertices; i++) {
-		printf("%d : ", i); 
-		for(int j = 0; j < m->vertices; j++){
-			if(m->matrix[i*m->vertices+j]->label != NULL){
-				printf("-> %d", m->weights[i*m->vertices+j]); 			
-			}
-		}
-		printf("\n"); 
 	}
 }

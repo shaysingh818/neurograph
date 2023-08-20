@@ -20,25 +20,6 @@ struct Matrix {
 typedef struct Matrix mat_t; 
 
 
-/* represents an entry in a matrice */
-struct Entry {
-    int id; 
-    char *label;
-}; 
-
-typedef struct Entry entry_t; 
-
-
-struct MatrixGraph {
-    int rows;
-    int cols; /* in case the rows and cols aren't equal*/
-    int vertices;
-    int *weights; /* weights for matrice graph relationships */
-    entry_t **matrix;
-};
-
-typedef struct MatrixGraph mat_graph_t;
-
 /* matrix utilities */
 mat_t *init_vec(int rows, int cols, bool identity);
 mat_t *init_matrix(int rows, int cols);
@@ -70,23 +51,5 @@ mat_t *scale(mat_t *v, double value);
 mat_t *scale_add(mat_t *n, mat_t *m);
 mat_t *transpose(mat_t *n);
 mat_t *difference(mat_t *x, mat_t *y);
-
-
-/* entry instance */
-entry_t *init_entry(int id, char *label); 
-entry_t *search_entry_by_id(mat_graph_t *m, int id);
-
-/* matrice instance */ 
-mat_graph_t *init_matrice_graph(int vertices);
-
-/* insert method */ 
-void insert(mat_graph_t *m, entry_t *src, entry_t *dst, int weight, bool directed);
-void randomize(mat_t *vec, int n); 
-
-/* formatter methods */
-void print_matrix_ids(mat_graph_t *m);
-void print_matrix_weights(mat_graph_t *m);
-void print_matrix_labels(mat_graph_t *m);
-
 
 #endif

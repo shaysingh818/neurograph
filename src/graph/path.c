@@ -239,7 +239,7 @@ walk_t *random_walk_mat(graph_t *m, int start_vertex, int steps) {
 		int neighbors[m->vertices];
 
 		for(int j = 0; j < m->vertices; j++) {
-			int id = m->matrix->matrix[start*m->vertices+j]->id; 
+			int id = m->matrix->items[start*m->vertices+j]->id; 
 			if(id >= 0) {
 				neighbors[counter] = id; 
 				counter += 1; 
@@ -248,7 +248,7 @@ walk_t *random_walk_mat(graph_t *m, int start_vertex, int steps) {
 
 		int rand_index = rand() % counter; 
 		int selected_neighbor = neighbors[rand_index]; 
-		int weight = m->matrix->weights[start*m->vertices+selected_neighbor];
+		int weight = m->matrix->items[start*m->vertices+selected_neighbor]->weight;
 
 		start = selected_neighbor;
 		walk->weighted_sum += weight; 
@@ -273,9 +273,8 @@ int *dijkstra_mat(graph_t *m, int start_vertex) {
 	}
 
 	/* push start vertex to front of queue */
-	entry_t *start = search_entry_by_id(m->matrix, start_vertex);
-	node_t *start_item = create_node(start->id, start->label, 0); 
-	push(q, start_item); 	
+	node_t *start = search_node_by_id_mat(m->matrix, start_vertex);
+	push(q, start); 	
 	dist[start_vertex] = 0; 
 
 	while(!is_empty(q)) {
@@ -287,9 +286,9 @@ int *dijkstra_mat(graph_t *m, int start_vertex) {
 		/* get neighbors */
 		for(int n = 0; n < m->vertices; n++){
 
-			int id = m->matrix->matrix[start_vertex*m->vertices+n]->id; 
-			int weight = m->matrix->weights[start_vertex*m->vertices+n]; 
-			char *label = m->matrix->matrix[start_vertex*m->vertices+n]->label; 
+			int id = m->matrix->items[start_vertex*m->vertices+n]->id; 
+			int weight = m->matrix->items[start_vertex*m->vertices+n]->weight; 
+			char *label = m->matrix->items[start_vertex*m->vertices+n]->label; 
 
 			if(id >= 0) {
 				if(dist[id] > dist[u] + weight) {
@@ -328,9 +327,8 @@ int shortest_path_mat(graph_t *m, int start_vertex, int end_vertex) {
 	}
 
 	/* push start vertex to front of queue */
-	entry_t *start = search_entry_by_id(m->matrix, start_vertex);
-	node_t *start_item = create_node(start->id, start->label, 0); 
-	push(q, start_item); 	
+	node_t *start = search_node_by_id_mat(m->matrix, start_vertex);
+	push(q, start); 	
 	dist[start_vertex] = 0;
 
 
@@ -343,9 +341,9 @@ int shortest_path_mat(graph_t *m, int start_vertex, int end_vertex) {
 		/* get neighbors */
 		for(int n = 0; n < m->vertices; n++){
 
-			int id = m->matrix->matrix[start_vertex*m->vertices+n]->id; 
-			int weight = m->matrix->weights[start_vertex*m->vertices+n]; 
-			char *label = m->matrix->matrix[start_vertex*m->vertices+n]->label; 
+			int id = m->matrix->items[start_vertex*m->vertices+n]->id; 
+			int weight = m->matrix->items[start_vertex*m->vertices+n]->weight; 
+			char *label = m->matrix->items[start_vertex*m->vertices+n]->label; 
 
 			if(id >= 0) {
 				if(dist[id] > dist[u] + weight) {

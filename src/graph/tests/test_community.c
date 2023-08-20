@@ -192,18 +192,12 @@ void test_degree_centrality_mat() {
 	/* create adjacency matrix graph with size 5 */ 
 	graph_t *m = init_graph(5, 5, false); 
 
-    /* create unique nodes */
-    entry_t *a = init_entry(0, "A"); 
-    entry_t *b = init_entry(1, "B"); 
-    entry_t *c = init_entry(2, "C"); 
-    entry_t *d = init_entry(3, "D"); 
-
 	/* connect a to everyone */ 
-    insert(m->matrix, a, b, 0, false); 
-    insert(m->matrix, a, c, 0, false); 
-    insert(m->matrix, b, c, 0, false); 
-    insert(m->matrix, b, d, 0, false); 
-    insert(m->matrix, c, d, 0, false); 
+	add_node_mat(m->matrix, 0, "A", 1, "B", 0);  
+	add_node_mat(m->matrix, 0, "A", 2, "C", 0);  
+	add_node_mat(m->matrix, 1, "B", 2, "C", 0);  
+	add_node_mat(m->matrix, 1, "B", 3, "D", 0);  
+	add_node_mat(m->matrix, 2, "C", 3, "D", 0);  
 
 	int *result = degree_centrality_mat(m);
 
@@ -221,24 +215,15 @@ void test_label_nodes(){
 	int vertices = 7; 
 	graph_t *m = init_graph(vertices, vertices, false);
 
-    /* create unique nodes */
-    entry_t *a = init_entry(0, "A"); 
-    entry_t *b = init_entry(1, "B"); 
-    entry_t *c = init_entry(2, "C"); 
-    entry_t *d = init_entry(3, "D"); 
-    entry_t *e = init_entry(4, "E"); 
-    entry_t *f = init_entry(5, "F"); 
-    entry_t *g = init_entry(6, "G"); 
-
 	/* connect a to everyone */
-    insert(m->matrix, a, a, 0, false); 
-    insert(m->matrix, b, b, 0, false); 
-    insert(m->matrix, a, d, 0, false); 
-    insert(m->matrix, d, c, 0, false); 
-    insert(m->matrix, d, e, 0, false); 
-    insert(m->matrix, e, f, 0, false); 
-    insert(m->matrix, f, g, 0, false); 
-    insert(m->matrix, b, f, 0, false);
+	add_node_mat(m->matrix, 0, "A", 0, "A", 0);  
+	add_node_mat(m->matrix, 1, "B", 1, "B", 0);  
+	add_node_mat(m->matrix, 0, "A", 3, "D", 0);  
+	add_node_mat(m->matrix, 3, "D", 2, "C", 0);  
+	add_node_mat(m->matrix, 3, "D", 4, "E", 0);  
+	add_node_mat(m->matrix, 4, "E", 5, "F", 0);  
+	add_node_mat(m->matrix, 5, "F", 6, "G", 0);  
+	add_node_mat(m->matrix, 1, "B", 5, "F", 0);  
 
 	int labels[2] = {0, 1}; // only works with these labels 
 	mat_t *result = label_nodes_mat(m, labels);

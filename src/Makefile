@@ -1,6 +1,6 @@
 # object files
 
-DS_GRAPH = data_structures/matrix.o data_structures/adj_list.o
+DS_GRAPH = data_structures/matrix.o data_structures/adj_list.o data_structures/adj_mat.o
 DS_QUEUE = data_structures/map.o data_structures/node.o data_structures/queue.o data_structures/set.o data_structures/ll.o
 DS_OBJS = $(DS_GRAPH)  $(DS_QUEUE)
 

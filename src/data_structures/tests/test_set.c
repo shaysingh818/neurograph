@@ -117,7 +117,7 @@ void test_insert_count_lookup() {
 
     int highest_insert_count = get_insert_count(s, highest_item);  
 
-    assert(highest_insert_count == 4); 
+    assert(highest_insert_count == 4);
     assert(get_insert_count(s, item_one) == 1); 
     assert(get_insert_count(s, item_two) == 0);
     assert(get_insert_count(s, item_three) == 0);
@@ -147,7 +147,7 @@ void test_get_items_ordered() {
 void test_set_sorted() {
 
     /* expected behavior */
-    int expected_items[4] = {1, 2, 3, 4};  
+    int expected_items[4] = {4, 3, 2, 1};  
     bool equality_status = true; 
 
     /* init instance of set */
@@ -173,7 +173,7 @@ void test_set_sorted() {
 void test_unique_entries_sorted() {
 
     bool equality_status = true;
-    int expected_items[6] = {5,10,11,12,13,14};  
+    int expected_items[6] = {14,13,12,11,10,5};  
 
     /* init instance of set */
     set_t *s = init_set(true);
@@ -203,7 +203,7 @@ void test_lexographic_ordering_sorted() {
 
     bool equality_status = true;
     char *expected_items[8] = {
-        "c","b","a","Over","Jumped","Fox","E","D"
+        "D", "E", "Fox", "Jumped", "Over", "a", "b", "c"
     };  
 
     /* init instance of set */
@@ -248,7 +248,7 @@ void test_index_lookup_sorted() {
     int third_index = get_item_sorted(s, "C");
 
     assert(first_index == 2); 
-    assert(second_index == 1); 
+    assert(second_index == 3); 
     assert(third_index == 0); 
 
 	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);

@@ -5,13 +5,8 @@ void test_bfs_one() {
 	int vertices = 5; 	
 	int bfs_status = TRUE; 
 
-	/* test first example of bfs */ 
-	graph_t *g = init_graph(vertices, vertices, false);
-	add_node(g->list, 0, "A", 1, "B", 0);
-	add_node(g->list, 0, "A", 2, "C", 0); 
-	add_node(g->list, 0, "A", 3, "D", 0); 
-	add_node(g->list, 1, "B", 2, "C", 0);
-	add_node(g->list, 4, "E", 2, "C", 0);
+	char *path = "../../examples/gml/unit_tests/searching/bfs_one.gmul";
+	graph_t *g = serialize_graph_list(path, 1024, false);
 
 	/* check queue state against it */ 
 	char *order[5] = {"A", "B", "C", "D", "E"}; 
@@ -21,18 +16,10 @@ void test_bfs_one() {
 	/* iterate through queue and confirm order */ 
 	for(int i = result->front_index; i <= result->rear_index; i++) {
 		int condition = strcmp(result->items[i]->label, order[i]);
-		if(condition != 0) {
-			bfs_status = FALSE;
-		}
+		assert(condition == 0); 
 	}
 
-	/* validate results */ 
-	if(!bfs_status) {
-		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
-	} else {
-		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
-	}
-
+	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
 }
 
 
@@ -42,13 +29,8 @@ void test_bfs_two() {
 	int bfs_status = TRUE; 
 
 	/* create labeled graph */ 
-	graph_t *g = init_graph(vertices, vertices, false);
-    add_node(g->list, 0, "S", 1, "A", 0);
-    add_node(g->list, 0, "S", 2, "B", 0);
-    add_node(g->list, 0, "S", 3, "C", 0);
-    add_node(g->list, 1, "A", 4, "D", 0);
-    add_node(g->list, 2, "B", 4, "D", 0);
-    add_node(g->list, 3, "C", 4, "D", 0);
+	char *path = "../../examples/gml/unit_tests/searching/bfs_two.gmul";
+	graph_t *g = serialize_graph_list(path, 1024, false);
 
 	/* get head node of graph */
 	char *order[5] = {"S", "A", "B", "C", "D"}; 
@@ -58,9 +40,7 @@ void test_bfs_two() {
 	/* iterate through queue and confirm order */ 
 	for(int i = result->front_index; i <= result->rear_index; i++) {
 		int condition = strcmp(result->items[i]->label, order[i]);
-		if(condition != 0) {
-			bfs_status = FALSE;
-		}
+		assert(condition == 0); 
 	}
 
 	/* validate results */ 
@@ -74,15 +54,10 @@ void test_bfs_two() {
 void test_dfs_one() {
 
 	int vertices = 5; 
-	int dfs_status = TRUE; 
 
 	/* test first example of bfs */ 
-	graph_t *g = init_graph(vertices, vertices, false); 
-	add_node(g->list, 0, "A", 1, "B", 0); 
-	add_node(g->list, 0, "A", 2, "C", 0); 
-	add_node(g->list, 0, "A", 3, "D", 0); 
-	add_node(g->list, 1, "B", 2, "C", 0);
-	add_node(g->list, 4, "E", 2, "C", 0);
+	char *path = "../../examples/gml/unit_tests/searching/dfs_one.gmul";
+	graph_t *g = serialize_graph_list(path, 1024, false);
 
 	/* check queue state against it */ 
 	char *order[5] = {"A", "B", "C", "E", "D"}; 
@@ -97,15 +72,9 @@ void test_dfs_one() {
 	/* iterate through queue and confirm order */ 
 	for(int i = q->front_index; i <= q->rear_index; i++) {
 		int condition = strcmp(q->items[i]->label, order[i]);
-		if(condition != 0) {
-			dfs_status = FALSE;
-		}
+		assert(condition == 0); 
 	}
 
-	/* validate results */ 
-	if(!dfs_status) {
-		printf("%s::%s...  FAILED\n", __FILE__, __FUNCTION__); 
-	}
 	printf("%s::%s...  \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__); 
 
 }
