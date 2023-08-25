@@ -51,5 +51,7 @@ mat_t *scale(mat_t *v, double value);
 mat_t *scale_add(mat_t *n, mat_t *m);
 mat_t *transpose(mat_t *n);
 mat_t *difference(mat_t *x, mat_t *y);
+mat_t *vectorize(mat_t *input); 
+mat_t *im2col(mat_t *input, mat_t *feature_map); 
 
 #endif

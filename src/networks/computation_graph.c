@@ -127,8 +127,6 @@ linear_t *linear(int input_size, int output_size, double learning_rate) {
 } 
 
 
-
-
 void debug_linear(linear_t *linear) {
 
     printf(
@@ -192,8 +190,6 @@ loss_t *loss(
 } 
 
 
-
-
 void debug_loss(loss_t *loss) {
 
     printf("Before Activation\n");
@@ -205,4 +201,3 @@ void debug_loss(loss_t *loss) {
     printf("\n"); 
     
 }
-

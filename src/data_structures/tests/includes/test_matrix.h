@@ -31,6 +31,7 @@ void test_scale_multiply();
 void test_elementwise_multiply(); 
 void test_add_matrix(); 
 void test_matrix_difference(); // @TODO
+void test_im2col(); 
 
 
 #endif

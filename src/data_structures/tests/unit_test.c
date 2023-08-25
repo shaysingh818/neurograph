@@ -41,6 +41,7 @@ int main(int argc, char **argv) {
     test_elementwise_multiply(); 
     test_add_matrix(); 
     test_matrix_difference();
+    test_im2col(); 
 
     /* test adjacency list representation */ 
     test_graph();

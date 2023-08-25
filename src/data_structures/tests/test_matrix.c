@@ -889,3 +889,40 @@ void test_matrix_difference() {
     } 
 
 }
+
+
+
+void test_im2col() {
+
+
+    double a_values[3][4] = {
+        {1, 2, 3, 1}, 
+        {4, 5, 6, 1}, 
+        {7, 8, 9, 1}, 
+    };
+
+    double d_values[2][2] = {
+        {1, 1},
+        {1, 1}
+    };
+
+    mat_t *A = copy_arr_to_matrix(3, 4, a_values); 
+    mat_t *D = copy_arr_to_matrix(2, 2, d_values); 
+    mat_t *B = im2col(A, D);
+
+    assert(A->rows == 3 && A->cols == 4);
+    assert(D->rows == 2 && D->cols == 2);  
+
+    mat_t *b_t = transpose(B); 
+    assert(B->rows == 4 && B->cols == 6); 
+    assert(b_t->rows == 6 && b_t->cols == 4); 
+
+    mat_t *D_vec = vectorize(D);
+    assert(D_vec->rows == D->rows*D->cols);
+    assert(D_vec->cols == 1);  
+
+    mat_t *result = multiply(b_t, D_vec);
+    assert(result->rows == 6 && result->cols == 1); 
+
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+} 

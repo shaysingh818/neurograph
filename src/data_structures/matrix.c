@@ -165,7 +165,6 @@ bool compare_matrix(mat_t *n, mat_t *m){
 		for(int j = 0; j < n->cols; j++){
 			double rounded_value = round(m->arr[i][j]*100)/100;
 			bool test = n->arr[i][j] == rounded_value; 
-			printf("%.2f : %.2f -> %d\n", rounded_value, n->arr[i][j], test); 
 			if(n->arr[i][j] != rounded_value){
 				result = false; 
 			}
@@ -239,21 +238,23 @@ void copy_mat(mat_t *v1, mat_t *v2){
 mat_t *multiply(mat_t *v1, mat_t *v2) {
 
 	if(v1->cols != v2->rows){
-		printf("cannot multiply\n"); 
+		printf("cannot multiply\n");
+        exit(1);
 	}
 
-	mat_t *result = init_matrix(v1->rows, v1->cols);
+	mat_t *result = init_matrix(v1->rows, v2->cols);
 
 	for(int i = 0; i < v1->rows; i++){
-		for(int j = 0; j < v1->cols; j++){
-			result->arr[i][j] = 0; 	
+		for(int j = 0; j < v2->cols; j++){
+			double sum = 0; 	
 
-			for(int n = 0; n < v1->rows; n++){
-				double value = v2->arr[i][n] * v1->arr[n][j];
-				result->arr[i][j] += value; 
+			for(int n = 0; n < v2->rows; n++){
+				sum += v1->arr[i][n] * v2->arr[n][j];
 			}
+
+			result->arr[i][j] = sum; 
 		} 
-	} 
+	}
 
 	return result;
 }
@@ -411,3 +412,62 @@ void randomize(mat_t *vec, int n){
 		}
 	}
 }
+
+
+mat_t *vectorize(mat_t *input){
+	mat_t *result = init_matrix(input->rows*input->cols, 1);
+	int counter = 0;
+	for(int i = 0; i < input->rows; i++){
+		for(int j = 0; j < input->cols; j++){
+			result->arr[counter][0] = input->arr[i][j]; 
+			counter += 1; 
+		}
+	}
+	return result; 
+}
+
+mat_t *im2col(mat_t *input, mat_t *feature_map) {
+
+
+	/* resulting matrix*/
+	int result_idx_x = 0, result_idx_y = 0;
+	int result_rows = input->cols; 
+	int result_cols = input->cols+feature_map->rows; 
+	int stride_x = 0, stride_y = 0;  
+	bool slide = false; 
+	mat_t *result = init_matrix(result_rows, result_cols);
+
+
+	int iteration_count = input->rows * feature_map->rows; 
+
+	for(int n = 0; n < 6; n++){
+
+		/* itereate overlapped feature map for input matrice */
+		int k = 0, m = 0; 
+		result_idx_x = 0;  /* indices for feature map */ 
+		for(int i = stride_x; i < feature_map->rows+stride_x; i++){
+			for(int j = stride_y; j < feature_map->cols+stride_y; j++){
+				double feature_result = input->arr[j][i] * feature_map->arr[m][k];
+				result->arr[result_idx_x][result_idx_y] = feature_result; 
+				result_idx_x += 1;  
+				k += 1;
+			}
+			m += 1;
+			k = 0, m = 0; 
+		}
+
+
+		if(n % 2 != 0) {
+			stride_y = 0;
+			stride_x += 1;  
+		} else {
+			stride_y += 1;
+		}
+
+		result_idx_y += 1; 
+
+	} 
+
+
+	return result; 
+} 
