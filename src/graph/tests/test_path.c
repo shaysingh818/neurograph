@@ -68,9 +68,7 @@ void test_dijkstra(){
 
 	/* print vertices */
 	for(int i = 0; i < g->vertices; i++) {
-		if(result[i] != output[i]) {
-			equality_status = false; 			
-		}
+		assert(result[i] == output[i]); 
 	}
 
 	/* validate results */ 
@@ -357,18 +355,13 @@ void test_random_walk_mat() {
 	/* create adjacency matrix graph with size 5 */ 
 	graph_t *m = init_graph(5, 5, false); 
 
-    /* create unique nodes */
-    entry_t *a = init_entry(0, "A"); 
-    entry_t *b = init_entry(1, "B"); 
-    entry_t *c = init_entry(2, "C"); 
-    entry_t *d = init_entry(3, "D"); 
-
 	/* connect a to everyone */ 
-    insert(m->matrix, a, b, 1, false); 
-    insert(m->matrix, a, c, 2, false); 
-    insert(m->matrix, b, c, 3, false); 
-    insert(m->matrix, b, d, 4, false); 
-    insert(m->matrix, c, d, 5, false);
+	add_node_mat(m->matrix, 0, "A", 1, "B", 0);  
+	add_node_mat(m->matrix, 0, "A", 2, "C", 0);  
+	add_node_mat(m->matrix, 1, "B", 2, "C", 0);  
+	add_node_mat(m->matrix, 1, "B", 3, "D", 0);  
+	add_node_mat(m->matrix, 2, "C", 3, "D", 0);  
+
 
 	int start = 0, steps = 4; 
 	walk_t *result = random_walk_mat(m, start, steps); 
@@ -377,7 +370,7 @@ void test_random_walk_mat() {
 	int weight_sum = 0; 
 	for(int i = 0; i < result->steps; i++) {
 		int item = result->path[i]; 
-		int weight = m->matrix->weights[start*m->vertices+item];
+		int weight = m->matrix->items[start*m->vertices+item]->weight;
 		weight_sum += weight; 
 		start = item; 
 	}
@@ -402,29 +395,20 @@ void test_dijkstra_mat() {
 	/* create adjacency matrix graph with size 5 */ 
 	graph_t *m = init_graph(7, 7, false); 
 
-    /* create unique nodes */
-    entry_t *a = init_entry(0, "A"); 
-    entry_t *b = init_entry(1, "B"); 
-    entry_t *c = init_entry(2, "C"); 
-    entry_t *d = init_entry(3, "D"); 
-    entry_t *e = init_entry(4, "E"); 
-    entry_t *f = init_entry(5, "F"); 
-    entry_t *g = init_entry(6, "G"); 
-
 	/* connect a to everyone */ 
-    insert(m->matrix, a, b, 2, false); 
-    insert(m->matrix, a, c, 6, false); 
-    insert(m->matrix, b, d, 5, false); 
-    insert(m->matrix, c, d, 8, false); 
-    insert(m->matrix, d, e, 10, false);
-    insert(m->matrix, d, f, 15, false); 
-    insert(m->matrix, e, f, 6, false); 
-    insert(m->matrix, f, g, 6, false);
-    insert(m->matrix, e, g, 2, false);
+    add_node_mat(m->matrix, 0, "A", 1, "B", 2);
+    add_node_mat(m->matrix, 0, "A", 2, "C", 6);
+    add_node_mat(m->matrix, 1, "B", 3, "D", 5);
+    add_node_mat(m->matrix, 2, "C", 3, "D", 8);
+    add_node_mat(m->matrix, 3, "D", 4, "E", 10);
+	add_node_mat(m->matrix, 3, "D", 5, "F", 15);
+	add_node_mat(m->matrix, 4, "E", 5, "F", 6);
+	add_node_mat(m->matrix, 5, "F", 6, "G", 6);
+	add_node_mat(m->matrix, 4, "E", 6, "G", 2);
 
 	int output[7] = {0, 2, 6, 7, 17, 22, 19};  
 
-	int *dist = dijkstra_mat(m, a->id);
+	int *dist = dijkstra_mat(m, 0);
 	for(int i = 0; i < m->vertices; i++){
 		if(dist[i] != output[i]){
 			equality_status = false; 
@@ -447,31 +431,22 @@ void test_dijkstra_origin_vertex_mat() {
 	/* create adjacency matrix graph with size 5 */ 
 	graph_t *m = init_graph(7, 7, false); 
 
-    /* create unique nodes */
-    entry_t *a = init_entry(0, "A"); 
-    entry_t *b = init_entry(1, "B"); 
-    entry_t *c = init_entry(2, "C"); 
-    entry_t *d = init_entry(3, "D"); 
-    entry_t *e = init_entry(4, "E"); 
-    entry_t *f = init_entry(5, "F"); 
-    entry_t *g = init_entry(6, "G"); 
-
-	/* connect a to everyone */ 
-    insert(m->matrix, a, b, 5, false); 
-    insert(m->matrix, a, c, 6, false); 
-    insert(m->matrix, b, c, 15, false); 
-    insert(m->matrix, b, d, 7, false); 
-    insert(m->matrix, b, e, 8, false);
-    insert(m->matrix, c, d, 2, false); 
-    insert(m->matrix, c, f, 4, false); 
-    insert(m->matrix, d, e, 2, false);
-    insert(m->matrix, d, f, 9, false);
-    insert(m->matrix, d, g, 10, false);
-    insert(m->matrix, e, g, 3, false);
+	/* make connections */
+    add_node_mat(m->matrix, 0, "A", 1, "B", 5);
+    add_node_mat(m->matrix, 0, "A", 2, "C", 6);
+    add_node_mat(m->matrix, 1, "B", 2, "C", 15);
+    add_node_mat(m->matrix, 1, "B", 3, "D", 7);
+    add_node_mat(m->matrix, 1, "B", 4, "E", 8);
+	add_node_mat(m->matrix, 2, "C", 3, "D", 2);
+	add_node_mat(m->matrix, 2, "C", 5, "F", 4);
+	add_node_mat(m->matrix, 3, "D", 4, "E", 2);
+	add_node_mat(m->matrix, 3, "D", 5, "F", 9);
+	add_node_mat(m->matrix, 3, "D", 6, "G", 10);
+	add_node_mat(m->matrix, 4, "E", 6, "G", 3);
 
 	int output[7] = {6, 9, 0, 2, 4, 4, 7};
 
-	int *dist = dijkstra_mat(m, c->id);
+	int *dist = dijkstra_mat(m, 2);
 	for(int i = 0; i < m->vertices; i++){
 		if(dist[i] != output[i]){
 			equality_status = false; 
@@ -494,30 +469,21 @@ void test_shortest_path_mat(){
 	/* create adjacency matrix graph with size 5 */ 
 	graph_t *m = init_graph(7, 7, false); 
 
-    /* create unique nodes */
-    entry_t *a = init_entry(0, "A"); 
-    entry_t *b = init_entry(1, "B"); 
-    entry_t *c = init_entry(2, "C"); 
-    entry_t *d = init_entry(3, "D"); 
-    entry_t *e = init_entry(4, "E"); 
-    entry_t *f = init_entry(5, "F"); 
-    entry_t *g = init_entry(6, "G"); 
-
 	/* connect a to everyone */ 
-    insert(m->matrix, a, b, 2, false); 
-    insert(m->matrix, a, c, 6, false); 
-    insert(m->matrix, b, d, 5, false); 
-    insert(m->matrix, c, d, 8, false); 
-    insert(m->matrix, d, e, 10, false);
-    insert(m->matrix, d, f, 15, false); 
-    insert(m->matrix, e, f, 6, false); 
-    insert(m->matrix, f, g, 6, false);
-    insert(m->matrix, e, g, 2, false);
+    add_node_mat(m->matrix, 0, "A", 1, "B", 2);
+    add_node_mat(m->matrix, 0, "A", 2, "C", 6);
+    add_node_mat(m->matrix, 1, "B", 3, "D", 5);
+    add_node_mat(m->matrix, 2, "C", 3, "D", 8);
+    add_node_mat(m->matrix, 3, "D", 4, "E", 10);
+	add_node_mat(m->matrix, 3, "D", 5, "F", 15);
+	add_node_mat(m->matrix, 4, "E", 5, "F", 6);
+	add_node_mat(m->matrix, 5, "F", 6, "G", 6);
+	add_node_mat(m->matrix, 4, "E", 6, "G", 2);
 
 	int output[7] = {0, 2, 6, 7, 17, 22, 19}; 
 
 	for(int i = 0; i < m->vertices; i++){
-		int dist = shortest_path_mat(m, a->id, i);
+		int dist = shortest_path_mat(m, 0, i);
 		if(dist != output[i]){
 			equality_status = false; 
 		}

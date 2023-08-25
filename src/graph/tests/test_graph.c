@@ -8,7 +8,6 @@ void test_frame_to_unweighted_graph() {
 
     /* expected graph results */
 	char *relationship_list[12][5] = {
-		{}, 
 		{"B", "C", "D"}, 
 		{"A", "C"},
 		{"A", "B", "E"},
@@ -19,7 +18,8 @@ void test_frame_to_unweighted_graph() {
         {},
         {},
         {},
-        {}
+        {},
+		{}
 	}; 
 
     frame_t *frame = init_frame("../../examples/data/test.csv", 1024);
@@ -29,7 +29,7 @@ void test_frame_to_unweighted_graph() {
     graph_t *result = frame_to_unweighted_graph(
        frame, indices, 2, false
     ); 
-	assert(!result->list->err); 
+	assert(!result->list->err);
 
 	/* check graph against relationships */ 
 	for(int i = 0; i < result->vertices; i++) {
@@ -44,29 +44,24 @@ void test_frame_to_unweighted_graph() {
 	} 
 
  	/* validate results */
-    if(!equality_status) {
-        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
-    }
     printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 } 
 
 
 void test_frame_to_weighted_graph() {
 
-
     bool equality_status = true; 
 	int indices[3] = {1,3,4}; 
 
     /* expected graph results */
 	int weight_list[6][5] = {
-		{}, 
 		{1,1,1}, 
 		{1,2},
 		{1,2, 3},
 		{1},
-		{3}
+		{3},
+		{}
 	}; 
-
 
     frame_t *frame = init_frame("../../examples/data/test.csv", 1024);
 	assert(frame->status); 
@@ -99,7 +94,6 @@ void test_frame_to_weighted_graph() {
 
 void test_unused_slots() {
 
-
     bool equality_status = true; 
 	int indices[3] = {1,3,4}; 
 
@@ -110,98 +104,212 @@ void test_unused_slots() {
     graph_t *result = frame_to_weighted_graph(
        frame, indices, 3, false
     );
-	assert(result->list->v == 6); 
+	assert(result->list->v == 5); 
 
     frame = init_frame("../../examples/data/test.csv", 1024);
 	assert(frame->status);
 
-    /* convert frame to weighted graph */
+    // /* convert frame to weighted graph */
     result = frame_to_weighted_graph(
        frame, indices, 3, true
     );
 
     frame = init_frame("../../examples/data/city_population_density.csv", 1024);
-	if(!frame->status) {
-		equality_status = false;  
-	}
+	assert(frame->status == true); 
 
-    /* convert frame to weighted graph */
+    // /* convert frame to weighted graph */
     result = frame_to_weighted_graph(
        frame, indices, 3, false
     );
+	assert(result->list->v == 125); 
 
-	assert(result->list->v == 126); 
-
- 	/* validate results */
-    if(!equality_status) {
-        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
-    }
     printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 }
 
 
-void test_get_unique_nodes() {
+void test_get_max_vertex_count() {
+
+	char *path = "../../examples/gml/unit_tests/standard.gmul";
+	int max_count = get_max_vertex_count(path, 1024); 
+	assert(max_count == 7); 
+
+	char *path2 = "../../examples/gml/unit_tests/standard2.gmul"; 
+	int max_count_2 = get_max_vertex_count(path2, 1024);
+	assert(max_count_2 == 6); 
+
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+} 
+
+
+void test_get_nodes_from_file() {
 
 	bool equality_status = true; 
 
+	char *expected_labels[7] = {"a", "b", "c", "d", "e", "f", "g"};
+	int expected_ids[7] = {0,1,2,3,4,5,6};  
+
 	/* get unique nodes for graph */
-	char *path = "../../examples/gml/unit_tests/label_prop.gmul";
-	set_t *node_set = get_graph_nodes(path, 1024); 	
+	char *path = "../../examples/gml/unit_tests/test.gmul";
+	set_t *node_set = get_graph_nodes_from_file(path, 1024);
+	queue_t *q = init_queue(node_set->count); 
+	get_items_sorted(node_set->root, q);
+	assert(q->rear_index == 6);  
 
-	/* work on this in future releases */	
+	for(int i = q->front_index; i <= q->rear_index; i++){
+		char *label = q->items[i]->label;
+		int id = get_item_sorted(node_set, label); 
+		int compare = strcmp(label, expected_labels[i]) == 0; 
+		assert(id == expected_ids[i]); 
+		assert(compare == true); 
+	}
 
-
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 } 
 
-void test_serialize_adj_list(){
+void test_get_nodes(){
 
+	/* create adjacency list */
+    int vertices = 7; 
+	graph_t *g = init_graph(vertices, vertices, false);
+    add_node(g->list, 0, "A", 1, "B", 5);
+    add_node(g->list, 0, "A", 2, "C", 6);
+    add_node(g->list, 1, "B", 2, "C", 15);
+    add_node(g->list, 1, "B", 3, "D", 7);
+    add_node(g->list, 1, "B", 4, "E", 8);
+    add_node(g->list, 2, "C", 3, "D", 2);
+    add_node(g->list, 2, "C", 5, "F", 4);
+	add_node(g->list, 3, "D", 4, "E", 2);
+	add_node(g->list, 3, "D", 5, "F", 9);
+	add_node(g->list, 3, "D", 6, "G", 10);
+	add_node(g->list, 4, "E", 6, "G", 3);
 
-    bool equality_status = true;
-    // graph_t *g = serialize_graph_list("../../examples/gml/test.gmul", 1024);
+	//print_graph(g->list); 
+	ordered_set_t *set = get_graph_nodes(g);
+	assert(set->used == 7);
 
-	// /* expected relationships from adjacency list */ 
-	// char *relationship_list[7][10] = {
-	// 	{"b", "c", "d", "e", "f", "b"}, 
-	// 	{"a", "a", "d", "c", "f", "g"},
-	// 	{"a", "b"},
-	// 	{"a", "b"},
-    //     {"a"},
-    //     {"a", "b"},
-    //     {"b"}
-	// };
+	int expected_ids[7] = {1,2,0,3,4,5,6}; 
+	int expected_insert_counts[7] = {6,4,3,5,2,1,1};
+	char *expected_labels[7] = {"B", "C", "A", "D", "E", "F", "G"}; 
 
-	// /* iterate through list and match relationships */ 
-	// for(int i = 0; i < g->vertices; i++) {
-	// 	node_t *head = g->list->items[i]->head; 
-	// 	int node_index = 0; 
-	// 	while(head) {
-	// 		int condition = strcmp(head->label, relationship_list[i][node_index]);
-	// 		if(condition != 0) {
-	// 			equality_status = FALSE; 
-	// 		}
+	for(int i = 0; i < set->used; i++){
+		int compare = strcmp(set->items[i]->label, expected_labels[i]) == 0;
+		int insert_count = get_insert_count(set, set->items[i]);
 
-	// 		head = head->next;
-	// 	   	node_index += 1; 
-	// 	}
-	// }
-
-    if(!equality_status) {
-        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
-    }
-    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+		assert(set->items[i]->id == expected_ids[i]);
+		assert(compare == true);  
+		assert(insert_count == expected_insert_counts[i]); 
+	}  
 
 }
+
+void test_serialize_adj_list_sorted_labels(){
+
+
+    graph_t *g = serialize_graph_list_sorted_label("../../examples/gml/unit_tests/test.gmul", 1024);
+
+	// /* expected relationships from adjacency list */ 
+	char *relationship_list[7][10] = {
+		{"c", "b", "d", "e", "f", "b"}, 
+		{"a", "a", "d", "c", "f", "g"},
+		{"a", "b"},
+		{"a", "b"},
+        {"a"},
+        {"a", "b"},
+        {"b"}
+	};
+
+
+
+	/* iterate through list and match relationships */ 
+	for(int i = 0; i < g->list->v; i++) {
+		node_t *head = g->list->items[i]->head; 
+		int node_index = 0; 
+		while(head) {
+			int condition = strcmp(head->label, relationship_list[i][node_index]);
+			assert(condition == 0); 
+			head = head->next;
+		   	node_index += 1; 
+		}
+	}
+
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+}
+
+
+void test_serialize_adj_list() {
+
+
+	char *relationship_list[7][10] = {
+		{"D"}, 
+		{"F"},
+		{"D"},
+		{"A", "C", "E"},
+        {"D", "F"},
+        {"E", "G", "B"},
+        {"F"}
+	};
+
+	int expected_ids[7][10] = {
+		{3}, 
+		{5},
+		{3},
+		{0, 2, 4},
+        {3, 5},
+        {4, 6, 1},
+        {5}
+	};
+
+
+	char *path = "../../examples/gml/unit_tests/standard2.gmul";
+	graph_t *g = serialize_graph_list(path, 1024, false);
+	assert(g->vertices == 7); 
+
+	for(int i = 0; i < g->vertices; i++) {
+		node_t *head = g->list->items[i]->head; 
+		int node_index = 0;
+		while(head) {
+			int condition = strcmp(head->label, relationship_list[i][node_index]) == 0;
+			int id_condition = head->id == expected_ids[i][node_index]; 
+			assert(condition == true); 			
+			assert(id_condition); 
+			head = head->next;
+		   	node_index += 1; 
+		}
+	}
+
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+} 
 
 
 void test_deserialize_adj_list() {
 
-	int file_size = 1024; 
-	char *file_path = "../../examples/gml/output/result.gmul";
-    bool equality_status = true;
-    graph_t *g = serialize_graph_list("../../examples/gml/test.gmul", file_size);
+	int indices[2] = {1, 5}; 
+	char *input_path = "../../examples/data/movies.csv";
+	char *output_path = "../../examples/data/output/sample.gmul";
+    frame_t *frame = init_frame(input_path, 1024);
+	assert(frame->status);
 
-	/* deserialize results */	
-	//deserialize_graph_list(g, file_path);
+    /* convert frame to un weighted graph */
+    graph_t *result = frame_to_unweighted_graph(
+       frame, indices, 2, false
+    );
+
+	/* validate that resize worked */
+	assert(result->list->v == 200);  
+	remove_unused_slots(result);
+	assert(result->list->v == 154);  
+
+	/* call deserialize method here */
+	deserialize_graph_list(result, output_path);
+
+	/* check that file path exists */
+	assert(access(output_path, F_OK) == 0); 
+
+	/* validate we can reserialize the graph*/ 
+	graph_t *g = serialize_graph_list(output_path, 2048, true);
+	assert(g->list->v == 154);
+
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 } 
 
 
@@ -213,20 +321,14 @@ void test_to_list() {
 
 	/* test first example of weighted matrix */ 
 	adj_list_t *g = init_adj_list(vertices, vertices, true);
-	mat_graph_t *m = init_matrice_graph(vertices);
-
-	/*  create entries */
-	entry_t *a = init_entry(0, "A");  
-	entry_t *b = init_entry(1, "B");  
-	entry_t *c = init_entry(2, "C");  
-	entry_t *d = init_entry(3, "D");  
+	adj_mat_t *m = init_adj_mat(vertices, vertices, true);
 
 	/* build matrix */ 
-	insert(m, a, b, 0, false); 
-	insert(m, a, c, 0, false); 
-	insert(m, b, c, 0, false); 
-	insert(m, c, a, 0, false); 
-	insert(m, c, d, 0, false);
+	add_node_mat(m, 0, "A", 1, "B", 0);  
+	add_node_mat(m, 0, "A", 2, "C", 0);  
+	add_node_mat(m, 1, "B", 2, "C", 0);  
+	add_node_mat(m, 2, "C", 0, "A", 0);  
+	add_node_mat(m, 2, "C", 3, "D", 0);  
 
 	/* test directed matrix conversion */ 
 	adj_list_t *output = to_list(g, m, false);
@@ -234,9 +336,10 @@ void test_to_list() {
 	/* expected relationships from adjacency list */ 
 	char *relationship_list[5][5] = {
 		{"B", "C"}, 
-		{"A", "C"},
-		{"A", "B", "D"},
-		{"C"}
+		{"C"},
+		{"A", "D"},
+		{},
+		{}
 	};
 
 	/* iterate through list and match relationships */ 
@@ -245,13 +348,10 @@ void test_to_list() {
 		int node_index = 0; 
 		while(head) {
 			int condition = strcmp(head->label, relationship_list[i][node_index]); 
-			if(condition != 0) {
-				equality_status = FALSE; 
-			}
-
+			assert(condition == 0); 
 			head = head->next;
 		   	node_index += 1; 
-		}	
+		}
 	}
 
 	/* validate results */ 
@@ -271,20 +371,14 @@ void test_to_weighted_list() {
 
 	/* test first example of weighted matrix */ 
 	adj_list_t *g = init_adj_list(vertices, vertices, false);
-	mat_graph_t *m = init_matrice_graph(vertices);
-
-	/*  create entries */
-	entry_t *a = init_entry(0, "A");  
-	entry_t *b = init_entry(1, "B");  
-	entry_t *c = init_entry(2, "C");  
-	entry_t *d = init_entry(3, "D");  
+	adj_mat_t *m = init_adj_mat(vertices, vertices, false);
 
 	/* build matrix */ 
-	insert(m, a, b, 1, false); 
-	insert(m, a, c, 2, false); 
-	insert(m, b, c, 3, false); 
-	insert(m, c, a, 4, false); 
-	insert(m, c, d, 5, false);
+	add_node_mat(m, 0, "A", 1, "B", 0);  
+	add_node_mat(m, 0, "A", 2, "C", 0);  
+	add_node_mat(m, 1, "B", 2, "C", 0);  
+	add_node_mat(m, 2, "C", 0, "A", 0);  
+	add_node_mat(m, 2, "C", 3, "D", 0);  
 
 	/* expected relationships from adjacency list */ 
 	int relationship_list[5][6] = {
@@ -311,13 +405,7 @@ void test_to_weighted_list() {
 	}
 
 	/* validate results */ 
-	if(!equality_status) {
-		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
-	} else {
-		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-	}
-
-
+	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 }
 
 
@@ -329,20 +417,14 @@ void test_to_directed_list() {
 
 	/* test first example of weighted matrix */ 
 	adj_list_t *g = init_adj_list(vertices, vertices, true);
-	mat_graph_t *m = init_matrice_graph(vertices);
-
-	entry_t *a = init_entry(0, "A"); 
-	entry_t *b = init_entry(1, "B"); 
-	entry_t *c = init_entry(2, "C"); 
-	entry_t *d = init_entry(3, "D");
+	adj_mat_t *m = init_adj_mat(vertices, vertices, true);
 
 	/* build matrix */ 
-	insert(m, a, b, 0, true); 
-	insert(m, a, c, 0, true); 
-	insert(m, b, c, 0, true); 
-	insert(m, c, a, 0, true); 
-	insert(m, c, d, 0, true);
-
+	add_node_mat(m, 0, "A", 1, "B", 0);  
+	add_node_mat(m, 0, "A", 2, "C", 0);  
+	add_node_mat(m, 1, "B", 2, "C", 0);  
+	add_node_mat(m, 2, "C", 0, "A", 0);  
+	add_node_mat(m, 2, "C", 3, "D", 0);  
 
 	/* expected relationships from adjacency list */ 
 	char *relationship_list[5][6] = {
@@ -367,12 +449,7 @@ void test_to_directed_list() {
 	}
 
 	/* validate results */ 
-	if(!equality_status) {
-		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
-	} else {
-		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-	}
-
+	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 }
 
 
@@ -384,20 +461,14 @@ void test_to_directed_weighted_list() {
 
 	/* test first example of weighted matrix */ 
 	adj_list_t *g = init_adj_list(vertices, vertices, true);
-	mat_graph_t *m = init_matrice_graph(vertices);
-
-	/*  create entries */
-	entry_t *a = init_entry(0, "A");  
-	entry_t *b = init_entry(1, "B");  
-	entry_t *c = init_entry(2, "C");  
-	entry_t *d = init_entry(3, "D");  
+	adj_mat_t *m = init_adj_mat(vertices, vertices, true);
 
 	/* build matrix */ 
-	insert(m, a, b, 0, true); 
-	insert(m, a, c, 0, true); 
-	insert(m, b, c, 0, true); 
-	insert(m, c, a, 0, true); 
-	insert(m, c, d, 0, true);
+	add_node_mat(m, 0, "A", 1, "B", 0);  
+	add_node_mat(m, 0, "A", 2, "C", 0);  
+	add_node_mat(m, 1, "B", 2, "C", 0);  
+	add_node_mat(m, 2, "C", 0, "A", 0);  
+	add_node_mat(m, 2, "C", 3, "D", 0);  
 
 	/* expected relationships from adjacency list */ 
 	char *relationship_list[5][5] = {
@@ -422,12 +493,7 @@ void test_to_directed_weighted_list() {
 	}
 
 	/* validate results */ 
-	if(!equality_status) {
-		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
-	} else {
-		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-	}
-
+	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 }
 
 
@@ -451,7 +517,7 @@ void test_to_matrix() {
 
 	/* create adjacency list */ 
 	adj_list_t *g = init_adj_list(vertices, vertices, false);
-	mat_graph_t *result = init_matrice_graph(vertices); 
+	adj_mat_t *result = init_adj_mat(vertices, vertices, false); 
 
 	/* first community */ 
 	add_node(g, 0, "A", 1, "B", 0);
@@ -470,24 +536,17 @@ void test_to_matrix() {
 	add_node(g, 7, "H", 7, "H", 0);
 
 	/* test to regular matrix conversion */ 
-	mat_graph_t *output = to_matrix(result, g, false);
-	int v = output->vertices;
+	adj_mat_t *output = to_matrix(result, g, false);
+	int v = output->v;
 
 	/* check output */ 
 	for(int i = 0; i < vertices; i++) {
 		for(int j = 0; j < vertices; j++) {
-			assert(output->matrix[i*v+j]->id == expected_output[i][j]);
+			assert(output->items[i*v+j]->id == expected_output[i][j]);
 		}
 	}
 
-
-	/* validate results */ 
-	if(!equality_status) {
-		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
-	} else {
-		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-	}
-
+	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 }
 
 
@@ -512,7 +571,7 @@ void test_to_directed_matrix() {
 
 	/* create adjacency list */ 
 	adj_list_t *g = init_adj_list(vertices, vertices, true);
-	mat_graph_t *result = init_matrice_graph(vertices); 
+	adj_mat_t *result = init_adj_mat(vertices, vertices, true); 
 
 	/* first community */ 
 	add_node(g, 0, "A", 1, "B", 0);
@@ -531,23 +590,18 @@ void test_to_directed_matrix() {
 	add_node(g, 7, "H", 7, "H", 0);
 
 	/* test directed matrix conversion */ 
-	mat_graph_t *output = to_matrix(result, g, true);
-	int v = output->vertices; 
+	adj_mat_t *output = to_matrix(result, g, true);
+	int v = output->v; 
 
 
 	/* check output */ 
 	for(int i = 0; i < vertices; i++) {
 		for(int j = 0; j < vertices; j++) {
-			assert(output->matrix[i*v+j]->id == expected_output[i][j]);
+			assert(output->items[i*v+j]->id == expected_output[i][j]);
 		}
 	}
 
-	/* validate results */ 
-	if(!equality_status) {
-		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
-	} else {
-		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-	}
+	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 }
 
 
@@ -568,7 +622,7 @@ void test_to_weighted_matrix() {
 
 	/* create adj lists */ 
 	adj_list_t *g = init_adj_list(vertices, vertices, false);
-	mat_graph_t *result = init_matrice_graph(vertices);
+	adj_mat_t *result = init_adj_mat(vertices, vertices, false);
 
 
 	/* build graph */ 
@@ -580,14 +634,14 @@ void test_to_weighted_matrix() {
 
 
 	/* test directed matrix conversion */ 
-	mat_graph_t *output = to_matrix(result, g, false);
-	int v = output->vertices; 
+	adj_mat_t *output = to_matrix(result, g, false);
+	int v = output->v; 
 
 	/* check output */ 
 	for(int i = 0; i < vertices; i++) {
 		for(int j = 0; j < vertices; j++) {
-			if(output->weights[i*v+j] != expected_output[i][j]) {
-				assert(output->matrix[i*v+j]->id == expected_output[i][j]);
+			if(output->items[i*v+j]->weight != expected_output[i][j]) {
+				assert(output->items[i*v+j]->id == expected_output[i][j]);
 			}
 		}
 	}
@@ -621,7 +675,7 @@ void test_to_directed_weighted_matrix() {
 
 	/* test first example of weighted matrix */ 
 	adj_list_t *g = init_adj_list(vertices, vertices, true);
-	mat_graph_t *result = init_matrice_graph(vertices);
+	adj_mat_t *result = init_adj_mat(vertices, vertices, true); 
 
 	/* first community */ 
 	add_node(g, 0, "A", 1, "B", 1);
@@ -640,23 +694,16 @@ void test_to_directed_weighted_matrix() {
 	add_node(g, 7, "H", 7, "H", 10);
 
 	/* test directed matrix conversion */ 
-	mat_graph_t *output = to_matrix(result, g, true);
-	int v = output->vertices; 
-
+	adj_mat_t *output = to_matrix(result, g, true);
+	int v = output->v; 
 
 	/* check output */ 
 	for(int i = 0; i < vertices; i++) {
 		for(int j = 0; j < vertices; j++) {
-			assert(output->matrix[i*v+j]->id == expected_output[i][j]);
+			assert(output->items[i*v+j]->id == expected_output[i][j]);
 		}
 	}
 
-	/* validate results */ 
-	if(!equality_status) {
-		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
-	} else {
-		printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-	}
-
+	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 }
 

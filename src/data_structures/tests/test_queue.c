@@ -5,14 +5,14 @@
 void test_init_queue(){
 
 	int count = 5; 
-	bool equality_status = false; 
+	bool equality_status = true; 
 
 	/* create nodes */ 
-    item_t *item1 = init_item(1, "String Item 1", 0, NULL);  
-    item_t *item2 = init_item(2, "String Item 2 ", 0, NULL); 
-    item_t *item3 = init_item(3, "String Item 3 ", 0, NULL); 
-    item_t *item4 = init_item(4, "String Item 4", 0, NULL); 
-    item_t *item5 = init_item(5, "String Item 5", 0, NULL); 
+    node_t *item1 = create_node(1, "String Item 1", 0);  
+    node_t *item2 = create_node(2, "String Item 2 ", 0); 
+    node_t *item3 = create_node(3, "String Item 3 ", 0); 
+    node_t *item4 = create_node(4, "String Item 4", 0); 
+    node_t *item5 = create_node(5, "String Item 5", 0); 
 
     /* test if queue works */ 
     queue_t *q = init_queue(count); 
@@ -21,10 +21,7 @@ void test_init_queue(){
     push(q, item3); 
     push(q, item4); 
     push(q, item5);
-
-	if(q->item_count == count){
-		equality_status = true; 
-	}
+	assert(q->item_count == count); 
 
 	if(!equality_status) {
 		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
@@ -36,14 +33,15 @@ void test_init_queue(){
 void test_is_full() {
 
 	int count = 5; 
-	bool equality_status = false; 
+	bool equality_status = true; 
 
 	/* create nodes */ 
-    item_t *item1 = init_item(1, "String Item 1", 0, NULL);  
-    item_t *item2 = init_item(2, "String Item 2 ", 0, NULL); 
-    item_t *item3 = init_item(3, "String Item 3 ", 0, NULL); 
-    item_t *item4 = init_item(4, "String Item 4", 0, NULL); 
-    item_t *item5 = init_item(5, "String Item 5", 0, NULL); 
+    node_t *item1 = create_node(1, "String Item 1", 0);  
+    node_t *item2 = create_node(2, "String Item 2 ", 0); 
+    node_t *item3 = create_node(3, "String Item 3 ", 0); 
+    node_t *item4 = create_node(4, "String Item 4", 0); 
+    node_t *item5 = create_node(5, "String Item 5", 0); 
+
 
     /* test if queue works */ 
     queue_t *q = init_queue(count); 
@@ -54,17 +52,13 @@ void test_is_full() {
 
 	/* should not be full at this point */
 	bool result = is_full(q);
-	if(result) {
-		equality_status = false; 
-	}
+	assert(result == false); 
 
 	/* last insert here makes it full*/
     push(q, item5);
 
-	result = is_full(q); 
-	if(result){
-		equality_status = true; 
-	}
+	result = is_full(q);
+	assert(result == true);  
 
 	if(!equality_status) {
 		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
@@ -77,14 +71,14 @@ void test_is_full() {
 void test_is_empty(){
 
 	int count = 5; 
-	bool equality_status = false; 
+	bool equality_status = true; 
 
 	/* create nodes */ 
-    item_t *item1 = init_item(1, "String Item 1", 0, NULL);  
-    item_t *item2 = init_item(2, "String Item 2 ", 0, NULL); 
-    item_t *item3 = init_item(3, "String Item 3 ", 0, NULL); 
-    item_t *item4 = init_item(4, "String Item 4", 0, NULL); 
-    item_t *item5 = init_item(5, "String Item 5", 0, NULL); 
+    node_t *item1 = create_node(1, "String Item 1", 0);  
+    node_t *item2 = create_node(2, "String Item 2 ", 0); 
+    node_t *item3 = create_node(3, "String Item 3 ", 0); 
+    node_t *item4 = create_node(4, "String Item 4", 0); 
+    node_t *item5 = create_node(5, "String Item 5", 0); 
 
     /* test if queue works */ 
     queue_t *q = init_queue(count); 
@@ -98,9 +92,7 @@ void test_is_empty(){
 	}
 
 	bool result = is_empty(q);
-	if(result){
-		equality_status = true; 
-	}
+	assert(result == true); 
 
 	if(!equality_status) {
 		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 
@@ -113,14 +105,14 @@ void test_is_empty(){
 void test_front_rear() {
 
 	int count = 5; 
-	bool equality_status = false; 
+	bool equality_status = true; 
 
 	/* create nodes */ 
-    item_t *item1 = init_item(1, "String Item 1", 0, NULL);  
-    item_t *item2 = init_item(2, "String Item 2 ", 0, NULL); 
-    item_t *item3 = init_item(3, "String Item 3 ", 0, NULL); 
-    item_t *item4 = init_item(4, "String Item 4", 0, NULL); 
-    item_t *item5 = init_item(5, "String Item 5", 0, NULL); 
+    node_t *item1 = create_node(1, "String Item 1", 0);  
+    node_t *item2 = create_node(2, "String Item 2 ", 0); 
+    node_t *item3 = create_node(3, "String Item 3 ", 0); 
+    node_t *item4 = create_node(4, "String Item 4", 0); 
+    node_t *item5 = create_node(5, "String Item 5", 0); 
 
     /* test if queue works */ 
     queue_t *q = init_queue(count); 
@@ -133,12 +125,9 @@ void test_front_rear() {
 	int front_index = front(q); 
 	int rear_index = rear(q); 
 
-	bool front_condition = q->items[front_index]->integer == 1; 
-	bool rear_condition = q->items[rear_index]->integer == 5; 
-
-	if(front_condition && rear_condition) {
-		equality_status = true; 
-	}
+	bool front_condition = q->items[front_index]->id == 1; 
+	bool rear_condition = q->items[rear_index]->id == 5;
+	assert(front_condition == true && rear_condition == true);  
 
 	if(!equality_status) {
 		printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__); 

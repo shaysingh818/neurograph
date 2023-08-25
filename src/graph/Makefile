@@ -11,7 +11,7 @@ HEADERS = $(wildcard /includes/*.h)
 TEST_HEADERS = $(wildcard /tests/includes/*.h)
 
 # Data structures library dependency
-DATA_STRUCTURES = ../data_structures/set.o ../data_structures/queue.o ../data_structures/matrix.o ../data_structures/adj_list.o ../data_structures/node.o ../data_structures/map.o ../data_structures/ll.o 
+DATA_STRUCTURES = ../data_structures/set.o ../data_structures/queue.o ../data_structures/matrix.o ../data_structures/adj_list.o ../data_structures/adj_mat.o ../data_structures/node.o ../data_structures/map.o ../data_structures/ll.o 
 
 EXTRACTORS = ../extractors/re.o ../extractors/gml.o ../extractors/frame.o
 

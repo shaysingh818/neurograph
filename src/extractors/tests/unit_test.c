@@ -6,6 +6,7 @@ int main(int argc, char **argv) {
 
 	/* tests for re library */
 	test_match_single();
+	test_match_pattern(); 
 	test_csv_line();  
 
 	/* dataframe library tests */
@@ -15,6 +16,7 @@ int main(int argc, char **argv) {
 	test_hash_map_frame(); 
 
 	/* gml testing */
-	test_gml_expression_set(); 
+	test_gml_expression_set();
+	test_gml_weights_ids_expression();  
 
 }

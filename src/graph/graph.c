@@ -11,7 +11,7 @@ graph_t *init_graph(int v, int e, bool directed) {
 	g->directed = directed; 
 	g->visited = malloc(v * sizeof(int));  
 	g->list = init_adj_list(g->vertices, g->edges, g->directed); 
-	g->matrix = init_matrice_graph(g->vertices); 
+	g->matrix = init_adj_mat(g->vertices, g->edges, g->directed); 
 	g->labels = malloc(v * sizeof(int)); 
 	for (int i = 0; i < v; i++){ g->labels[i] = -1; }
 	return g; 
@@ -27,6 +27,20 @@ walk_t *init_walk(int steps) {
 	w->weighted_sum = 0; 
 	return w; 
 }
+
+
+void remove_unused_slots(graph_t *g) {
+	int last_used_indice = 0;  
+	for(int i = g->vertices; i > 0; i--){
+		if(g->list->used[i] == 1){
+			last_used_indice = i;
+			break;
+		}
+	}
+	int remainder = g->vertices - last_used_indice; 
+	int new_size = g->vertices - remainder; 
+	resize_adj_list(g->list, new_size+1);
+} 
 
 
 void print_walk(walk_t *w){
@@ -49,7 +63,7 @@ void label_node(graph_t *g, int index, int label) {
 } 
 
 
-mat_graph_t *to_matrix(mat_graph_t *m, adj_list_t *g, bool directed) {
+adj_mat_t *to_matrix(adj_mat_t *m, adj_list_t *g, bool directed) {
 	
 	/* iterate through list and populate matrix */
 	for(int i = 0; i < g->v; i++) {
@@ -60,16 +74,9 @@ mat_graph_t *to_matrix(mat_graph_t *m, adj_list_t *g, bool directed) {
 		int col = head->id; 
 
 		while(head) {
-
-			entry_t *src = init_entry(src_node->id, src_node->label); 
-			entry_t *dst = init_entry(head->id, head->label); 
-
-			if(directed) {
-				insert(m, src, dst, head->weight, true); 
-			} else {
-				insert(m, src, dst, head->weight, false); 
-			}
-
+			node_t *src = create_node(src_node->id, src_node->label, src_node->weight); 
+			node_t *dst = create_node(head->id, head->label, head->weight); 
+			add_node_mat(m, src->id, src->label, dst->id, dst->label, head->weight); 
 			head  = head->next;
 		}
 	}
@@ -77,17 +84,15 @@ mat_graph_t *to_matrix(mat_graph_t *m, adj_list_t *g, bool directed) {
 }
 
 
-adj_list_t *to_list(adj_list_t *g, mat_graph_t *m, bool directed) {
+adj_list_t *to_list(adj_list_t *g, adj_mat_t *m, bool directed) {
 
-	for(int i = 0; i < m->vertices; i++) {
-		for(int j = 0; j < m->vertices; j++) {
-			if(m->matrix[i*m->vertices+j]->label != NULL) {
-
-				int weight_value = m->weights[i*m->vertices+j];
-
-				entry_t *src = search_entry_by_id(m, i); 
-				entry_t *dst = search_entry_by_id(m, j); 
-				add_node(g, i, src->label, j, dst->label, weight_value);
+	for(int i = 0; i < m->v; i++) {
+		for(int j = 0; j < m->v; j++) {
+			if(m->items[i*m->v+j]->label != NULL) {
+				int weight_value = m->items[i*m->v+j]->weight;
+				node_t *src = search_node_by_id_mat(m, i); 
+				node_t *dst = search_node_by_id_mat(m, j); 
+				add_node(g, src->id, src->label, dst->id, dst->label, weight_value);
 			}
 		}
 	}
@@ -117,6 +122,7 @@ graph_t *frame_to_unweighted_graph(frame_t *frame, int *cols, int size, bool dir
 	/* create graph to be returned */ 
 	int vertex_count = frame->row_count * size;	
 	graph_t *g = init_graph(vertex_count, vertex_count, directed);
+	ordered_set_t *set = init_array_set(vertex_count); 
 
 
 	/* validate that graph is unweighted */
@@ -128,9 +134,6 @@ graph_t *frame_to_unweighted_graph(frame_t *frame, int *cols, int size, bool dir
 		return g; 
 	}
 
-	char *head_label = frame->headers[cols[0]]->values[0]->value;
-	int head_id = frame->headers[cols[0]]->values[0]->index;  
-	node_t *head = create_node(head_id, head_label, 0); 
 
 	for(int i = 0; i < size; i+=2){
 
@@ -143,16 +146,11 @@ graph_t *frame_to_unweighted_graph(frame_t *frame, int *cols, int size, bool dir
 			char *src = src_header_values[j]->value; 
 			char *dst = dst_header_values[j]->value;
 
-			node_t *src_node = create_node(j, src, 0);
-			node_t *dst_node = create_node(j, dst, 0);
+			insert_ordered(set, j, src, 0); 
+			insert_ordered(set, j, dst, 0); 
 
-			/* add src and dst to ull (unique linked list) */ 
-			unique_append_ll(&head, src_node); 
-			unique_append_ll(&head, dst_node);
-
-			/* get the id for the head and src */
-			int src_id = get_id_ll(head, src); 
-			int dst_id = get_id_ll(head, dst);  
+			int src_id = get_value_key(set, src); 
+			int dst_id = get_value_key(set, dst);
 
 			add_node(g->list, src_id, src, dst_id, dst, 0); 	
 		} 
@@ -167,6 +165,7 @@ graph_t *frame_to_weighted_graph(frame_t *frame, int *cols, int size, bool direc
 	/* create graph */
 	int vertex_count = frame->row_count * size;	
 	graph_t *g = init_graph(vertex_count, vertex_count, directed);
+	ordered_set_t *set = init_array_set(vertex_count); 
 
 	/* validate that graph is unweighted */ 
 	if(size % 3 != 0) {
@@ -176,10 +175,6 @@ graph_t *frame_to_weighted_graph(frame_t *frame, int *cols, int size, bool direc
 		g->list->err = true; 
 		return g; 
 	}
-
-	char *head_label = frame->headers[cols[0]]->values[0]->value;
-	int head_id = frame->headers[cols[0]]->values[0]->index;  
-	node_t *head = create_node(head_id, head_label, 0); 
 
     for(int i = 0; i < size; i+=3){
 	
@@ -197,43 +192,89 @@ graph_t *frame_to_weighted_graph(frame_t *frame, int *cols, int size, bool direc
 			/* convert weight to integer */ 
 			int weight_to_int = atoi(weight);
 
-			node_t *src_node = create_node(j, src, weight_to_int);
-			node_t *dst_node = create_node(j, dst, weight_to_int);
+			insert_ordered(set, j, src, 0); 
+			insert_ordered(set, j, dst, 0); 
 
-			/* add src and dst to ull (unique linked list) */ 
-			unique_append_ll(&head, src_node); 
-			unique_append_ll(&head, dst_node);
-
-			/* get the id for the head and src */
-			int src_id = get_id_ll(head, src); 
-			int dst_id = get_id_ll(head, dst);  
+			int src_id = get_value_key(set, src); 
+			int dst_id = get_value_key(set, dst);
 
 			add_node(g->list, src_id, src, dst_id, dst, weight_to_int); 	
 		}
 	}
 
-	// /* clear unused empty slots */
-	int last_used_indice = 0;  
-	for(int i = g->vertices; i > 0; i--){
-		if(g->list->used[i] == 1){
-			last_used_indice = i;
-			break;
-		}
-	}
-
-	int remainder = g->vertices - last_used_indice; 
-	int new_size = g->vertices - remainder; 
-	resize_adj_list(g->list, new_size+1);
-
+	/* removed unused slots */
+	remove_unused_slots(g); 
 	return g; 
 }
 
+int get_max_vertex_count(char *filename, int file_size) {
 
-set_t *get_graph_nodes(char *filename, int file_size) {
+	FILE* fp = fopen(filename, "r");
+   	int row_count = 0, max_vertex = 0;
+    char* buffer = malloc(file_size * sizeof(char));
+
+	while(fgets(buffer, file_size, fp)) {
+
+		/* null terminate the buffer */ 
+		int len = strlen(buffer); 
+		if(buffer[len-1] == '\n') {
+			buffer[len-1] = 0; 
+		}
+
+		/* extract tokens from regular expression */
+		tokens_t *row_values = match_single(buffer, RE_GML_NODE); 
+		int size = row_values->result_size;
+
+		char *id_string = row_values->tokens[0]; 
+		int id_to_int = atoi(id_string); 
+		char *label = row_values->tokens[1];
+
+		if(id_to_int > max_vertex) {
+			max_vertex = id_to_int; 
+		}
+
+		/* Check if all neighbors info is there */
+		if((size-2) % 3 != 0){
+			printf("Line [%d]: Error with node neighbors config\n", row_count);
+		}
+
+		/* get neighbors */
+		for(int i = 2; i < size; i+=3){
+			int id = atoi(row_values->tokens[i]); 
+			char *label = row_values->tokens[i+1];
+			int weight = atoi(row_values->tokens[i+2]);	
+
+			if(id > max_vertex){
+				max_vertex = id; 
+			}
+
+		} 
+		row_count += 1;
+	}
+
+	return max_vertex; 
+}
+
+
+ordered_set_t *get_graph_nodes(graph_t *g) {
+	ordered_set_t *set = init_array_set(g->vertices); 
+	for(int i = 0; i < g->list->v; i++){
+		node_t *head = g->list->items[i]->head;
+		insert_ordered(set, head->id, head->label, 0); 
+		while(head) {
+			insert_ordered(set, head->id, head->label, 0); 
+			head  = head->next;
+		}
+	}
+	return set; 
+} 
+
+
+set_t *get_graph_nodes_from_file(char *filename, int file_size) {
 
 	/* variables */
 	FILE* fp = fopen(filename, "r");
-   	int row_count = 0;
+   	int row_count = 0, insert_count = 0;
     char *head_label; 
     char* buffer = malloc(file_size * sizeof(char));
     node_t *head;
@@ -255,13 +296,15 @@ set_t *get_graph_nodes(char *filename, int file_size) {
         /* extract node */
 		tokens_t *r_quotes = match_single(row_values->tokens[0], REMOVE_QUOTES); 
         char *node = r_quotes->tokens[0];
-        insert_ordered(node_set, row_count, node, 0); 
+        insert_sorted(node_set, insert_count, node, 0); 
+		insert_count += 1; 
 
-        /* extract neighbors */
+        // /* extract neighbors */
         for(int i = 1; i < size; i++){
 		    r_quotes = match_single(row_values->tokens[i], REMOVE_QUOTES); 
             char *neighbor = r_quotes->tokens[0];
-            insert_ordered(node_set, row_count, neighbor, 0);
+            insert_sorted(node_set, insert_count, neighbor, 0);
+			insert_count += 1; 
         }
 
 		row_count += 1;
@@ -270,14 +313,14 @@ set_t *get_graph_nodes(char *filename, int file_size) {
 }
 
 
-graph_t *serialize_graph_list(char *filename, int file_size) {
+graph_t *serialize_graph_list_sorted_label(char *filename, int file_size) {
 
 	/* variables */
 	FILE* fp = fopen(filename, "r");
    	int row_count = 0;
     char *head_label; 
     char* buffer = malloc(file_size * sizeof(char));
-    set_t *nodes = get_graph_nodes(filename, file_size); 
+    set_t *nodes = get_graph_nodes_from_file(filename, file_size); 
     graph_t *g = init_graph(nodes->count-1, nodes->count-1, false);
 
 
@@ -306,10 +349,8 @@ graph_t *serialize_graph_list(char *filename, int file_size) {
             char *dst = neighbor;
             char *src = node;
 
-            int dst_id = get_value_ordered(nodes, dst); 
-            int src_id = get_value_ordered(nodes, src); 
-
-			printf("(%d, %s) -> (%d, %s)\n", src_id, src, dst_id, dst);
+            int dst_id = get_item_sorted(nodes, dst); 
+            int src_id = get_item_sorted(nodes, src); 
 
             add_node(g->list, src_id, src, dst_id, dst, 0);
 
@@ -317,13 +358,86 @@ graph_t *serialize_graph_list(char *filename, int file_size) {
 		row_count += 1;
 	}
 
+	/* remove unused slots from graph */
+	remove_unused_slots(g); 
+
     return g;
 }
 
 
-void deserialize_graph_list(graph_t *list, char *filename) {
-    printf("De Serialize\n");
-	FILE* fp = fopen(filename, "r");    
+graph_t *serialize_graph_list(char *filename, int file_size, bool directed){
+
+	FILE* fp = fopen(filename, "r");
+   	int row_count = 0;
+    char* buffer = malloc(file_size * sizeof(char));
+
+	/* get max vertex count for graph instance size */
+	int vertex_count = get_max_vertex_count(filename, file_size); 
+    graph_t *g = init_graph(vertex_count+1, vertex_count+1, directed);
+
+	while(fgets(buffer, file_size, fp)) {
+
+		/* null terminate the buffer */ 
+		int len = strlen(buffer); 
+		if(buffer[len-1] == '\n') {
+			buffer[len-1] = 0; 
+		}
+
+		/* extract tokens from regular expression */
+		tokens_t *row_values = match_single(buffer, RE_GML_NODE); 
+		int size = row_values->result_size;
+
+
+		char *id_string = row_values->tokens[0]; 
+		int src_id = atoi(id_string);
+		char *src = row_values->tokens[1];
+
+		/* Check if all neighbors info is there */
+		if((size-2) % 3 != 0){
+			printf("Line [%d]: Error with node neighbors config\n", row_count);
+		}
+
+		/* get neighbors */
+		for(int i = 2; i < size; i+=3){
+			int dst_id = atoi(row_values->tokens[i]);
+			char *dst = row_values->tokens[i+1];
+			int weight = atoi(row_values->tokens[i+2]);
+			remove_char(dst, '"');
+			remove_char(src, '"'); 
+			add_node(g->list, src_id, src, dst_id, dst, weight);
+		} 
+		row_count += 1;
+	}
+
+	return g; 
+}
+
+
+void deserialize_graph_list(graph_t *g, char *filename) {
+	FILE* fp; 
+	fp = fopen(filename, "w");   
+	for(int i = 0; i < g->list->v; i++){
+		node_t *result = get_node_by_id(g->list, i); 
+		int id = result->id; 
+		char *label = result->label;
+		remove_char(label, '"'); 
+
+		fprintf(fp, "[%d,\"%s\"]: ", id, label);  
+		node_t *head = g->list->items[i]->head;
+		fprintf(fp, "("); 
+		while(head) {
+			if (head->next == NULL){
+				remove_char(head->label, '"'); 
+				fprintf(fp, "[%d,\"%s\",%d]", head->id, head->label, head->weight);
+			} else {
+				remove_char(head->label, '"'); 
+				fprintf(fp, "[%d,\"%s\",%d],", head->id, head->label, head->weight);
+			}
+			head  = head->next;
+		}
+		fprintf(fp, ")\n");
+	}
+	fclose(fp);
 } 
 
 graph_t *serialize_mat_graph(char *filename, int file_size) {

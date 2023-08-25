@@ -22,25 +22,20 @@ void test_extract_frame_headers() {
 
     /* frame for movies.csv*/
     frame_t *f = init_frame("../../examples/data/movies.csv", 1024);
-	if(!f->status) {
-		equality_status = false;  
-	}
+    assert(f->status == true); 
 
     for(int i = 0; i < f->header_count; i++){
         int name_compare = strcmp(f->headers[i]->name, movie_cols[i]) == 0;
-        if(!name_compare) { equality_status = false; }
+        assert(name_compare == true); 
     }
 
-
     /* frame for movies.csv*/
-    frame_t *power_gen = init_frame("../../examples/data/power_generation.csv", 1024);   
-	if(!power_gen->status) {
-		equality_status = false;  
-	}
+    frame_t *power_gen = init_frame("../../examples/data/power_generation.csv", 1024);  
+    assert(power_gen->status == true);  
 
     for(int i = 0; i < power_gen->header_count; i++){
         int name_compare = strcmp(power_gen->headers[i]->name, power_gen_cols[i]) == 0;
-        if(!name_compare) { equality_status = false; }
+        assert(name_compare == true); 
     }
 
  	/* validate results */
@@ -84,9 +79,7 @@ void test_init_frame_rows() {
         }
  
         /* check if rows are populated */
-        if(curr_count != frame->row_count){
-            equality_status = false; 
-        }    
+        assert(curr_count == frame->row_count);  
     } 
 
  	/* validate results */
@@ -99,7 +92,7 @@ void test_init_frame_rows() {
 
 void test_init_frame_structure() {
 
-    bool equality_status = false; 
+    bool equality_status = true; 
     frame_t *frame = init_frame("../../examples/data/movies.csv", 1024); 
 
     /* put in expected values */
@@ -108,9 +101,8 @@ void test_init_frame_structure() {
     bool row_condition = frame->row_count == row_count;
     bool buffer_condition = frame->buffer_size == buffer_size; 
 
-    if(header_condition && row_condition && buffer_condition){
-        equality_status = true; 
-    } 
+    assert(header_condition == true && row_condition == true); 
+    assert(buffer_condition == true);  
 
  	/* validate results */
     if(!equality_status) {
@@ -126,9 +118,7 @@ void test_hash_map_frame() {
 
     bool equality_status = true; 
     frame_t *frame = init_frame("../../examples/data/city_population_density.csv", 1024);
-	if(!frame->status) {
-		equality_status = false;  
-	}
+    assert(frame->status == true); 
 
     init_frame_map(frame);
 
@@ -140,14 +130,11 @@ void test_hash_map_frame() {
     for(int j = 0; j < frame->header_count; j++){
         void *results = lookup_key(frame->map, frame->headers[j]->name); 
         bool condition = strcmp(frame->headers[j]->name, keys[j]) == 0;
-        if(!condition){
-            equality_status = false; 
-        }
+        assert(condition == true); 
+
         value_t **values = (value_t**)results; 
         for(int i = 0; i < frame->row_count; i++){
-            if(values[i]->value == NULL){
-                equality_status = false; 
-            }
+            assert(values[i]->value != NULL); 
         }
     }
 

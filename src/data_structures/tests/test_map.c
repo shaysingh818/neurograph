@@ -83,10 +83,7 @@ void test_additive_hash() {
 
 	char *key1 = "Testing";
 	int index2 = additive_hash(0, key1, strlen(key)+1); 
-
-	if(index != 766 && index2 != 734){
-		equality_status = false; 
-	}
+	assert(index == 766 && index2 == 734); 
 
     if(!equality_status) {
         printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
@@ -102,19 +99,19 @@ void test_compare_char() {
 	bool equality_status = true; 
 
 	bool result = compare_char("test", "test");
-	if(!result) equality_status = false; 
+	assert(result == true);
 
 	bool result1 = compare_char("test1", "test");
-	if(result1) equality_status = false; 
+	assert(result1 == false);
 
 	bool result2 = compare_char("test1", "test1"); 
-	if(result2 != true) equality_status = false; 
+	assert(result2 == true);
 
 	bool result3 = compare_char("test2", "test");
-	if(result3 != false) equality_status = false; 
+	assert(result3 == false); 
 
 	bool result4 = compare_char("test2", "test2"); 
-	if(!result4) equality_status = false;
+	assert(result4 == true); 
 
     if(!equality_status) {
         printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
@@ -139,14 +136,10 @@ void test_hash_linked_list() {
 	add_map_list(ll, 6, "key6", "value6");
 
 	h_ll_t *prev = get_prev_link(ll, 1, "key1", compare_char); 
-	if(strcmp("key2", (char*)prev->key) != 0){
-		equality_status = false; 
-	}
+	assert(strcmp("key2", (char*)prev->key) == 0); 
 
-	h_ll_t *key = lookup_key_list(ll, 1, "key1", compare_char);
-	if(strcmp("key1", (char*)key->key) != 0){
-		equality_status = false; 
-	}
+	h_ll_t *key = lookup_key_list(ll, 1, "key1", compare_char);	
+	assert(strcmp("key1", (char*)key->key) == 0); 
 
 	char *expected_keys[10] = {NULL, "key4", "key3", "key2"};
 
@@ -157,9 +150,7 @@ void test_hash_linked_list() {
 	int counter = 0; 
 	while(ll->next){
 		if(counter > 0){ /* skipping the null value */
-			if(strcmp((char*)ll->key, expected_keys[counter]) != 0){
-				equality_status = false; 
-			}
+			assert(strcmp((char*)ll->key, expected_keys[counter]) == 0);
 		}
 		ll = ll->next; 
 		counter += 1; 
@@ -202,17 +193,8 @@ void test_duplicates() {
 	void *head = lookup_key(hash_table, "testing");
 	char *value = (char*)head; 
 
-	if(strcmp((char*)item2, "Duplicate") != 0){
-		equality_status = false; 
-	}
-
-	if(strcmp((char*)item, "Duplicate") != 0){
-		equality_status = false; 
-	}
-
-	if(strcmp((char*)head, "my_value") != 0){
-		equality_status = false; 
-	}
+	assert(strcmp((char*)item2, "Duplicate") == 0);
+	assert(strcmp((char*)head, "my_value") == 0);
 
 	char *expected_keys[20] = {
 		"testing67", "testing6", "testing5", 
@@ -231,13 +213,8 @@ void test_duplicates() {
 		int counter = 0;
 		while(head->next){
 			if((char*)head->key != NULL){
-				if(strcmp((char*)head->key, expected_keys[counter]) != 0){
-					equality_status = false; 
-				}
-
-				if(strcmp((char*)head->value, expected_values[counter]) != 0){
-					equality_status = false; 
-				}
+				assert(strcmp((char*)head->key, expected_keys[counter]) == 0);
+				assert(strcmp((char*)head->value, expected_values[counter]) == 0);
 				counter += 1; 
 			}
 			head = head->next; 

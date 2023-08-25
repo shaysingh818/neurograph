@@ -12,14 +12,13 @@ TEST_HEADERS = $(wildcard /tests/includes/*.h)
 
 
 # source objects
-SRC_OBJS = matrix.o map.o adj_list.o queue.o node.o set.o ll.o
+SRC_OBJS = matrix.o map.o adj_list.o adj_mat.o queue.o node.o set.o ll.o
 
 # unit test objects
-TEST_OBJS = test_ll.o test_set.o test_map.o test_adj_list.o test_matrix.o test_queue.o
+TEST_OBJS = test_ll.o test_set.o test_map.o test_adj_list.o test_adj_mat.o test_matrix.o test_queue.o
 
 # flags
 FLAGS = -g -lm -lpthread
-
 
 # link all programs here
 all: unit_test source

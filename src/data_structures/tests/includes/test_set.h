@@ -2,6 +2,7 @@
 #define TEST_SET_H
 
 #include "../../includes/set.h"
+#include <assert.h>
 
 /* ordered insert methods */
 void test_set_ordered();

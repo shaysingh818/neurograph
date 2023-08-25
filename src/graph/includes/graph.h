@@ -6,6 +6,7 @@
 #include "../../data_structures/includes/queue.h"
 #include "../../data_structures/includes/matrix.h"
 #include "../../data_structures/includes/adj_list.h"
+#include "../../data_structures/includes/adj_mat.h"
 
 /* include extractors library for building graphs */
 #include "../../extractors/includes/re.h"
@@ -31,7 +32,7 @@ struct Graph {
 	char *filename; 
 	bool directed; 
 	adj_list_t *list; 
-	mat_graph_t *matrix;
+	adj_mat_t *matrix;
 	walk_t *walk; 
 };
 
@@ -44,12 +45,13 @@ graph_t *init_graph(int v, int e, bool directed);
 walk_t *init_walk(int steps);
 
 /* conversion methods to matrix */
-mat_graph_t *to_matrix(mat_graph_t *m, adj_list_t *g, bool directed);
+adj_mat_t *to_matrix(adj_mat_t *m, adj_list_t *g, bool directed);
 
 /* conversion methods to adjacency list  */ 
-adj_list_t *to_list(adj_list_t *g, mat_graph_t *m, bool directed);
+adj_list_t *to_list(adj_list_t *g, adj_mat_t *m, bool directed);
 
-/* printing methods */
+/* mutator methods */
+void remove_unused_slots(graph_t *g); 
 void label_node(graph_t *g, int index, int label); 
 void print_graph_list(graph_t *g); 
 void print_graph_matrix(graph_t *g);
@@ -61,8 +63,13 @@ graph_t *frame_to_unweighted_graph(frame_t *frame, int *cols, int size, bool dir
 graph_t *frame_to_weighted_graph(frame_t *frame, int *cols, int size, bool directed); 
 
 /* adj list */
-set_t *get_graph_nodes(char *filename, int file_size); 
-graph_t *serialize_graph_list(char *filename, int file_size);
+int get_max_vertex_count(char *filename, int file_size); 
+set_t *get_graph_node_ids(graph_t *g); 
+ordered_set_t *get_graph_nodes(graph_t *g); 
+set_t *get_graph_node_ids_file(char *filename, int file_size); 
+set_t *get_graph_nodes_from_file(char *filename, int file_size);
+graph_t *serialize_graph_list(char *filename, int file_size, bool directed); 
+graph_t *serialize_graph_list_sorted_label(char *filename, int file_size);
 void deserialize_graph_list(graph_t *list, char *filename); 
 
 /* matrice methods */

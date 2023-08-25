@@ -72,7 +72,7 @@ mat_t *load_matrix(char *filename) {
 	for (int i = 0; i < m->rows; i++) {
 		for (int j = 0; j < m->cols; j++) {
 			fgets(entry, MAXCHAR, file);
-			m->arr[i][j] = strtod(entry, NULL);
+			m->arr[i][j] = atof(entry);
 		}
 	}
 	fclose(file);
@@ -163,7 +163,8 @@ bool compare_matrix(mat_t *n, mat_t *m){
 	bool result = true; 
 	for(int i = 0; i < n->rows; i++){
 		for(int j = 0; j < n->cols; j++){
-			double rounded_value = round(m->arr[i][j]*100)/100; 
+			double rounded_value = round(m->arr[i][j]*100)/100;
+			bool test = n->arr[i][j] == rounded_value; 
 			if(n->arr[i][j] != rounded_value){
 				result = false; 
 			}
@@ -237,21 +238,23 @@ void copy_mat(mat_t *v1, mat_t *v2){
 mat_t *multiply(mat_t *v1, mat_t *v2) {
 
 	if(v1->cols != v2->rows){
-		printf("cannot multiply\n"); 
+		printf("cannot multiply\n");
+        exit(1);
 	}
 
-	mat_t *result = init_matrix(v1->rows, v1->cols);
+	mat_t *result = init_matrix(v1->rows, v2->cols);
 
 	for(int i = 0; i < v1->rows; i++){
-		for(int j = 0; j < v1->cols; j++){
-			result->arr[i][j] = 0; 	
+		for(int j = 0; j < v2->cols; j++){
+			double sum = 0; 	
 
-			for(int n = 0; n < v1->rows; n++){
-				double value = v2->arr[i][n] * v1->arr[n][j];
-				result->arr[i][j] += value; 
+			for(int n = 0; n < v2->rows; n++){
+				sum += v1->arr[i][n] * v2->arr[n][j];
 			}
+
+			result->arr[i][j] = sum; 
 		} 
-	} 
+	}
 
 	return result;
 }
@@ -399,86 +402,6 @@ void print_vec(mat_t *v) {
 	}
 }
 
-
-entry_t *init_entry(int id, char *label) {
-
-	entry_t *e;
-	e = (entry_t*)malloc(sizeof(entry_t)); 
-
-	size_t label_size = strlen(label) + 1; 
-	e->label = malloc(label_size * sizeof(char)); 
-	e->id = id;
-
-	strcpy(e->label, label); 
-	return e; 
-}
-
-entry_t *search_entry_by_id(mat_graph_t *m, int search_id){
-
-	for(int i = 0; i < m->vertices; i++) {
-		for(int j = 0; j < m->vertices; j++){
-			int id = m->matrix[i*m->vertices+j]->id; 
-			if(search_id == id){
-				return m->matrix[i*m->vertices+j]; 
-			}
-		}
-	}
-}
-
-
-mat_graph_t *init_matrice_graph(int vertices) {
-
-	mat_graph_t *m;
-	m = (mat_graph_t*)malloc(sizeof(mat_graph_t)); 
-	m->vertices = vertices;
-
-	/* allocate matrice */
-	m->matrix = malloc(sizeof(entry_t*) * vertices * vertices); 
-	if(m->matrix != NULL) {
-		for(int i = 0; i < vertices; i++){
-			for(int j = 0; j < vertices; j++){
-				m->matrix[i*vertices+j] = (entry_t*)malloc(sizeof(entry_t));
-				m->matrix[i*vertices+j]->id = -1;  
-			}
-		}
-	}
-
-	/* allocate weights with samed dimension */
-	m->weights = malloc(sizeof(int*) * vertices * vertices); 
-	if(m->weights != NULL) {
-		for(int i = 0; i < vertices; i++){
-			for(int j = 0; j < vertices; j++){
-				m->weights[i*vertices+j] = -1;  
-			}
-		}
-	}
-
-	return m; 
-}
-
-
-void insert(mat_graph_t *m, entry_t *src, entry_t *dst, int weight,  bool directed) {
-
-	int src_id = src->id; 
-	int dst_id = dst->id; 	
-	int directed_index = src_id*m->vertices+dst_id;
-	int undirected_index = dst_id*m->vertices+src_id; 
-
-	if(directed) {
-		m->matrix[directed_index] = dst;
-		m->weights[directed_index] = weight;  
-	} else {
-
-		/* add node values */
-		m->matrix[directed_index] = dst; 
-		m->matrix[undirected_index] = src;  
-
-		/* add weights */
-		m->weights[directed_index] = weight; 
-		m->weights[undirected_index] = weight;  
-	}
-}
-
 void randomize(mat_t *vec, int n){
 	srand((unsigned)time(NULL));
 	double min = -1.0 / sqrt(n);
@@ -490,37 +413,61 @@ void randomize(mat_t *vec, int n){
 	}
 }
 
-void print_matrix_ids(mat_graph_t *m) {
-	for(int i = 0; i < m->vertices; i++) {
-		for(int j = 0; j < m->vertices; j++){
-			printf("%d ", m->matrix[i*m->vertices+j]->id); 			
+
+mat_t *vectorize(mat_t *input){
+	mat_t *result = init_matrix(input->rows*input->cols, 1);
+	int counter = 0;
+	for(int i = 0; i < input->rows; i++){
+		for(int j = 0; j < input->cols; j++){
+			result->arr[counter][0] = input->arr[i][j]; 
+			counter += 1; 
 		}
-		printf("\n"); 
 	}
+	return result; 
 }
 
+mat_t *im2col(mat_t *input, mat_t *feature_map) {
 
-void print_matrix_labels(mat_graph_t *m) {
-	for(int i = 0; i < m->vertices; i++) {
-		printf("%d : ", i); 
-		for(int j = 0; j < m->vertices; j++){
-			if(m->matrix[i*m->vertices+j]->label != NULL){
-				printf("-> %s", m->matrix[i*m->vertices+j]->label); 			
+
+	/* resulting matrix*/
+	int result_idx_x = 0, result_idx_y = 0;
+	int result_rows = input->cols; 
+	int result_cols = input->cols+feature_map->rows; 
+	int stride_x = 0, stride_y = 0;  
+	bool slide = false; 
+	mat_t *result = init_matrix(result_rows, result_cols);
+
+
+	int iteration_count = input->rows * feature_map->rows; 
+
+	for(int n = 0; n < 6; n++){
+
+		/* itereate overlapped feature map for input matrice */
+		int k = 0, m = 0; 
+		result_idx_x = 0;  /* indices for feature map */ 
+		for(int i = stride_x; i < feature_map->rows+stride_x; i++){
+			for(int j = stride_y; j < feature_map->cols+stride_y; j++){
+				double feature_result = input->arr[j][i] * feature_map->arr[m][k];
+				result->arr[result_idx_x][result_idx_y] = feature_result; 
+				result_idx_x += 1;  
+				k += 1;
 			}
+			m += 1;
+			k = 0, m = 0; 
 		}
-		printf("\n"); 
-	}
-}
 
 
-void print_matrix_weights(mat_graph_t *m) {
-	for(int i = 0; i < m->vertices; i++) {
-		printf("%d : ", i); 
-		for(int j = 0; j < m->vertices; j++){
-			if(m->matrix[i*m->vertices+j]->label != NULL){
-				printf("-> %d", m->weights[i*m->vertices+j]); 			
-			}
+		if(n % 2 != 0) {
+			stride_y = 0;
+			stride_x += 1;  
+		} else {
+			stride_y += 1;
 		}
-		printf("\n"); 
-	}
-}
+
+		result_idx_y += 1; 
+
+	} 
+
+
+	return result; 
+} 

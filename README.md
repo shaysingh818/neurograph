@@ -1,73 +1,61 @@
 # [![Bevy](screenshots/neurograph_logo.png)](https://github.com/shaysingh818/Diffusion)
 
-# What is Neurograph?
-Neurograph is a feature extraction tool for building machine learning models using graphs. The purpose of this library is to utilize concepts from graph theory to allow developers to build models that provide valuable insights about their data. Using concepts from graph theory, developers will have the ability to visualize intriguing relationships in data sets, model dynamic systems and create a starting point for building a model. While there are many deep learning and alternate machine learning libraries out there, the purpose of this library is to show how valuable insights can be derived from simple graph algorithms. This is also provides graph algorithms that the popular graph library “Neo4j” does not have.  
+
+# Table of Contents
+
+* [Data Extraction](Projects/Neurograph/Design/Data%20Extraction/Data%20Frame.md)
+* [Data Structures](Set.md)
+* [Deep Learning](Deep%20Learning/MLP)
+* [Graph Algorithms](Algorithms.md)
+* [User Interface](User%20Interface/User%20Interface)
 
 
-## Compiling the source
-cd into the src directory and run the makefile
-```
-make
-```
+# Purpose
 
-## Compiling the test cases
-cd into the test directory and run the makefile
-```
-make
-```
+* Experiment and research algorithms in graph theory and understand it's applications
+* Tie concepts from graph theory to deep learning
+* Data manipulation tool that utilize graph representations
+* Invent a new graph neural network architecture
+* Framework to visualize graphs
 
-## Expected test compilation output
-```
-gcc -c main.c
-gcc -c graph_test.c
-gcc -c ../src/graph.c
-gcc -c ../src/node.c
-gcc -c queue_test.c
-gcc -c ../src/queue.c
-gcc -c matrix_test.c
-gcc -c ../src/matrix.c
-gcc -c path_test.c
-gcc -c ../src/path.c
-gcc -c community_test.c
-gcc -c ../src/community.c
-gcc -c search_test.c
-gcc -c ../src/search.c
-gcc -o ../target/unit_test main.o graph_test.o graph.o node.o queue_test.o queue.o matrix_test.o matrix.o path_test.o path.o community_test.o community.o search_test.o search.o -lm -lpthread
-```
+# Design
 
-## Running the test cases
-cd into the ```/target``` directory and run the ```./unit_test``` binary
+* Internal map of the core library behind neurograph
+* Python library acts as high level user interface for core library
+* Allows users to create GNN's and manipulate data 
+* Build data pipelines with graph theory concepts
+
+```mermaid
+flowchart LR
+
+A[Python Library] --> C[CoreLibrary]
+C[Core Library] --> B[Graph Theory]
+C[Core Library] --> D[Deep Learning]
+C[Core Library] --> E[Data Extraction]
+C[Core Library] --> F[Data Structures]
+D[Deep Learning] --> G[Graph NN's]
+B[Graph Theory] --> G[Graph NN's]
+E[Data Extraction] --> H[Data Manipulation]
+F[Data Structures] --> H[Data Manipulation]
 
 ```
-./unit_test
-```
 
-## Expected test case results
-```
-queue_test.c::test_init_queue... PASSED
-queue_test.c::test_pop_queue... PASSED
-matrix_test.c::test_init_matrix... PASSED
-graph_test.c::test_graph... PASSED
-graph_test.c::test_weighted_graph... PASSED
-graph_test.c::test_transpose_graph... PASSED
-graph_test.c::test_to_matrix... PASSED
-graph_test.c::test_to_directed_matrix... PASSED
-graph_test.c::test_to_weighted_matrix... PASSED
-graph_test.c::test_to_directed_weighted_matrix... PASSED
-graph_test.c::test_to_list... PASSED
-graph_test.c::test_to_weighted_list... PASSED
-graph_test.c::test_to_directed_list... PASSED
-graph_test.c::test_to_directed_weighted_list... PASSED
-search_test.c::test_bfs_one... PASSED
-search_test.c::test_bfs_two...  PASSED
-search_test.c::test_dfs_one...  PASSED
-path_test.c::test_bellman_ford...  PASSED
-path_test.c::test_random_walk...  PASSED
-path_test.c::test_random_walk::step_equal...  PASSED
-path_test.c::test_weighted_random_walk::sum_path...  PASSED
-community_test.c::test_degree_centrality...  PASSED
-community_test.c::test_weighted_degree_centrality...  PASSED
-community_test.c::test_kosaraju...  PASSED
+# Dependency Structure
+
+* Dependency structure of the code for neurograph
+* Graph and Deep learning library should depend on data structures and extractors
+* Data structures and extractors should not depend on the graph or DL library
+
+```mermaid
+flowchart LR
+
+A[Graph Library] --> B[Data Structures]
+A[Graph Library] --> C[Extractors]
+D[Deep Learning] --> B[Data Structures]
+D[Deep Learning] --> C[Extractors]
+
+C[Extractors] --> B[Data Structures]
+
 ```
 
 

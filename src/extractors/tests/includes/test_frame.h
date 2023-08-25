@@ -3,6 +3,7 @@
 
 #include "../../includes/frame.h"
 #include "../../../graph/includes/graph.h"
+#include <assert.h> 
 
 /* data frame helpers */
 void test_extract_frame_headers(); 

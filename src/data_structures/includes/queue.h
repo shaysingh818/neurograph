@@ -8,23 +8,12 @@
 #include <limits.h>
 #include "node.h"
 
-/* @TODO get rid of this */
-struct QueueItem {
-	int integer; 
-	int priority;
-	char *string;
-	node_t *node;
-	struct QueueItem *next; 
-}; 
-
-typedef struct QueueItem item_t; 
-
 
 struct Queue {
 	unsigned capacity; 
 	int front_index, rear_index, item_count;
-	item_t* front, rear; 
-	item_t **items; 
+	node_t* front, rear; 
+	node_t **items; 
 }; 
 
 typedef struct Queue queue_t;
@@ -32,7 +21,6 @@ typedef struct Queue queue_t;
 
 /* structural methods */
 queue_t *init_queue(unsigned capacity);
-item_t *init_item(int integer, char *string, int priority, node_t *node); 
 
 /* shared methods */
 int is_full(queue_t* q);
@@ -42,13 +30,12 @@ int front(queue_t* q);
 int rear(queue_t *q);
 
 /* insertion methods */
-void push(queue_t *q, item_t *item); 
+void push(queue_t *q, node_t *item); 
 
 /* deletion methods */
 void pop(queue_t *q);
 
 /* printer methods */
-void print_queue_item(item_t *item); 
 void print_queue(queue_t *q); 
 
 

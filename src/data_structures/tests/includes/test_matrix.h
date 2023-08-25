@@ -2,13 +2,11 @@
 #define TEST_MATRIX_H
 
 #include "../../includes/matrix.h"
+#include <assert.h>
 
 #define TRUE 1
 #define FALSE 0
 
-/* test matrix graph  methods */ 
-void test_init_matrix(); 
-void test_directed_matrix();
 
 /* test vector methods */
 void test_init_vec(); 
@@ -33,6 +31,7 @@ void test_scale_multiply();
 void test_elementwise_multiply(); 
 void test_add_matrix(); 
 void test_matrix_difference(); // @TODO
+void test_im2col(); 
 
 
 #endif

@@ -2,6 +2,7 @@
 #define TEST_LL_H
 
 #include "../../includes/ll.h"
+#include <assert.h>
 
 void test_push_ll();
 void test_insert_after_ll(); 

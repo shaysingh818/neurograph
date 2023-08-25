@@ -38,13 +38,7 @@ void test_init_network() {
     assert(nn->layers[2]->layer_type == LINEAR); 
     assert(nn->layers[3]->layer_type == LOSS); 
 
-
-    if(!equality_status) {
-        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
-    } else {
-        printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-    } 
-
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 }
 
 void test_add_layer() {
@@ -85,13 +79,7 @@ void test_add_layer() {
     assert(nn->layers[2]->layer_type == LINEAR); 
     assert(nn->layers[3]->layer_type == LOSS); 
 
-
-    if(!equality_status) {
-        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
-    } else {
-        printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-    } 
-
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 }
 
 
@@ -145,12 +133,5 @@ void test_train() {
     bool condition = (v0 < v1 && v0 < v2) && (v3 < v1 && v3 < v2); 
     assert(condition);
 
-
-    if(!equality_status) {
-        printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
-    } else {
-        printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-    } 
-
-
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 }

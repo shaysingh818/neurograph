@@ -2,6 +2,7 @@
 #define TEST_ADJ_LIST_H
 
 #include "../../includes/adj_list.h"
+#include <assert.h>
 
 /* test adjacency list representation */ 
 void test_graph();

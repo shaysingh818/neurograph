@@ -11,5 +11,10 @@
 
 #define RE_NODE "\"[^\"]*\"|[^:]+"
 #define RE_GML "\"[a-zA-Z]+\":|\"[a-zA-Z]+\""
-#define RE_NEIGHBORS "\"[a-zA-Z]+\""
 #define REMOVE_QUOTES "[a-zA-Z]+"
+#define GET_QUOTES "(['\"])"
+
+/* new expressions for weights and ids */
+// #define RE_GML_NODE "[0-9]+|[a-zA-Z]+"
+
+#define RE_GML_NODE "[0-9]+|\"[^\"]*\""
