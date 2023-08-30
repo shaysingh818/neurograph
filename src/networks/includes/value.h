@@ -1,31 +1,54 @@
 #ifndef VALUE_H
 #define VALUE_H
 
+#define FALSE 0
+#define TRUE 1
 
 #include "../../data_structures/includes/matrix.h"
 
-struct Value {
-    double data;
-    double grad;
-    char *alias; 
-    struct Value **children;  
-};
+struct NodeValue {
+    double output;  
+    double upstream_gradient;
+    double x_d_gradient, y_d_gradient;
+    struct NodeValue *left, *right;  
+	void(*forward_operation)(struct NodeValue *val); 
+	void(*backward_operation)(struct NodeValue *val); 
+}; 
 
-typedef struct Value value_t; 
+typedef struct NodeValue node_value_t;
 
 
-/* init value structure */
-value_t *value(double set_data, char *set_alias);
+struct ComputationGraph {
+    int size, curr_index;  
+    double base_gradient; 
+    node_value_t **operations; 
+}; 
 
-/* Regular value (not matrices)*/
-value_t *add_value(value_t *v1, value_t *v2); 
-value_t *subtract_value(value_t *v1, value_t *v2); 
-value_t *multiply_value(value_t *v1, value_t *v2); 
+typedef struct ComputationGraph computation_graph_t; 
 
-/* matrix operations */
-value_t *add_mat(value_t *v1, value_t *v2); 
-value_t *subtract_mat(value_t *v1, value_t *v2); 
-value_t *multiply_mat(value_t *v1, value_t *v2); 
+/* init node value */
+node_value_t *input_node(double output);
+
+/* init node operation */
+node_value_t *node_op(
+    node_value_t *set_left,
+    node_value_t *set_right, 
+	void(*set_forward)(struct NodeValue *val),
+	void(set_backward)(struct NodeValue *val) 
+);
+
+/* create computation graph */
+computation_graph_t *create_graph(int set_size, double set_gradient); 
+
+/* Append operation */
+void append_op(computation_graph_t *graph, node_value_t *val); 
+
+/* forward all */
+void forward_nodes(computation_graph_t *graph); 
+
+/* backward all */
+void backward_nodes(computation_graph_t *graph); 
+
 
 
 #endif

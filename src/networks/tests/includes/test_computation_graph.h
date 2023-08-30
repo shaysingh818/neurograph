@@ -14,7 +14,7 @@ void test_backward_all();
 /* computation graph examples */
 void test_mlp();
 void test_dense();
-void test_forward_nodes(); 
+// void test_forward_nodes(); 
 
 
 #endif

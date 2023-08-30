@@ -415,33 +415,3 @@ void test_dense() {
 
 }
 
-
-void test_forward_nodes() {
-
-    bool equality_status = true; 
-    int node_count = 2, epochs = 5000; 
-    double learning_rate = 0.1;
-
-    /* create linear node */
-    double inputs[4][2] = {{0,0},{0,1},{1,0},{1,1}};
-    double outputs[4][1] = {{0},{1},{1},{0}};
-
-    /* create x input */
-    mat_t *x = copy_arr_to_matrix(4, 2, inputs); 
-    mat_t *y = copy_arr_to_matrix(4, 1, outputs);
- 
-    /* first MLP layer */
-    linear_t *l1 = linear(2, 3, learning_rate);
-    loss_t *loss1 = loss(2, 3, tanh, tanh_prime);
-
-    /* second MLP layer */
-    linear_t *l2 = linear(3, 1, learning_rate);
-    loss_t *loss2 = loss(3, 1, tanh, tanh_prime);
-
-
-    /* forward hidden */
-    // for(int i = 1; i < 3; i++){
-    //     layers[i]->forward(layers[i], layers[i-1]->outputs); 
-    // }
-
-}
