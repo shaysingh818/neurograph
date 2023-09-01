@@ -56,63 +56,65 @@ void test_expression() {
 
 
     computation_graph_t *graph = create_graph(8, 1.00); 
-
     node_value_t *w0 = input_node(2.00); 
     node_value_t *x0 = input_node(-1.00);
-
     node_value_t *w1 = input_node(-3.00); 
     node_value_t *x1 = input_node(-2.00);
+    node_value_t *w2 = input_node(-3.00);
 
-    node_value_t *w2 = input_node(-3.00); 
-
-    /* e = (a+b)*(b+1) */
-    node_value_t *c = node_op(
-        w0, x0, 
-        multiply_node, 
-        backward_mult_node
+    /* expression */
+    node_value_t *weights = adder(
+        graph,
+        adder(
+            graph,
+            mult(graph, w1, x1),
+            mult(graph, w0, x0) 
+        ),
+        w2
     );
 
-    node_value_t *d = node_op(
-        w1, x1, 
-        multiply_node, 
-        backward_mult_node
-    );
+    node_value_t *left_exp = recip(
+        graph,
+        add_one(
+            graph, 
+            expnt(
+                graph,
+                euler(graph, weights)
+            )
+        )
+    );   
 
-    node_value_t *e = node_op(
-        c, d, 
-        add_node, 
-        backward_add_node
-    );
-
-    node_value_t *f = node_op(
-        e, w2, 
-        add_node, 
-        backward_add_node
-    );
+    forward_nodes(graph); 
+    backward_nodes(graph);  
 
 
-    node_value_t *g = node_op(
-        f, NULL, 
-        eulers, 
-        backward_mult_node
-    );
+    node_value_t *one = graph->operations[graph->curr_index-1]; 
+    assert(round(one->x_d_gradient * 100) / 100 == -0.53);
 
+    node_value_t *two = graph->operations[graph->curr_index-2]; 
+    assert(round(two->x_d_gradient * 100) / 100 == -0.53);  
 
-    node_value_t *h = node_op(
-        g, NULL, 
-        exponent, 
-        backward_mult_node
-    );
+    node_value_t *three = graph->operations[graph->curr_index-3]; 
+    assert(round(three->x_d_gradient * 100) / 100 == -0.20);
 
+    node_value_t *four = graph->operations[graph->curr_index-4]; 
+    assert(round(four->x_d_gradient * 100) / 100 == 0.20);
 
-    append_op(graph, c); 
-    append_op(graph, d);
-    append_op(graph, e);      
-    append_op(graph, f); 
-    append_op(graph, g); 
-    append_op(graph, h);  
-    forward_nodes(graph);     
+    node_value_t *five = graph->operations[graph->curr_index-5]; 
+    assert(round(five->x_d_gradient * 100) / 100 == 0.20); 
+    assert(round(five->y_d_gradient * 100) / 100 == 0.20); 
 
+    node_value_t *six = graph->operations[graph->curr_index-6]; 
+    assert(round(six->x_d_gradient * 100) / 100 == 0.20); 
+    assert(round(six->y_d_gradient * 100) / 100 == 0.20); 
 
+    node_value_t *seven = graph->operations[graph->curr_index-7]; 
+    assert(round(seven->x_d_gradient * 100) / 100 == -0.39); 
+    assert(round(seven->y_d_gradient * 100) / 100 == -0.59); 
+
+    node_value_t *eight = graph->operations[graph->curr_index-8]; 
+    assert(round(eight->x_d_gradient * 100) / 100 == -0.20); 
+    assert(round(eight->y_d_gradient * 100) / 100 == 0.39); 
 
 }
+
