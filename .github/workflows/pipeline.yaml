@@ -9,7 +9,7 @@ on:
 jobs:
 
   # build source for unit tests
-  build-test-core:
+  core-lib:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -51,7 +51,7 @@ jobs:
         make clean
  
   # unit tests for python code base
-  glue-package:
+  python-library:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
