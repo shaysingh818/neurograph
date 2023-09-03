@@ -9,7 +9,7 @@ on:
 jobs:
 
   # build source for unit tests
-  core-lib:
+  core-library-packages:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
