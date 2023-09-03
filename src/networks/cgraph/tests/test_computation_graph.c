@@ -1,22 +1,5 @@
-#include "includes/test_value.h"
+#include "includes/test_computation_graph.h"
 #include "../includes/ops.h"
-
-void test_value_init(){
-
-    /* create single values (without ops) */
-    node_value_t *a = input_node(2.00); 
-    node_value_t *b = input_node(1.00);
-
-    assert(a->output == 2.00);
-    assert(a->left == NULL); 
-    assert(a->right == NULL); 
-    assert(b->output == 1.00); 
-    assert(b->left == NULL); 
-    assert(b->right == NULL); 
-
-    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-
-}
 
 void test_create_graph() {
 
@@ -37,18 +20,18 @@ void test_append_operation() {
     computation_graph_t *graph = create_graph(2, 1.00);
 
     /* expression */
-    node_value_t *x = input_node(-2.00); 
-    node_value_t *y = input_node(5.00);
-    node_value_t *z = input_node(-4.00);
+    value_t *x = input_node(-2.00); 
+    value_t *y = input_node(5.00);
+    value_t *z = input_node(-4.00);
 
     /* e = (a+b)*(b+1) */
-    node_value_t *q = node_op(
+    value_t *q = node_op(
         x, y, 
         add_node, 
         backward_add_node
     ); 
 
-    node_value_t *f = node_op(
+    value_t *f = node_op(
         q, z, 
         multiply_node, 
         backward_mult_node
@@ -64,7 +47,7 @@ void test_append_operation() {
 
     /* forward */
     for(int i = 0; i < graph->curr_index; i++){
-        node_value_t *op = graph->operations[i];
+        value_t *op = graph->operations[i];
         op->forward_operation(op);
         assert(op->output == expected_vals[i]); 
     }
@@ -79,19 +62,19 @@ void test_forward_nodes() {
     computation_graph_t *graph = create_graph(2, 1.00);
 
     /* expression */
-    node_value_t *x = input_node(-2.00); 
-    node_value_t *y = input_node(5.00);
-    node_value_t *z = input_node(-4.00);
+    value_t *x = input_node(-2.00); 
+    value_t *y = input_node(5.00);
+    value_t *z = input_node(-4.00);
 
     /* e = (a+b)*(b+1) */
-    node_value_t *q = node_op(
+    value_t *q = node_op(
         x, y, 
         add_node, 
         backward_add_node
     );
     assert(q->output == 0.00); 
 
-    node_value_t *f = node_op(
+    value_t *f = node_op(
         q, z, 
         multiply_node, 
         backward_mult_node
@@ -114,19 +97,19 @@ void test_backward_nodes() {
     computation_graph_t *graph = create_graph(2, 1.00);
 
     /* expression */
-    node_value_t *x = input_node(-2.00); 
-    node_value_t *y = input_node(5.00);
-    node_value_t *z = input_node(-4.00);
+    value_t *x = input_node(-2.00); 
+    value_t *y = input_node(5.00);
+    value_t *z = input_node(-4.00);
 
     /* e = (a+b)*(b+1) */
-    node_value_t *q = node_op(
+    value_t *q = node_op(
         x, y, 
         add_node, 
         backward_add_node
     );
     assert(q->output == 0.00); 
 
-    node_value_t *f = node_op(
+    value_t *f = node_op(
         q, z, 
         multiply_node, 
         backward_mult_node
@@ -151,7 +134,3 @@ void test_backward_nodes() {
 
     printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 }
-
-
-
-

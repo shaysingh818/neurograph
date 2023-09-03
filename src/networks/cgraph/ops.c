@@ -1,7 +1,6 @@
 #include "includes/ops.h"
 
-
-void add_node(node_value_t *val) {
+void add_node(value_t *val) {
     val->output = val->left->output + val->right->output;
     if(FORWARD_DEBUG){
         printf(
@@ -11,7 +10,7 @@ void add_node(node_value_t *val) {
     } 
 }
 
-void backward_add_node(node_value_t *val) {
+void backward_add_node(value_t *val) {
     val->x_d_gradient = 1 * val->upstream_gradient; 
     val->y_d_gradient = 1 * val->upstream_gradient;
     val->left->upstream_gradient = val->x_d_gradient; 
@@ -26,13 +25,13 @@ void backward_add_node(node_value_t *val) {
 }
 
 
-node_value_t *adder(
+value_t *adder(
     computation_graph_t *graph,  
-    node_value_t *val, 
-    node_value_t *val2 ) {
+    value_t *val, 
+    value_t *val2 ) {
 
     
-    node_value_t *e = node_op(
+    value_t *e = node_op(
         val, val2, 
         add_node, 
         backward_add_node
@@ -43,7 +42,7 @@ node_value_t *adder(
 } 
 
 
-void multiply_node(node_value_t *val) {
+void multiply_node(value_t *val) {
     val->output = val->left->output * val->right->output;
     if(FORWARD_DEBUG){
         printf(
@@ -53,7 +52,7 @@ void multiply_node(node_value_t *val) {
     } 
 } 
 
-void backward_mult_node(node_value_t *val) {
+void backward_mult_node(value_t *val) {
     val->x_d_gradient = val->right->output * val->upstream_gradient;
     val->y_d_gradient = val->left->output * val->upstream_gradient;
     val->left->upstream_gradient = val->x_d_gradient; 
@@ -69,12 +68,12 @@ void backward_mult_node(node_value_t *val) {
 }
 
 
-node_value_t *mult(
+value_t *mult(
     computation_graph_t *graph,  
-    node_value_t *val, 
-    node_value_t *val2 ) {
+    value_t *val, 
+    value_t *val2 ) {
  
-    node_value_t *e = node_op(
+    value_t *e = node_op(
         val, val2, 
         multiply_node, 
         backward_mult_node
@@ -85,7 +84,7 @@ node_value_t *mult(
 } 
 
 
-void exponent(node_value_t *val){
+void exponent(value_t *val){
     val->output = exp(val->left->output);
     if(FORWARD_DEBUG){
         printf(
@@ -96,7 +95,7 @@ void exponent(node_value_t *val){
 }
 
 
-void backward_exp(node_value_t *val) {
+void backward_exp(value_t *val) {
     double local_grad = exp(val->left->output); 
     val->x_d_gradient = local_grad * val->upstream_gradient; 
     val->left->upstream_gradient = val->x_d_gradient; 
@@ -109,11 +108,11 @@ void backward_exp(node_value_t *val) {
 }
 
 
-node_value_t *expnt(
+value_t *expnt(
     computation_graph_t *graph,  
-    node_value_t *val) {
+    value_t *val) {
  
-    node_value_t *e = node_op(
+    value_t *e = node_op(
         val, NULL, 
         exponent, 
         backward_exp
@@ -124,7 +123,7 @@ node_value_t *expnt(
 } 
 
 
-void eulers(node_value_t *val) {
+void eulers(value_t *val) {
     val->output = val->left->output * -1; 
     if(FORWARD_DEBUG){
         printf(
@@ -135,7 +134,7 @@ void eulers(node_value_t *val) {
 }
 
 
-void backward_eulers(node_value_t *val) {
+void backward_eulers(value_t *val) {
     double local_grad = -1.00;
     val->x_d_gradient = local_grad * val->upstream_gradient; 
     val->left->upstream_gradient = val->x_d_gradient; 
@@ -148,11 +147,11 @@ void backward_eulers(node_value_t *val) {
 }
 
 
-node_value_t *euler(
+value_t *euler(
     computation_graph_t *graph,  
-    node_value_t *val) {
+    value_t *val) {
 
-    node_value_t *e = node_op(
+    value_t *e = node_op(
         val, NULL, 
         eulers, 
         backward_eulers
@@ -164,7 +163,7 @@ node_value_t *euler(
 } 
 
 
-void successor(node_value_t *val) {
+void successor(value_t *val) {
     val->output = val->left->output + 1; 
     if(FORWARD_DEBUG){
         printf(
@@ -175,7 +174,7 @@ void successor(node_value_t *val) {
 }
 
 
-void successor_backward(node_value_t *val) {
+void successor_backward(value_t *val) {
     double local_grad = 1.00; 
     val->x_d_gradient = local_grad * val->upstream_gradient;
     val->left->upstream_gradient = val->x_d_gradient;  
@@ -188,12 +187,12 @@ void successor_backward(node_value_t *val) {
 } 
 
 
-node_value_t *add_one(
+value_t *add_one(
     computation_graph_t *graph,  
-    node_value_t *val) {
+    value_t *val) {
 
 
-    node_value_t *i = node_op(
+    value_t *i = node_op(
         val, NULL, 
         successor, 
         successor_backward
@@ -205,7 +204,7 @@ node_value_t *add_one(
 } 
 
 
-void reciprocal(node_value_t *val) {
+void reciprocal(value_t *val) {
     val->output = 1 / val->left->output; 
     if(FORWARD_DEBUG){
         printf(
@@ -216,7 +215,7 @@ void reciprocal(node_value_t *val) {
 }
 
 
-void reciprocal_backward(node_value_t *val) {
+void reciprocal_backward(value_t *val) {
     double local_grad = -1 / (val->left->output * val->left->output); 
     val->x_d_gradient = local_grad * val->upstream_gradient;
     val->left->upstream_gradient = val->x_d_gradient;  
@@ -229,12 +228,12 @@ void reciprocal_backward(node_value_t *val) {
 } 
 
 
-node_value_t *recip(
+value_t *recip(
     computation_graph_t *graph,  
-    node_value_t *val) {
+    value_t *val) {
 
 
-    node_value_t *i = node_op(
+    value_t *i = node_op(
         val, NULL, 
         reciprocal, 
         reciprocal_backward
