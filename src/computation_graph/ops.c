@@ -32,6 +32,7 @@ value_t *adder(
 
     
     value_t *e = node_op(
+        "adder",
         val, val2, 
         add_node, 
         backward_add_node
@@ -74,6 +75,7 @@ value_t *mult(
     value_t *val2 ) {
  
     value_t *e = node_op(
+        "multiply",
         val, val2, 
         multiply_node, 
         backward_mult_node
@@ -113,6 +115,7 @@ value_t *expnt(
     value_t *val) {
  
     value_t *e = node_op(
+        "exponent",
         val, NULL, 
         exponent, 
         backward_exp
@@ -152,6 +155,7 @@ value_t *euler(
     value_t *val) {
 
     value_t *e = node_op(
+        "eulers",
         val, NULL, 
         eulers, 
         backward_eulers
@@ -193,6 +197,7 @@ value_t *add_one(
 
 
     value_t *i = node_op(
+        "successor",
         val, NULL, 
         successor, 
         successor_backward
@@ -234,6 +239,7 @@ value_t *recip(
 
 
     value_t *i = node_op(
+        "reciprocal",
         val, NULL, 
         reciprocal, 
         reciprocal_backward

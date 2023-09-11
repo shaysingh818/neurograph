@@ -3,9 +3,9 @@
 
 void test_create_graph() {
 
-    computation_graph_t *graph = create_graph(3, 1.00); 
+    computation_graph_t *graph = create_graph(1.00); 
     assert(graph->curr_index == 0); 
-    assert(graph->size == 3); 
+    assert(graph->size == 2); 
     for(int i = 0; i < graph->size; i++){
         assert(graph->operations[i] != NULL); 
     }   
@@ -17,7 +17,7 @@ void test_create_graph() {
 
 void test_append_operation() {
 
-    computation_graph_t *graph = create_graph(2, 1.00);
+    computation_graph_t *graph = create_graph(1.00);
 
     /* expression */
     value_t *x = input_node(-2.00); 
@@ -26,12 +26,14 @@ void test_append_operation() {
 
     /* e = (a+b)*(b+1) */
     value_t *q = node_op(
+        "adder",
         x, y, 
         add_node, 
         backward_add_node
     ); 
 
     value_t *f = node_op(
+        "multiply",
         q, z, 
         multiply_node, 
         backward_mult_node
@@ -59,7 +61,7 @@ void test_append_operation() {
 
 void test_forward_nodes() {
 
-    computation_graph_t *graph = create_graph(2, 1.00);
+    computation_graph_t *graph = create_graph(1.00);
 
     /* expression */
     value_t *x = input_node(-2.00); 
@@ -68,6 +70,7 @@ void test_forward_nodes() {
 
     /* e = (a+b)*(b+1) */
     value_t *q = node_op(
+        "adder",
         x, y, 
         add_node, 
         backward_add_node
@@ -75,6 +78,7 @@ void test_forward_nodes() {
     assert(q->output == 0.00); 
 
     value_t *f = node_op(
+        "adder",
         q, z, 
         multiply_node, 
         backward_mult_node
@@ -94,7 +98,7 @@ void test_forward_nodes() {
 
 void test_backward_nodes() {
 
-    computation_graph_t *graph = create_graph(2, 1.00);
+    computation_graph_t *graph = create_graph(1.00);
 
     /* expression */
     value_t *x = input_node(-2.00); 
@@ -103,6 +107,7 @@ void test_backward_nodes() {
 
     /* e = (a+b)*(b+1) */
     value_t *q = node_op(
+        "adder",
         x, y, 
         add_node, 
         backward_add_node
@@ -110,6 +115,7 @@ void test_backward_nodes() {
     assert(q->output == 0.00); 
 
     value_t *f = node_op(
+        "multiply",
         q, z, 
         multiply_node, 
         backward_mult_node
@@ -123,7 +129,7 @@ void test_backward_nodes() {
     assert(q->output == 3.00); 
     assert(f->output == -12.00); 
 
-    backward_nodes(graph);
+    backward_nodes(graph, NULL);
 
     assert(f->x_d_gradient == -4.00);  
     assert(f->y_d_gradient == 3.00); 

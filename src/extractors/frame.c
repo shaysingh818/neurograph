@@ -44,9 +44,9 @@ void extract_frame_headers(frame_t *frame) {
 	/* allocate values for each header based on row size */
 	for(int i = 0; i < headers_size; i++){
 		frame->headers[i]->values_amount = frame->row_count; 
-		frame->headers[i]->values = malloc(frame->row_count * sizeof(value_t*)); 
+		frame->headers[i]->values = malloc(frame->row_count * sizeof(row_value_t*)); 
 		for(int j = 0; j < frame->row_count; j++){
-			frame->headers[i]->values[j] = malloc(sizeof(value_t)); 
+			frame->headers[i]->values[j] = malloc(sizeof(row_value_t)); 
 		}
 	}
 	
@@ -96,9 +96,9 @@ void init_frame_map(frame_t *frame) {
 		int row_count = 0;
 
 		/* allocate row values array for column */
-		value_t **values = malloc(frame->row_count * sizeof(value_t*));
+		row_value_t **values = malloc(frame->row_count * sizeof(row_value_t*));
 		for(int n = 0; n < frame->row_count; n++){
-			values[n] = malloc(sizeof(value_t)); 
+			values[n] = malloc(sizeof(row_value_t)); 
 		}
 
 		/* rewind to beginning of file */

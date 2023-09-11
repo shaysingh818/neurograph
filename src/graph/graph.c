@@ -138,8 +138,8 @@ graph_t *frame_to_unweighted_graph(frame_t *frame, int *cols, int size, bool dir
 	for(int i = 0; i < size; i+=2){
 
 		/* extract values */
-		value_t **src_header_values = frame->headers[cols[i]]->values;
-		value_t **dst_header_values = frame->headers[cols[i+1]]->values;
+		row_value_t **src_header_values = frame->headers[cols[i]]->values;
+		row_value_t **dst_header_values = frame->headers[cols[i+1]]->values;
 
 		for(int j = 1; j < frame->row_count; j++){
 
@@ -179,9 +179,9 @@ graph_t *frame_to_weighted_graph(frame_t *frame, int *cols, int size, bool direc
     for(int i = 0; i < size; i+=3){
 	
 		/* extract values */
-		value_t **src_header_values = frame->headers[cols[i]]->values;
-		value_t **dst_header_values = frame->headers[cols[i+1]]->values;
-		value_t **weight_header_values = frame->headers[cols[i+2]]->values;
+		row_value_t **src_header_values = frame->headers[cols[i]]->values;
+		row_value_t **dst_header_values = frame->headers[cols[i+1]]->values;
+		row_value_t **weight_header_values = frame->headers[cols[i+2]]->values;
 
 		for(int j = 1; j < frame->row_count; j++) {
 

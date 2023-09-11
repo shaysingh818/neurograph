@@ -23,4 +23,13 @@ value_t *scale_add_mat(
 );
 
 
+/* apply activation function on matrix values */
+value_t *apply_activation(
+    computation_graph_t *graph,
+    value_t *val,
+	void(*activation)(value_t *val), 
+	void(*activation_prime)(value_t *val)
+); 
+
+
 #endif

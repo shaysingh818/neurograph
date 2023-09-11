@@ -28,7 +28,11 @@ void tanh_forward(value_t *val) {
 
 
 void tanh_backward(value_t *val) {
-    val->mat_x_d_grad = tanh_prime(val->left->mat_output); 
+    val->mat_x_d_grad = elementwise_multiply(
+        val->mat_upstream_grad,
+        tanh_prime(val->left->mat_output)
+    );
+    val->left->mat_upstream_grad = val->mat_x_d_grad;  
     if(FORWARD_DEBUG){
         print_vec(val->left->mat_output); 
         printf("Sigmoid \n\n"); 

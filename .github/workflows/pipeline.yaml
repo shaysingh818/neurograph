@@ -36,6 +36,13 @@ jobs:
         ./target/test_graph
         make clean
 
+    - name: Build and Test Computation Graph Package
+      working-directory: src/computation_graph/
+      run: |
+        make
+        ./target/test_cgraph
+        make clean
+
     - name: Build and Test Deep Learning Package
       working-directory: src/networks/
       run: |

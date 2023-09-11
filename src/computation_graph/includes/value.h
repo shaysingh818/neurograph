@@ -7,10 +7,11 @@
 #define FORWARD_DEBUG FALSE
 #define BACKWARD_DEBUG FALSE
 
-#include "../../../data_structures/includes/matrix.h"
-
+#include <math.h> 
+#include "../../data_structures/includes/matrix.h"
 
 struct Value {
+    char *alias; 
     double output;  
     double upstream_gradient;
     double x_d_gradient, y_d_gradient;
@@ -30,10 +31,11 @@ value_t *input_node_mat(mat_t *input);
 
 /* init node operation */
 value_t *node_op(
+    char *set_alias,
     value_t *set_left,
     value_t *set_right, 
-	void(*set_forward)(struct Value *val),
-	void(set_backward)(struct Value *val) 
+	void(*set_forward)(value_t *val),
+	void(set_backward)(value_t *val) 
 );
 
 #endif

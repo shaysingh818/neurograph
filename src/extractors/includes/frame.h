@@ -20,20 +20,20 @@
 
 #define FRAME_DEBUG true
 
-struct Value {
+struct RowValue {
 	size_t value_size;
 	int index;
 	char *value;
 }; 
 
-typedef struct Value value_t; 
+typedef struct RowValue row_value_t; 
 
 
 struct Header {
 	int index, values_amount;
 	char *name;
 	size_t name_size; 
-	value_t **values;  
+	row_value_t **values;  
 }; 
 
 typedef struct Header header_t; 

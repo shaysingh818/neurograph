@@ -11,9 +11,8 @@ struct ComputationGraph {
 
 typedef struct ComputationGraph computation_graph_t;
 
-
 /* create computation graph */
-computation_graph_t *create_graph(int set_size, double set_gradient); 
+computation_graph_t *create_graph(double set_gradient); 
 
 /* Append operation */
 void append_op(computation_graph_t *graph, value_t *val); 
@@ -22,7 +21,7 @@ void append_op(computation_graph_t *graph, value_t *val);
 void forward_nodes(computation_graph_t *graph); 
 
 /* backward all */
-void backward_nodes(computation_graph_t *graph); 
+void backward_nodes(computation_graph_t *graph, mat_t *output_error); 
 
 
 #endif

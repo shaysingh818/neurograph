@@ -9,6 +9,7 @@
 #include "extractors/includes/gml.h"
 #include "extractors/includes/re.h"
 #include "networks/includes/network.h"
+#include "computation_graph/includes/computation_graph.h"
 
 int main(int argc, char **argv) {
 
@@ -36,21 +37,26 @@ int main(int argc, char **argv) {
 
 	/* neural net library  */
     double learning_rate = 0.1; 
-    bool equality_status = true; 
-    int epochs = 1000, num_layers = 4;
-    net_t *nn = init_network(num_layers, learning_rate);
+    double inputs[4][2] = {{0,0},{0,1},{1,0},{1,1}};
+    double outputs[4][1] = {{0},{1},{1},{0}};
 
-    linear_t *l1 = linear(2, 3, learning_rate); 
-    layer(nn, init_node_type(LINEAR, l1));
+    /* create x input */
+    mat_t *x = copy_arr_to_matrix(4, 2, inputs); 
+    mat_t *y = copy_arr_to_matrix(4, 1, outputs);
+    value_t *input = input_node_mat(x);
+    net_t *nn = init_network(learning_rate, input);
 
-    loss_t *loss1 = loss(2, 3, tanh, tanh_prime);
-    layer(nn, init_node_type(LOSS, loss1));
+    /* define model architecture */
+    layer(nn, linear(2, 3));
+    layer(nn, activation(2, 3, tanh_forward, tanh_backward)); 
+    layer(nn, linear(3, 1)); 
+    layer(nn, activation(3, 1, tanh_forward, tanh_backward));
+    train(nn, 1000, y);
 
-    linear_t *l2 = linear(3, 1, learning_rate);
-    layer(nn, init_node_type(LINEAR, l2));
-
-    loss_t *loss2 = loss(3, 1, tanh, tanh_prime);
-    layer(nn, init_node_type(LOSS, loss2));
+    /* get output */
+    int output_index = nn->graph->curr_index - 1;
+    mat_t *output = nn->graph->operations[output_index]->mat_output;
+    print_vec(output);  
 
 
 

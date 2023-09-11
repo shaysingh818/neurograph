@@ -8,6 +8,7 @@ void test_add_operation() {
 
     /* e = (a+b)*(b+1) */
     value_t *c = node_op(
+        "add",
         a, b, 
         add_node, 
         backward_add_node
@@ -34,6 +35,7 @@ void test_multiply_operation() {
 
     // /* e = (a+b)*(b+1) */
     value_t *c = node_op(
+        "mult",
         a, b, 
         multiply_node, 
         backward_mult_node
@@ -56,7 +58,7 @@ void test_multiply_operation() {
 void test_expression() {
 
 
-    computation_graph_t *graph = create_graph(8, 1.00); 
+    computation_graph_t *graph = create_graph(1.00); 
     value_t *w0 = input_node(2.00); 
     value_t *x0 = input_node(-1.00);
     value_t *w1 = input_node(-3.00); 
@@ -86,7 +88,7 @@ void test_expression() {
     );   
 
     forward_nodes(graph); 
-    backward_nodes(graph);  
+    backward_nodes(graph, NULL);  
 
 
     value_t *one = graph->operations[graph->curr_index-1]; 
@@ -116,5 +118,7 @@ void test_expression() {
     value_t *eight = graph->operations[graph->curr_index-8]; 
     assert(round(eight->x_d_gradient * 100) / 100 == -0.20); 
     assert(round(eight->y_d_gradient * 100) / 100 == 0.39); 
+
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 
 }

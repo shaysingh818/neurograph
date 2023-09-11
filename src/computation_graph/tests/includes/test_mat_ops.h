@@ -6,7 +6,7 @@
 #include "../../includes/mat_ops.h"
 
 /* matrice operations */
-void test_mat_multiply(); 
+void test_mlp_ops(); 
 void test_scale_mat();  
 
 #endif

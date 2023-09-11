@@ -3,32 +3,34 @@ BIN=bin
 CC=gcc
 TARGET=target/cgraph
 TEST_TARGET=target/test_cgraph
-FLAGS = -lm -lpthread
 
 # source header files
-HEADERS = $(wildcard /includes/*.h)
+HEADERS = $(wildcard ./includes/*.h)
 
 # test header files
-TEST_HEADERS = $(wildcard /tests/includes/*.h)
+TEST_HEADERS = $(wildcard ./tests/includes/*.h)
 
 # data structure objects needed
-MATRIX = ../../data_structures/matrix.o
+MATRIX = ../data_structures/matrix.o
+
+ACTIVATION_OBJS = tanh.o mse.o
+OPS = ops.o mat_ops.o
 
 # source objects
-SRC_OBJS = computation_graph.o value.o ops.o mat_ops.o   $(MATRIX)
+SRC_OBJS = computation_graph.o value.o $(OPS) $(ACTIVATION_OBJS) $(MATRIX)
 
 # unit test objects
 TEST_OBJS =  test_computation_graph.o test_value.o test_ops.o test_mat_ops.o
 
 # flags
-FLAGS = -g -lm -lpthread -fPIC
+FLAGS = -lm -lpthread -g -fPIC
 
 
 # link all programs here
 all: data_structures unit_test source
 
 data_structures:
-	$(MAKE) -C ../../data_structures
+	$(MAKE) -C ../data_structures
 
 unit_test: unit_test.o $(SRC_OBJS) $(TEST_OBJS)
 	gcc -o $(TEST_TARGET) unit_test.o $(SRC_OBJS) $(TEST_OBJS) $(FLAGS)

@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
 	test_multiply_operation();  
 	test_expression();
 
-	/* matrice operations */
-	test_mat_multiply(); 
+	/* matrice operations for multi layered perceptron */
+	test_mlp_ops(); 
 
 }
