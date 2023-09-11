@@ -74,7 +74,7 @@ void test_init_frame_rows() {
         header_t *header = frame->headers[i]; 
         int curr_count = 0; 
         for(int j = 0; j < header->values_amount; j++){
-            value_t *value = header->values[j];
+            row_value_t *value = header->values[j];
             curr_count += 1; 
         }
  
@@ -132,7 +132,7 @@ void test_hash_map_frame() {
         bool condition = strcmp(frame->headers[j]->name, keys[j]) == 0;
         assert(condition == true); 
 
-        value_t **values = (value_t**)results; 
+        row_value_t **values = (row_value_t**)results; 
         for(int i = 0; i < frame->row_count; i++){
             assert(values[i]->value != NULL); 
         }
