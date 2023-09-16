@@ -46,7 +46,7 @@ jobs:
         make
 
     - name: Integration Test Package
-      working-directory: src/networks/
+      working-directory: src/tests/
       run: |
         make
 
