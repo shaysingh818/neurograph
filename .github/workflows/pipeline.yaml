@@ -40,6 +40,11 @@ jobs:
       run: |
         make
 
+    - name: Integration Test Package
+      working-directory: src/networks/
+      run: |
+        make
+
 
   # build source for unit tests
   test-packages:
