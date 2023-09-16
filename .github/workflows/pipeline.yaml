@@ -64,7 +64,7 @@ jobs:
       run: |
         ./target/test_data_structures
    
-    - name: Build and Test Extractors Package
+    - name: Extractors Package
       working-directory: src/extractors/
       run: |
         ./target/test_extractors
