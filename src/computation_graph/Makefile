@@ -27,7 +27,7 @@ FLAGS = -lm -lpthread -g -fPIC
 
 
 # link all programs here
-all: data_structures unit_test source
+all: data_structures source unit_test
 
 data_structures:
 	$(MAKE) -C ../data_structures
