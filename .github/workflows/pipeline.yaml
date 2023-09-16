@@ -40,6 +40,11 @@ jobs:
       run: |
         make
 
+    - name: Neurograph
+      working-directory: src/
+      run: |
+        make
+
     - name: Integration Test Package
       working-directory: src/networks/
       run: |
