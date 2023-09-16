@@ -58,4 +58,4 @@ clean_binary:
 	rm $(TARGET)
 
 clean:
-	rm -f $(TARGET) $(TEST_TARGET) *.o *~ *.pyc
+	rm -f $(TARGET)  *.o *~ *.pyc
