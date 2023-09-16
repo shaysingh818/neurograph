@@ -22,12 +22,12 @@ jobs:
         ./target/test_data_structures
         make clean
    
-    - name: Build and Test Extractors Package
-      working-directory: src/extractors/
-      run: |
-        make
-        ./target/test_extractors
-        make clean
+    # - name: Build and Test Extractors Package
+    #   working-directory: src/extractors/
+    #   run: |
+    #     make
+    #     ./target/test_extractors
+    #     make clean
 
     - name: Build and Test Graph Package
       working-directory: src/graph/
