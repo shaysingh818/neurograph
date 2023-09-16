@@ -64,6 +64,6 @@ clean_binary:
 	rm $(TARGET)
 
 clean:
-	rm -f $(TARGET) $(TEST_TARGET) *.o *~ *.pyc
+	rm -f  *.o *~ *.pyc
 	$(MAKE) -C  ../data_structures clean
 	$(MAKE) -C  ../computation_graph clean
