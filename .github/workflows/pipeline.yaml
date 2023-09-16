@@ -84,13 +84,6 @@ jobs:
       run: |
         ./target/test_networks
     
-    - name: Build Source
-      working-directory: src/
-      run: |
-        make
-        ../target/neurograph
-        make clean
-
     - name: Integration test
       working-directory: src/tests/
       run: |
