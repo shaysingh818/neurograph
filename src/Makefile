@@ -56,7 +56,6 @@ clean_binary:
 
 clean:
 	rm -f *.o *~
-	rm ../neurograph/ngraph/lib/*.so
 	$(MAKE) -C  ./data_structures clean
 	$(MAKE) -C ./networks clean
 	$(MAKE) -C ./graph clean
