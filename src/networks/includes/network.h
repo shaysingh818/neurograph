@@ -2,29 +2,30 @@
 #define NETWORK_H
 
 #include "../../data_structures/includes/matrix.h"
-#include "activations.h"
-#include "computation_graph.h"
+#include "../../computation_graph/includes/computation_graph.h"
+#include "../../computation_graph/includes/mse.h"
+#include "layer.h"
 
 #define DEBUG false
+#define NETWORK_DEBUG false
 
 struct Network {
     int num_layers, layer_count;
-    int front_index, rear_index;  
-    double learning_rate, loss;   
-    node_type_t **layers; 
-    node_type_t *front, *rear; 
+    int front_index, rear_index, pass_index;  
+    double learning_rate, loss; 
+    value_t *input;  
+    computation_graph_t *graph; 
+    layer_t **layers;  
 }; 
 
 typedef struct Network net_t; 
 
-net_t *init_network(int num_layers, double learning_rate);
-void layer(net_t *nn, node_type_t *layer_node);  
-void train(net_t *nn, mat_t *x, mat_t *y, int epochs); 
-void save_model(net_t *nn, char *file_path);
-void debug(net_t *n);
-
-/* test predictions */
-mat_t *predict(net_t *nn, mat_t *x, mat_t *y); 
+net_t *init_network(double learning_rate, value_t *inputs);
+void layer(net_t *nn, layer_t *layer);
+void train(net_t *nn, int epochs, mat_t *y);  
+void update_network_params(net_t *nn); 
+void save_model_params(net_t *nn, char *filepath); 
+void load_model(char *model_name);  
 
 
 #endif

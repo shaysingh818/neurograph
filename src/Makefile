@@ -4,12 +4,12 @@ DS_GRAPH = data_structures/matrix.o data_structures/adj_list.o data_structures/a
 DS_QUEUE = data_structures/map.o data_structures/node.o data_structures/queue.o data_structures/set.o data_structures/ll.o
 DS_OBJS = $(DS_GRAPH)  $(DS_QUEUE)
 
-NETWORK_OBJS = networks/activations.o networks/computation_graph.o networks/network.o
+CGRAPH_OBJS = computation_graph/computation_graph.o computation_graph/value.o computation_graph/mat_ops.o computation_graph/tanh.o computation_graph/mse.o
+NETWORK_OBJS = networks/layer.o networks/network.o
 GRAPH_OBJS = graph/graph.o graph/community.o graph/path.o graph/search.o
 EXTRACTOR_OBJS = extractors/re.o extractors/frame.o extractors/gml.o
 
-
-OBJS = $(DS_OBJS) $(GRAPH_OBJS) $(EXTRACTOR_OBJS) $(NETWORK_OBJS)
+OBJS = $(DS_OBJS) $(GRAPH_OBJS) $(EXTRACTOR_OBJS) $(CGRAPH_OBJS) $(NETWORK_OBJS)
 
 # Outputs and compilation target
 BIN=bin
@@ -19,18 +19,18 @@ SHARED_TARGET = ../neurograph/ngraph/lib/neurograph.so
 
 
 FLAGS = -lm -lpthread
-SO_FLAGS = -fPIC 
+SO_FLAGS =  -fPIC 
 
 
 all: build source shared 
 
 shared: main.o $(OBJS)
-	$(CC) -o $(SHARED_TARGET) main.o $(SO_FLAGS) $(FLAGS) $(OBJS)
+	$(CC) -o $(SHARED_TARGET) main.o $(SO_FLAGS) $(OBJS) $(FLAGS)
 
 source: main.o $(OBJS)
 	$(CC) -o $(TARGET) main.o $(OBJS)  $(FLAGS)
 
-build: graph data_structures extractors networks
+build: graph data_structures extractors computation_graph networks
 
 data_structures:
 	$(MAKE) -C ./data_structures
@@ -44,6 +44,9 @@ networks:
 extractors:
 	$(MAKE) -C ./extractors
 
+computation_graph:
+	$(MAKE) -C ./computation_graph
+
 main.o: main.c graph/includes/graph.h data_structures/includes/node.h
 	$(CC) -c main.c
 
@@ -52,8 +55,8 @@ clean_binary:
 
 clean:
 	rm -f *.o *~
-	rm ../neurograph/ngraph/lib/*.so
 	$(MAKE) -C  ./data_structures clean
 	$(MAKE) -C ./networks clean
 	$(MAKE) -C ./graph clean
 	$(MAKE) -C ./extractors clean
+	$(MAKE) -C  ./computation_graph clean

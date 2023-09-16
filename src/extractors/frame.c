@@ -13,6 +13,10 @@ void extract_frame_headers(frame_t *frame) {
 	/* iterate through file */
 	while(fgets(frame->file_buffer, frame->buffer_size, fp)) {
 
+		if(frame->row_count == frame->row_limit){
+			break;
+		}
+
 		/* null terminate the buffer */ 
 		int len = strlen(frame->file_buffer); 
 		if(frame->file_buffer[len-1] == '\n') {
@@ -44,9 +48,9 @@ void extract_frame_headers(frame_t *frame) {
 	/* allocate values for each header based on row size */
 	for(int i = 0; i < headers_size; i++){
 		frame->headers[i]->values_amount = frame->row_count; 
-		frame->headers[i]->values = malloc(frame->row_count * sizeof(value_t*)); 
+		frame->headers[i]->values = malloc(frame->row_count * sizeof(row_value_t*)); 
 		for(int j = 0; j < frame->row_count; j++){
-			frame->headers[i]->values[j] = malloc(sizeof(value_t)); 
+			frame->headers[i]->values[j] = malloc(sizeof(row_value_t)); 
 		}
 	}
 	
@@ -60,6 +64,11 @@ void init_frame_rows(frame_t *frame) {
    	int row_count = 0;
 
 	while(fgets(frame->file_buffer, frame->buffer_size, fp)) {
+
+		/* stop after row limit is reached */
+		if(row_count == frame->row_limit){
+			break; 
+		}
 
 		/* null terminate the buffer */ 
 		int len = strlen(frame->file_buffer); 
@@ -96,9 +105,9 @@ void init_frame_map(frame_t *frame) {
 		int row_count = 0;
 
 		/* allocate row values array for column */
-		value_t **values = malloc(frame->row_count * sizeof(value_t*));
+		row_value_t **values = malloc(frame->row_count * sizeof(row_value_t*));
 		for(int n = 0; n < frame->row_count; n++){
-			values[n] = malloc(sizeof(value_t)); 
+			values[n] = malloc(sizeof(row_value_t)); 
 		}
 
 		/* rewind to beginning of file */
@@ -121,7 +130,7 @@ void init_frame_map(frame_t *frame) {
 }
 
 
-frame_t *init_frame(char *filename, int buffer_size){
+frame_t *init_frame(char *filename, int buffer_size, int row_limit){
 
 	/* add to structure properties */ 
 	size_t name_size = strlen(filename) + 1; 
@@ -130,7 +139,8 @@ frame_t *init_frame(char *filename, int buffer_size){
    	frame->filename = (char*)malloc(name_size * sizeof(char)); 
 	frame->buffer_size = buffer_size;
 	frame->file_buffer = malloc(buffer_size * sizeof(char));
-	frame->status = true; 
+	frame->status = true;
+	frame->row_limit = row_limit;  
 	frame->map = init_table(1, compare_char, NULL, NULL, additive_hash);
 	
    	strcpy(frame->filename, filename);

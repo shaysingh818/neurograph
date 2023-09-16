@@ -8,51 +8,91 @@ on:
 
 jobs:
 
-  # build source for unit tests
-  build-test-core:
+
+  build-core-packages:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
- 
-    - name: Build and Test Data Structures Library
+
+    - name: Data Structures Package
       working-directory: src/data_structures/
       run: |
         make
-        ./target/test_data_structures
-        make clean
-   
-    - name: Build and Test Extractors Library
+
+    - name: Extractors Package
       working-directory: src/extractors/
       run: |
         make
-        ./target/test_extractors
-        make clean
-
-    - name: Build and Test Graph Package
+        
+    - name: Graph Package
       working-directory: src/graph/
       run: |
         make
-        ./target/test_graph
-        make clean
 
-    - name: Build and Test Deep Learning Package
+    - name: Computation Graph Package
+      working-directory: src/computation_graph/
+      run: |
+        make
+
+    - name: Deep Learning Package
       working-directory: src/networks/
       run: |
         make
-        ./target/test_networks
-        make clean
-    
-    - name: Build Source
+
+    - name: Neurograph
       working-directory: src/
       run: |
         make
-        ../target/neurograph
-        make clean
+
+    - name: Integration Test Package
+      working-directory: src/tests/
+      run: |
+        make
+
+
+  # build source for unit tests
+  test-core-packages:
+    runs-on: ubuntu-latest
+    needs: [build-core-packages]
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+ 
+    - name: Data Structures Package
+      working-directory: src/data_structures/
+      run: |
+        ./target/test_data_structures
+   
+    - name: Extractors Package
+      working-directory: src/extractors/
+      run: |
+        ./target/test_extractors
+
+    - name: Graph Package
+      working-directory: src/graph/
+      run: |
+        ./target/test_graph
+
+    - name: Computation Graph Package
+      working-directory: src/computation_graph/
+      run: |
+        ./target/test_cgraph
+
+    - name: Deep Learning Package
+      working-directory: src/networks/
+      run: |
+        ./target/test_networks
+    
+    - name: Integration test
+      working-directory: src/tests/
+      run: |
+        ./target/test_neurograph
  
   # unit tests for python code base
-  glue-package:
+  python-library:
     runs-on: ubuntu-latest
+    needs: [test-core-packages]
     steps:
       - uses: actions/checkout@v2
 

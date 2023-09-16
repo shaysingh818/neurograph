@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include <regex.h> 
 
-
 #include "../../data_structures/includes/ll.h"
 #include "../../data_structures/includes/map.h"
 #include "../../data_structures/includes/matrix.h"
@@ -20,31 +19,28 @@
 
 #define FRAME_DEBUG true
 
-struct Value {
+struct RowValue {
 	size_t value_size;
 	int index;
 	char *value;
 }; 
 
-typedef struct Value value_t; 
+typedef struct RowValue row_value_t; 
 
 
 struct Header {
 	int index, values_amount;
 	char *name;
 	size_t name_size; 
-	value_t **values;  
+	row_value_t **values;  
 }; 
 
 typedef struct Header header_t; 
 
 
 struct Frame {
-	int buffer_size;
-   	int header_count;
-	int row_count; 
-	char *filename;
-	char *file_buffer; 
+	int buffer_size, header_count, row_count, row_limit; 
+	char *filename, *file_buffer; 
 	char separator;
 	bool status; 
 	header_t **headers;
@@ -55,7 +51,7 @@ typedef struct Frame frame_t;
 
 
 header_t **init_frame_headers(frame_t *frame);
-frame_t *init_frame(char *filepath, int buffer_size);
+frame_t *init_frame(char *filepath, int buffer_size, int row_limit);
 
 void extract_frame_headers(frame_t *frame);  
 void init_frame_rows(frame_t *frame);

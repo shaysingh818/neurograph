@@ -1,22 +1,15 @@
 #include "includes/test_network.h"
-#include "includes/test_computation_graph.h"
+#include "includes/test_layer.h"
 
 int main(int argc, char **argv) {
 
-	/* computation graph tests */
-	test_init_node_type();
-	test_init_nodes();
-	test_append_c_node();
-	test_forward_all(); 
-	test_backward_all();  	
-	test_mlp();
-	test_dense();  
+    /* layer tests */
+    test_linear_layer();
+    test_activation_layer();
 	
-
 	/* network tests */
 	test_init_network();
     test_add_layer(); 
     test_train();
-
-
+    test_save_model_params(); 
 }

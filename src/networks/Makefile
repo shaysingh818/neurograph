@@ -3,10 +3,9 @@ BIN=bin
 CC=gcc
 TARGET=target/networks
 TEST_TARGET=target/test_networks
-FLAGS = -lm -lpthread
 
 # source header files
-HEADERS = $(wildcard /includes/*.h)
+HEADERS = $(wildcard /includes/*.h) 
 
 # test header files
 TEST_HEADERS = $(wildcard /tests/includes/*.h)
@@ -14,21 +13,30 @@ TEST_HEADERS = $(wildcard /tests/includes/*.h)
 # data structure objects needed
 MATRIX = ../data_structures/matrix.o
 
+# CGRAPH OBJS
+CGRAPH_OBJS = ../computation_graph/computation_graph.o ../computation_graph/value.o ../computation_graph/mat_ops.o ../computation_graph/tanh.o ../computation_graph/mse.o
+
 # source objects
-SRC_OBJS = network.o activations.o computation_graph.o value.o $(MATRIX)
+SRC_OBJS =  layer.o network.o $(MATRIX) $(CGRAPH_OBJS)
 
 # unit test objects
-TEST_OBJS =  test_network.o test_computation_graph.o test_value.o
+TEST_OBJS =  test_network.o test_layer.o 
 
 # flags
 FLAGS = -g -lm -lpthread -fPIC
 
 
 # link all programs here
-all: data_structures unit_test source
+all: data_structures cgraph unit_test source
+
+
+cgraph:
+	$(MAKE) -C ../computation_graph
 
 data_structures:
 	$(MAKE) -C ../data_structures
+
+
 
 unit_test: unit_test.o $(SRC_OBJS) $(TEST_OBJS)
 	gcc -o $(TEST_TARGET) unit_test.o $(SRC_OBJS) $(TEST_OBJS) $(FLAGS)
@@ -56,4 +64,6 @@ clean_binary:
 	rm $(TARGET)
 
 clean:
-	rm -f $(TARGET) $(TEST_TARGET) *.o *~ *.pyc
+	rm -f  *.o *~ *.pyc
+	$(MAKE) -C  ../data_structures clean
+	$(MAKE) -C  ../computation_graph clean
