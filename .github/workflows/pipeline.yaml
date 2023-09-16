@@ -8,19 +8,50 @@ on:
 
 jobs:
 
+
+  build-packages:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Data Structures Package
+      working-directory: src/data_structures/
+      run: |
+        make
+
+    - name: Extractors Package
+      working-directory: src/extractors/
+      run: |
+        make
+        
+    - name: Graph Package
+      working-directory: src/graph/
+      run: |
+        make
+
+    - name: Computation Graph Package
+      working-directory: src/computation_graph/
+      run: |
+        make
+
+    - name: Deep Learning Package
+      working-directory: src/networks/
+      run: |
+        make
+
+
   # build source for unit tests
-  core-library-packages:
+  test-packages:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
  
-    - name: Build and Test Data Structures Package
+    - name: Data Structures Package
       working-directory: src/data_structures/
       run: |
-        make
         ./target/test_data_structures
-        make clean
    
     # - name: Build and Test Extractors Package
     #   working-directory: src/extractors/
@@ -29,26 +60,20 @@ jobs:
     #     ./target/test_extractors
     #     make clean
 
-    - name: Build and Test Graph Package
+    - name: Graph Package
       working-directory: src/graph/
       run: |
-        make
         ./target/test_graph
-        make clean
 
-    - name: Build and Test Computation Graph Package
+    - name: Computation Graph Package
       working-directory: src/computation_graph/
       run: |
-        make
         ./target/test_cgraph
-        make clean
 
-    - name: Build and Test Deep Learning Package
+    - name: Deep Learning Package
       working-directory: src/networks/
       run: |
-        make
         ./target/test_networks
-        make clean
     
     - name: Build Source
       working-directory: src/
@@ -62,7 +87,6 @@ jobs:
       run: |
         make
         ../target/test_neurograph
-        make clean
  
   # unit tests for python code base
   python-library:
