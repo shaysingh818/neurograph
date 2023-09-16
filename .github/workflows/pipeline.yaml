@@ -49,6 +49,7 @@ jobs:
   # build source for unit tests
   test-packages:
     runs-on: ubuntu-latest
+    needs: [build-packages]
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
