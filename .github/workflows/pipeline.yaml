@@ -9,7 +9,7 @@ on:
 jobs:
 
 
-  build-packages:
+  build-core-packages:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -52,7 +52,7 @@ jobs:
 
 
   # build source for unit tests
-  test-packages:
+  test-core-packages:
     runs-on: ubuntu-latest
     needs: [build-packages]
     steps:
@@ -96,8 +96,7 @@ jobs:
     - name: Integration test
       working-directory: src/tests/
       run: |
-        make
-        ../target/test_neurograph
+        ./target/test_neurograph
  
   # unit tests for python code base
   python-library:
