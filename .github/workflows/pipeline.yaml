@@ -64,12 +64,10 @@ jobs:
       run: |
         ./target/test_data_structures
    
-    # - name: Build and Test Extractors Package
-    #   working-directory: src/extractors/
-    #   run: |
-    #     make
-    #     ./target/test_extractors
-    #     make clean
+    - name: Build and Test Extractors Package
+      working-directory: src/extractors/
+      run: |
+        ./target/test_extractors
 
     - name: Graph Package
       working-directory: src/graph/
