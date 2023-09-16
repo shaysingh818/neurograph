@@ -105,3 +105,43 @@ void test_train() {
     printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 
 }
+
+
+void test_save_model_params() {
+
+	/* neural net library  */
+    double learning_rate = 0.1; 
+    double inputs[4][2] = {{0,0},{0,1},{1,0},{1,1}};
+    double outputs[4][1] = {{0},{1},{1},{0}};
+
+    /* create x input */
+    mat_t *x = copy_arr_to_matrix(4, 2, inputs); 
+    mat_t *y = copy_arr_to_matrix(4, 1, outputs);
+    value_t *input = input_node_mat(x);
+    net_t *nn = init_network(learning_rate, input);
+
+    /* define model architecture */
+    layer(nn, linear(2, 3));
+    layer(nn, activation(2, 3, tanh_forward, tanh_backward)); 
+    layer(nn, linear(3, 1)); 
+    layer(nn, activation(3, 1, tanh_forward, tanh_backward));
+    train(nn, 1000, y);
+
+    // /* save model parameters from each layer */
+    // save_model_params(nn, "../../examples/models/xor/"); 
+
+    /* validate model can be saved */
+    save_matrix(
+        nn->layers[0]->layer_type->linear->weights->mat_output, 
+        "../../examples/test"
+    );
+
+    mat_t *m = load_matrix("../../examples/test"); 
+    print_vec(m);  
+
+    printf("U work?\n"); 
+
+
+
+
+}

@@ -56,6 +56,13 @@ jobs:
         make
         ../target/neurograph
         make clean
+
+    - name: Integration test
+      working-directory: src/tests/
+      run: |
+        make
+        ../target/test_neurograph
+        make clean
  
   # unit tests for python code base
   python-library:

@@ -84,3 +84,16 @@ void update_network_params(net_t *nn) {
 }
 
 
+void save_model_params(net_t *nn, char *filepath){
+
+    for(int i = 0; i < nn->num_layers; i++){
+
+        /* make directory to store layer */
+        char *value; 
+        sprintf(value, "%s_%d", "layer", i); 
+        printf("%s\n", value); 
+    }
+
+}
+
+

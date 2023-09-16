@@ -13,6 +13,10 @@ void extract_frame_headers(frame_t *frame) {
 	/* iterate through file */
 	while(fgets(frame->file_buffer, frame->buffer_size, fp)) {
 
+		if(frame->row_count == frame->row_limit){
+			break;
+		}
+
 		/* null terminate the buffer */ 
 		int len = strlen(frame->file_buffer); 
 		if(frame->file_buffer[len-1] == '\n') {
@@ -60,6 +64,11 @@ void init_frame_rows(frame_t *frame) {
    	int row_count = 0;
 
 	while(fgets(frame->file_buffer, frame->buffer_size, fp)) {
+
+		/* stop after row limit is reached */
+		if(row_count == frame->row_limit){
+			break; 
+		}
 
 		/* null terminate the buffer */ 
 		int len = strlen(frame->file_buffer); 
@@ -121,7 +130,7 @@ void init_frame_map(frame_t *frame) {
 }
 
 
-frame_t *init_frame(char *filename, int buffer_size){
+frame_t *init_frame(char *filename, int buffer_size, int row_limit){
 
 	/* add to structure properties */ 
 	size_t name_size = strlen(filename) + 1; 
@@ -130,7 +139,8 @@ frame_t *init_frame(char *filename, int buffer_size){
    	frame->filename = (char*)malloc(name_size * sizeof(char)); 
 	frame->buffer_size = buffer_size;
 	frame->file_buffer = malloc(buffer_size * sizeof(char));
-	frame->status = true; 
+	frame->status = true;
+	frame->row_limit = row_limit;  
 	frame->map = init_table(1, compare_char, NULL, NULL, additive_hash);
 	
    	strcpy(frame->filename, filename);

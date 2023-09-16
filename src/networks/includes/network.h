@@ -23,7 +23,9 @@ typedef struct Network net_t;
 net_t *init_network(double learning_rate, value_t *inputs);
 void layer(net_t *nn, layer_t *layer);
 void train(net_t *nn, int epochs, mat_t *y);  
-void update_network_params(net_t *nn);  
+void update_network_params(net_t *nn); 
+void save_model_params(net_t *nn, char *filepath); 
+void load_model(char *model_name);  
 
 
 #endif
