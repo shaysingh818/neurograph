@@ -9,7 +9,6 @@ NETWORK_OBJS = networks/layer.o networks/network.o
 GRAPH_OBJS = graph/graph.o graph/community.o graph/path.o graph/search.o
 EXTRACTOR_OBJS = extractors/re.o extractors/frame.o extractors/gml.o
 
-
 OBJS = $(DS_OBJS) $(GRAPH_OBJS) $(EXTRACTOR_OBJS) $(CGRAPH_OBJS) $(NETWORK_OBJS)
 
 # Outputs and compilation target

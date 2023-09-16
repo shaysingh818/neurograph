@@ -53,7 +53,6 @@ void mat_scale_add(value_t *val) {
 } 
 
 void mat_scale_add_backward(value_t *val) {   
-
     val->mat_x_d_grad = val->mat_upstream_grad;
     val->mat_y_d_grad = val->mat_upstream_grad;
     val->left->mat_upstream_grad = val->mat_x_d_grad; 
