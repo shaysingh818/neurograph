@@ -101,7 +101,7 @@ jobs:
   # unit tests for python code base
   python-library:
     runs-on: ubuntu-latest
-    needs: [test-packages]
+    needs: [test-core-packages]
     steps:
       - uses: actions/checkout@v2
 
