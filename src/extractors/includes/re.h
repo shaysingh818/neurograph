@@ -9,7 +9,7 @@
 #include <regex.h>
 
 /* data structures import */
-#include "../../data_structures/includes/set.h"
+#include "../../data_structures/includes/array.h"
 
 struct Tokens {
     char **tokens; 
@@ -18,10 +18,14 @@ struct Tokens {
 
 typedef struct Tokens tokens_t; 
 
+/* compile regex expression */
+bool compile_regex(regex_t *regex, char *pattern); 
+
+/* match expression */
 tokens_t *match_single(char *buffer, char *pattern);
 
 /* using set instead */
-ordered_set_t *match_pattern(char *buffer, char *pattern); 
+array_t *match_pattern(char *buffer, char *pattern); 
 
 /* replace sub string with pattern */ 
 void remove_char(char *test_string, char char_to_remove);

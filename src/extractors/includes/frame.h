@@ -7,13 +7,16 @@
 #include <string.h> 
 #include <stdlib.h>
 #include <regex.h> 
+#include <errno.h>
 
 #include "../../data_structures/includes/ll.h"
 #include "../../data_structures/includes/map.h"
 #include "../../data_structures/includes/matrix.h"
 #include "../../data_structures/includes/set.h"
+#include "re.h"
 
 #define RE_CSV "\"[^\"]*\"|[^,]+"
+#define RE_CSV_TEST "\"[^\"]*\"|[^,]+"
 #define RE_JSON "None Yet"
 #define RE_YAML "Yaml"
 
@@ -41,7 +44,7 @@ typedef struct Header header_t;
 struct Frame {
 	int buffer_size, header_count, row_count, row_limit; 
 	char *filename, *file_buffer; 
-	char separator;
+	char delimeter;
 	bool status; 
 	header_t **headers;
 	map_t *map; 
@@ -50,11 +53,21 @@ struct Frame {
 typedef struct Frame frame_t; 
 
 
-header_t **init_frame_headers(frame_t *frame);
+
+/* initiate frame structure */
 frame_t *init_frame(char *filepath, int buffer_size, int row_limit);
 
+/* header helper methods */
+void allocate_frame_headers(frame_t *frame, tokens_t *row_values); 
+void allocate_header_rows(frame_t *frame);
+void copy_row_values(frame_t *frame, tokens_t *row_values, int row_count); 
+int match_header(frame_t *frame, char *header_key);  
+
+/* extract headers */
+header_t **init_frame_headers(frame_t *frame);
+
 void extract_frame_headers(frame_t *frame);  
-void init_frame_rows(frame_t *frame);
+void init_frame_rows_regex(frame_t *frame);
 void init_frame_map(frame_t *frame); 
 
 void f_cols(frame_t *frame); 
@@ -62,8 +75,10 @@ void f_rows(frame_t *frame, header_t *header);
 
 /* dataframe to graph methods */ 
 mat_t *frame_g_mat(frame_t *frame, int *cols, int size, int directed);
+mat_t *frame_to_mat(frame_t *frame, char **cols, int feature_store_size); 
 
 /* utilities for working with files */
+void end_line_terminate(char *buffer); 
 int count_lines(char *filename, int file_size); 
 
 #endif

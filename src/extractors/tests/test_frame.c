@@ -30,7 +30,10 @@ void test_extract_frame_headers() {
     }
 
     /* frame for movies.csv*/
-    frame_t *power_gen = init_frame("../../examples/data/power_generation.csv", 1024, 100);  
+    frame_t *power_gen = init_frame(
+        "../../examples/data/power_generation.csv", 
+        1024, 1000
+    );      
     assert(power_gen->status == true);  
 
     for(int i = 0; i < power_gen->header_count; i++){
@@ -66,9 +69,9 @@ void test_init_frame_rows() {
 		printf("File does not exist\n");
 		frame->status = false; 
 	}
-    
+
     extract_frame_headers(frame);
-    init_frame_rows(frame); 
+    init_frame_rows_regex(frame); 
 
     /* check that values for headers are allocated with row count */
     for(int i = 0; i < frame->header_count; i++){
@@ -116,13 +119,10 @@ void test_init_frame_structure() {
 
 void test_hash_map_frame() {
 
-
     bool equality_status = true; 
     frame_t *frame = init_frame("../../examples/data/movies.csv", 2048, 100);
     assert(frame->status == true); 
-
     init_frame_map(frame);
-
 
     char *keys[100] = {
         "index", "movie_name", "year_of_release", "category", "run_time", "genre",
@@ -147,4 +147,33 @@ void test_hash_map_frame() {
     printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 
 
-} 
+}
+
+
+void test_frame_to_matrix() {
+
+    frame_t *frame = init_frame("../../examples/data/ms_prediction.csv", 1024, 100);
+    if(frame->status != true){
+        printf("Error in loading frame data\n");
+    }
+
+    char *selected_cols[100] = {"Schooling", "LLSSEP", "ULSSEP", "VEP", "BAEP"}; 
+    mat_t *result = frame_to_mat(frame, selected_cols, 5); 
+    assert(result->rows == 100); 
+    assert(result->cols == 5); 
+
+    /* movies dataset */
+    frame_t *movie_frame = init_frame("../../examples/data/movies.csv", 1024, 100);
+    if(movie_frame->status != true){
+        printf("Error in loading frame data\n");
+    }
+
+    /* test if we can do a vector */
+    char *movie_cols[100] = {"imdb_rating"}; 
+    mat_t *movie_matrix = frame_to_mat(movie_frame, movie_cols, 1);
+    assert(movie_matrix->rows == 100); 
+    assert(movie_matrix->cols == 1);  
+
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+
+}

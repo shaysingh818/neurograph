@@ -12,7 +12,9 @@ int main(int argc, char **argv) {
     /* test list library methods */
     test_push_ll();
     test_insert_after_ll(); 
-    test_append_ll();  
+    test_append_ll(); 
+    test_init_array(); 
+    test_insert_array();  
 
 	/* queue methods */ 
 	test_init_queue();

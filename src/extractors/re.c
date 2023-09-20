@@ -2,6 +2,18 @@
 #include "../data_structures/includes/node.h"
 #include "../data_structures/includes/ll.h"
 
+
+bool compile_regex(regex_t *regex, char *pattern) {
+    int comp_result = regcomp(regex, pattern, REG_EXTENDED);
+    if(comp_result != 0){
+        char error_buffer[1024];
+        regerror(comp_result, regex, error_buffer, sizeof(error_buffer));
+        printf("Error compiling regex: %s\n", error_buffer);
+        return false;
+    }
+    return true; 
+} 
+
 tokens_t *match_single(char *buffer, char *pattern) {
 
     int counter = 0;
@@ -80,21 +92,18 @@ tokens_t *match_single(char *buffer, char *pattern) {
 }
 
 
-ordered_set_t *match_pattern(char *buffer, char *pattern) {
+array_t *match_pattern(char *buffer, char *pattern) {
 
     regex_t regex;
     regoff_t offset; 
     regmatch_t match;
-    ordered_set_t *token_set = init_array_set(10); 
+    array_t *token_set = init_array(); 
     int token_counter = 0; 
 
     /* check for errors in compilation */
-    int comp_result = regcomp(&regex, pattern, REG_EXTENDED);
-    if(comp_result != 0){
-        char error_buffer[1024];
-        regerror(comp_result, &regex, error_buffer, sizeof(error_buffer));
-        printf("Error compiling regex: %s\n", error_buffer);
-        return NULL;
+    bool result = compile_regex(&regex, pattern); 
+    if(!result){
+        exit(0); 
     }
 
     /* iterate through buffer and get tokens */
@@ -111,8 +120,8 @@ ordered_set_t *match_pattern(char *buffer, char *pattern) {
         }
 
         /* add token using array based set */
-        insert_ordered(token_set, token_counter, token, 0);  
-        token[length] = '\0'; 
+        token[length] = '\0';
+        insert(token_set, create_node(token_counter, token, 0));
         buffer += match.rm_eo; 
         token_counter += 1; 
 

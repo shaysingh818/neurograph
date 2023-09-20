@@ -127,3 +127,55 @@ void test_ull() {
 	}
 	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 }
+
+
+void test_init_array() {
+
+    array_t *array = init_array();
+    assert(array->capacity == 2);
+    assert(array->item_count == 0); 
+
+	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+
+}
+
+
+void test_insert_array() {
+
+    array_t *array = init_array();
+    assert(array->capacity == 2);
+    assert(array->item_count == 0);
+
+    char *expected_items[100] = {"test", "test1", "test2", "test3"}; 
+    char *expected_items_removed[100] = {"test"}; 
+
+    insert(array, create_node(0, "test", 0));  
+    insert(array, create_node(1, "test1", 0));  
+    insert(array, create_node(2, "test2", 0));  
+    insert(array, create_node(3, "test3", 0)); 
+
+
+    for(int i = 0; i < array->item_count; i++){
+        int condition = strcmp(array->items[i]->label, expected_items[i]) == 0; 
+        assert(condition == true); 
+    }
+
+    pop_array(array); 
+    pop_array(array); 
+    pop_array(array);
+
+
+    for(int i = 0; i < array->item_count; i++){
+        int condition = strcmp(array->items[i]->label, expected_items_removed[i]) == 0; 
+        assert(condition == true); 
+    }
+
+    /* insert a million entries */
+    array_t *benchmark_array = init_array();
+    for(int i = 0; i < 1000000; i++){
+        insert(benchmark_array, create_node(i, "test3", 0)); 
+    }
+
+	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+
+} 

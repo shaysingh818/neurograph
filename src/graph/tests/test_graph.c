@@ -22,7 +22,7 @@ void test_frame_to_unweighted_graph() {
 		{}
 	}; 
 
-    frame_t *frame = init_frame("../../examples/data/test.csv", 1024, 6);
+    frame_t *frame = init_frame("../../examples/data/test.csv", 1024, 6, NULL);
 	assert(frame->status);
 
     /* convert frame to un weighted graph */
@@ -63,7 +63,7 @@ void test_frame_to_weighted_graph() {
 		{}
 	}; 
 
-    frame_t *frame = init_frame("../../examples/data/test.csv", 1024, 6);
+    frame_t *frame = init_frame("../../examples/data/test.csv", 1024, 6, NULL);
 	assert(frame->status); 
 
     /* convert frame to un weighted graph */
@@ -97,7 +97,7 @@ void test_unused_slots() {
     bool equality_status = true; 
 	int indices[3] = {1,3,4}; 
 
-    frame_t *frame = init_frame("../../examples/data/test.csv", 1024, 6);
+    frame_t *frame = init_frame("../../examples/data/test.csv", 1024, 6, NULL);
 	assert(frame->status); 
 
     /* convert frame to weighted graph */
@@ -106,7 +106,7 @@ void test_unused_slots() {
     );
 	assert(result->list->v == 5); 
 
-    frame = init_frame("../../examples/data/test.csv", 1024, 6);
+    frame = init_frame("../../examples/data/test.csv", 1024, 6, NULL);
 	assert(frame->status);
 
     // /* convert frame to weighted graph */
@@ -277,7 +277,7 @@ void test_deserialize_adj_list() {
 	int indices[2] = {1, 5}; 
 	char *input_path = "../../examples/data/movies.csv";
 	char *output_path = "../../examples/data/output/sample.gmul";
-    frame_t *frame = init_frame(input_path, 1024, 100);
+    frame_t *frame = init_frame(input_path, 1024, 100, NULL);
 	assert(frame->status);
 
     /* convert frame to un weighted graph */
