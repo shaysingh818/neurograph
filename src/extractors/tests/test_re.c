@@ -52,7 +52,7 @@ void test_match_pattern() {
     };
     char *expected_neighbors[6] = {"1", "A", "0", "2", "C", "0"};  
 
-    array_t *values = match_pattern(buffer, pattern);
+    array_t *values = match_pattern_split(buffer, pattern);
     assert(values->item_count == 4);
 
     for(int i = 0; i < values->item_count; i++){
@@ -60,7 +60,7 @@ void test_match_pattern() {
         assert(compare == true);  
     }
 
-    array_t *gml_values = match_pattern(gml_line, RE_GML_NODE);
+    array_t *gml_values = match_pattern_split(gml_line, RE_GML_NODE);
     int counter = 0;  
     for(int i = 2; i < gml_values->item_count; i++){
         char *label = gml_values->items[i]->label;
@@ -100,16 +100,19 @@ void test_csv_line() {
 
 void test_blank_values() {
 
-    char *line = "125,2,36,9,1,1,1,1,1,0,0,0,0,1,1,0,0,,,2";
-    char *pattern = ""; 
-	array_t *results = match_pattern(line, RE_CSV_TEST);
-    int size = results->item_count; 
-    printf("Result size: %d\n", size);
-    print_array(results);  
+    char *line = "125,2,\"36\",9,1,1,1,1,1,0,0,0,0,1,1,0,0,,,2";
+    char *test = "\"[^\"]*\"|[^,]+|[^,]+,|[,]";
+	array_t *results = match_pattern_split(line, test);
+    int size = results->item_count;
+    match_tokens_to_pattern(results, "[^,]+");
+    assert(size == 20);
 
-    // for(int i = 0; i < results->result_size; i++){
-    //     char *value = results->tokens[i];
-    //     printf("[%d] -> %s\n", i, value); 
-    // }
+    char *line_two = "index,movie_name,year_of_release,category,run_time,genre,imdb_rating,votes,gross_total"; 
+	array_t *results_two = match_pattern_split(line_two, test);
+    int size_two = results_two->item_count;
+    match_tokens_to_pattern(results_two, "[^,]+");
+    print_array(results_two); 
 
+
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 }

@@ -92,7 +92,50 @@ tokens_t *match_single(char *buffer, char *pattern) {
 }
 
 
-array_t *match_pattern(char *buffer, char *pattern) {
+void match_tokens_to_pattern(array_t *tokens, char *pattern) {
+
+    regex_t regex;
+    regoff_t offset; 
+    regmatch_t match;
+    char *token; 
+
+    /* check for errors in compilation */
+    bool result = compile_regex(&regex, pattern); 
+    if(!result){
+        exit(0); 
+    }
+
+    for(int n = 0; n < tokens->item_count; n++){
+
+        /* iterate through buffer and get tokens */
+        int compare = regexec(&regex, tokens->items[n]->label, 1, &match, 0);
+        while(compare == 0) {
+
+            /* allocate space for token in character array */
+            int length = match.rm_eo - match.rm_so; 
+            token = malloc(length+1 * sizeof(char));
+
+            /* gather results from token string */
+            for(int i = match.rm_so, j=0; i < match.rm_eo; i++, j++){
+                token[j] = tokens->items[n]->label[i];  
+            }
+
+            /* add token using array based set */
+            token[length] = '\0';
+            tokens->items[n]->label += match.rm_eo;
+
+            compare = regexec(&regex, tokens->items[n]->label, 1, &match, 0);
+            if(compare == 1){
+                break;
+            }
+        }
+        tokens->items[n]->label = token; 
+    }
+
+} 
+
+
+array_t *match_pattern_split(char *buffer, char *pattern) {
 
     regex_t regex;
     regoff_t offset; 

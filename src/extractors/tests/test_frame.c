@@ -29,6 +29,7 @@ void test_extract_frame_headers() {
         assert(name_compare == true); 
     }
 
+
     /* frame for movies.csv*/
     frame_t *power_gen = init_frame(
         "../../examples/data/power_generation.csv", 
@@ -156,6 +157,8 @@ void test_frame_to_matrix() {
     if(frame->status != true){
         printf("Error in loading frame data\n");
     }
+    init_frame_rows_regex(frame);
+    printf("here\n");    
 
     char *selected_cols[100] = {"Schooling", "LLSSEP", "ULSSEP", "VEP", "BAEP"}; 
     mat_t *result = frame_to_mat(frame, selected_cols, 5); 
@@ -177,3 +180,36 @@ void test_frame_to_matrix() {
     printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 
 }
+
+
+void test_match_frame_delimiter_file() {
+
+    char *line = "125,2,\"36\",9,1,1,1,1,1,0,0,0,0,1,1,0,0,,,2";
+    char *expected_results[100] = {
+        "125", "2", "\"36\"", "9", "1", "1", "1",
+        "1", "1", "0", "0", "0", "0", "1", "1", 
+        "0", "0", "0", "0", "2"
+    };
+    array_t *results = match_delimeter_file(line, ",");
+
+    for(int i = 0; i < results->item_count; i++){
+        int condition = strcmp(results->items[i]->label, expected_results[i]) == 0;
+        assert(condition == true);  
+    }
+
+
+    char *semi_line = "536365;WHITE HANGING HEART T-LIGHT HOLDER;6;01.12.2010 08:26;2,55;17850;United Kingdom";
+    char *expected_semicolon[100] = {
+        "536365", "WHITE HANGING HEART T-LIGHT HOLDER", 
+        "6", "01.12.2010 08:26", "2,55", "17850", "United Kingdom",
+    };
+    array_t *semi_results = match_delimeter_file(semi_line, ";");
+
+    for(int i = 0; i < results->item_count; i++){
+        int condition = strcmp(results->items[i]->label, expected_results[i]) == 0;
+        assert(condition == true);  
+    }
+
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+
+} 

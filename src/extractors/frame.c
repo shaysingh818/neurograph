@@ -113,6 +113,31 @@ void init_frame_rows_regex(frame_t *frame) {
 }
 
 
+array_t *match_delimeter_file(char *line, char *delimiter) {
+
+	/* format delimiter into regex */
+	char *sub_pattern = "[^,]+"; 
+	char *default_pattern = "\"[^\"]*\"|[^,]+|[^,]+,|[,]";
+	size_t pattern_size = strlen(default_pattern)+1;
+	size_t sub_pattern_size = strlen(sub_pattern)+1; 
+	char *regex_pattern = malloc(pattern_size * sizeof(char)); 
+	char *regex_sub_pattern = malloc(sub_pattern_size * sizeof(char)); 
+
+	/* format regex expressions*/
+	sprintf(
+		regex_pattern, "\"[^\"]*\"|[^%s]+|[^%s]+%s|[%s]", 
+		delimiter, delimiter, delimiter, delimiter
+	); 
+	sprintf(regex_sub_pattern, "[^%s]+", delimiter); 
+
+	/* match pattern with array results */
+	array_t *results = match_pattern_split(line, regex_pattern);
+    int size = results->item_count;
+    match_tokens_to_pattern(results, regex_sub_pattern);
+	return results; 
+} 
+
+
 void init_frame_map(frame_t *frame) {
 
 	/* variables */

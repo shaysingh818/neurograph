@@ -15,7 +15,8 @@ int main(int argc, char **argv) {
 	test_init_frame_rows(); 
 	test_init_frame_structure();  
 	test_hash_map_frame();
-	test_frame_to_matrix();  
+	test_frame_to_matrix(); 
+	test_match_frame_delimiter_file();  
 
 	/* gml testing */
 	test_gml_expression_set();
