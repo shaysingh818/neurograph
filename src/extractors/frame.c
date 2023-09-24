@@ -1,49 +1,36 @@
 #include "includes/frame.h"
 
 
-void allocate_frame_headers(frame_t *frame, tokens_t *row_values) {
-	frame->headers = malloc(frame->header_count * sizeof(header_t*));
-	for(int i = 0; i < frame->header_count; i++){
-		frame->headers[i] = malloc(sizeof(header_t)); 
-		frame->headers[i]->index = i; 
-		frame->headers[i]->name_size = strlen(row_values->tokens[i]) + 1;
-		frame->headers[i]->name = malloc(frame->headers[i]->name_size * sizeof(char));  
-		strcpy(frame->headers[i]->name, row_values->tokens[i]); 
-	}
-} 
+frame_t *init_frame(char *filename, int buffer_size, int row_limit){
 
-void allocate_header_rows(frame_t *frame) {
-	for(int i = 0; i < frame->header_count; i++){
-		frame->headers[i]->values_amount = frame->row_count; 
-		frame->headers[i]->values = malloc(frame->row_count * sizeof(row_value_t*)); 
-		for(int j = 0; j < frame->row_count; j++){
-			frame->headers[i]->values[j] = malloc(sizeof(row_value_t)); 
-		}
-	}
-} 
+	/* add to structure properties */ 
+	size_t name_size = strlen(filename) + 1; 
+	frame_t *frame; 
+	frame = malloc(sizeof(frame_t));
+   	frame->filename = (char*)malloc(name_size * sizeof(char)); 
+	frame->buffer_size = buffer_size;
+	frame->file_buffer = malloc(buffer_size * sizeof(char));
+	frame->status = true;
+	frame->row_limit = row_limit;  
+	frame->map = init_table(1, compare_char, NULL, NULL, additive_hash);
+	
+   	strcpy(frame->filename, filename);
 
-void copy_row_values(frame_t *frame, tokens_t *row_values, int row_count) {
-
-	for(int i = 0; i < row_values->result_size; i++){
-		// printf("Header: %d  Row: %d Value: %s\n", i, row_count, row_values->tokens[i]);
-		size_t token_size = strlen(row_values->tokens[i])+1;
-		frame->headers[i]->values[row_count]->value = malloc(token_size * sizeof(char)); 
-		strcpy(frame->headers[i]->values[row_count]->value, row_values->tokens[i]);
-		frame->headers[i]->values[row_count]->value_size = strlen(row_values->tokens[i])+1;
-		frame->headers[i]->values[row_count]->index = row_count;
+	/* check if file exists */
+	if(access(filename, F_OK) == -1) {
+   		strcpy(frame->filename, "");
+		printf("File does not exist\n");
+		frame->status = false; 
+	   	return frame; 	
 	}
 
-}  
+	/* initalize data in frame */
+	extract_frame_headers(frame);
+	init_frame_rows_regex(frame); 
 
+    return frame; 
+}
 
-int match_header(frame_t *frame, char *header_key) {
-	for(int i = 0; i < frame->header_count; i++){
-		int condition = strcmp(header_key, frame->headers[i]->name) == 0; 
-		if(condition) return i; 
-	}
-	return -1; 
-
-} 
 
 void extract_frame_headers(frame_t *frame) {
 	
@@ -66,10 +53,10 @@ void extract_frame_headers(frame_t *frame) {
 		if(frame->row_count == 0) {
 
 			/* extract tokens from regular expression */
-			tokens_t *row_values = match_single(frame->file_buffer, RE_CSV);
-			headers_size = row_values->result_size; 
+    		array_t *semi_results = match_delimeter_file(frame->file_buffer, ",");
+			headers_size = semi_results->item_count; 
 			frame->header_count = headers_size; 
-			allocate_frame_headers(frame, row_values); 
+			allocate_frame_headers(frame, semi_results); 
 		}
 		frame->row_count += 1; 
 	}
@@ -96,8 +83,8 @@ void init_frame_rows_regex(frame_t *frame) {
 		end_line_terminate(frame->file_buffer); 
 
 		/* extract tokens from regular expression */
-		tokens_t *row_values = match_single(frame->file_buffer, RE_CSV); 
-		int size = row_values->result_size;
+    	array_t *semi_results = match_delimeter_file(frame->file_buffer, ",");
+		int size = semi_results->item_count;
 
 		if(size != frame->header_count){
 			printf("[%s]: Unequal value count on row [%d]\n", frame->filename, row_count);
@@ -106,37 +93,11 @@ void init_frame_rows_regex(frame_t *frame) {
 
 		/* print out values */
 		if(row_count > 0){
-			copy_row_values(frame, row_values, row_count); 
+			copy_row_values(frame, semi_results, row_count);  
 		}
 		row_count += 1;
 	}
 }
-
-
-array_t *match_delimeter_file(char *line, char *delimiter) {
-
-	/* format delimiter into regex */
-	char *sub_pattern = "[^,]+"; 
-	char *default_pattern = "\"[^\"]*\"|[^,]+|[^,]+,|[,]";
-	size_t pattern_size = strlen(default_pattern)+1;
-	size_t sub_pattern_size = strlen(sub_pattern)+1; 
-	char *regex_pattern = malloc(pattern_size * sizeof(char)); 
-	char *regex_sub_pattern = malloc(sub_pattern_size * sizeof(char)); 
-
-	/* format regex expressions*/
-	sprintf(
-		regex_pattern, "\"[^\"]*\"|[^%s]+|[^%s]+%s|[%s]", 
-		delimiter, delimiter, delimiter, delimiter
-	); 
-	sprintf(regex_sub_pattern, "[^%s]+", delimiter); 
-
-	/* match pattern with array results */
-	array_t *results = match_pattern_split(line, regex_pattern);
-    int size = results->item_count;
-    match_tokens_to_pattern(results, regex_sub_pattern);
-	return results; 
-} 
-
 
 void init_frame_map(frame_t *frame) {
 
@@ -173,36 +134,31 @@ void init_frame_map(frame_t *frame) {
 	fclose(fp);
 }
 
+array_t *match_delimeter_file(char *line, char *delimiter) {
 
-frame_t *init_frame(char *filename, int buffer_size, int row_limit){
+	/* format delimiter into regex */
+	char *default_pattern = "\"[^\"]*\",|[^,]+|[^,]+,|[,]";
+	size_t pattern_size = strlen(default_pattern)+1;
+	char *regex_pattern = malloc(pattern_size * sizeof(char)); 
 
-	/* add to structure properties */ 
-	size_t name_size = strlen(filename) + 1; 
-	frame_t *frame; 
-	frame = malloc(sizeof(frame_t));
-   	frame->filename = (char*)malloc(name_size * sizeof(char)); 
-	frame->buffer_size = buffer_size;
-	frame->file_buffer = malloc(buffer_size * sizeof(char));
-	frame->status = true;
-	frame->row_limit = row_limit;  
-	frame->map = init_table(1, compare_char, NULL, NULL, additive_hash);
-	
-   	strcpy(frame->filename, filename);
+	/* format regex expressions*/
+	sprintf(
+		regex_pattern, "\"[^\"]*\"%s|[^%s]+|[^%s]+%s|[%s]", 
+		delimiter, delimiter, delimiter, delimiter, delimiter
+	); 
 
-	/* check if file exists */
-	if(access(filename, F_OK) == -1) {
-   		strcpy(frame->filename, "");
-		printf("File does not exist\n");
-		frame->status = false; 
-	   	return frame; 	
+	/* match pattern with array results */
+	array_t *results = match_pattern_split(line, regex_pattern);
+    int size = results->item_count;
+
+	/* remove trailing delimiter */
+	for(int i = 0; i < results->item_count-1; i++){
+		size_t index = strlen(results->items[i]->label); 
+		results->items[i]->label[index-1] = '\0'; 
 	}
 
-	/* initalize data in frame */
-	extract_frame_headers(frame);
-	init_frame_rows_regex(frame); 
-
-    return frame; 
-}
+	return results; 
+} 
 
 
 mat_t *frame_to_mat(frame_t *frame, char **cols, int feature_store_size) {
@@ -237,6 +193,52 @@ mat_t *frame_to_mat(frame_t *frame, char **cols, int feature_store_size) {
 	}
 
 	return mat_result; 
+} 
+
+
+void allocate_frame_headers(frame_t *frame, array_t *row_values) {
+	frame->headers = malloc(frame->header_count * sizeof(header_t*));
+	for(int i = 0; i < frame->header_count; i++){
+		frame->headers[i] = malloc(sizeof(header_t)); 
+		frame->headers[i]->index = i; 
+		frame->headers[i]->name_size = strlen(row_values->items[i]->label) + 1;
+		frame->headers[i]->name = malloc(frame->headers[i]->name_size * sizeof(char));  
+		strcpy(frame->headers[i]->name, row_values->items[i]->label);
+	}
+} 
+
+
+void copy_row_values(frame_t *frame, array_t *row_values, int row_count) {
+
+	for(int i = 0; i < row_values->item_count; i++){
+		size_t token_size = strlen(row_values->items[i]->label)+1;
+		frame->headers[i]->values[row_count]->value = malloc(token_size * sizeof(char)); 
+		strcpy(frame->headers[i]->values[row_count]->value, row_values->items[i]->label);
+		frame->headers[i]->values[row_count]->value_size = strlen(row_values->items[i]->label)+1;
+		frame->headers[i]->values[row_count]->index = row_count;
+	}
+
+} 
+
+
+void allocate_header_rows(frame_t *frame) {
+	for(int i = 0; i < frame->header_count; i++){
+		frame->headers[i]->values_amount = frame->row_count; 
+		frame->headers[i]->values = malloc(frame->row_count * sizeof(row_value_t*)); 
+		for(int j = 0; j < frame->row_count; j++){
+			frame->headers[i]->values[j] = malloc(sizeof(row_value_t)); 
+		}
+	}
+} 
+
+
+int match_header(frame_t *frame, char *header_key) {
+	for(int i = 0; i < frame->header_count; i++){
+		int condition = strcmp(header_key, frame->headers[i]->name) == 0; 
+		if(condition) return i; 
+	}
+	return -1; 
+
 } 
 
 

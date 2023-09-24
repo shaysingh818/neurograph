@@ -158,7 +158,6 @@ void test_frame_to_matrix() {
         printf("Error in loading frame data\n");
     }
     init_frame_rows_regex(frame);
-    printf("here\n");    
 
     char *selected_cols[100] = {"Schooling", "LLSSEP", "ULSSEP", "VEP", "BAEP"}; 
     mat_t *result = frame_to_mat(frame, selected_cols, 5); 
@@ -188,7 +187,7 @@ void test_match_frame_delimiter_file() {
     char *expected_results[100] = {
         "125", "2", "\"36\"", "9", "1", "1", "1",
         "1", "1", "0", "0", "0", "0", "1", "1", 
-        "0", "0", "0", "0", "2"
+        "0", "0", "", "", "2"
     };
     array_t *results = match_delimeter_file(line, ",");
 

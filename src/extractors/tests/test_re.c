@@ -100,19 +100,36 @@ void test_csv_line() {
 
 void test_blank_values() {
 
-    char *line = "125,2,\"36\",9,1,1,1,1,1,0,0,0,0,1,1,0,0,,,2";
-    char *test = "\"[^\"]*\"|[^,]+|[^,]+,|[,]";
-	array_t *results = match_pattern_split(line, test);
-    int size = results->item_count;
-    match_tokens_to_pattern(results, "[^,]+");
-    assert(size == 20);
+    char *line = "1,,1,,2,3,53,\"test\"";
+    char *line_two = "1,,\"test\",,\"test\",23456,,,"; 
+    char *line_three =  "\"TEST,THREE\",,for,1,2,3,\"test\""; 
 
-    char *line_two = "index,movie_name,year_of_release,category,run_time,genre,imdb_rating,votes,gross_total"; 
-	array_t *results_two = match_pattern_split(line_two, test);
-    int size_two = results_two->item_count;
-    match_tokens_to_pattern(results_two, "[^,]+");
-    print_array(results_two); 
+    /* expected results */
+    char *expected_results[8] = {
+        "1", "", "1", "", "2", "3", "53", "test"
+    }; 
 
+    char *expected_results_two[8] = {
+        "1", "", "\"test\"", "", "\"test\"", "23456", "", ","
+    }; 
+
+    char *expected_results_three[8] = {
+        "\"TEST,THREE\"", "", "for", "1", "2", "3", "\"test\""
+    }; 
+
+	array_t *results = match_delimeter_file(line, ",");
+	array_t *results_two = match_delimeter_file(line_two, ",");
+    array_t *results_three = match_delimeter_file(line_three, ",");
+
+    for(int i = 0; i < results->item_count-1; i++){
+        int condition_1 = strcmp(results->items[i]->label, expected_results[i]) == 0;
+        int condition_2 = strcmp(results_two->items[i]->label, expected_results_two[i]) == 0; 
+        int condition_3 = strcmp(results_three->items[i]->label, expected_results_three[i]) == 0; 
+        assert(condition_1 == true); 
+        assert(condition_2 == true); 
+        assert(condition_3 == true); 
+
+    }
 
     printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 }
