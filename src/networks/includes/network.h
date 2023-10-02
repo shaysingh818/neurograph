@@ -20,12 +20,19 @@ struct Network {
 
 typedef struct Network net_t; 
 
+/* network methods */
 net_t *init_network(double learning_rate, value_t *inputs);
 void layer(net_t *nn, layer_t *layer);
+void set_inputs(net_t *nn, value_t *inputs);
 void train(net_t *nn, int epochs, mat_t *y);  
 void update_network_params(net_t *nn); 
-void save_model_params(net_t *nn, char *filepath); 
-void load_model(char *model_name);  
+
+/* save model */
+void save_model_params(net_t *nn, char *filepath);
+void load_model_params(net_t *n, char *filepath);   
+
+/* Loading model archtectures */
+net_t *load_model_architecture(char *model_architecture_path, value_t *inputs);
 
 
 #endif

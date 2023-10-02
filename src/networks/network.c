@@ -66,9 +66,8 @@ void train(net_t *nn, int epochs, mat_t *y) {
         if(NETWORK_DEBUG) {
             printf("Loss: %.2f\n", loss);
         }
-
         backward_nodes(nn->graph, output_error);
-        update_network_params(nn); 
+        update_network_params(nn);
         
     }
 
@@ -77,7 +76,7 @@ void train(net_t *nn, int epochs, mat_t *y) {
 
 void update_network_params(net_t *nn) {
     int pass_index = nn->graph->curr_index-1;  
-    for(int i = nn->num_layers-1; i >= 0; i--){
+    for(int i = nn->layer_count-1; i >= 0; i--){
         nn->layers[i]->update_params(nn->graph, nn->layers[i], pass_index);  
         pass_index -= nn->layers[i]->op_count; 
     }
@@ -86,14 +85,70 @@ void update_network_params(net_t *nn) {
 
 void save_model_params(net_t *nn, char *filepath){
 
-    for(int i = 0; i < nn->num_layers; i++){
-
-        /* make directory to store layer */
-        char *value; 
-        sprintf(value, "%s_%d", "layer", i); 
-        printf("%s\n", value); 
+    if(access(filepath, F_OK) == -1){
+        int result = mkdir(filepath, 0777);  
+        if(result){
+            printf("Unable to create and save model to %s\n", filepath);
+            exit(0);  
+        }
     }
 
+    /* save model architecture */
+    size_t architecture_path_size = strlen(filepath) + strlen("architecture") + 1;
+    char *model_architecture_path = malloc(architecture_path_size * sizeof(char));   
+    sprintf(model_architecture_path, "%s/%s", filepath, "architecture");
+    FILE *fp = fopen(model_architecture_path, "w"); 
+
+    /* create layers within base directory */
+    for(int i = 0; i < nn->layer_count; i++){
+        size_t layer_path_size = strlen(filepath) + strlen("layer") + 1;
+        char *layer_path = malloc(layer_path_size * sizeof(char));  
+        sprintf(layer_path, "%s/%s_%d", filepath, "layer", i);
+        nn->layers[i]->save_layer_architecture(nn->layers[i], fp); 
+
+        /* Save parameters for layers that contain them */
+        if(nn->layers[i]->save != NULL){
+            if(access(layer_path, F_OK) == -1){
+                int result = mkdir(layer_path, 0777);  
+                if(result){
+                    printf("Unable to create and save model to %s\n", layer_path);
+                    exit(0);  
+                }
+            }
+            nn->layers[i]->save(nn->layers[i], layer_path); 
+        }
+    }
+
+    fclose(fp); 
+
 }
+
+
+void load_model_params(net_t *nn, char *filepath) {
+
+    if(access(filepath, F_OK) == -1){
+        printf("No saved model exists in %s\n", filepath);
+        exit(0);  
+    }
+
+    /* create layers within base directory */
+    for(int i = 0; i < nn->layer_count; i++){
+        size_t layer_path_size = strlen(filepath) + strlen("layer") + 1;
+        char *layer_path = malloc(layer_path_size * sizeof(char));  
+        sprintf(layer_path, "%s/%s_%d", filepath, "layer", i);
+        // nn->layers[i]->save_layer_architecture(nn->layers[i], fp); 
+
+        /* Save parameters for layers that contain them */
+        if(nn->layers[i]->load != NULL){
+            if(access(layer_path, F_OK) == -1){
+                printf("No saved layer exists in %s\n", filepath);
+                exit(0);  
+            }
+            nn->layers[i]->load(nn->layers[i], layer_path); 
+        }
+    }
+
+
+} 
 
 

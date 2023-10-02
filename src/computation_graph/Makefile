@@ -13,7 +13,7 @@ TEST_HEADERS = $(wildcard ./tests/includes/*.h)
 # data structure objects needed
 MATRIX = ../data_structures/matrix.o
 
-ACTIVATION_OBJS = tanh.o mse.o
+ACTIVATION_OBJS = tanh.o mse.o sigmoid.o
 OPS = ops.o mat_ops.o
 
 # source objects

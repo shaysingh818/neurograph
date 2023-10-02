@@ -184,30 +184,37 @@ void test_frame_to_matrix() {
 void test_match_frame_delimiter_file() {
 
     char *line = "125,2,\"36\",9,1,1,1,1,1,0,0,0,0,1,1,0,0,,,2";
+    char *semi_line = "536365;WHITE HANGING HEART T-LIGHT HOLDER;6;01.12.2010 08:26;2,55;17850;United Kingdom";
+    char *one = "IHHC583D5N89GD,2290319488646018,dki,Edison Kusmawati,F,2004,M1H,Tanah Abang - St. Gondangdia,0.0,P00056,Explorer Tanah Abang,-6.184305,106.81158,13,2023-04-03 05:15:51,B01787P,JPO Blok G,-6.188861,106.81135,16.0,2023-04-03 05:53:52,"; 
+    char *two = "1,two,three"; 
+
+    /* parse each */
+    array_t *results = match_delimeter_file(line, ",");
+    array_t *semi_results = match_delimeter_file(semi_line, ";");
+    array_t *res = match_delimeter_file(one, ",");
+    array_t *res2 = match_delimeter_file(two, ",");
+
     char *expected_results[100] = {
         "125", "2", "\"36\"", "9", "1", "1", "1",
         "1", "1", "0", "0", "0", "0", "1", "1", 
         "0", "0", "", "", "2"
     };
-    array_t *results = match_delimeter_file(line, ",");
 
-    for(int i = 0; i < results->item_count; i++){
-        int condition = strcmp(results->items[i]->label, expected_results[i]) == 0;
-        assert(condition == true);  
-    }
-
-
-    char *semi_line = "536365;WHITE HANGING HEART T-LIGHT HOLDER;6;01.12.2010 08:26;2,55;17850;United Kingdom";
     char *expected_semicolon[100] = {
         "536365", "WHITE HANGING HEART T-LIGHT HOLDER", 
         "6", "01.12.2010 08:26", "2,55", "17850", "United Kingdom",
     };
-    array_t *semi_results = match_delimeter_file(semi_line, ";");
 
     for(int i = 0; i < results->item_count; i++){
         int condition = strcmp(results->items[i]->label, expected_results[i]) == 0;
         assert(condition == true);  
     }
+
+    for(int i = 0; i < results->item_count; i++){
+        int condition = strcmp(results->items[i]->label, expected_results[i]) == 0;
+        assert(condition == true);  
+    }
+    assert(res->item_count == 22);  
 
     printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 

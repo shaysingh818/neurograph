@@ -54,6 +54,7 @@ typedef struct Frame frame_t;
 
 /* initiate frame structure */
 frame_t *init_frame(char *filepath, int buffer_size, int row_limit);
+// frame_t *frame(char *filepath, int buffer_size, int row_limit); 
 
 /* Methods to populate frame data */ 
 void extract_frame_headers(frame_t *frame);  

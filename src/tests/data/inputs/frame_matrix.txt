@@ -1,0 +1,5 @@
+../../examples/data/movies.csv:1024:10:index
+../../examples/data/ms_prediction.csv:1024:10:Gender;Schooling
+../../examples/data/ms_prediction.csv:1024:10:Gender;Schooling;Breastfeeding
+../../examples/data/online_retail.csv:1024:10:Quantity;UnitPrice
+../../examples/data/power_generation.csv:1024:10:Monitored Cap.(MW);Total Cap. Under Maintenace (MW);Planned Maintanence (MW);Forced Maintanence(MW);Other Reasons (MW)

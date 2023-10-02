@@ -32,6 +32,13 @@ frame_t *init_frame(char *filename, int buffer_size, int row_limit){
 }
 
 
+// frame_t *frame(char *filename, int buffer_size, int row_limit){
+// 	frame_t *f = init_frame(filename, buffer_size, row_limit); 
+// 	extract_frame_headers(frame);
+// 	init_frame_rows_regex(frame); 
+// }
+
+
 void extract_frame_headers(frame_t *frame) {
 	
     FILE *fp = fopen(frame->filename, "r"); 
@@ -157,6 +164,17 @@ array_t *match_delimeter_file(char *line, char *delimiter) {
 		results->items[i]->label[index-1] = '\0'; 
 	}
 
+	/* check for trailing delimiter */
+	char *last = results->items[results->item_count-1]->label;
+   	char *ret = strchr(last, *delimiter);
+	if(ret != NULL){
+		int index = results->item_count-1; 
+		size_t size = strlen(results->items[index]->label);
+		results->items[index]->label[size-1] = '\0'; 
+		insert(results, create_node(results->item_count, "", 0)); 
+	}	
+
+
 	return results; 
 } 
 
@@ -176,9 +194,9 @@ mat_t *frame_to_mat(frame_t *frame, char **cols, int feature_store_size) {
 
 	/* match headers to indice */
 	for(int i = 0; i < feature_store_size; i++){
-		row_value_t **values = frame->headers[i]->values;
+		row_value_t **values = frame->headers[indices[i]]->values;
 		for(int j = 1; j < frame->headers[i]->values_amount; j++){
-			char *value = values[j]->value, *err; 
+			char *value = values[j]->value, *err;
 			double mat_value; 
 			mat_value = strtod(value, &err);
 			if(value == err){
@@ -210,6 +228,11 @@ void allocate_frame_headers(frame_t *frame, array_t *row_values) {
 
 void copy_row_values(frame_t *frame, array_t *row_values, int row_count) {
 
+	if(row_count > frame->row_count){
+		printf("Invalid row count specified for %s\n", frame->filename); 
+		exit(0); 
+	}
+
 	for(int i = 0; i < row_values->item_count; i++){
 		size_t token_size = strlen(row_values->items[i]->label)+1;
 		frame->headers[i]->values[row_count]->value = malloc(token_size * sizeof(char)); 
@@ -217,7 +240,6 @@ void copy_row_values(frame_t *frame, array_t *row_values, int row_count) {
 		frame->headers[i]->values[row_count]->value_size = strlen(row_values->items[i]->label)+1;
 		frame->headers[i]->values[row_count]->index = row_count;
 	}
-
 } 
 
 

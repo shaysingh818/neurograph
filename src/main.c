@@ -48,9 +48,9 @@ int main(int argc, char **argv) {
 
     /* define model architecture */
     layer(nn, linear(2, 3));
-    layer(nn, activation(2, 3, tanh_forward, tanh_backward)); 
+    layer(nn, activation(2, 3, "tanh", tanh_forward, tanh_backward)); 
     layer(nn, linear(3, 1)); 
-    layer(nn, activation(3, 1, tanh_forward, tanh_backward));
+    layer(nn, activation(3, 1, "tanh", tanh_forward, tanh_backward));
     train(nn, 1000, y);
 
     /* get output */

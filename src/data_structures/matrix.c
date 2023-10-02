@@ -413,6 +413,14 @@ void randomize(mat_t *vec, int n){
 	}
 }
 
+void fill_mat(mat_t *m, int n) {
+	for(int i = 0; i < m->rows; i++){
+		for(int j = 0; j < m->cols; j++){
+			m->arr[i][j] = n; 
+		}
+	}
+}
+
 
 mat_t *vectorize(mat_t *input){
 	mat_t *result = init_matrix(input->rows*input->cols, 1);
