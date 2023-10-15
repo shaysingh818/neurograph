@@ -154,13 +154,14 @@ array_t *match_pattern_split(char *buffer, char *pattern) {
     while(compare == 0) {
 
         /* allocate space for token in character array */
-        int length = match.rm_eo - match.rm_so; 
+        int length = match.rm_eo - match.rm_so;
         char *token = malloc(length+1 * sizeof(char));
 
         /* gather results from token string */
         for(int i = match.rm_so, j=0; i < match.rm_eo; i++, j++){
             token[j] = buffer[i]; 
         }
+
 
         /* add token using array based set */
         token[length] = '\0';

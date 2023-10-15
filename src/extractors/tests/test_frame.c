@@ -22,7 +22,7 @@ void test_extract_frame_headers() {
 
     /* frame for movies.csv*/
     frame_t *f = init_frame("../../examples/data/movies.csv", 1024, 100);
-    assert(f->status == true); 
+    assert(f->status == true);
 
     for(int i = 0; i < f->header_count; i++){
         int name_compare = strcmp(f->headers[i]->name, movie_cols[i]) == 0;
@@ -41,6 +41,17 @@ void test_extract_frame_headers() {
         int name_compare = strcmp(power_gen->headers[i]->name, power_gen_cols[i]) == 0;
         assert(name_compare == true); 
     }
+
+    /* frame for movies.csv*/
+    frame_t *iris = init_frame(
+        "../../examples/data/iris.csv", 
+        1024, 100
+    );      
+
+    for(int i = 0; i < iris->header_count; i++){
+        printf("%s", iris->headers[i]->name);
+    }
+
 
  	/* validate results */
     if(!equality_status) {
@@ -153,28 +164,51 @@ void test_hash_map_frame() {
 
 void test_frame_to_matrix() {
 
-    frame_t *frame = init_frame("../../examples/data/ms_prediction.csv", 1024, 100);
+    frame_t *frame = init_frame("../../examples/data/ms_prediction.csv", 1024, 5);
     if(frame->status != true){
         printf("Error in loading frame data\n");
     }
-    init_frame_rows_regex(frame);
 
-    char *selected_cols[100] = {"Schooling", "LLSSEP", "ULSSEP", "VEP", "BAEP"}; 
-    mat_t *result = frame_to_mat(frame, selected_cols, 5); 
-    assert(result->rows == 100); 
+    array_t *selected_cols = init_array(); 
+    insert_char(selected_cols, "Schooling"); 
+    insert_char(selected_cols, "LLSSEP"); 
+    insert_char(selected_cols, "ULSSEP"); 
+    insert_char(selected_cols, "VEP"); 
+    insert_char(selected_cols, "BAEP"); 
+
+    mat_t *result = frame_to_mat(frame, selected_cols); 
+    assert(result->rows == 5); 
     assert(result->cols == 5); 
 
+    /* validate row contents */
+    double result_vals[5][5] = {
+        {0,0,0,0,0},
+        {20,1,1,0,0},
+        {25,1,0,1,0},
+        {20,0,0,0,0},
+        {15,0,1,1,0}
+    }; 
+
+    mat_t *result_mat = copy_arr_to_matrix(5, 5, result_vals); 
+    assert(compare_matrix(result_mat, result)); 
+
     /* movies dataset */
-    frame_t *movie_frame = init_frame("../../examples/data/movies.csv", 1024, 100);
+    frame_t *movie_frame = init_frame("../../examples/data/movies.csv", 1024, 5);
     if(movie_frame->status != true){
         printf("Error in loading frame data\n");
     }
 
-    /* test if we can do a vector */
-    char *movie_cols[100] = {"imdb_rating"}; 
-    mat_t *movie_matrix = frame_to_mat(movie_frame, movie_cols, 1);
-    assert(movie_matrix->rows == 100); 
+    array_t *movie_cols = init_array(); 
+    insert_char(movie_cols, "imdb_rating");
+
+
+    mat_t *movie_matrix = frame_to_mat(movie_frame, movie_cols);
+    assert(movie_matrix->rows == 5); 
     assert(movie_matrix->cols == 1);  
+
+    double result_vals2[5][1] = {{0},{9.2},{8.6},{8.7},{9.3}}; 
+    result_mat = copy_arr_to_matrix(5, 1, result_vals2); 
+    assert(compare_matrix(movie_matrix, result_mat)); 
 
     printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 
@@ -219,3 +253,27 @@ void test_match_frame_delimiter_file() {
     printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 
 } 
+
+
+void test_match_header() {
+
+    frame_t *frame = create_frame("../../examples/data/iris.csv", 1024, 5);
+    if(frame->status != true){
+        printf("Error in loading frame data\n");
+    }
+
+    extract_frame_headers(frame);
+    // printf("Header count: %d\n", frame->header_count); 
+
+    // for(int i = 0; i < frame->header_count; i++){
+    //     printf("Header: %s\n", frame->headers[i]->name); ;
+    // }
+
+    int res = match_header(frame, "f5"); 
+    printf("Res: %d\n", res); 
+
+
+
+
+
+}

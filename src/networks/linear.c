@@ -18,14 +18,14 @@ value_t *update_linear(computation_graph_t *graph, layer_t *layer, int op_index)
     linear_t *linear = layer->layer_type->linear;
 
     /* update weights and biases */
-    linear->biases->mat_output = add(
-        linear->biases->mat_output,
-        scale(graph->operations[op_index]->mat_upstream_grad, 0.1)
+    linear->biases->val = add(
+        linear->biases->val,
+        scale(layer->outputs->left->upstream_gradient, 0.1)
     );
 
-    linear->weights->mat_output = add(
-        linear->weights->mat_output,
-        scale(graph->operations[op_index-1]->mat_y_d_grad, 0.1)
+    linear->weights->val = add(
+        linear->weights->val,
+        scale(layer->outputs->left->right_grad, 0.1)
     ); 
 
     return layer->outputs; 
@@ -41,8 +41,8 @@ layer_t *linear(int set_input_size, int set_output_size) {
     mat_t *biases = init_matrix(1, set_output_size); 
     randomize(weights, weights->rows); 
     randomize(biases, biases->rows); 
-    linear->weights = input_node_mat(weights); 
-    linear->biases = input_node_mat(biases);
+    linear->weights = value(weights); 
+    linear->biases = value(biases);
 
     /* create base layer type for activation */
     layer_t *layer = (layer_t*)malloc(sizeof(layer_t));
@@ -77,8 +77,8 @@ void save_linear(layer_t *linear, char *filepath) {
         }
     }
 
-    mat_t *weights = linear->layer_type->linear->weights->mat_output; 
-    mat_t *biases = linear->layer_type->linear->biases->mat_output;
+    mat_t *weights = linear->layer_type->linear->weights->val; 
+    mat_t *biases = linear->layer_type->linear->biases->val;
 
     char *weight_path, *biase_path;
     size_t weight_path_size = strlen(filepath) + strlen("weights") + 1;
@@ -114,8 +114,8 @@ void load_linear(layer_t *linear, char *filepath) {
     sprintf(weight_path, "%s/%s", filepath, "weights");
     sprintf(biase_path, "%s/%s", filepath, "biases"); 
 
-    linear->layer_type->linear->weights->mat_output = load_matrix(weight_path); 
-    linear->layer_type->linear->biases->mat_output = load_matrix(biase_path); 
+    linear->layer_type->linear->weights->val = load_matrix(weight_path); 
+    linear->layer_type->linear->biases->val = load_matrix(biase_path); 
 }
 
 
@@ -127,3 +127,8 @@ void save_linear_architecture(layer_t *linear, FILE *fp) {
         linear->output_size
     );
 } 
+
+
+void set_linear_inputs(layer_t *linear, mat_t *input){
+    linear->outputs->left->left->val = input; 
+}

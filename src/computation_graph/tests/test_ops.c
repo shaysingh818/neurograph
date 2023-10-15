@@ -1,123 +1,55 @@
 #include "includes/test_ops.h"
 
 
-void test_add_operation() {
-
-    value_t *a = input_node(2.00); 
-    value_t *b = input_node(1.00);
-
-    /* e = (a+b)*(b+1) */
-    value_t *c = node_op(
-        "add",
-        a, b, 
-        add_node, 
-        backward_add_node
-    );
-    c->forward_operation(c); 
-
-    assert(a->output == 2.00); 
-    assert(b->output == 1.00); 
-    assert(c->output == 3.00);
-
-    c->upstream_gradient = 1.00; 
-    c->backward_operation(c);
-    assert(c->x_d_gradient == 1.00); 
-    assert(c->y_d_gradient == 1.00); 
-
-    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-}
+void test_mat_mult() {
 
 
-void test_multiply_operation() {
+    computation_graph_t *graph = create_graph(); 
+    double inputs[4][2] = {{0,0},{0,1},{1,0},{1,1}};
+    mat_t *x = copy_arr_to_matrix(4, 2, inputs); 
+    mat_t *weights = init_matrix(2, 3); 
+    fill_mat(weights, 2); 
 
-    value_t *a = input_node(3.00); 
-    value_t *b = input_node(2.00);
+    value_t *mult_op = mat_mul(graph, value(x), value(weights)); 
+    
+    /* assert values are set */
+    bool compare_left = compare_matrix(mult_op->left->val, x); 
+    bool compare_right = compare_matrix(mult_op->right->val, weights);
+    assert(compare_left == true && compare_right == true); 
 
-    // /* e = (a+b)*(b+1) */
-    value_t *c = node_op(
-        "mult",
-        a, b, 
-        multiply_node, 
-        backward_mult_node
-    );
-    c->forward_operation(c); 
+    /* call forward */
+    mult_op->forward_operation(mult_op); 
 
-    assert(a->output == 3.00); 
-    assert(b->output == 2.00); 
-    assert(c->output == 6.00);
+    double exepected_mult_vals[4][3] = {
+        {0, 0, 0},
+        {2, 2, 2},
+        {2, 2, 2},
+        {4, 4, 4}
+    };
 
-    c->upstream_gradient = 1.00; 
-    c->backward_operation(c);
-    assert(c->x_d_gradient == 2.00); 
-    assert(c->y_d_gradient == 3.00); 
+    mat_t *mult_output = copy_arr_to_matrix(4, 3, exepected_mult_vals); 
+    assert(compare_matrix(mult_output, mult_op->val)); 
 
-    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-}
+    mat_t *mock_upstream_grad = init_matrix(4, 3); 
+    fill_mat(mock_upstream_grad, 2); 
+    mult_op->upstream_gradient = mock_upstream_grad; 
 
+    /* call backward */
+    mult_op->backward_operation(mult_op);
 
-void test_expression() {
+    mat_t *mock_left_grad = init_matrix(4, 2); 
+    fill_mat(mock_left_grad, 12); 
 
+    mat_t *mock_right_grad = init_matrix(2, 3); 
+    fill_mat(mock_right_grad, 4);
 
-    computation_graph_t *graph = create_graph(1.00); 
-    value_t *w0 = input_node(2.00); 
-    value_t *x0 = input_node(-1.00);
-    value_t *w1 = input_node(-3.00); 
-    value_t *x1 = input_node(-2.00);
-    value_t *w2 = input_node(-3.00);
-
-    /* expression */
-    value_t *weights = adder(
-        graph,
-        adder(
-            graph,
-            mult(graph, w1, x1),
-            mult(graph, w0, x0) 
-        ),
-        w2
-    );
-
-    value_t *left_exp = recip(
-        graph,
-        add_one(
-            graph, 
-            expnt(
-                graph,
-                euler(graph, weights)
-            )
-        )
-    );   
-
-    forward_nodes(graph); 
-    backward_nodes(graph, NULL);  
-
-
-    value_t *one = graph->operations[graph->curr_index-1]; 
-    assert(round(one->x_d_gradient * 100) / 100 == -0.53);
-
-    value_t *two = graph->operations[graph->curr_index-2]; 
-    assert(round(two->x_d_gradient * 100) / 100 == -0.53);  
-
-    value_t *three = graph->operations[graph->curr_index-3]; 
-    assert(round(three->x_d_gradient * 100) / 100 == -0.20);
-
-    value_t *four = graph->operations[graph->curr_index-4]; 
-    assert(round(four->x_d_gradient * 100) / 100 == 0.20);
-
-    value_t *five = graph->operations[graph->curr_index-5]; 
-    assert(round(five->x_d_gradient * 100) / 100 == 0.20); 
-    assert(round(five->y_d_gradient * 100) / 100 == 0.20); 
-
-    value_t *six = graph->operations[graph->curr_index-6]; 
-    assert(round(six->x_d_gradient * 100) / 100 == 0.20); 
-    assert(round(six->y_d_gradient * 100) / 100 == 0.20); 
-
-    value_t *seven = graph->operations[graph->curr_index-7]; 
-    assert(round(seven->x_d_gradient * 100) / 100 == -0.39); 
-    assert(round(seven->y_d_gradient * 100) / 100 == -0.59); 
-
-    value_t *eight = graph->operations[graph->curr_index-8]; 
-    assert(round(eight->x_d_gradient * 100) / 100 == -0.20); 
-    assert(round(eight->y_d_gradient * 100) / 100 == 0.39); 
+    /* validate grads */
+    assert(compare_matrix(mult_op->left_grad, mock_left_grad));
+    assert(compare_matrix(mult_op->right_grad, mock_right_grad));
+    assert(mult_op->left_grad->rows == 4); 
+    assert(mult_op->left_grad->cols == 2); 
+    assert(mult_op->right_grad->rows == 2); 
+    assert(mult_op->right_grad->cols == 3); 
 
     printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 

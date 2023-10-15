@@ -5,23 +5,18 @@
 
 struct ComputationGraph {
     int size, curr_index;  
-    double base_gradient; 
-    value_t **operations; 
+    mat_t *inputs, *output_error; 
+    value_t **nodes; 
 }; 
 
 typedef struct ComputationGraph computation_graph_t;
 
 /* create computation graph */
-computation_graph_t *create_graph(double set_gradient); 
+computation_graph_t *create_graph(); 
 
 /* Append operation */
-void append_op(computation_graph_t *graph, value_t *val); 
-
-/* forward all */
+void append_op(computation_graph_t *graph, value_t *val);
 void forward_nodes(computation_graph_t *graph); 
-
-/* backward all */
 void backward_nodes(computation_graph_t *graph, mat_t *output_error); 
-
 
 #endif

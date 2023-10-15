@@ -28,7 +28,8 @@ mat_t *copy_matrix(mat_t *m);
 mat_t *load_matrix(char *filename);
 mat_t **to_rows(mat_t *m);
 mat_t **to_cols(mat_t *m); 
-mat_t **batch_rows(mat_t *m, int limit); 
+mat_t **batch_rows(mat_t *m, int limit);
+mat_t **batch_matrix(mat_t *m, int batch_size); 
 mat_t *copy_arr_to_matrix(int m, int n, double arr[m][n]);  
 
 bool compare_matrix(mat_t *m, mat_t *n); 

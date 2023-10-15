@@ -9,8 +9,8 @@
 struct Activation {
     char *loss_function_name; 
     int input_size, output_size; 
-	void(*loss)(value_t *val); 
-	void(*loss_prime)(value_t *val);
+	double(*loss)(double val); 
+	mat_t*(*loss_prime)(mat_t *val);
 }; 
 
 typedef struct Activation activation_t; 

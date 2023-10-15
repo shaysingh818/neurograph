@@ -138,6 +138,40 @@ mat_t **batch_rows(mat_t *m, int limit) {
 		rows[i] = copy_matrix(temp); 
 	}
 	return rows; 
+}
+
+
+mat_t **batch_matrix(mat_t *m, int batch_size) {
+
+	/* limit can't be greater than the rows */
+	if(batch_size > m->rows) {
+		printf("Batch size is greater than the amount of rows\n"); 
+		exit(1); 
+	}
+
+	int matrix_count = m->rows - batch_size; 
+
+	/* batch rows */
+    mat_t **rows = malloc(matrix_count * sizeof(mat_t*));
+	for(int i = 0; i < matrix_count; i++){
+		rows[i] = malloc(sizeof(mat_t)); 	
+	}
+
+	for(int n = 0; n < matrix_count; n++){
+
+		/* create batch matrix */
+		mat_t *temp = init_matrix(batch_size, m->cols); 
+		int counter = 0; 
+		for(int i = n; i < n+batch_size; i++){
+			for(int j = 0; j < m->cols; j++){
+				temp->arr[counter][j] = m->arr[i][j];
+			}
+			counter += 1; 
+		}
+		rows[n] = copy_matrix(temp); 		
+	}
+
+	return rows; 
 } 
 
 

@@ -9,7 +9,7 @@ DS_GRAPH = ../data_structures/matrix.o ../data_structures/adj_list.o ../data_str
 DS_QUEUE = ../data_structures/map.o ../data_structures/node.o ../data_structures/queue.o ../data_structures/set.o ../data_structures/ll.o ../data_structures/array.o
 DS_OBJS = $(DS_GRAPH)  $(DS_QUEUE)
 
-CGRAPH_OBJS = ../computation_graph/computation_graph.o ../computation_graph/value.o ../computation_graph/mat_ops.o ../computation_graph/tanh.o ../computation_graph/mse.o
+CGRAPH_OBJS = ../computation_graph/computation_graph.o ../computation_graph/value.o ../computation_graph/ops.o ../computation_graph/loss.o
 NETWORK_OBJS = ../networks/layer.o ../networks/network.o ../networks/linear.o ../networks/activation.o
 GRAPH_OBJS = ../graph/graph.o ../graph/community.o ../graph/path.o ../graph/search.o
 EXTRACTOR_OBJS = ../extractors/re.o ../extractors/frame.o ../extractors/gml.o
@@ -20,7 +20,7 @@ OBJS = $(DS_OBJS) $(GRAPH_OBJS) $(EXTRACTOR_OBJS) $(CGRAPH_OBJS) $(NETWORK_OBJS)
 # source header files
 HEADERS = $(wildcard ./includes/*.h)
 
-SRC_OBJS = test.o test_frame_lib.o test_graph_extraction.o test_nn_train.o
+SRC_OBJS = test_graph_extraction.o test_nn_train.o
 
 FLAGS = -lm -lpthread -g
 

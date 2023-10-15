@@ -2,7 +2,7 @@
 #include "includes/network.h"
 
 
-net_t *init_network(double learning_rate, value_t *input) {
+net_t *init_network(double learning_rate, value_t *input, int batch_size) {
     net_t *nn = (net_t*)malloc(sizeof(net_t));
     nn->graph = create_graph(1.00); 
     nn->learning_rate = learning_rate;
@@ -10,7 +10,15 @@ net_t *init_network(double learning_rate, value_t *input) {
     nn->layer_count = 0; 
     nn->front_index = nn->layer_count = 0; 
     nn->rear_index = nn->num_layers - 1; 
-    nn->input = input; 
+    nn->input = input;
+    nn->batched = false; 
+
+    /* check if we're batching the inputs */
+    if(batch_size > 0){
+        nn->batch_size = batch_size; 
+        nn->batched = true; 
+        nn->input_batches = batch_matrix(nn->input->val, nn->batch_size); 
+    }
 
     /* allocate layers of the network */
     nn->layers = malloc(nn->num_layers * sizeof(layer_t*)); 
@@ -20,6 +28,8 @@ net_t *init_network(double learning_rate, value_t *input) {
 
     return nn; 
 }
+
+
 
 
 void layer(net_t *nn, layer_t *layer){
@@ -36,7 +46,12 @@ void layer(net_t *nn, layer_t *layer){
 
     value_t *temp_inputs;
     if(nn->layer_count == 0){
-        temp_inputs = nn->input; 
+        if(nn->batched){
+            value_t *batch_value = value(nn->input_batches[0]); 
+            temp_inputs = batch_value; 
+        } else {
+            temp_inputs = nn->input; 
+        }
     } else {
         temp_inputs = nn->layers[nn->layer_count-1]->outputs;
     }
@@ -60,7 +75,7 @@ void train(net_t *nn, int epochs, mat_t *y) {
 
         /* get output */
         int output_index = nn->graph->curr_index - 1;
-        mat_t *output = nn->graph->operations[output_index]->mat_output; 
+        mat_t *output = nn->graph->nodes[output_index]->val; 
         double loss = mse(y, output);  
         mat_t *output_error = difference(y, output);
         if(NETWORK_DEBUG) {
@@ -73,6 +88,50 @@ void train(net_t *nn, int epochs, mat_t *y) {
 
 } 
 
+void batch_train(net_t *nn, int epochs, mat_t *y) {
+
+    if(nn->batched == true){
+
+        /* batch outputs */
+        int samples = y->rows - nn->batch_size; 
+        mat_t **outputs = batch_matrix(y, nn->batch_size);
+
+        for(int j = 0; j < epochs; j++){
+
+
+            double err = 0.00; 
+            for(int i = 0; i < samples; i++){
+
+                /* set inputs for epoch set */
+                mat_t *x = nn->input_batches[i]; 
+                mat_t *y = outputs[i];
+                nn->layers[0]->outputs->left->left->val = x; 
+
+
+                forward_nodes(nn->graph);
+
+                /* get output */
+                int output_index = nn->graph->curr_index - 1;
+                mat_t *output = nn->graph->nodes[output_index]->val; 
+                double loss = mse(y, output);  
+                err += loss; 
+                mat_t *output_error = difference(y, output);
+                backward_nodes(nn->graph, output_error);
+                update_network_params(nn);
+            }
+
+            err /= samples; 
+            if(j % 1000 == 0){
+                printf("Loss: %.2f\n", err); 
+            }
+
+        }
+
+    } else {
+        printf("network is not configured to use batching\n");
+    }
+
+}
 
 void update_network_params(net_t *nn) {
     int pass_index = nn->graph->curr_index-1;  

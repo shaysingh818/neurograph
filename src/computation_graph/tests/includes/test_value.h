@@ -4,7 +4,6 @@
 #include <assert.h>
 #include "../../includes/value.h"
 
-void test_value_init();
-void test_mat_value(); 
+void test_create_value();
 
 #endif

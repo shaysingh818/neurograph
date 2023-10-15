@@ -14,7 +14,7 @@ TEST_HEADERS = $(wildcard /tests/includes/*.h)
 MATRIX = ../data_structures/matrix.o ../data_structures/map.o
 
 # CGRAPH OBJS
-CGRAPH_OBJS = ../computation_graph/computation_graph.o ../computation_graph/value.o ../computation_graph/mat_ops.o ../computation_graph/tanh.o ../computation_graph/mse.o ../computation_graph/sigmoid.o
+CGRAPH_OBJS = ../computation_graph/computation_graph.o ../computation_graph/value.o ../computation_graph/ops.o ../computation_graph/loss.o
 
 # source objects
 SRC_OBJS =  layer.o network.o linear.o activation.o  $(MATRIX) $(CGRAPH_OBJS)

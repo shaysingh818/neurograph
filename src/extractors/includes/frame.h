@@ -42,7 +42,8 @@ typedef struct Header header_t;
 
 
 struct Frame {
-	int buffer_size, header_count, row_count, row_limit; 
+	int buffer_size, header_count; 
+	int curr_row, row_count, row_limit; 
 	char *filename, *file_buffer, *delimeter; 
 	bool status; 
 	header_t **headers;
@@ -54,7 +55,7 @@ typedef struct Frame frame_t;
 
 /* initiate frame structure */
 frame_t *init_frame(char *filepath, int buffer_size, int row_limit);
-// frame_t *frame(char *filepath, int buffer_size, int row_limit); 
+frame_t *create_frame(char *filepath, int buffer_size, int row_limit); 
 
 /* Methods to populate frame data */ 
 void extract_frame_headers(frame_t *frame);  
@@ -63,11 +64,11 @@ void init_frame_map(frame_t *frame);
 
 /* row value extraction methods */ 
 array_t *match_delimeter_file(char *line, char *delimiter); 
-mat_t *frame_to_mat(frame_t *frame, char **cols, int feature_store_size); 
+mat_t *frame_to_mat(frame_t *frame, array_t *headers); 
 
 /* header helper methods */
 void allocate_frame_headers(frame_t *frame, array_t *row_values);
-void copy_row_values(frame_t *frame, array_t *row_values, int row_count);
+void copy_row_values(frame_t *frame, array_t *row_values);
 void allocate_header_rows(frame_t *frame);
 int match_header(frame_t *frame, char *header_key);  
 header_t **init_frame_headers(frame_t *frame);

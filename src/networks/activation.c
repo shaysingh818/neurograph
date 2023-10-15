@@ -4,7 +4,7 @@
 value_t *activation_forward(computation_graph_t *graph, layer_t *layer, value_t *prev_output) { 
     layer->inputs = prev_output; 
     activation_t *activation = layer->layer_type->activation; 
-    value_t *result = apply_activation(
+    value_t *result = apply_loss(
         graph,
         layer->inputs,
         activation->loss,
@@ -23,8 +23,8 @@ value_t *update_activation(computation_graph_t *graph, layer_t *layer, int op_in
 layer_t *activation(
     int set_input_size, int set_output_size,
     char *loss_function_name,
-    void(*set_loss)(value_t *val),
-    void(*set_loss_prime)(value_t *val)) {
+    double(*set_loss)(double val),
+    mat_t*(*set_loss_prime)(mat_t *val)) {
 
 
     /* create activation structure */

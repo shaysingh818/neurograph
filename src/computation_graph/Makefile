@@ -13,14 +13,11 @@ TEST_HEADERS = $(wildcard ./tests/includes/*.h)
 # data structure objects needed
 MATRIX = ../data_structures/matrix.o
 
-ACTIVATION_OBJS = tanh.o mse.o sigmoid.o
-OPS = ops.o mat_ops.o
-
 # source objects
-SRC_OBJS = computation_graph.o value.o $(OPS) $(ACTIVATION_OBJS) $(MATRIX)
+SRC_OBJS = computation_graph.o value.o ops.o loss.o $(MATRIX)
 
 # unit test objects
-TEST_OBJS =  test_computation_graph.o test_value.o test_ops.o test_mat_ops.o
+TEST_OBJS =  test_graph.o test_value.o test_ops.o test_mlp.o 
 
 # flags
 FLAGS = -lm -lpthread -g -fPIC

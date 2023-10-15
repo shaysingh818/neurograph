@@ -14,7 +14,7 @@ TEST_HEADERS = $(wildcard /tests/includes/*.h)
 DATA_STRUCTURES = ../data_structures/queue.o ../data_structures/matrix.o ../data_structures/adj_list.o ../data_structures/node.o ../data_structures/map.o ../data_structures/ll.o ../data_structures/set.o ../data_structures/array.o
 
 # source objects for extractors library
-TEST_OBJS = test_frame.o test_re.o test_gml.o
+TEST_OBJS = test_frame.o test_frame_memory.o test_re.o test_gml.o
 SRC_OBJS = $(DATA_STRUCTURES) frame.o re.o gml.o
 
 

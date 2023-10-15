@@ -13,6 +13,7 @@ int main(int argc, char **argv) {
 	test_init_network();
     test_add_layer(); 
     test_train();
+    test_batch_train(); 
     test_save_model_params();
     test_load_model_params();  
 }

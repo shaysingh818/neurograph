@@ -3,8 +3,8 @@
 
 #include "../../data_structures/includes/matrix.h"
 #include "../../computation_graph/includes/computation_graph.h"
-#include "../../computation_graph/includes/mat_ops.h"
-#include "../../computation_graph/includes/tanh.h"
+#include "../../computation_graph/includes/ops.h"
+#include "../../computation_graph/includes/loss.h"
 #include "layer_types.h"
 #include <sys/stat.h>
 
@@ -43,7 +43,8 @@ value_t *update_linear(computation_graph_t *graph, layer_t *layer, int op_index)
 layer_t *linear(int set_input_size, int set_output_size);
 void save_linear(layer_t *linear, char *filepath);
 void load_linear(layer_t *linear, char *filepath); 
-void save_linear_architecture(layer_t *linear, FILE *fp);  
+void save_linear_architecture(layer_t *linear, FILE *fp); 
+void set_linear_inputs(layer_t *linear, mat_t *input); 
 
 /* loss layer methods */
 value_t *activation_forward(computation_graph_t *graph, layer_t *layer, value_t *prev_output); 
@@ -51,8 +52,8 @@ value_t *update_activation(computation_graph_t *graph, layer_t *layer, int op_in
 layer_t *activation(
     int set_input_size, int set_output_size,
     char *loss_function_name,
-    void(*set_loss)(value_t *val),
-    void(*set_loss_prime)(value_t *val)
+    double(*set_loss)(double val),
+    mat_t*(*set_loss_prime)(mat_t *val)
 );
 void save_activation_architecture(layer_t *activation, FILE *fp);  
 

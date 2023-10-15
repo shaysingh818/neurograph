@@ -14,5 +14,6 @@ void test_ull();
 /* array tests are going here for now */
 void test_init_array(); 
 void test_insert_array(); 
+void test_insert_char(); 
 
 #endif

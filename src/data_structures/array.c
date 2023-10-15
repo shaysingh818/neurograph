@@ -29,6 +29,22 @@ void insert(array_t *a, node_t *item){
 }
 
 
+void insert_char(array_t *a, char *item){
+    if(a->item_count == a->capacity){
+        int new_capacity = a->capacity + a->capacity; 
+        a->items = realloc(a->items, new_capacity * sizeof(node_t*)); 
+        for(int i = a->capacity; i < new_capacity; i++){
+            a->items[i] = malloc(sizeof(node_t)); 
+        }
+        a->capacity = new_capacity; 
+    }
+
+	a->rear_index = (a->rear_index+1) % a->capacity; 
+	a->items[a->rear_index] = create_node(a->item_count, item, a->rear_index); 
+    a->item_count += 1; 
+}
+
+
 void pop_array(array_t *a) {
     if(a->item_count == 0) return;
 	a->front_index = (a->front_index + 1) % a->capacity; 
