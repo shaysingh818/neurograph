@@ -32,7 +32,7 @@ void test_train_iris_model() {
     layer(nn, activation(4, 5, "tanh", tanh, tanh_prime)); 
     layer(nn, linear(5, 1)); 
     layer(nn, activation(5, 1, "tanh", tanh, tanh_prime));
-    batch_train(nn, 9000, outputs);
+    batch_train(nn, 3000, outputs);
 
     mat_t **x_train = batch_matrix(input->val, 4); 
     mat_t **y_train = batch_matrix(outputs, 4);

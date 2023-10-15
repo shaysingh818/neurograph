@@ -4,15 +4,13 @@
 
 int main(int argc, char **argv) {
 
-	// test_save_load_graph_config(); 
-	// test_save_load_movies_graph();
-	// //test_save_load_public_transport_graph(); 
-	// //test_save_load_online_retail_graph(); 
+	test_save_load_graph_config(); 
+	test_save_load_movies_graph();
+	test_save_load_public_transport_graph(); 
+	test_save_load_online_retail_graph(); 
 
 	// /* testing bdd framework */
-	// test_delimiter_match();
-	// test_train_iris_model();
-	test_train_rice_model();
+	test_train_iris_model();
 
 
 
