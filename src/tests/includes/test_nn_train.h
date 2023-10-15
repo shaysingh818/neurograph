@@ -6,7 +6,8 @@
 #include "../../extractors/includes/frame.h"
 #include <assert.h>  
 
-void test_train_diabetes_model(); 
+void test_train_iris_model(); 
+void test_train_mnist_model(); 
 void test_load_nn_params(); 
 
 #endif

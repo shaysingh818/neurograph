@@ -211,3 +211,19 @@ void load_model_params(net_t *nn, char *filepath) {
 } 
 
 
+void predict(net_t *nn, mat_t *input, mat_t *expected_output) {
+
+    /* forward inputs */
+    set_linear_inputs(nn->layers[0], input); 
+    forward_nodes(nn->graph); 
+    printf("Expected output\n"); 
+    print_vec(expected_output); 
+
+    /* print output */
+    int output_index = nn->graph->curr_index - 1;
+    mat_t *output = nn->graph->nodes[output_index]->val;
+    printf("Output\n"); 
+    print_vec(output); 
+} 
+
+

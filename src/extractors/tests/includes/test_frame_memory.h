@@ -8,7 +8,6 @@
 void test_match_delimeter_file();
 void test_allocate_frame_headers();
 void test_copy_row_values();  
-void test_init_frame_headers();
 void test_match_header();  
 
 

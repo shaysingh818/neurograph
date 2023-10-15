@@ -55,7 +55,8 @@ typedef struct Frame frame_t;
 
 /* initiate frame structure */
 frame_t *init_frame(char *filepath, int buffer_size, int row_limit);
-frame_t *create_frame(char *filepath, int buffer_size, int row_limit); 
+frame_t *create_frame(char *filepath, int buffer_size, int row_limit);
+frame_t *dataframe(char *filepath, int buffer_size, int row_limit);  
 
 /* Methods to populate frame data */ 
 void extract_frame_headers(frame_t *frame);  
@@ -71,7 +72,6 @@ void allocate_frame_headers(frame_t *frame, array_t *row_values);
 void copy_row_values(frame_t *frame, array_t *row_values);
 void allocate_header_rows(frame_t *frame);
 int match_header(frame_t *frame, char *header_key);  
-header_t **init_frame_headers(frame_t *frame);
 
 /* get cols and rows for dataframe */
 void f_cols(frame_t *frame); 

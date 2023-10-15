@@ -257,23 +257,47 @@ void test_match_frame_delimiter_file() {
 
 void test_match_header() {
 
-    frame_t *frame = create_frame("../../examples/data/iris.csv", 1024, 5);
-    if(frame->status != true){
-        printf("Error in loading frame data\n");
+    /* expected headers for each frame */
+    char *test_headers[4][100] = {
+        {"f1", "f2", "f3", "f4", "f5"},
+        {"id", "Area", "MajorAxisLength", "Extent", "Class"},
+        {"index", "movie_name", "run_time", "votes", "gross_total"},
+        {"Patient_ID", "Gender", "Age", "VEP", "group"}
+    };
+
+    char *file_names[100] = {
+        "../../examples/data/iris.csv", 
+        "../../examples/data/rice.csv",
+        "../../examples/data/movies.csv",
+        "../../examples/data/ms_prediction.csv"
+    };
+
+    /* create instances of frames */
+    frame_t **frames = malloc(4 * sizeof(frame_t*));
+    for(int i = 0; i < 4; i++){
+
+        frames[i] = create_frame(file_names[i], 1024, 5); 
+        if(frames[i]->status != true){
+            printf("Error in loading frame data: %s\n", file_names[i]);
+            exit(0); 
+        }
+        assert(frames[i]->status);
+
+        extract_frame_headers(frames[i]);
+        if(frames[i]->status != true){
+            printf("Error in loading headers for: %s\n", file_names[i]);
+            exit(0); 
+        }
+        assert(frames[i]->status);
+
+        for(int n = 0; n < frames[i]->header_count; n++){
+            for(int j = 0; j < 5; j++){
+                int res = match_header(frames[i], test_headers[i][j]); 
+                assert(res > -1);
+            }
+        }
+
     }
 
-    extract_frame_headers(frame);
-    // printf("Header count: %d\n", frame->header_count); 
-
-    // for(int i = 0; i < frame->header_count; i++){
-    //     printf("Header: %s\n", frame->headers[i]->name); ;
-    // }
-
-    int res = match_header(frame, "f5"); 
-    printf("Res: %d\n", res); 
-
-
-
-
-
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 }

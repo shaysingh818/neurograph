@@ -11,7 +11,9 @@ int main(int argc, char **argv) {
 
 	// /* testing bdd framework */
 	// test_delimiter_match();
-	test_train_diabetes_model(); 
+	// test_train_iris_model();
+	test_train_rice_model();
+
 
 
 

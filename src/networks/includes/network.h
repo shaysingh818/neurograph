@@ -28,7 +28,8 @@ net_t *init_network(double learning_rate, value_t *input, int batch_size);
 void layer(net_t *nn, layer_t *layer);
 void train(net_t *nn, int epochs, mat_t *y); 
 void batch_train(net_t *nn, int epochs, mat_t *y);  
-void update_network_params(net_t *nn); 
+void update_network_params(net_t *nn);
+void predict(net_t *nn, mat_t *input, mat_t *expected_output); 
 
 /* save model */
 void save_model_params(net_t *nn, char *filepath);
