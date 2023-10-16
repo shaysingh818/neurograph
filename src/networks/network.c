@@ -122,7 +122,9 @@ void batch_train(net_t *nn, int epochs, mat_t *y) {
 
             err /= samples; 
             if(j % 1000 == 0){
-                printf("Loss: %.2f\n", err); 
+                if(NETWORK_DEBUG) {
+                    printf("Loss: %.2f\n", err); 
+                }
             }
 
         }
@@ -215,15 +217,21 @@ void predict(net_t *nn, mat_t *input, mat_t *expected_output) {
 
     /* forward inputs */
     set_linear_inputs(nn->layers[0], input); 
-    forward_nodes(nn->graph); 
-    printf("Expected output\n"); 
-    print_vec(expected_output); 
+    forward_nodes(nn->graph);
 
     /* print output */
     int output_index = nn->graph->curr_index - 1;
     mat_t *output = nn->graph->nodes[output_index]->val;
-    printf("Output\n"); 
-    print_vec(output); 
+
+    if(NETWORK_DEBUG == true) {
+
+        printf("Expected output\n"); 
+        print_vec(expected_output); 
+
+        printf("Output\n"); 
+        print_vec(output); 
+
+    }
 } 
 
 

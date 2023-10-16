@@ -141,18 +141,17 @@ void test_batch_train() {
     mat_t **x_train = batch_matrix(x, 4); 
     mat_t **y_train = batch_matrix(y, 4);
 
-    set_linear_inputs(nn->layers[0], x_train[2]);
+    set_linear_inputs(nn->layers[0], x_train[0]);
     forward_nodes(nn->graph);  
 
     int output_index = nn->graph->curr_index - 1;
     mat_t *output = nn->graph->nodes[output_index]->val;
 
-    printf("Output\n"); 
-    print_vec(output); 
+    double v0 = output->arr[0][0], v1 = output->arr[1][0], v2 = output->arr[2][0], v3 = output->arr[3][0]; 
+    bool condition = (v0 < v1 && v0 < v2) && (v3 < v1 && v3 < v2); 
+    assert(condition);
 
-
-
-
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 } 
 
 
