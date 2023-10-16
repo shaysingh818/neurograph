@@ -15,8 +15,8 @@ OBJS = $(DS_OBJS) $(GRAPH_OBJS) $(EXTRACTOR_OBJS) $(CGRAPH_OBJS) $(NETWORK_OBJS)
 BIN=bin
 CC=gcc
 TARGET=../target/neurograph
-SHARED_TARGET = ../neurograph/ngraph/lib/neurograph.so
-
+SO_TARGET = neurograph.so
+INSTALL_DIR = /usr/local/lib
 
 FLAGS = -lm -lpthread
 SO_FLAGS =  -fPIC 
@@ -25,7 +25,7 @@ SO_FLAGS =  -fPIC
 all: build source shared 
 
 shared: main.o $(OBJS)
-	$(CC) -o $(SHARED_TARGET) main.o $(SO_FLAGS) $(OBJS) $(FLAGS)
+	$(CC) -o $(SO_TARGET) main.o $(SO_FLAGS) $(OBJS) $(FLAGS)
 
 source: main.o $(OBJS)
 	$(CC) -o $(TARGET) main.o $(OBJS)  $(FLAGS)
@@ -49,6 +49,11 @@ computation_graph:
 
 main.o: main.c graph/includes/graph.h data_structures/includes/node.h
 	$(CC) -c main.c
+
+install:
+	cp $(SO_TARGET) $(INSTALL_DIR)
+	ldconfig
+	rm $(SO_TARGET)
 
 clean_binary:
 	rm $(TARGET)
