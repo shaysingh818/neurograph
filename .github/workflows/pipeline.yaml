@@ -60,21 +60,22 @@ jobs:
         working-directory: src/
         run: |
           make
+          make install
 
-      - name: Install Dependencies
-        working-directory: neurograph/
-        run: pip install -r requirements.txt
+      # - name: Install Dependencies
+      #   working-directory: neurograph/
+      #   run: pip install -r requirements.txt
 
-      - name: Build Python Package
-        working-directory: neurograph/
-        run: |
-          pip install setuptools
-          pip install wheel
-          python setup.py bdist_wheel
+      # - name: Build Python Package
+      #   working-directory: neurograph/
+      #   run: |
+      #     pip install setuptools
+      #     pip install wheel
+      #     python setup.py bdist_wheel
 
-      - name: Install Wheel File
-        working-directory: neurograph/dist
-        run: pip3 install neurograph-0.4.0-py3-none-any.whl
+      # - name: Install Wheel File
+      #   working-directory: neurograph/dist
+      #   run: pip3 install neurograph-0.4.0-py3-none-any.whl
 
       # - name: Unit Tests
       #   working-directory: neurograph/tests/
