@@ -100,7 +100,7 @@ jobs:
         working-directory: src/
         run: |
           make
-          make install
+          sudo make install
 
       # - name: Install Dependencies
       #   working-directory: neurograph/
