@@ -48,11 +48,6 @@ void test_extract_frame_headers() {
         1024, 100
     );      
 
-    for(int i = 0; i < iris->header_count; i++){
-        printf("%s", iris->headers[i]->name);
-    }
-
-
  	/* validate results */
     if(!equality_status) {
         printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
