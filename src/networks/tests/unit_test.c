@@ -3,13 +3,17 @@
 
 int main(int argc, char **argv) {
 
+
     /* layer tests */
     test_linear_layer();
+    test_save_linear_layer(); 
     test_activation_layer();
 	
 	/* network tests */
 	test_init_network();
     test_add_layer(); 
     test_train();
-    test_save_model_params(); 
+    test_batch_train(); 
+    test_save_model_params();
+    test_load_model_params();  
 }

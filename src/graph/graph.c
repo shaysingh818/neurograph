@@ -120,7 +120,7 @@ void print_graph_list(graph_t *g) {
 graph_t *frame_to_unweighted_graph(frame_t *frame, int *cols, int size, bool directed) {
 
 	/* create graph to be returned */ 
-	int vertex_count = frame->row_count * size;	
+	int vertex_count = frame->row_limit * size;	
 	graph_t *g = init_graph(vertex_count, vertex_count, directed);
 	ordered_set_t *set = init_array_set(vertex_count); 
 
@@ -134,14 +134,13 @@ graph_t *frame_to_unweighted_graph(frame_t *frame, int *cols, int size, bool dir
 		return g; 
 	}
 
-
 	for(int i = 0; i < size; i+=2){
 
 		/* extract values */
 		row_value_t **src_header_values = frame->headers[cols[i]]->values;
 		row_value_t **dst_header_values = frame->headers[cols[i+1]]->values;
 
-		for(int j = 1; j < frame->row_count; j++){
+		for(int j = 1; j < frame->row_limit; j++){
 
 			char *src = src_header_values[j]->value; 
 			char *dst = dst_header_values[j]->value;
@@ -163,7 +162,7 @@ graph_t *frame_to_unweighted_graph(frame_t *frame, int *cols, int size, bool dir
 graph_t *frame_to_weighted_graph(frame_t *frame, int *cols, int size, bool directed) {
 
 	/* create graph */
-	int vertex_count = frame->row_count * size;	
+	int vertex_count = frame->row_limit * size;	
 	graph_t *g = init_graph(vertex_count, vertex_count, directed);
 	ordered_set_t *set = init_array_set(vertex_count); 
 
@@ -183,7 +182,7 @@ graph_t *frame_to_weighted_graph(frame_t *frame, int *cols, int size, bool direc
 		row_value_t **dst_header_values = frame->headers[cols[i+1]]->values;
 		row_value_t **weight_header_values = frame->headers[cols[i+2]]->values;
 
-		for(int j = 1; j < frame->row_count; j++) {
+		for(int j = 1; j < frame->row_limit; j++) {
 
 			char *src = src_header_values[j]->value; 
 			char *dst = dst_header_values[j]->value;
@@ -414,8 +413,14 @@ graph_t *serialize_graph_list(char *filename, int file_size, bool directed){
 
 
 void deserialize_graph_list(graph_t *g, char *filename) {
+
 	FILE* fp; 
-	fp = fopen(filename, "w");   
+	fp = fopen(filename, "w");  
+	if(access(filename, F_OK) == -1) {
+   		strcpy(filename, "");
+		printf("File does not exist\n");
+	}
+
 	for(int i = 0; i < g->list->v; i++){
 		node_t *result = get_node_by_id(g->list, i); 
 		int id = result->id; 

@@ -12,7 +12,10 @@ int main(int argc, char **argv) {
     /* test list library methods */
     test_push_ll();
     test_insert_after_ll(); 
-    test_append_ll();  
+    test_append_ll(); 
+    test_init_array(); 
+    test_insert_array(); 
+    test_insert_char();  
 
 	/* queue methods */ 
 	test_init_queue();
@@ -26,7 +29,9 @@ int main(int argc, char **argv) {
     test_vector_multiplication();
     test_matrix_power(); 
     test_to_rows_cols();
-    test_batch_rows(); 
+    test_batch_rows();
+    test_batch_even_matrix(); 
+    test_batch_odd_matrix();  
     test_uniform_distribution();
     test_load_and_save_matrix();
 

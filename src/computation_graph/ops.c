@@ -1,251 +1,104 @@
 #include "includes/ops.h"
 
-void add_node(value_t *val) {
-    val->output = val->left->output + val->right->output;
-    if(FORWARD_DEBUG){
-        printf(
-            "(%.2f + %.2f) = %.2f \n", 
-            val->left->output, val->right->output, val->output
-        );
-    } 
-}
+/* multiplication */
+value_t *mat_mul(computation_graph_t *graph, value_t *x, value_t *y) {
 
-void backward_add_node(value_t *val) {
-    val->x_d_gradient = 1 * val->upstream_gradient; 
-    val->y_d_gradient = 1 * val->upstream_gradient;
-    val->left->upstream_gradient = val->x_d_gradient; 
-    val->right->upstream_gradient = val->y_d_gradient;
-    if(BACKWARD_DEBUG){
-        printf(
-            "(%.2f * %.2f) = %.2f , (%.2f * %.2f) = %.2f\n", 
-            1.00, val->upstream_gradient, val->x_d_gradient,
-            1.00, val->upstream_gradient, val->y_d_gradient
-        );
-    } 
-}
-
-
-value_t *adder(
-    computation_graph_t *graph,  
-    value_t *val, 
-    value_t *val2 ) {
-
+    value_t *val = malloc(sizeof(value_t));
+    size_t alias = strlen("mat_mul")+1; 
+    val->alias = malloc(alias * sizeof(char)); 
+    strcpy(val->alias, "mat_mul");  
     
-    value_t *e = node_op(
-        "adder",
-        val, val2, 
-        add_node, 
-        backward_add_node
-    );
+    val->left = x; 
+    val->right = y; 
+    val->forward_operation = mat_mul_forward; 
+    val->backward_operation = mat_mul_backward;
+    append_op(graph, val); 
+    return val; 
+}
 
-    append_op(graph, e);
-    return e; 
+mat_t *mat_mul_forward(value_t *val) {
+    val->val = dot(val->left->val, val->right->val);
+    return val->val; 
 } 
 
 
-void multiply_node(value_t *val) {
-    val->output = val->left->output * val->right->output;
-    if(FORWARD_DEBUG){
-        printf(
-            "(%.2f * %.2f) = %.2f \n", 
-            val->left->output, val->right->output, val->output
-        );
-    } 
-} 
-
-void backward_mult_node(value_t *val) {
-    val->x_d_gradient = val->right->output * val->upstream_gradient;
-    val->y_d_gradient = val->left->output * val->upstream_gradient;
-    val->left->upstream_gradient = val->x_d_gradient; 
-    val->right->upstream_gradient = val->y_d_gradient;
-    if(BACKWARD_DEBUG){
-        printf(
-            "(%.2f * %.2f) = %.2f , (%.2f * %.2f) = %.2f\n", 
-            val->right->output, val->upstream_gradient, val->x_d_gradient,
-            val->left->output, val->upstream_gradient, val->y_d_gradient
-        );
-    } 
-
-}
-
-
-value_t *mult(
-    computation_graph_t *graph,  
-    value_t *val, 
-    value_t *val2 ) {
- 
-    value_t *e = node_op(
-        "multiply",
-        val, val2, 
-        multiply_node, 
-        backward_mult_node
-    );
-
-    append_op(graph, e);
-    return e; 
+mat_t *mat_mul_backward(value_t *val) {
+    val->left_grad = dot(val->upstream_gradient, transpose(val->right->val)); 
+    val->right_grad = dot(transpose(val->left->val), val->upstream_gradient); 
+    val->left->upstream_gradient = val->left_grad; 
+    val->right->upstream_gradient = val->right_grad; 
+    return val->right_grad; 
 } 
 
 
-void exponent(value_t *val){
-    val->output = exp(val->left->output);
-    if(FORWARD_DEBUG){
-        printf(
-            "exp(%.2f) = %.2f \n", 
-            val->left->output, val->output
-        );
-    } 
-}
 
+/* scale add */
+value_t *scale_add_mat(computation_graph_t *graph, value_t *x, value_t *y) {
+    value_t *val = malloc(sizeof(value_t));
+    size_t alias = strlen("scale_add")+1; 
+    val->alias = malloc(alias * sizeof(char)); 
+    strcpy(val->alias, "scale_add");  
 
-void backward_exp(value_t *val) {
-    double local_grad = exp(val->left->output); 
-    val->x_d_gradient = local_grad * val->upstream_gradient; 
-    val->left->upstream_gradient = val->x_d_gradient; 
-    if(BACKWARD_DEBUG){
-        printf(
-            "(%.2f * %.2f) = %.2f \n", 
-            local_grad, val->upstream_gradient, val->x_d_gradient
-        );
-    } 
-}
-
-
-value_t *expnt(
-    computation_graph_t *graph,  
-    value_t *val) {
- 
-    value_t *e = node_op(
-        "exponent",
-        val, NULL, 
-        exponent, 
-        backward_exp
-    );
-
-    append_op(graph, e);
-    return e; 
+    val->left = x; 
+    val->right = y; 
+    val->forward_operation = scale_add_forward; 
+    val->backward_operation = scale_add_backward;
+    append_op(graph, val); 
+    return val; 
 } 
 
-
-void eulers(value_t *val) {
-    val->output = val->left->output * -1; 
-    if(FORWARD_DEBUG){
-        printf(
-            "(%.2f * %.2f) = %.2f \n", 
-            val->left->output, -1.00, val->output
-        );
-    } 
+mat_t *scale_add_forward(value_t *val) {
+    val->val = scale_add(val->left->val, val->right->val); 
+    return val->val; 
 }
 
 
-void backward_eulers(value_t *val) {
-    double local_grad = -1.00;
-    val->x_d_gradient = local_grad * val->upstream_gradient; 
-    val->left->upstream_gradient = val->x_d_gradient; 
-    if(BACKWARD_DEBUG){
-        printf(
-            "(%.2f * %.2f) = %.2f \n", 
-            local_grad, val->upstream_gradient, val->x_d_gradient
-        );
-    } 
+mat_t *scale_add_backward(value_t *val) {
+    val->left_grad = val->upstream_gradient; 
+    val->right_grad = val->upstream_gradient; 
+    val->left->upstream_gradient = val->left_grad; 
+    val->right->upstream_gradient = val->right_grad; 
+    return val->right_grad; 
 }
 
 
-value_t *euler(
-    computation_graph_t *graph,  
-    value_t *val) {
 
-    value_t *e = node_op(
-        "eulers",
-        val, NULL, 
-        eulers, 
-        backward_eulers
-    );
+/* apply loss  */
+value_t *apply_loss(
+    computation_graph_t *graph, 
+    value_t *set_val,
+    double(*loss)(double val), 
+	mat_t*(*loss_prime)(mat_t *val)) {
 
-    append_op(graph, e);
-    return e; 
+    value_t *val = malloc(sizeof(value_t));
+    size_t alias = strlen("apply_loss")+1; 
+    val->alias = malloc(alias * sizeof(char)); 
+    strcpy(val->alias, "apply_loss");  
     
-} 
-
-
-void successor(value_t *val) {
-    val->output = val->left->output + 1; 
-    if(FORWARD_DEBUG){
-        printf(
-            "(%.2f + 1) = %.2f \n", 
-            val->left->output, val->output
-        );
-    } 
+    val->left = set_val; 
+    val->right = NULL; 
+    val->loss = loss; 
+    val->loss_prime = loss_prime; 
+    val->forward_operation = apply_loss_forward; 
+    val->backward_operation = apply_loss_backward;
+    append_op(graph, val); 
+    return val; 
+    
 }
 
 
-void successor_backward(value_t *val) {
-    double local_grad = 1.00; 
-    val->x_d_gradient = local_grad * val->upstream_gradient;
-    val->left->upstream_gradient = val->x_d_gradient;  
-    if(BACKWARD_DEBUG){
-        printf(
-            "(%.2f * %.2f) = %.2f \n", 
-            local_grad, val->upstream_gradient, val->x_d_gradient
-        );
-    } 
-} 
-
-
-value_t *add_one(
-    computation_graph_t *graph,  
-    value_t *val) {
-
-
-    value_t *i = node_op(
-        "successor",
-        val, NULL, 
-        successor, 
-        successor_backward
-    );
-
-    append_op(graph, i); 
-    return i; 
-
-} 
-
-
-void reciprocal(value_t *val) {
-    val->output = 1 / val->left->output; 
-    if(FORWARD_DEBUG){
-        printf(
-            "(1 / %.2f) = %.2f \n", 
-            val->left->output, val->output
-        );
-    } 
+mat_t *apply_loss_forward(value_t *val) {
+    val->val = apply(val->loss, val->left->val); 
+    return val->val; 
 }
 
 
-void reciprocal_backward(value_t *val) {
-    double local_grad = -1 / (val->left->output * val->left->output); 
-    val->x_d_gradient = local_grad * val->upstream_gradient;
-    val->left->upstream_gradient = val->x_d_gradient;  
-    if(BACKWARD_DEBUG){
-        printf(
-            "(%.2f * %.2f) = %.2f \n", 
-            local_grad, val->upstream_gradient, val->x_d_gradient
-        );
-    } 
-} 
-
-
-value_t *recip(
-    computation_graph_t *graph,  
-    value_t *val) {
-
-
-    value_t *i = node_op(
-        "reciprocal",
-        val, NULL, 
-        reciprocal, 
-        reciprocal_backward
+mat_t *apply_loss_backward(value_t *val) {
+    val->left_grad = elementwise_multiply(
+        val->upstream_gradient,
+        val->loss_prime(val->left->val)
     );
-
-    append_op(graph, i); 
-    return i; 
-
-} 
+    val->local_grad = val->left_grad; 
+    val->left->upstream_gradient = val->left_grad; 
+    return val->left_grad; 
+}

@@ -1,11 +1,11 @@
 # object files
 
 DS_GRAPH = data_structures/matrix.o data_structures/adj_list.o data_structures/adj_mat.o
-DS_QUEUE = data_structures/map.o data_structures/node.o data_structures/queue.o data_structures/set.o data_structures/ll.o
+DS_QUEUE = data_structures/map.o data_structures/node.o data_structures/queue.o data_structures/set.o data_structures/ll.o data_structures/array.o
 DS_OBJS = $(DS_GRAPH)  $(DS_QUEUE)
 
-CGRAPH_OBJS = computation_graph/computation_graph.o computation_graph/value.o computation_graph/mat_ops.o computation_graph/tanh.o computation_graph/mse.o
-NETWORK_OBJS = networks/layer.o networks/network.o
+CGRAPH_OBJS = computation_graph/computation_graph.o computation_graph/value.o computation_graph/ops.o computation_graph/loss.o
+NETWORK_OBJS = networks/layer.o networks/network.o networks/linear.o networks/activation.o
 GRAPH_OBJS = graph/graph.o graph/community.o graph/path.o graph/search.o
 EXTRACTOR_OBJS = extractors/re.o extractors/frame.o extractors/gml.o
 

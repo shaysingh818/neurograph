@@ -64,7 +64,7 @@ index,movie_name,year_of_release,category,run_time,genre,imdb_rating,votes,gross
 63.,V for Vendetta,(2005),R,132 min,"Action, Drama, Sci-Fi",8.2,"1,125,038",$70.51M
 64.,Chinatown,(1974),R,130 min,"Drama, Mystery, Thriller",8.2,"329,110",$8.49M
 65.,City of God,(2002),R,130 min,"Crime, Drama",8.6,"758,914",$7.56M
-66.,To Have and Have Not,(1944),Passed,100 min,"Adventure, Comedy, Film-Noir",7.8,"35,528",
+66.,To Have and Have Not,(1944),Passed,100 min,"Adventure, Comedy, Film-Noir",7.8,"35,528",""
 67.,Fargo,(1996),R,98 min,"Crime, Thriller",8.1,"681,256",$24.61M
 68.,Life of Pi,(2012),PG,127 min,"Adventure, Drama, Fantasy",7.9,"634,357",$124.99M
 69.,Slumdog Millionaire,(2008),R,120 min,"Crime, Drama, Romance",8,"848,344",$141.32M

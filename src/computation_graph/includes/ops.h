@@ -1,58 +1,25 @@
-#ifndef OPS_H
-#define OPS_H
-
-#include "value.h"
 #include "computation_graph.h"
 
-/* Add constant values */
-void add_node(value_t *val);
-void backward_add_node(value_t *val);
-value_t *adder(
-    computation_graph_t *graph,  
-    value_t *val, 
-    value_t *val2
+
+/* multiplication */
+value_t *mat_mul(computation_graph_t *graph, value_t *x, value_t *y); 
+mat_t *mat_mul_forward(value_t *val); 
+mat_t *mat_mul_backward(value_t *val); 
+
+
+/* scale add */
+value_t *scale_add_mat(computation_graph_t *graph, value_t *x, value_t *y); 
+mat_t *scale_add_forward(value_t *val); 
+mat_t *scale_add_backward(value_t *val);
+
+
+/* apply loss  */
+value_t *apply_loss(
+    computation_graph_t *graph, 
+    value_t *set_val,
+    double(*loss)(double val), 
+	mat_t*(*loss_prime)(mat_t *val)
 ); 
+mat_t *apply_loss_forward(value_t *val); 
+mat_t *apply_loss_backward(value_t *val);
 
-/* Multiply two constants */
-void multiply_node(value_t *val); 
-void backward_mult_node(value_t *val);
-value_t *mult(
-    computation_graph_t *graph,  
-    value_t *val, 
-    value_t *val2
-); 
-
-/* Raise a value by an exponent */
-void exponent(value_t *val); 
-void backward_exp(value_t *val);
-value_t *expnt(
-    computation_graph_t *graph,  
-    value_t *val 
-); 
-
-/* Use eulers number */
-void eulers(value_t *val); 
-void backward_eulers(value_t *val);
-value_t *euler(
-    computation_graph_t *graph,  
-    value_t *val
-); 
-
-/* Adding 1 to a value*/
-void successor(value_t *val); 
-void backward_successor(value_t *val);
-value_t *add_one(
-    computation_graph_t *graph,  
-    value_t *val 
-); 
-
-/* 1/x on a value */
-void reciprocal(value_t *val); 
-void reciprocal_backward(value_t *val); 
-value_t *recip(
-    computation_graph_t *graph,  
-    value_t *val 
-);
-
-
-#endif

@@ -288,7 +288,99 @@ void test_batch_rows() {
         printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
     }
 
-}  
+} 
+
+void test_batch_even_matrix() {
+
+    int rows = 6; 
+    int cols = 6;
+
+    double m_values[6][6] = {
+        {2, 0, 0, 0, 0, 0}, 
+        {0, 2, 0, 0, 0, 0},
+        {0, 0, 2, 0, 0, 0},
+        {0, 0, 0, 2, 0, 0},
+        {0, 0, 0, 0, 2, 0},
+        {0, 0, 0, 0, 0, 2}
+    };
+
+    double expected_batches[3][3][6] = {
+        {{2, 0, 0, 0, 0, 0}, 
+        {0, 2, 0, 0, 0, 0},
+        {0, 0, 2, 0, 0, 0}},
+
+        {{0, 2, 0, 0, 0, 0}, 
+        {0, 0, 2, 0, 0, 0},
+        {0, 0, 0, 2, 0, 0}},
+
+        {{0, 0, 2, 0, 0, 0}, 
+        {0, 0, 0, 2, 0, 0},
+        {0, 0, 0, 0, 2, 0}},
+    };
+
+    int batch_size = 3;
+    mat_t *mat = copy_arr_to_matrix(rows, cols, m_values); 
+    mat_t **results = batch_matrix(mat, batch_size);   
+
+    /* result count is input matrix rows minus the batch size*/
+    for(int i = 0; i < (mat->rows - batch_size); i++){
+        mat_t *expected_matrix = copy_arr_to_matrix(batch_size, 6, expected_batches[i]);
+        mat_t *result = results[i]; 
+        bool compare_mat = compare_matrix(expected_matrix, result);
+        assert(result->rows == batch_size && result->cols == 6); 
+        assert(compare_mat == true);  
+    }
+
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+}
+
+
+void test_batch_odd_matrix() {
+
+    int rows = 7; 
+    int cols = 6;
+
+    double m_values[7][6] = {
+        {2, 0, 0, 0, 0, 0}, 
+        {0, 2, 0, 0, 0, 0},
+        {0, 0, 2, 0, 0, 0},
+        {0, 0, 0, 2, 0, 0},
+        {0, 0, 0, 0, 2, 0},
+        {0, 0, 0, 0, 0, 2},
+        {0, 0, 0, 0, 0, 2}
+    };
+
+    double expected_batches[5][2][6] = {
+        {{2, 0, 0, 0, 0, 0}, 
+        {0, 2, 0, 0, 0, 0}},
+
+        {{0, 2, 0, 0, 0, 0}, 
+        {0, 0, 2, 0, 0, 0}},
+
+        {{0, 0, 2, 0, 0, 0}, 
+        {0, 0, 0, 2, 0, 0}},
+
+        {{0, 0, 0, 2, 0, 0}, 
+        {0, 0, 0, 0, 2, 0}},
+
+        {{0, 0, 0, 0, 2, 0}, 
+        {0, 0, 0, 0, 0, 2}},
+    };
+
+    int batch_size = 2;
+    mat_t *mat = copy_arr_to_matrix(rows, cols, m_values); 
+    mat_t **results = batch_matrix(mat, batch_size); 
+
+    for(int i = 0; i < (mat->rows - batch_size); i++){
+        mat_t *expected_matrix = copy_arr_to_matrix(batch_size, 6, expected_batches[i]);
+        mat_t *result = results[i];
+        bool compare_mat = compare_matrix(expected_matrix, result);
+        assert(result->rows == batch_size && result->cols == 6); 
+        assert(compare_mat == true);  
+    }
+
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+} 
 
 
 void test_uniform_distribution() {

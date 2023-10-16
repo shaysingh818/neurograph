@@ -1,0 +1,6 @@
+../../examples/data/movies.csv:1024:100
+../../examples/data/power_generation.csv:1024:10000
+../../examples/data/online_retail.csv:1024:10000
+../../examples/data/public_transport.csv:1024:10000
+../../examples/data/ms_prediction.csv:1024:10000
+../../examples/data/city_population_density.csv:1024:10000

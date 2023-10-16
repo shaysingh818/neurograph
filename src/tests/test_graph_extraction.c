@@ -30,7 +30,7 @@ void test_save_load_movies_graph() {
 	char *output_path = "../../examples/gml/integration/movies.gmul";
 
 	frame_t *frame = init_frame(input_path, 1024, 100); 
-	assert(frame->status); 
+	assert(frame->status);
 
 	graph_t *result = frame_to_unweighted_graph(
 		frame, indices, 2, false
@@ -39,7 +39,6 @@ void test_save_load_movies_graph() {
 	/* de serialize */ 
 	remove_unused_slots(result); 
 	deserialize_graph_list(result, output_path);
-
 
 	graph_t *g = serialize_graph_list(output_path, 2048, true);
 	assert(g->list->v == 154); 
@@ -56,6 +55,7 @@ void test_save_load_public_transport_graph() {
 	frame_t *frame = init_frame(input_path, 1024, 500); 
 	assert(frame->status);
 
+
 	graph_t *result = frame_to_unweighted_graph(
 		frame, indices, 2, false
 	);
@@ -64,7 +64,7 @@ void test_save_load_public_transport_graph() {
 	deserialize_graph_list(result, output_path);
 
 	graph_t *g = serialize_graph_list(output_path, 2048, true);
-   	assert(g->list->v == 711); 	
+   	assert(g->list->v == 693); 
 
 	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 }

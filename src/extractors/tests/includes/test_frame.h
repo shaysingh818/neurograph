@@ -13,6 +13,12 @@ void test_init_frame_rows();
 void test_init_frame_structure();
 
 /* graph conversion */
-void test_hash_map_frame();  
+void test_hash_map_frame(); 
+
+/* matrix conversion */
+void test_frame_to_matrix();
+
+/* test delmiter file conversions for frames */
+void test_match_frame_delimiter_file(); 
 
 #endif

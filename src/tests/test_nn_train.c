@@ -1,29 +1,45 @@
 #include "includes/test_nn_train.h"
 
 
-void test_train_save_nn_params() { 
+void test_train_iris_model() { 
 
 	/* neural net library  */
-    double learning_rate = 0.1; 
-    double inputs[4][2] = {{0,0},{0,1},{1,0},{1,1}};
-    double outputs[4][1] = {{0},{1},{1},{0}};
+    double learning_rate = 0.09;
 
-    /* create x input */
-    mat_t *x = copy_arr_to_matrix(4, 2, inputs); 
-    mat_t *y = copy_arr_to_matrix(4, 1, outputs);
-    value_t *input = input_node_mat(x);
-    net_t *nn = init_network(learning_rate, input);
+    /* load data into data frame */ 
+    frame_t *f = init_frame("../../examples/data/iris.csv", 1024, 150);
+    assert(f->status == true);
+    end_line_terminate(f->headers[f->header_count-1]->name); 
 
-    /* define model architecture */
-    layer(nn, linear(2, 3));
-    layer(nn, activation(2, 3, tanh_forward, tanh_backward)); 
-    layer(nn, linear(3, 1)); 
-    layer(nn, activation(3, 1, tanh_forward, tanh_backward));
-    train(nn, 1000, y);
+    array_t *input_cols = init_array(); 
+    insert_char(input_cols, "f1"); 
+    insert_char(input_cols, "f2"); 
+    insert_char(input_cols, "f3"); 
+    insert_char(input_cols, "f4"); 
 
-    /* get output */
-    int output_index = nn->graph->curr_index - 1;
-    mat_t *output = nn->graph->operations[output_index]->mat_output;
-    print_vec(output);  
+    mat_t *inputs = frame_to_mat(f, input_cols);
+    value_t *input = value(inputs);
+
+    /* create output matrix */
+    array_t *output_cols = init_array(); 
+    insert_char(output_cols, "f5"); 
+    mat_t *outputs = frame_to_mat(f, output_cols);
+
+
+    // /* create network model */
+    net_t *nn = init_network(learning_rate, input, 4); 
+    layer(nn, linear(4, 5));
+    layer(nn, activation(4, 5, "tanh", tanh, tanh_prime)); 
+    layer(nn, linear(5, 1)); 
+    layer(nn, activation(5, 1, "tanh", tanh, tanh_prime));
+    batch_train(nn, 3000, outputs);
+
+    mat_t **x_train = batch_matrix(input->val, 4); 
+    mat_t **y_train = batch_matrix(outputs, 4);
+
+    int row = 49;
+	predict(nn, x_train[row], y_train[row]); 	
 
 }	
+
+
