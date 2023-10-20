@@ -15,7 +15,7 @@ OBJS = $(DS_OBJS) $(GRAPH_OBJS) $(EXTRACTOR_OBJS) $(CGRAPH_OBJS) $(NETWORK_OBJS)
 BIN=bin
 CC=gcc
 TARGET=../target/neurograph
-SO_TARGET = neurograph.so
+SO_TARGET = libneurograph.so
 INSTALL_DIR = /usr/local/lib
 
 FLAGS = -lm -lpthread

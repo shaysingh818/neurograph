@@ -96,15 +96,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Build Shared Object File
-        working-directory: src/
+      - name: Build Cython Package
+        working-directory: neurograph/
         run: |
           make
-          sudo make install
 
-      # - name: Install Dependencies
-      #   working-directory: neurograph/
-      #   run: pip install -r requirements.txt
+      - name: Install Dependencies
+        working-directory: neurograph/
+        run: pip install -r requirements.txt
 
       # - name: Build Python Package
       #   working-directory: neurograph/

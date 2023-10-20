@@ -10,7 +10,7 @@ node_t *create_node(int id, char *label, int weight) {
 	n->label = NULL;  
 	n->next = NULL;
 	n->right = NULL; 
-	n->left = NULL;  
+	n->left = NULL; 
 
 	/* copy in string value if not NULL  */
 	if(label != NULL) {

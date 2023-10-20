@@ -288,7 +288,7 @@ int match_header(frame_t *frame, char *header_key) {
 
 void f_cols(frame_t *frame) {
 	printf("FILEPATH: %s\n", frame->filename); 
-    printf("Loaded: %d rows\n\n", frame->row_count);
+    printf("Loaded: %d rows\n\n", frame->row_limit);
 	printf("FEATURES: %d\n", frame->header_count); 
 	printf("============================\n");  
 	for(int i = 0; i < frame->header_count; i++){
