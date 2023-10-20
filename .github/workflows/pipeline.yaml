@@ -96,14 +96,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Install Dependencies
+        working-directory: neurograph/
+        run: pip install -r requirements.txt
+
       - name: Build Cython Package
         working-directory: neurograph/
         run: |
           make
-
-      - name: Install Dependencies
-        working-directory: neurograph/
-        run: pip install -r requirements.txt
 
       # - name: Build Python Package
       #   working-directory: neurograph/
