@@ -1,19 +1,40 @@
-from setuptools import find_packages, setup, Extension
-import os
+from setuptools import setup
+from Cython.Build import cythonize
+from distutils.extension import Extension
 
+
+# # C Extension
+# extensions = [
+#     Extension(
+#         "frame",  # Change this to match your package and module name
+#         sources=["frame.py"],  # Use the correct path to your Cython source file
+#     ),
+# ]
+
+# setup(
+#     name='neurograph',
+#     version='0.8.0',
+#     description='Graph Neural Network Library',
+#     author='Shalin Singh',
+#     license='MIT',
+#     include_package_data=True,
+#     ext_modules=cythonize(extensions),
+# )
 
 setup(
-    name='neurograph',
-    packages=find_packages(include=['ngraph']),
-    version='0.4.0',
-    description='Graph Neural Network Library',
-    author='Shalin Singh',
-    license='MIT',
-    setup_requires=['pytest-runner'],
-    tests_require=['pytest==4.4.1'],
-    test_suite='tests',
-    package_data={
-        'ngraph': ['lib/*.so'],
-    }, 
-    include_package_data=True
+    ext_modules = cythonize([
+        Extension(
+            name="frame", 
+            sources=[
+                "frame.py",
+                "../src/data_structures/map.c",
+                "../src/data_structures/node.c",
+                "../src/data_structures/matrix.c",
+                "../src/data_structures/array.c",
+                "../src/data_structures/ll.c",
+                "../src/extractors/frame.c", 
+                "../src/extractors/re.c"
+            ],
+        )
+    ])
 )
