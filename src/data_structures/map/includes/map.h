@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include "hash.h"
-#include "node.h" 
+#include "../../node/includes/node.h" 
 
 
 struct hash_linked_list {

@@ -1,5 +1,6 @@
 #include "includes/test_queue.h"
 #include "includes/test_map.h"
+#include "includes/test_table.h"
 #include "includes/test_matrix.h"
 #include "includes/test_adj_list.h"
 #include "includes/test_adj_mat.h"
@@ -81,5 +82,13 @@ int main(int argc, char **argv) {
     test_compare_char();
     test_hash_linked_list(); 
     test_duplicates();
+
+    /* open address hash map tests */
+    test_create_hash_map();
+    test_insert_table_key();
+    test_delete_table_key(); 
+    test_table_resize(); 
+
+
 
 }
