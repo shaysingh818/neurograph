@@ -1,6 +1,6 @@
 cimport pxds.cnode
 
-cdef extern from "../src/data_structures/includes/map.h":
+cdef extern from "../src/data_structures/map/includes/map.h":
 
     ctypedef void (*destructor_func)(void*)
     ctypedef bint (*compare_func)(void*, void*)

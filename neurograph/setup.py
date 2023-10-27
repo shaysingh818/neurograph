@@ -27,11 +27,11 @@ setup(
             name="frame", 
             sources=[
                 "frame.py",
-                "../src/data_structures/map.c",
-                "../src/data_structures/node.c",
-                "../src/data_structures/matrix.c",
-                "../src/data_structures/array.c",
-                "../src/data_structures/ll.c",
+                "../src/data_structures/map/map.c",
+                "../src/data_structures/node/node.c",
+                "../src/data_structures/matrix/matrix.c",
+                "../src/data_structures/list/array.c",
+                "../src/data_structures/list/ll.c",
                 "../src/extractors/frame.c", 
                 "../src/extractors/re.c"
             ],

@@ -1,6 +1,6 @@
 cimport pxds.cnode
 
-cdef extern from "../src/data_structures/includes/array.h":
+cdef extern from "../src/data_structures/list/includes/array.h":
 
     struct Array:
         int capacity

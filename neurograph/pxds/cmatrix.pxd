@@ -1,5 +1,5 @@
 
-cdef extern from "../src/data_structures/includes/matrix.h":
+cdef extern from "../src/data_structures/matrix/includes/matrix.h":
 
     struct Matrix:
         int rows
