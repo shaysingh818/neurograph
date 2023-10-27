@@ -67,7 +67,7 @@ jobs:
         ./list/target/test_list
         ./map/target/test_map
         cd matrix/
-        ./matrix/target/test_matrix
+        ./target/test_matrix
         cd ../ 
    
     - name: Extractors Package
