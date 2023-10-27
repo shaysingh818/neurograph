@@ -9,7 +9,7 @@
 #include <regex.h>
 
 /* data structures import */
-#include "../../data_structures/includes/array.h"
+#include "../../data_structures/list/includes/array.h"
 
 /*******************************************************
     common regular expression macros defined here 

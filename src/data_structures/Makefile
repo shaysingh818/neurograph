@@ -10,41 +10,56 @@ HEADERS = $(wildcard /includes/*.h)
 # test header files
 TEST_HEADERS = $(wildcard /tests/includes/*.h)
 
+NODE_OBJS = node/node.o
+QUEUE_OBJS = queue/queue.o
+SET_OBJS = set/set.o
+LIST_OBJS = list/ll.o list/adj_list.o list/array.o
+MAP_OBJS = map/map.o map/table.o map/hash.o
+MATRIX_OBJS = matrix/matrix.o matrix/adj_mat.o
 
 # source objects
-SRC_OBJS = matrix.o hash.o map.o table.o adj_list.o adj_mat.o queue.o node.o set.o ll.o array.o
-
-# unit test objects
-TEST_OBJS = test_ll.o test_set.o test_map.o test_table.o test_adj_list.o test_adj_mat.o test_matrix.o test_queue.o
+SRC_OBJS = $(NODE_OBJS) $(QUEUE_OBJS) $(SET_OBJS) $(LIST_OBJS) $(MAP_OBJS) $(MATRIX_OBJS)
 
 # flags
 FLAGS =  -lm -lpthread -g
 
-# link all programs here
-all: unit_test source
+all: build source
 
-unit_test: unit_test.o $(SRC_OBJS) $(TEST_OBJS)
-	gcc -o $(TEST_TARGET) unit_test.o $(SRC_OBJS) $(TEST_OBJS) $(FLAGS)
+# link all programs here
+build: node queue set list map matrix source
 
 source: main.o $(SRC_OBJS)
 	gcc -o $(TARGET) main.o  $(SRC_OBJS) $(FLAGS)
 
+node:
+	$(MAKE) -C ./node
 
-# build source and test objects 
-$(SRC_OBJS): %.o: %.c $(HEADERS)
-	$(CC) -c $<
+queue: 
+	$(MAKE) -C ./queue
 
-$(TEST_OBJS): %.o: tests/%.c tests/includes/%.h $(HEADERS)
-	$(CC) -c $< -o $@
+set:
+	$(MAKE) -C ./set
 
-unit_test.o: tests/unit_test.c $(TEST_HEADERS)
-	$(CC) -c $< -o $@
+list:
+	$(MAKE) -C ./list
+
+map:
+	$(MAKE) -C ./map
+
+matrix:
+	$(MAKE) -C ./matrix
+
+
 
 main.o: main.c $(HEADERS)
 	$(CC) -c $< -o $@
 
 
-
 # clean compilation (target doesn't work)
 clean:
 	rm -f  *.o *~ *.pyc
+	$(MAKE) -C  ./map clean
+	$(MAKE) -C ./matrix clean
+	$(MAKE) -C ./set clean
+	$(MAKE) -C ./list clean
+	$(MAKE) -C  ./queue clean

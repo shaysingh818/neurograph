@@ -2,11 +2,11 @@
 #define GRAPH_H
 
 /* include data structures library */
-#include "../../data_structures/includes/set.h"
-#include "../../data_structures/includes/queue.h"
-#include "../../data_structures/includes/matrix.h"
-#include "../../data_structures/includes/adj_list.h"
-#include "../../data_structures/includes/adj_mat.h"
+#include "../../data_structures/set/includes/set.h"
+#include "../../data_structures/queue/includes/queue.h"
+#include "../../data_structures/matrix/includes/matrix.h"
+#include "../../data_structures/list/includes/adj_list.h"
+#include "../../data_structures/matrix/includes/adj_mat.h"
 
 /* include extractors library for building graphs */
 #include "../../extractors/includes/re.h"

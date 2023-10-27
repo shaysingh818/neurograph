@@ -11,7 +11,7 @@ HEADERS = $(wildcard ./includes/*.h)
 TEST_HEADERS = $(wildcard ./tests/includes/*.h)
 
 # data structure objects needed
-MATRIX = ../data_structures/matrix.o
+MATRIX = ../data_structures/matrix/matrix.o
 
 # source objects
 SRC_OBJS = computation_graph.o value.o ops.o loss.o $(MATRIX)

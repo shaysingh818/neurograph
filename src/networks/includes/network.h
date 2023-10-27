@@ -1,7 +1,7 @@
 #ifndef NETWORK_H
 #define NETWORK_H
 
-#include "../../data_structures/includes/matrix.h"
+#include "../../data_structures/matrix/includes/matrix.h"
 #include "../../computation_graph/includes/computation_graph.h"
 #include "../../computation_graph/includes/loss.h"
 #include "layer.h"

@@ -9,10 +9,11 @@
 #include <regex.h> 
 #include <errno.h>
 
-#include "../../data_structures/includes/ll.h"
-#include "../../data_structures/includes/map.h"
-#include "../../data_structures/includes/matrix.h"
-#include "../../data_structures/includes/set.h"
+#include "../../data_structures/list/includes/ll.h"
+#include "../../data_structures/map/includes/map.h"
+#include "../../data_structures/map/includes/hash.h"
+#include "../../data_structures/matrix/includes/matrix.h"
+#include "../../data_structures/set/includes/set.h"
 #include "re.h"
 
 #define RE_CSV "\"[^\"]*\"|[^,]+"

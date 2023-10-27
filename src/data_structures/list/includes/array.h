@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdbool.h>
-#include "node.h" 
+#include "../../node/includes/node.h" 
 
 struct Array {
     int capacity, used, front_index, rear_index, item_count; 

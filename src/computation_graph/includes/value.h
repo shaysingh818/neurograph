@@ -2,7 +2,7 @@
 #ifndef VALUE_H
 #define VALUE_H
 
-#include "../../data_structures/includes/matrix.h"
+#include "../../data_structures/matrix/includes/matrix.h"
 
 struct Value {
     char *alias; 

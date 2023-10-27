@@ -10,8 +10,16 @@ HEADERS = $(wildcard /includes/*.h)
 # test header files
 TEST_HEADERS = $(wildcard /tests/includes/*.h)
 
+# Data structure objects 
+QUEUE_OBJS = ../data_structures/queue/queue.o ../data_structures/node/node.o 
+MATRIX_OBJS = ../data_structures/matrix/matrix.o ../data_structures/matrix/adj_mat.o
+LIST_OBJS = ../data_structures/list/adj_list.o ../data_structures/list/ll.o ../data_structures/list/array.o
+MAP_OBJS = ../data_structures/map/map.o ../data_structures/map/table.o ../data_structures/map/hash.o
+SET_OBJS = ../data_structures/set/set.o
+
 # Data structures library dependency
-DATA_STRUCTURES = ../data_structures/set.o ../data_structures/queue.o ../data_structures/matrix.o ../data_structures/adj_list.o ../data_structures/adj_mat.o ../data_structures/node.o ../data_structures/map.o ../data_structures/ll.o ../data_structures/array.o 
+DATA_STRUCTURES =  $(QUEUE_OBJS) $(MATRIX_OBJS) $(LIST_OBJS) $(MAP_OBJS) $(SET_OBJS)
+
 
 EXTRACTORS = ../extractors/re.o ../extractors/gml.o ../extractors/frame.o
 
@@ -23,16 +31,13 @@ SRC_OBJS = $(DATA_STRUCTURES) $(EXTRACTORS) graph.o path.o search.o community.o
 FLAGS = -g -lm -lpthread
 
 # link all programs here
-all: data_structures extractors unit_test source
+all: extractors unit_test source
 
 unit_test: unit_test.o $(SRC_OBJS) $(TEST_OBJS)
 	gcc -o $(TEST_TARGET) unit_test.o $(SRC_OBJS) $(TEST_OBJS) $(FLAGS)
 
 source: main.o $(SRC_OBJS)
 	gcc -o $(TARGET) main.o  $(SRC_OBJS) $(FLAGS)
-
-data_structures:
-	$(MAKE) -C ../data_structures
 
 extractors:
 	$(MAKE) -C ../extractors
@@ -58,5 +63,4 @@ clean_binary:
 
 clean:
 	rm -f *.o *~ *.pyc
-	$(MAKE) -C ../data_structures clean
 	$(MAKE) -C ../extractors clean

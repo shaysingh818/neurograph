@@ -1,6 +1,6 @@
 #include "includes/re.h"
-#include "../data_structures/includes/node.h"
-#include "../data_structures/includes/ll.h"
+#include "../data_structures/node/includes/node.h"
+#include "../data_structures/list/includes/ll.h"
 
 
 bool compile_regex(regex_t *regex, char *pattern) {

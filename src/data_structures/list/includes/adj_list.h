@@ -10,7 +10,7 @@
 #include <stdbool.h> 
 #include <limits.h> 
 
-#include "node.h"
+#include "../../node/includes/node.h"
 
 #define TRUE 1
 #define FALSE 0

@@ -11,7 +11,7 @@ HEADERS = $(wildcard /includes/*.h)
 TEST_HEADERS = $(wildcard /tests/includes/*.h)
 
 # data structure objects needed
-MATRIX = ../data_structures/matrix.o ../data_structures/map.o
+MATRIX = ../data_structures/matrix/matrix.o ../data_structures/map/map.o
 
 # CGRAPH OBJS
 CGRAPH_OBJS = ../computation_graph/computation_graph.o ../computation_graph/value.o ../computation_graph/ops.o ../computation_graph/loss.o

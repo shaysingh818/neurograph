@@ -1,5 +1,5 @@
 #include "includes/graph.h"
-#include "../data_structures/includes/queue.h"
+#include "../data_structures/queue/includes/queue.h"
 
 
 

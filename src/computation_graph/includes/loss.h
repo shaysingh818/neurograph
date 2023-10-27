@@ -1,7 +1,7 @@
 #ifndef LOSS_H
 #define LOSS_H
 
-#include "../../data_structures/includes/matrix.h"
+#include "../../data_structures/matrix/includes/matrix.h"
 #include "value.h"
 
 /* Tanh */

@@ -1,7 +1,7 @@
 #ifndef LAYER_H
 #define LAYER_H
 
-#include "../../data_structures/includes/matrix.h"
+#include "../../data_structures/matrix/includes/matrix.h"
 #include "../../computation_graph/includes/computation_graph.h"
 #include "../../computation_graph/includes/ops.h"
 #include "../../computation_graph/includes/loss.h"

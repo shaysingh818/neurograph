@@ -10,8 +10,15 @@ HEADERS = $(wildcard /includes/*.h)
 # test header files
 TEST_HEADERS = $(wildcard /tests/includes/*.h)
 
-# Graph dependencies
-DATA_STRUCTURES = ../data_structures/queue.o ../data_structures/matrix.o ../data_structures/adj_list.o ../data_structures/node.o ../data_structures/map.o ../data_structures/ll.o ../data_structures/set.o ../data_structures/array.o
+# Data Structure  objs 
+QUEUE_OBJS = ../data_structures/queue/queue.o ../data_structures/node/node.o 
+MATRIX_OBJS = ../data_structures/matrix/matrix.o
+LIST_OBJS = ../data_structures/list/adj_list.o ../data_structures/list/ll.o ../data_structures/list/array.o
+MAP_OBJS = ../data_structures/map/map.o ../data_structures/map/table.o ../data_structures/map/hash.o
+SET_OBJS = ../data_structures/set/set.o
+
+# Frame data structure  dependencies
+DATA_STRUCTURES =  $(QUEUE_OBJS) $(MATRIX_OBJS) $(LIST_OBJS) $(MAP_OBJS) $(SET_OBJS)
 
 # source objects for extractors library
 TEST_OBJS = test_frame.o test_frame_memory.o test_re.o test_gml.o
@@ -52,3 +59,4 @@ clean_binary:
 
 clean:
 	rm -f *.o *~ *.pyc
+	$(MAKE) -C  ../data_structures clean
