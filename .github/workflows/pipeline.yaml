@@ -62,7 +62,11 @@ jobs:
     - name: Data Structures Package
       working-directory: src/data_structures/
       run: |
-        ./target/test_data_structures
+        ./queue/target/test_queue
+        ./set/target/test_set
+        ./list/target/test_list
+        ./matrix/target/test_matrix
+        ./map/target/test_map
    
     - name: Extractors Package
       working-directory: src/extractors/
