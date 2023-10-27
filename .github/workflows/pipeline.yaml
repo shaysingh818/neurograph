@@ -65,8 +65,8 @@ jobs:
         ./queue/target/test_queue
         ./set/target/test_set
         ./list/target/test_list
-        ./matrix/target/test_matrix
         ./map/target/test_map
+        ./matrix/target/test_matrix
    
     - name: Extractors Package
       working-directory: src/extractors/
