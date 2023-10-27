@@ -1,8 +1,13 @@
 # object files
 
-DS_GRAPH = data_structures/matrix.o data_structures/adj_list.o data_structures/adj_mat.o
-DS_QUEUE = data_structures/map.o data_structures/node.o data_structures/queue.o data_structures/set.o data_structures/ll.o data_structures/array.o
-DS_OBJS = $(DS_GRAPH)  $(DS_QUEUE)
+
+# Data Structure  objs 
+QUEUE_OBJS = data_structures/queue/queue.o data_structures/node/node.o 
+MATRIX_OBJS = data_structures/matrix/matrix.o data_structures/matrix/adj_mat.o
+LIST_OBJS = data_structures/list/adj_list.o data_structures/list/ll.o data_structures/list/array.o
+MAP_OBJS = data_structures/map/map.o data_structures/map/table.o data_structures/map/hash.o
+SET_OBJS = data_structures/set/set.o
+DS_OBJS = $(QUEUE_OBJS)  $(MATRIX_OBJS) $(LIST_OBJS) $(MAP_OBJS) $(SET_OBJS)
 
 CGRAPH_OBJS = computation_graph/computation_graph.o computation_graph/value.o computation_graph/ops.o computation_graph/loss.o
 NETWORK_OBJS = networks/layer.o networks/network.o networks/linear.o networks/activation.o
@@ -47,7 +52,7 @@ extractors:
 computation_graph:
 	$(MAKE) -C ./computation_graph
 
-main.o: main.c graph/includes/graph.h data_structures/includes/node.h
+main.o: main.c graph/includes/graph.h data_structures/node/includes/node.h
 	$(CC) -c main.c
 
 install:
