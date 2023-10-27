@@ -12,7 +12,7 @@ TEST_HEADERS = $(wildcard /tests/includes/*.h)
 
 # Data Structure  objs 
 QUEUE_OBJS = ../data_structures/queue/queue.o ../data_structures/node/node.o 
-MATRIX_OBJS = ../data_structures/matrix/matrix.o
+MATRIX_OBJS = ../data_structures/matrix/matrix.o ../data_structures/matrix/adj_mat.o
 LIST_OBJS = ../data_structures/list/adj_list.o ../data_structures/list/ll.o ../data_structures/list/array.o
 MAP_OBJS = ../data_structures/map/map.o ../data_structures/map/table.o ../data_structures/map/hash.o
 SET_OBJS = ../data_structures/set/set.o
