@@ -111,6 +111,17 @@ jobs:
         run: |
           make
 
+  documentation:
+    runs-on: ubuntu-latest
+    needs: [test-core-packages]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Host documentation
+        working-directory: docs/
+        run: yarn dev
+
+
       # - name: Build Python Package
       #   working-directory: neurograph/
       #   run: |
