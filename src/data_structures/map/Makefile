@@ -1,54 +1,27 @@
-#Outputs and compilation target
 BIN=bin
 CC=gcc
 TARGET=target/map
-TEST_TARGET=target/test_map
+CFLAGS = -lm
+OBJS = objs
 
-# source header files
-HEADERS = $(wildcard /includes/*.h)
+# source and test 
+objects := $(patsubst %.c,%.o,$(wildcard *.c))
+test_objects := $(patsubst %.c,%.o,$(wildcard ./tests/*.c))
 
-# test header files
-TEST_HEADERS = $(wildcard /tests/includes/*.h)
+# dependencies
+node_objects := $(wildcard ../node/objs/*.o)
 
+all: node source
 
-# source objects
-SRC_OBJS = hash.o map.o table.o ../node/node.o 
+source: $(objects) $(test_objects) $(node_objects)
+	cc -o $(TARGET) $(objects) $(test_objects) $(node_objects) $(CFLAGS)
+	mkdir $(OBJS)
+	mv $(filter-out main.o, $(objects)) $(OBJS)
 
-# unit test objects
-TEST_OBJS = test_map.o test_table.o 
-
-# flags
-FLAGS =  -lm -lpthread -g
-
-# link all programs here
-all: node unit_test source
-
-node: 
+node:
 	$(MAKE) -C ../node
 
-unit_test: unit_test.o $(SRC_OBJS) $(TEST_OBJS)
-	gcc -o $(TEST_TARGET) unit_test.o $(SRC_OBJS) $(TEST_OBJS) $(FLAGS)
-
-source: main.o $(SRC_OBJS)
-	gcc -o $(TARGET) main.o  $(SRC_OBJS) $(FLAGS)
-
-
-# build source and test objects 
-$(SRC_OBJS): %.o: %.c $(HEADERS)
-	$(CC) -c $<
-
-$(TEST_OBJS): %.o: tests/%.c tests/includes/%.h $(HEADERS)
-	$(CC) -c $< -o $@
-
-unit_test.o: tests/unit_test.c $(TEST_HEADERS)
-	$(CC) -c $< -o $@
-
-main.o: main.c $(HEADERS)
-	$(CC) -c $< -o $@
-
-
-
-# clean compilation (target doesn't work)
 clean:
 	rm -f  *.o *~ *.pyc
 	$(MAKE) -C  ../node clean
+	rm -rf $(OBJS)

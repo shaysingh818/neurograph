@@ -1,6 +1,6 @@
-#include "includes/node.h"
+#include "tests/includes/test_node.h"
 
 int main(int argc, char **argv) {
 
-    printf("test\n"); 
+    test_create_node(); 
 }

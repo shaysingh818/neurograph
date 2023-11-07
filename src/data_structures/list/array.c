@@ -45,6 +45,29 @@ void insert_char(array_t *a, char *item){
 }
 
 
+void remove_char(array_t *a, char *item) {
+
+    int remove_index; 
+    for(int i = 0; i < a->item_count; i++){
+        bool compare = strcmp(a->items[i]->label, item) == 0; 
+        if(compare){
+            if(i != a->item_count){
+                free(a->items[i]->label);
+                free(a->items[i]);
+            }
+            remove_index = i; 
+            break;
+        }
+    }
+
+    /* shift */
+    for(int i = remove_index; i < a->item_count; i++){
+        a->items[i] = a->items[i+1]; 
+    }
+    a->item_count -= 1; 
+} 
+
+
 void pop_array(array_t *a) {
     if(a->item_count == 0) return;
 	a->front_index = (a->front_index + 1) % a->capacity; 

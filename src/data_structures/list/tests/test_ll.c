@@ -210,4 +210,30 @@ void test_insert_char() {
 
 	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 
+}
+
+
+void test_remove_char() {
+
+    array_t *array = init_array();
+    assert(array->capacity == 2);
+    assert(array->item_count == 0);
+
+    insert_char(array, "test");  
+    insert_char(array, "test1");  
+    insert_char(array, "test2");  
+    insert_char(array, "test3");
+    insert_char(array, "test4");
+
+    remove_char(array, "test2");
+    assert(array->item_count == 4);  
+
+    remove_char(array, "test");
+    assert(array->item_count == 3);  
+
+    remove_char(array, "test2");
+    assert(array->item_count == 2); 
+
+	printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+
 } 

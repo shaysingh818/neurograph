@@ -5,9 +5,9 @@
 #include "data_structures/queue/includes/queue.h"
 #include "data_structures/map/includes/map.h"
 #include "data_structures/node/includes/node.h"
-#include "extractors/includes/frame.h"
-#include "extractors/includes/gml.h"
-#include "extractors/includes/re.h"
+#include "extractors/dataframe/includes/frame.h"
+#include "extractors/dataframe/includes/gml.h"
+#include "extractors/dataframe/includes/re.h"
 #include "networks/includes/network.h"
 #include "computation_graph/includes/computation_graph.h"
 

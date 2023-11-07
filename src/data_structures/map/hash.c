@@ -12,7 +12,7 @@ int additive_hash(int state, char *input, size_t len) {
 bool compare_char(void *key1, void *key2) {
 
 	char *key1_ptr = (char*)key1; 
-	char *key2_ptr = (char*)key2; 
+	char *key2_ptr = (char*)key2;
 
 	if(strcmp(key1_ptr, key2_ptr) == 0){
 		return true; 

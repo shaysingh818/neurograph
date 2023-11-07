@@ -15,9 +15,7 @@
 
 
 /* initiate frame structure */
-frame_t *init_frame(char *filepath, int buffer_size, int row_limit);
-frame_t *create_frame(char *filepath, int buffer_size, int row_limit);
-frame_t *dataframe(char *filepath, int buffer_size, int row_limit);  
-frame_t *array_dataframe(char *filepath, int buffer_size, int row_limit);  
+frame_t *add_frame_cols(frame_t *frame, void *col1, void *col2); 
+frame_t *subtract_frame_cols(frame_t *frame, void *col1, void *col2); 
 
 #endif

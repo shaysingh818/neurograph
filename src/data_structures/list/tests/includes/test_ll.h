@@ -15,5 +15,6 @@ void test_ull();
 void test_init_array(); 
 void test_insert_array(); 
 void test_insert_char(); 
+void test_remove_char(); 
 
 #endif

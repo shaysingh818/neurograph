@@ -2,49 +2,14 @@
 BIN=bin
 CC=gcc
 TARGET=target/node
-TEST_TARGET=target/test_node
-
-# source header files
-HEADERS = $(wildcard /includes/*.h)
-
-# test header files
-TEST_HEADERS = $(wildcard /tests/includes/*.h)
 
 
-# source objects
-SRC_OBJS = node.o
+objects := $(patsubst %.c,%.o,$(wildcard *.c))
+test_objects := $(patsubst %.c,%.o,$(wildcard ./tests/*.c))
 
-# unit test objects
-TEST_OBJS = test_node.o
+source: $(objects) $(test_objects)
+	cc -o $(TARGET) $(objects) $(test_objects)
+	mv $(filter-out main.o, $(objects)) ./objs
 
-# flags
-FLAGS =  -lm -lpthread -g
-
-# link all programs here
-all: unit_test source
-
-unit_test: unit_test.o $(SRC_OBJS) $(TEST_OBJS)
-	gcc -o $(TEST_TARGET) unit_test.o $(SRC_OBJS) $(TEST_OBJS) $(FLAGS)
-
-source: main.o $(SRC_OBJS)
-	gcc -o $(TARGET) main.o  $(SRC_OBJS) $(FLAGS)
-
-
-# build source and test objects 
-$(SRC_OBJS): %.o: %.c $(HEADERS)
-	$(CC) -c $<
-
-$(TEST_OBJS): %.o: tests/%.c tests/includes/%.h $(HEADERS)
-	$(CC) -c $< -o $@
-
-unit_test.o: tests/unit_test.c $(TEST_HEADERS)
-	$(CC) -c $< -o $@
-
-main.o: main.c $(HEADERS)
-	$(CC) -c $< -o $@
-
-
-
-# clean compilation (target doesn't work)
 clean:
 	rm -f  *.o *~ *.pyc

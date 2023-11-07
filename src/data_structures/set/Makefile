@@ -1,54 +1,32 @@
-#Outputs and compilation target
 BIN=bin
 CC=gcc
 TARGET=target/set
-TEST_TARGET=target/test_set
+CFLAGS = -lm
+OBJS = objs
 
-# source header files
-HEADERS = $(wildcard /includes/*.h)
+# source and test 
+objects := $(patsubst %.c,%.o,$(wildcard *.c))
+test_objects := $(patsubst %.c,%.o,$(wildcard ./tests/*.c))
 
-# test header files
-TEST_HEADERS = $(wildcard /tests/includes/*.h)
+# dependencies
+node := $(wildcard ../node/objs/*.o)
+queue := $(wildcard ../queue/objs/*.o)
 
+all: node queue source
 
-# source objects
-SRC_OBJS = set.o ../queue/queue.o ../node/node.o
+source: $(objects) $(test_objects) $(node) $(queue)
+	cc -o $(TARGET) $(objects) $(test_objects) $(node) $(queue) $(CFLAGS)
+	mkdir $(OBJS)
+	mv $(filter-out main.o, $(objects)) $(OBJS)
 
-# unit test objects
-TEST_OBJS = test_set.o 
+node:
+	$(MAKE) -C ../node
 
-# flags
-FLAGS =  -lm -lpthread -g
-
-# link all programs here
-all: queue unit_test source
-
-queue: 
+queue:
 	$(MAKE) -C ../queue
 
-unit_test: unit_test.o $(SRC_OBJS) $(TEST_OBJS)
-	gcc -o $(TEST_TARGET) unit_test.o $(SRC_OBJS) $(TEST_OBJS) $(FLAGS)
-
-source: main.o $(SRC_OBJS)
-	gcc -o $(TARGET) main.o  $(SRC_OBJS) $(FLAGS)
-
-
-# build source and test objects 
-$(SRC_OBJS): %.o: %.c $(HEADERS)
-	$(CC) -c $<
-
-$(TEST_OBJS): %.o: tests/%.c tests/includes/%.h $(HEADERS)
-	$(CC) -c $< -o $@
-
-unit_test.o: tests/unit_test.c $(TEST_HEADERS)
-	$(CC) -c $< -o $@
-
-main.o: main.c $(HEADERS)
-	$(CC) -c $< -o $@
-
-
-
-# clean compilation (target doesn't work)
 clean:
 	rm -f  *.o *~ *.pyc
-	$(MAKE) -C ../queue clean
+	$(MAKE) -C  ../node clean
+	$(MAKE) -C  ../queue clean
+	rm -rf $(OBJS)

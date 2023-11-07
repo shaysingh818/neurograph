@@ -5,12 +5,14 @@
 #include "../../data_structures/set/includes/set.h"
 #include "../../data_structures/queue/includes/queue.h"
 #include "../../data_structures/matrix/includes/matrix.h"
+#include "../../data_structures/list/includes/array.h"
 #include "../../data_structures/list/includes/adj_list.h"
 #include "../../data_structures/matrix/includes/adj_mat.h"
 
 /* include extractors library for building graphs */
-#include "../../extractors/includes/re.h"
-#include "../../extractors/includes/gml.h"
+#include "../../extractors/dataframe/includes/frame.h"
+#include "../../extractors/dataframe/includes/re.h"
+#include "../../extractors/dataframe/includes/gml.h"
 
 #define TRUE 1
 #define FALSE 0
@@ -59,8 +61,8 @@ void print_graph_walk(graph_t *g);
 void print_walk(walk_t *w);
 
 /* frame to graph methods  */
-graph_t *frame_to_unweighted_graph(frame_t *frame, int *cols, int size, bool directed);
-graph_t *frame_to_weighted_graph(frame_t *frame, int *cols, int size, bool directed); 
+graph_t *frame_to_unweighted_graph(frame_t *frame, array_t *cols, bool directed);
+graph_t *frame_to_weighted_graph(frame_t *frame, array_t *cols, bool directed); 
 
 /* adj list */
 int get_max_vertex_count(char *filename, int file_size); 

@@ -1,69 +1,42 @@
-#Outputs and compilation target
 BIN=bin
 CC=gcc
 TARGET=target/networks
-TEST_TARGET=target/test_networks
+CFLAGS = -g -lm -lpthread $(INCLUDES)
+OBJS = objs
 
-# source header files
-HEADERS = $(wildcard /includes/*.h) 
+# dependencies
+DATA_STRUCTURES := $(wildcard ../data_structures/objs/*.o)
+COMPUTATION_GRAPH := $(wildcard ../computation_graph/objs/*.o)
+DEPS = $(DATA_STRUCTURES) $(COMPUTATION_GRAPH)
 
-# test header files
-TEST_HEADERS = $(wildcard /tests/includes/*.h)
-
-# data structure objects needed
-MATRIX = ../data_structures/matrix/matrix.o ../data_structures/map/map.o
-
-# CGRAPH OBJS
-CGRAPH_OBJS = ../computation_graph/computation_graph.o ../computation_graph/value.o ../computation_graph/ops.o ../computation_graph/loss.o
-
-# source objects
-SRC_OBJS =  layer.o network.o linear.o activation.o  $(MATRIX) $(CGRAPH_OBJS)
-
-# unit test objects
-TEST_OBJS =  test_network.o test_layer.o  
-
-# flags
-FLAGS = -g -lm -lpthread -fPIC
-
+# source and test
+OBJECTS := $(patsubst %.c,%.o,$(wildcard *.c))
+TEST_OBJECTS := $(patsubst %.c,%.o,$(wildcard ./tests/*.c))
 
 # link all programs here
-all: data_structures cgraph unit_test source
-
-
-cgraph:
+all:	
 	$(MAKE) -C ../computation_graph
+	$(MAKE) source
 
-data_structures:
-	$(MAKE) -C ../data_structures
+# assumes data structures has already been built
+package:
+	$(MAKE) source
 
-
-
-unit_test: unit_test.o $(SRC_OBJS) $(TEST_OBJS)
-	gcc -o $(TEST_TARGET) unit_test.o $(SRC_OBJS) $(TEST_OBJS) $(FLAGS)
-
-source: main.o $(SRC_OBJS)
-	gcc -o $(TARGET) main.o  $(SRC_OBJS) $(FLAGS)
-
-
-# build source and test objects 
-$(SRC_OBJS): %.o: %.c $(HEADERS)
-	$(CC) -c $<
-
-$(TEST_OBJS): %.o: tests/%.c tests/includes/%.h $(HEADERS)
-	$(CC) -c $< -o $@
-
-unit_test.o: tests/unit_test.c $(TEST_HEADERS)
-	$(CC) -c $< -o $@
-
-main.o: main.c $(HEADERS)
-	$(CC) -c $< -o $@
-
+source: $(OBJECTS) $(TEST_OBJECTS) $(DEPS)
+	cc -o $(TARGET) $(OBJECTS) $(TEST_OBJECTS) $(DEPS) $(CFLAGS)
+	mkdir $(OBJS)
+	mv $(filter-out main.o, $(OBJECTS)) $(OBJS)
 
 # clean compilation (target doesn't work)
 clean_binary:
 	rm $(TARGET)
 
+
+clean_package:
+	rm -f *.o *~ *.pyc
+	rm -rf $(OBJS)
+
 clean:
-	rm -f  *.o *~ *.pyc
-	$(MAKE) -C  ../data_structures clean
+	rm -f *.o *~ *.pyc
+	rm -rf $(OBJS)
 	$(MAKE) -C  ../computation_graph clean

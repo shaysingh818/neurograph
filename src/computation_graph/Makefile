@@ -1,58 +1,35 @@
-#Outputs and compilation target
 BIN=bin
 CC=gcc
-TARGET=target/cgraph
-TEST_TARGET=target/test_cgraph
+TARGET=target/computation_graph
+CFLAGS = -g -lm -lpthread $(INCLUDES)
+OBJS = objs
 
-# source header files
-HEADERS = $(wildcard ./includes/*.h)
+# dependencies
+DATA_STRUCTURES := $(wildcard ../data_structures/objs/*.o)
 
-# test header files
-TEST_HEADERS = $(wildcard ./tests/includes/*.h)
-
-# data structure objects needed
-MATRIX = ../data_structures/matrix/matrix.o
-
-# source objects
-SRC_OBJS = computation_graph.o value.o ops.o loss.o $(MATRIX)
-
-# unit test objects
-TEST_OBJS =  test_graph.o test_value.o test_ops.o test_mlp.o 
-
-# flags
-FLAGS = -lm -lpthread -g -fPIC
-
+# source and test
+OBJECTS := $(patsubst %.c,%.o,$(wildcard *.c))
+TEST_OBJECTS := $(patsubst %.c,%.o,$(wildcard ./tests/*.c))
 
 # link all programs here
-all: data_structures source unit_test
-
-data_structures:
+all:	
 	$(MAKE) -C ../data_structures
+	$(MAKE) source
 
-unit_test: unit_test.o $(SRC_OBJS) $(TEST_OBJS)
-	gcc -o $(TEST_TARGET) unit_test.o $(SRC_OBJS) $(TEST_OBJS) $(FLAGS)
+# assumes data structures has already been built
+package:
+	$(MAKE) source
 
-source: main.o $(SRC_OBJS)
-	gcc -o $(TARGET) main.o  $(SRC_OBJS) $(FLAGS)
-
-
-# build source and test objects 
-$(SRC_OBJS): %.o: %.c $(HEADERS)
-	$(CC) -c $<
-
-$(TEST_OBJS): %.o: tests/%.c tests/includes/%.h $(HEADERS)
-	$(CC) -c $< -o $@
-
-unit_test.o: tests/unit_test.c $(TEST_HEADERS)
-	$(CC) -c $< -o $@
-
-main.o: main.c $(HEADERS)
-	$(CC) -c $< -o $@
-
+source: $(OBJECTS) $(TEST_OBJECTS) $(DATA_STRUCTURES)
+	cc -o $(TARGET) $(OBJECTS) $(TEST_OBJECTS) $(DATA_STRUCTURES) $(CFLAGS)
+	mkdir $(OBJS)
+	mv $(filter-out main.o, $(OBJECTS)) $(OBJS)
 
 # clean compilation (target doesn't work)
 clean_binary:
 	rm $(TARGET)
 
 clean:
-	rm -f  *.o *~ *.pyc
+	rm -f *.o *~ *.pyc
+	rm -rf $(OBJS)
+	$(MAKE) -C  ../data_structures clean

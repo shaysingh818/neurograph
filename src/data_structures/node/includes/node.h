@@ -35,6 +35,7 @@ typedef struct Edge edge_t;
 
 /* generic node methods */ 
 node_t *create_node(int id, char *label, int weight); 
+node_t *copy_node(node_t *node); 
 void print_node(node_t *node); 
 
 /* edge methods */ 

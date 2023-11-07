@@ -54,19 +54,19 @@ void add_table_map(hash_table_t *table, void *key, void *value) {
         bin_t *bin = &table->table[index];
 
         if(bin->is_free) {
+            bin->is_free = bin->is_deleted = false;
             bin->hash_key = hash_key;  
             bin->key = key;
             bin->value = value; 
-            bin->is_free = bin->is_deleted = false;
             table->active++; table->used++; 
             break;  
         }
 
         if(bin->is_deleted && !contains){
+            bin->is_free = bin->is_deleted = false; 
             bin->hash_key = hash_key;
             bin->key = key;
             bin->value = value; 
-            bin->is_free = bin->is_deleted = false; 
             table->active++; 
             break; 
         }
@@ -116,10 +116,11 @@ void delete_table_key(hash_table_t *table, void *key) {
 
 void *lookup_table_key(hash_table_t *table, void *key) {
 
-	int hash_key = table->hash_function(0, (char*)key, strlen(key)+1);
     for(int i = 0; i < table->size; i++){
+	    int hash_key = table->hash_function(0, (char*)key, strlen(key)+1);
         int index = probe(hash_key, i, table->size);
         bin_t *bin = &table->table[index];
+
         if(bin->is_free){
             return 0; 
         }
@@ -162,7 +163,13 @@ void print_table(hash_table_t *table){
     int index = 0; 
     bin_t *end = table->table + table->size; 
     for(bin_t *bin = table->table; bin != end; bin++){
-        printf("Index: %d, Key: %s\n", index, (char*)bin->key); 
+        printf(
+            "Index: %d, Key: %s, Hash Key: %d\n", 
+            index, 
+            (char*)bin->key,
+            bin->hash_key
+        ); 
+
         index += 1; 
     }
 }

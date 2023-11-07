@@ -19,7 +19,7 @@ typedef struct Array array_t;
 array_t *init_array();
 void insert(array_t *a, node_t *item);
 void insert_char(array_t *a, char *item); 
-void remove_array_item(array_t *a, int index);  
+void remove_char(array_t *a, char *item);  
 void pop_array(array_t *a);
 void print_array(array_t *a);   
 

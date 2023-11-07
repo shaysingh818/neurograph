@@ -2,64 +2,51 @@
 BIN=bin
 CC=gcc
 TARGET=target/data_structures
-TEST_TARGET=target/test_data_structures
+OBJS = objs
+OUTPUT_OBJ = data_structures.o
 
-# source header files
-HEADERS = $(wildcard /includes/*.h)
-
-# test header files
-TEST_HEADERS = $(wildcard /tests/includes/*.h)
-
-NODE_OBJS = node/node.o
-QUEUE_OBJS = queue/queue.o
-SET_OBJS = set/set.o
-LIST_OBJS = list/ll.o list/adj_list.o list/array.o
-MAP_OBJS = map/map.o map/table.o map/hash.o
-MATRIX_OBJS = matrix/matrix.o matrix/adj_mat.o
+# dependencies
+NODE := $(wildcard ./node/objs/*.o)
+QUEUE := $(wildcard ./queue/objs/*.o)
+SET := $(wildcard ./set/objs/*.o)
+LIST := $(wildcard ./list/objs/*.o)
+MAP := $(wildcard ./map/objs/*.o)
+MATRIX := $(wildcard ./matrix/objs/*.o)
+DATA_STRUCTURES = $(NODE) $(QUEUE) $(SET) $(LIST) $(MAP) $(MATRIX)
 
 # source objects
-SRC_OBJS = $(NODE_OBJS) $(QUEUE_OBJS) $(SET_OBJS) $(LIST_OBJS) $(MAP_OBJS) $(MATRIX_OBJS)
+OBJECTS := $(patsubst %.c,%.o,$(wildcard *.c))
 
 # flags
-FLAGS =  -lm -lpthread -g
+CFLAGS =  -lm -lpthread -g
 
-all: build source
+all: 
+	$(MAKE) build
+	$(MAKE) source
+	$(MAKE) obj	
 
-# link all programs here
-build: node queue set list map matrix source
+source: $(OBJECTS) $(DATA_STRUCTURES)
+	cc -o $(TARGET) $(OBJECTS) $(DATA_STRUCTURES) $(CFLAGS)
 
-source: main.o $(SRC_OBJS)
-	gcc -o $(TARGET) main.o  $(SRC_OBJS) $(FLAGS)
+obj: 
+	mkdir $(OBJS)
+	cp $(DATA_STRUCTURES) $(OBJS)
 
-node:
+build:
 	$(MAKE) -C ./node
-
-queue: 
 	$(MAKE) -C ./queue
-
-set:
 	$(MAKE) -C ./set
-
-list:
 	$(MAKE) -C ./list
-
-map:
 	$(MAKE) -C ./map
-
-matrix:
 	$(MAKE) -C ./matrix
-
-
-
-main.o: main.c $(HEADERS)
-	$(CC) -c $< -o $@
-
 
 # clean compilation (target doesn't work)
 clean:
 	rm -f  *.o *~ *.pyc
+	rm -rf objs
 	$(MAKE) -C  ./map clean
 	$(MAKE) -C ./matrix clean
 	$(MAKE) -C ./set clean
 	$(MAKE) -C ./list clean
 	$(MAKE) -C  ./queue clean
+	$(MAKE) -C  ./node clean

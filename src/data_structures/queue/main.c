@@ -1,5 +1,10 @@
-#include "includes/queue.h"
+#include "tests/includes/test_queue.h"
 
 int main(int argc, char **argv) {
-    printf("Queue package\n"); 
+
+	/* queue methods */ 
+	test_init_queue();
+	test_is_full();
+	test_is_empty(); 
+	test_front_rear();
 }
