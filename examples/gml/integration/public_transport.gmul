@@ -655,7 +655,7 @@
 [654,"Nabila Fujiati, S.E.I"]: ([402,"Rusun Rawa Bebek - Bukit Duri",0])
 [655,"Gatot Samosir, M.Pd"]: ([419,"Terminal Rawamangun - Cipinang Muara",0])
 [656,"Adiarja Farida"]: ([657,"Depok - BKN",0])
-[657,"Depok - BKN"]: ([656,"Adiarja Farida",0])
+[657,"Depok - BKN"]: ([656,"Adiarja Farida",0],[693,"Kezia Halimah",0])
 [658,"Farhunnisa Permadi"]: ([659,"Pulo Gebang - Matraman",0])
 [659,"Pulo Gebang - Matraman"]: ([658,"Farhunnisa Permadi",0],[676,"Drs. Mila Prastuti",0])
 [660,"Cut Nabila Permadi, M.Farm"]: ([661,"Kampung Rambutan - Pinang Ranti",0])
@@ -691,3 +691,4 @@
 [690,"Vicky Nurdiyanti"]: ([691,"Pasar Minggu - Ciganjur via KB Ragunan",0])
 [691,"Pasar Minggu - Ciganjur via KB Ragunan"]: ([690,"Vicky Nurdiyanti",0])
 [692,"Ir. Maras Hutasoit"]: ([170,"Senen - Blok M",0])
+[693,"Kezia Halimah"]: ([657,"Depok - BKN",0])
