@@ -7,9 +7,9 @@ void test_train_iris_model() {
     double learning_rate = 0.09;
 
     /* load data into data frame */ 
-    frame_t *f = init_frame("../../examples/data/iris.csv", 1024, 150);
+    frame_t *f = dataframe("../../examples/data/iris.csv", 1024, 150, NULL);
     assert(f->status == true);
-    end_line_terminate(f->headers[f->header_count-1]->name); 
+    // end_line_terminate(f->headers[f->header_count-1]->label); 
 
     array_t *input_cols = init_array(); 
     insert_char(input_cols, "f1"); 
@@ -17,13 +17,13 @@ void test_train_iris_model() {
     insert_char(input_cols, "f3"); 
     insert_char(input_cols, "f4"); 
 
-    mat_t *inputs = frame_to_mat(f, input_cols);
+    mat_t *inputs = frame_to_matrix(f, input_cols);
     value_t *input = value(inputs);
 
     /* create output matrix */
     array_t *output_cols = init_array(); 
     insert_char(output_cols, "f5"); 
-    mat_t *outputs = frame_to_mat(f, output_cols);
+    mat_t *outputs = frame_to_matrix(f, output_cols);
 
 
     // /* create network model */
