@@ -1,6 +1,5 @@
 *.swp
 .env
-*.o
 *.wav
 *.mp3
 *.pdf
