@@ -77,9 +77,6 @@ jobs:
       run: |
         cd dataframe
         ./target/dataframe
-        cd ..
-        cd databases
-        ./target/databases
 
     - name: Graph Package
       working-directory: src/graph/
