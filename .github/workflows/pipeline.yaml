@@ -43,6 +43,7 @@ jobs:
     - name: Neurograph
       working-directory: src/
       run: |
+        make clean
         make
 
     - name: Integration Test Package
