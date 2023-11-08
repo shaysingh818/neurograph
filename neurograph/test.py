@@ -1,9 +1,9 @@
-import frame
+import frame as ng
 
 def main():
 
     # create dataframe
-    df = frame.DataFrame(b"../examples/data/ms_prediction.csv", 10)
+    df = ng.DataFrame(b"../examples/data/ms_prediction.csv", 10)
     df.features()
     
     # select features to work with 

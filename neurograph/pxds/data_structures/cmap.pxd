@@ -1,4 +1,4 @@
-cimport pxds.cnode
+cimport pxds.data_structures.cnode
 
 cdef extern from "../src/data_structures/map/includes/map.h":
 
