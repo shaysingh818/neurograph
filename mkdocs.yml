@@ -1,0 +1,26 @@
+site_name: Neurograph
+nav:
+  - Getting Started: index.md
+  - Core Library Reference: index.md
+  - Python Library: index.md
+  - Suppport: index.md
+  - Contribute: index.md
+  - Releases: releases/releases.md
+
+theme:
+  name: material
+  palette:
+
+   # Palette toggle for light mode
+    - scheme: slate
+      primary: teal
+      toggle:
+        icon: material/brightness-7 
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: default
+      primary: teal
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
