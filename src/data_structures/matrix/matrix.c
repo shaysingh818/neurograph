@@ -197,9 +197,10 @@ bool compare_matrix(mat_t *n, mat_t *m){
 	bool result = true; 
 	for(int i = 0; i < n->rows; i++){
 		for(int j = 0; j < n->cols; j++){
-			double rounded_value = round(m->arr[i][j]*100)/100;
-			bool test = n->arr[i][j] == rounded_value; 
-			if(n->arr[i][j] != rounded_value){
+			double r1 = round(m->arr[i][j]*100)/100;
+			double r2 = round(n->arr[i][j]*100)/100;
+			bool test = r1 == r2;
+			if(r1 != r2){
 				result = false; 
 			}
 		}

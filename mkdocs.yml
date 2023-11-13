@@ -1,7 +1,7 @@
 site_name: Neurograph
 nav:
   - Getting Started: index.md
-  - Core Library Reference: index.md
+  - Core Library Reference: core-library/core-library.md
   - Python Library: index.md
   - Suppport: index.md
   - Contribute: index.md
@@ -24,3 +24,10 @@ theme:
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
+
+markdown_extensions:
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format

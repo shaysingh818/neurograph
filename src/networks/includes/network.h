@@ -1,9 +1,14 @@
 #ifndef NETWORK_H
 #define NETWORK_H
 
+#include <dirent.h>
+#include "../../data_structures/list/includes/array.h"
 #include "../../data_structures/matrix/includes/matrix.h"
 #include "../../computation_graph/includes/computation_graph.h"
 #include "../../computation_graph/includes/loss.h"
+#include "../../extractors/dataframe/includes/utils.h"
+#include "../../extractors/dataframe/includes/re.h"
+
 #include "layer.h"
 
 #define DEBUG false

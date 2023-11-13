@@ -21,9 +21,9 @@ void test_init_network() {
 
     /* define model architecture */
     layer(nn, linear(2, 3));
-    layer(nn, activation(2, 3, "tanh", tanh_activation, tanh_prime)); 
+    layer(nn, activation(2, 3, "tanh")); 
     layer(nn, linear(3, 1)); 
-    layer(nn, activation(3, 1, "tanh", tanh_activation, tanh_prime));
+    layer(nn, activation(3, 1, "tanh"));
     forward_nodes(nn->graph); 
 
 
@@ -57,7 +57,7 @@ void test_add_layer() {
     assert(nn->num_layers == 2); 
     assert(nn->layer_count == 1);  
 
-    layer(nn, activation(2, 3, "tanh", tanh_activation, tanh_prime));
+    layer(nn, activation(2, 3, "tanh"));
     assert(nn->num_layers == 2); 
     assert(nn->layer_count == 2);  
 
@@ -65,7 +65,7 @@ void test_add_layer() {
     assert(nn->num_layers == 4); 
     assert(nn->layer_count == 3);  
 
-    layer(nn, activation(3, 1, "tanh", tanh_activation, tanh_prime));
+    layer(nn, activation(3, 1, "tanh"));
     assert(nn->num_layers == 4); 
     assert(nn->layer_count == 4); 
 
@@ -88,9 +88,9 @@ void test_train() {
 
     /* define model architecture */
     layer(nn, linear(2, 3));
-    layer(nn, activation(2, 3, "tanh", tanh_activation, tanh_prime)); 
+    layer(nn, activation(2, 3, "tanh")); 
     layer(nn, linear(3, 1)); 
-    layer(nn, activation(3, 1, "tanh", tanh_activation, tanh_prime));
+    layer(nn, activation(3, 1, "tanh"));
     train(nn, 5000, y);
 
     // assert(nn->layers[0]->inputs->val->rows == )
@@ -133,9 +133,9 @@ void test_batch_train() {
 
     /* define model architecture */
     layer(nn, linear(2, 3));
-    layer(nn, activation(2, 3, "tanh", tanh_activation, tanh_prime)); 
+    layer(nn, activation(2, 3, "tanh")); 
     layer(nn, linear(3, 1)); 
-    layer(nn, activation(3, 1, "tanh", tanh_activation, tanh_prime));
+    layer(nn, activation(3, 1, "tanh"));
     batch_train(nn, 4000, y); 
 
     mat_t **x_train = batch_matrix(x, 4); 
@@ -161,6 +161,7 @@ void test_save_model_params() {
     double learning_rate = 0.1; 
     double inputs[4][2] = {{0,0},{0,1},{1,0},{1,1}};
     double outputs[4][1] = {{0},{1},{1},{0}};
+    char *model_path = "../../examples/models/testnet"; 
 
     /* create x input */
     mat_t *x = copy_arr_to_matrix(4, 2, inputs); 
@@ -170,34 +171,44 @@ void test_save_model_params() {
 
     /* define model architecture */
     layer(nn, linear(2, 3));
-    layer(nn, activation(2, 3, "tanh", tanh_activation, tanh_prime)); 
+    layer(nn, activation(2, 3, "tanh")); 
     layer(nn, linear(3, 1)); 
-    layer(nn, activation(3, 1, "tanh", tanh_activation, tanh_prime));
+    layer(nn, activation(3, 1, "tanh"));
     train(nn, 1000, y);
 
     /* save model parameters from each layer */
-    save_model_params(nn, "../../examples/models/testnet");   
+    save_model_params(nn, model_path);  
 
-    char *expected_paths[100] = {
-        "../../examples/models/testnet/layer_0/weights",
-        "../../examples/models/testnet/layer_0/biases", 
-        "../../examples/models/testnet/layer_2/weights",
-        "../../examples/models/testnet/layer_2/biases" 
-    }; 
+    /* find expected paths */
+    DIR *dir; 
+    struct dirent *ent; 
 
-    /* Params for first layer */
-    mat_t *w1 = load_matrix(expected_paths[0]);
-    assert(w1->rows == 2 && w1->cols == 3); 
 
-    mat_t *b1 = load_matrix(expected_paths[1]); 
-    assert(b1->rows == 1 && b1->cols == 3); 
+    char *expected_files[100] = {
+        "1_loss",
+        "0_linear", 
+        "2_linear",
+        "3_loss",
+        "architecture" 
+    };
 
-    /* Params for second layer */
-    mat_t *w2 = load_matrix(expected_paths[2]);
-    assert(w2->rows == 3 && w2->cols == 1);  
 
-    mat_t *b2 = load_matrix(expected_paths[3]);
-    assert(b2->rows == 1 && b2->cols == 1); 
+    if((dir = opendir(model_path)) != NULL) {
+        int counter = 0; 
+        while((ent = readdir(dir)) != NULL) {
+            if(ent->d_name[0] == '.') {
+                continue; 
+            }
+            bool compare = strcmp(ent->d_name, expected_files[counter]) == 0; 
+            assert(compare); 
+            counter += 1; 
+        }
+        closedir(dir); 
+    } else {
+        printf("Unable to open directory: %s\n", model_path); 
+        exit(0); 
+    }
+
 
     printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 }
@@ -217,13 +228,7 @@ void test_load_model_params() {
 
     /* model architecture */
     net_t *nn = init_network(learning_rate, input, 0);
-    layer(nn, linear(2, 3));
-    layer(nn, activation(2, 3, "tanh", tanh_activation, tanh_prime)); 
-    layer(nn, linear(3, 1)); 
-    layer(nn, activation(3, 1, "tanh", tanh_activation, tanh_prime));
-
-    /* load parameters */
-    load_model_params(nn, "../../examples/models/testnet");
+    load_model_params(nn, "../../examples/models/testnet/architecture");
     forward_nodes(nn->graph); 
 
     int output_index = nn->graph->curr_index - 1;

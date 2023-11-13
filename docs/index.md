@@ -11,19 +11,49 @@ Neurograph is a graph deep learning library. This library is still in the early 
 * Framework to visualize graphs
 
 
+## Installation and Setup
+
+`pip install neurograph==1.0.0`
+
+
+
+## Usage
+
+```python
+from ng.extractors import frame, operations, re
+from ng.graph import community, search, pathfinding
+from ng.networks import MultiLayerPerceptron
+
+
+# Frame usage example
+df = ng.DataFrame("../pathtofile", 1024, ",")
+df.select_cols()
+
+
+```
+
 ## Design
 
+```mermaid
+flowchart LR
 
-## Commands
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+A[Python Library] --> B[Core Library]
+B[Core Library] --> C[Graph Theory]
+B[Core Library] --> D[Deep Learning]
+B[Core Library] --> F[Data Extraction]
+B[Core Library] --> G[Data Structures]
 
-## Project layout
+C[Graph Theory] --> H[Graph Neural Network]
+D[Deep Learning] --> H[Graph Neural Network]
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+F[Data Extraction] --> I[Data Manipulation]
+G[Data Structures] --> I[Data Manipulation]
+
+```
+
+## Common Use Cases
+
+* Require the ability to represent datasets as graphs to understand the relationships between features
+* Expirmenting with graph algorithms for creating neural network architectures
+
