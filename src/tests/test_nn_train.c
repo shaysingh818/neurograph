@@ -29,9 +29,9 @@ void test_train_iris_model() {
     // /* create network model */
     net_t *nn = init_network(learning_rate, input, 4); 
     layer(nn, linear(4, 5));
-    layer(nn, activation(4, 5, "tanh", tanh, tanh_prime)); 
+    layer(nn, activation(4, 5, "tanh")); 
     layer(nn, linear(5, 1)); 
-    layer(nn, activation(5, 1, "tanh", tanh, tanh_prime));
+    layer(nn, activation(5, 1, "tanh"));
     batch_train(nn, 3000, outputs);
 
     mat_t **x_train = batch_matrix(input->val, 4); 
