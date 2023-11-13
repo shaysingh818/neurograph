@@ -91,7 +91,7 @@ jobs:
     - name: Deep Learning Package
       working-directory: src/networks/
       run: |
-        ./target/test_networks
+        ./target/networks
     
     - name: Integration test
       working-directory: src/tests/
