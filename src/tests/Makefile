@@ -1,37 +1,56 @@
-#Outputs and compilation target
+# Outputs and compilation target
 BIN=bin
 CC=gcc
-TARGET=target/neurograph
-TEST_TARGET=target/test_neurograph
+TARGET=../target/test_neurograph
+INSTALL_DIR = /usr/local/lib
+OBJ_DIR = objs
 
-# source code objects
-DS_GRAPH = ../data_structures/matrix.o ../data_structures/adj_list.o ../data_structures/adj_mat.o
-DS_QUEUE = ../data_structures/map.o ../data_structures/node.o ../data_structures/queue.o ../data_structures/set.o ../data_structures/ll.o ../data_structures/array.o
-DS_OBJS = $(DS_GRAPH)  $(DS_QUEUE)
+FLAGS = -lm -lpthread
+SO_FLAGS =  -fPIC 
 
-CGRAPH_OBJS = ../computation_graph/computation_graph.o ../computation_graph/value.o ../computation_graph/ops.o ../computation_graph/loss.o
-NETWORK_OBJS = ../networks/layer.o ../networks/network.o ../networks/linear.o ../networks/activation.o
-GRAPH_OBJS = ../graph/graph.o ../graph/community.o ../graph/path.o ../graph/search.o
-EXTRACTOR_OBJS = ../extractors/re.o ../extractors/frame.o ../extractors/gml.o
+# package objects
+DATA_STRUCTURES := $(wildcard ../data_structures/objs/*.o)
+EXTRACTORS := $(wildcard ../extractors/objs/*.o)
+CGRAPH := $(wildcard ../computation_graph/objs/*.o)
+GRAPH := $(wildcard ../graph/objs/*.o)
+NETWORKS := $(wildcard ../networks/objs/*.o)
+DEPS = $(DATA_STRUCTURES) $(EXTRACTORS) $(CGRAPH) $(GRAPH) $(NETWORKS)
 
-OBJS = $(DS_OBJS) $(GRAPH_OBJS) $(EXTRACTOR_OBJS) $(CGRAPH_OBJS) $(NETWORK_OBJS)
+# source objects 
+OBJS := $(patsubst %.c,%.o,$(wildcard *.c))
+
+all:
+	$(MAKE) build
+	$(MAKE) source
 
 
-# source header files
-HEADERS = $(wildcard ./includes/*.h)
+source:  $(OBJS) $(DEPS)
+	$(CC) -o $(TARGET) $(OBJS) $(DEPS)  $(FLAGS)
+	mkdir $(OBJ_DIR)
+	cp $(DEPS) $(OBJ_DIR)
 
-SRC_OBJS = test_graph_extraction.o test_nn_train.o
+build:
+	$(MAKE) -C ../data_structures
+	$(MAKE) -C ../extractors package
+	$(MAKE) -C ../graph package
+	$(MAKE) -C ../computation_graph package
+	$(MAKE) -C ../networks package
 
-FLAGS = -lm -lpthread -g
-
-all: source
-
-source: main.o $(SRC_OBJS) $(OBJS)
-	$(CC) -o $(TEST_TARGET) main.o $(SRC_OBJS) $(OBJS)  $(FLAGS)
-
+install:
+	cp $(SO_TARGET) $(INSTALL_DIR)
+	ldconfig
+	rm $(SO_TARGET)
 
 clean_binary:
-	rm $(TEST_TARGET)
+	rm $(TARGET)
+
 
 clean:
 	rm -f *.o *~
+	rm -rf $(OBJ_DIR)
+	$(MAKE) -C  ../data_structures clean
+	$(MAKE) -C ../networks clean
+	$(MAKE) -C ../graph clean
+	$(MAKE) -C ../extractors clean
+	$(MAKE) -C  ../computation_graph clean
+

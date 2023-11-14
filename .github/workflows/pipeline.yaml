@@ -23,31 +23,33 @@ jobs:
     - name: Extractors Package
       working-directory: src/extractors/
       run: |
-        make
+        make package
         
     - name: Graph Package
       working-directory: src/graph/
       run: |
-        make
+        make package
 
     - name: Computation Graph Package
       working-directory: src/computation_graph/
       run: |
-        make
+        make package
 
     - name: Deep Learning Package
       working-directory: src/networks/
       run: |
-        make
+        make package
 
     - name: Neurograph
       working-directory: src/
       run: |
+        make clean
         make
 
     - name: Integration Test Package
       working-directory: src/tests/
       run: |
+        make clean
         make
 
 
@@ -62,32 +64,53 @@ jobs:
     - name: Data Structures Package
       working-directory: src/data_structures/
       run: |
-        ./target/test_data_structures
+        ./queue/target/queue
+        ./set/target/set
+        ./list/target/list
+        ./map/target/map
+        cd matrix/
+        ./target/matrix
+        cd ../ 
    
     - name: Extractors Package
       working-directory: src/extractors/
       run: |
-        ./target/test_extractors
+        cd dataframe
+        ./target/dataframe
 
     - name: Graph Package
       working-directory: src/graph/
       run: |
-        ./target/test_graph
+        ./target/graph
 
     - name: Computation Graph Package
       working-directory: src/computation_graph/
       run: |
-        ./target/test_cgraph
+        ./target/computation_graph
 
     - name: Deep Learning Package
       working-directory: src/networks/
       run: |
-        ./target/test_networks
+        ./target/networks
     
     - name: Integration test
       working-directory: src/tests/
       run: |
         ./target/test_neurograph
+
+    container:
+      image: timbru31/ruby-node:latest
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
  
   # unit tests for python code base
   python-library:
@@ -96,25 +119,44 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Build Shared Object File
-        working-directory: src/
-        run: |
-          make
-
       - name: Install Dependencies
         working-directory: neurograph/
         run: pip install -r requirements.txt
 
-      - name: Build Python Package
+      - name: Build Cython Package
         working-directory: neurograph/
         run: |
-          pip install setuptools
-          pip install wheel
-          python setup.py bdist_wheel
+          make
 
-      - name: Install Wheel File
-        working-directory: neurograph/dist
-        run: pip3 install neurograph-0.4.0-py3-none-any.whl
+  documentation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV 
+
+      - uses: actions/cache@v3
+        with:
+          key: mkdocs-material-${{ env.cache_id }}
+          path: .cache
+          restore-keys: |
+            mkdocs-material-
+      - run: pip install mkdocs-material 
+      - run: mkdocs gh-deploy --force
+
+
+      # - name: Build Python Package
+      #   working-directory: neurograph/
+      #   run: |
+      #     pip install setuptools
+      #     pip install wheel
+      #     python setup.py bdist_wheel
+
+      # - name: Install Wheel File
+      #   working-directory: neurograph/dist
+      #   run: pip3 install neurograph-0.4.0-py3-none-any.whl
 
       # - name: Unit Tests
       #   working-directory: neurograph/tests/

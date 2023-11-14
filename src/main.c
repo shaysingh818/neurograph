@@ -1,13 +1,13 @@
 #include "graph/includes/graph.h"
 #include "graph/includes/path.h"
-#include "data_structures/includes/matrix.h"
-#include "data_structures/includes/adj_list.h"
-#include "data_structures/includes/queue.h"
-#include "data_structures/includes/map.h"
-#include "data_structures/includes/node.h"
-#include "extractors/includes/frame.h"
-#include "extractors/includes/gml.h"
-#include "extractors/includes/re.h"
+#include "data_structures/matrix/includes/matrix.h"
+#include "data_structures/list/includes/adj_list.h"
+#include "data_structures/queue/includes/queue.h"
+#include "data_structures/map/includes/map.h"
+#include "data_structures/node/includes/node.h"
+#include "extractors/dataframe/includes/frame.h"
+#include "extractors/dataframe/includes/gml.h"
+#include "extractors/dataframe/includes/re.h"
 #include "networks/includes/network.h"
 #include "computation_graph/includes/computation_graph.h"
 
@@ -48,9 +48,9 @@ int main(int argc, char **argv) {
 
     /* define model architecture */
     layer(nn, linear(2, 3));
-    layer(nn, activation(2, 3, "tanh", tanh_activation, tanh_prime));
+    layer(nn, activation(2, 3, "tanh"));
     layer(nn, linear(3, 1)); 
-    layer(nn, activation(3, 1, "tanh", tanh_activation, tanh_prime));
+    layer(nn, activation(3, 1, "tanh"));
     train(nn, 1000, y);
 
     /* get output */

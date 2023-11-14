@@ -6,6 +6,31 @@
 #include <unistd.h>
 
 
+struct LossValue {
+    double(*loss)(double val); 
+	mat_t*(*loss_prime)(mat_t *val);
+}; 
+
+typedef struct LossValue loss_value_t;
+
+loss_value_t *loss_val(
+    double(*loss)(double val), 
+	mat_t*(*loss_prime)(mat_t *val)
+);
+
+struct LoadLayerDefinition {
+    double(*load_layer)(double val); 
+}; 
+
+typedef struct LoadLayerDefinition load_layer_t;
+
+
+loss_value_t *loss_val(
+    double(*loss)(double val), 
+	mat_t*(*loss_prime)(mat_t *val)
+); 
+
+
 struct Activation {
     char *loss_function_name; 
     int input_size, output_size; 

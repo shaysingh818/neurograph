@@ -2,49 +2,51 @@
 BIN=bin
 CC=gcc
 TARGET=target/data_structures
-TEST_TARGET=target/test_data_structures
+OBJS = objs
+OUTPUT_OBJ = data_structures.o
 
-# source header files
-HEADERS = $(wildcard /includes/*.h)
-
-# test header files
-TEST_HEADERS = $(wildcard /tests/includes/*.h)
-
+# dependencies
+NODE := $(wildcard ./node/objs/*.o)
+QUEUE := $(wildcard ./queue/objs/*.o)
+SET := $(wildcard ./set/objs/*.o)
+LIST := $(wildcard ./list/objs/*.o)
+MAP := $(wildcard ./map/objs/*.o)
+MATRIX := $(wildcard ./matrix/objs/*.o)
+DATA_STRUCTURES = $(NODE) $(QUEUE) $(SET) $(LIST) $(MAP) $(MATRIX)
 
 # source objects
-SRC_OBJS = matrix.o map.o adj_list.o adj_mat.o queue.o node.o set.o ll.o array.o
-
-# unit test objects
-TEST_OBJS = test_ll.o test_set.o test_map.o test_adj_list.o test_adj_mat.o test_matrix.o test_queue.o
+OBJECTS := $(patsubst %.c,%.o,$(wildcard *.c))
 
 # flags
-FLAGS =  -lm -lpthread -g
+CFLAGS =  -lm -lpthread -g
 
-# link all programs here
-all: unit_test source
+all: 
+	$(MAKE) build
+	$(MAKE) source
+	$(MAKE) obj	
 
-unit_test: unit_test.o $(SRC_OBJS) $(TEST_OBJS)
-	gcc -o $(TEST_TARGET) unit_test.o $(SRC_OBJS) $(TEST_OBJS) $(FLAGS)
+source: $(OBJECTS) $(DATA_STRUCTURES)
+	cc -o $(TARGET) $(OBJECTS) $(DATA_STRUCTURES) $(CFLAGS)
 
-source: main.o $(SRC_OBJS)
-	gcc -o $(TARGET) main.o  $(SRC_OBJS) $(FLAGS)
+obj: 
+	mkdir $(OBJS)
+	cp $(DATA_STRUCTURES) $(OBJS)
 
-
-# build source and test objects 
-$(SRC_OBJS): %.o: %.c $(HEADERS)
-	$(CC) -c $<
-
-$(TEST_OBJS): %.o: tests/%.c tests/includes/%.h $(HEADERS)
-	$(CC) -c $< -o $@
-
-unit_test.o: tests/unit_test.c $(TEST_HEADERS)
-	$(CC) -c $< -o $@
-
-main.o: main.c $(HEADERS)
-	$(CC) -c $< -o $@
-
-
+build:
+	$(MAKE) -C ./node
+	$(MAKE) -C ./queue
+	$(MAKE) -C ./set
+	$(MAKE) -C ./list
+	$(MAKE) -C ./map
+	$(MAKE) -C ./matrix
 
 # clean compilation (target doesn't work)
 clean:
 	rm -f  *.o *~ *.pyc
+	rm -rf objs
+	$(MAKE) -C  ./map clean
+	$(MAKE) -C ./matrix clean
+	$(MAKE) -C ./set clean
+	$(MAKE) -C ./list clean
+	$(MAKE) -C  ./queue clean
+	$(MAKE) -C  ./node clean

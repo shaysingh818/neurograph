@@ -1,7 +1,7 @@
-#include "includes/matrix.h"
-#include "includes/queue.h"
-#include "includes/map.h"
-#include "includes/adj_list.h"
+#include "matrix/includes/matrix.h"
+#include "queue/includes/queue.h"
+#include "map/includes/map.h"
+#include "list/includes/adj_list.h"
 
 
 int main(int argc, char **argv) {

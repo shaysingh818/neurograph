@@ -53,7 +53,6 @@ layer_t *linear(int set_input_size, int set_output_size) {
     layer->forward = linear_forward; 
     layer->save = save_linear;
     layer->load = load_linear; 
-    layer->save_layer_architecture = save_linear_architecture;  
     layer->update_params = update_linear; 
     layer->op_count = 2;
 
@@ -95,7 +94,7 @@ void save_linear(layer_t *linear, char *filepath) {
 }
 
 
-void load_linear(layer_t *linear, char *filepath) {
+layer_t *load_linear(char *filepath) {
 
     /* create filepath */
     if(access(filepath, F_OK) == -1){
@@ -114,8 +113,15 @@ void load_linear(layer_t *linear, char *filepath) {
     sprintf(weight_path, "%s/%s", filepath, "weights");
     sprintf(biase_path, "%s/%s", filepath, "biases"); 
 
-    linear->layer_type->linear->weights->val = load_matrix(weight_path); 
-    linear->layer_type->linear->biases->val = load_matrix(biase_path); 
+    /* load weights and biases as matrices */
+    mat_t *weights = load_matrix(weight_path); 
+    mat_t *biases = load_matrix(biase_path); 
+
+    layer_t *l1 = linear(weights->rows, weights->cols); 
+    l1->layer_type->linear->weights->val = weights; 
+    l1->layer_type->linear->biases->val = biases; 
+
+    return l1; 
 }
 
 

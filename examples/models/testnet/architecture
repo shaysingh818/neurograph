@@ -1,4 +1,4 @@
-[linear](2, 3)
-[loss](2, 3, tanh)
-[linear](3, 1)
-[loss](3, 1, tanh)
+linear:../../examples/models/testnet/0_linear
+loss:../../examples/models/testnet/1_loss
+linear:../../examples/models/testnet/2_linear
+loss:../../examples/models/testnet/3_loss

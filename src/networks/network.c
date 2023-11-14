@@ -1,4 +1,3 @@
-#include "../data_structures/includes/matrix.h"
 #include "includes/network.h"
 
 
@@ -164,20 +163,20 @@ void save_model_params(net_t *nn, char *filepath){
     for(int i = 0; i < nn->layer_count; i++){
         size_t layer_path_size = strlen(filepath) + strlen("layer") + 1;
         char *layer_path = malloc(layer_path_size * sizeof(char));  
-        sprintf(layer_path, "%s/%s_%d", filepath, "layer", i);
-        nn->layers[i]->save_layer_architecture(nn->layers[i], fp); 
+        sprintf(layer_path, "%s/%d_%s", filepath, i, nn->layers[i]->layer_name);
 
-        /* Save parameters for layers that contain them */
-        if(nn->layers[i]->save != NULL){
-            if(access(layer_path, F_OK) == -1){
-                int result = mkdir(layer_path, 0777);  
-                if(result){
-                    printf("Unable to create and save model to %s\n", layer_path);
-                    exit(0);  
-                }
+        /* create layer path */
+        if(access(layer_path, F_OK) == -1){
+            int result = mkdir(layer_path, 0777);  
+            if(result){
+                printf("Unable to create and save model to %s\n", layer_path);
+                exit(0);  
             }
-            nn->layers[i]->save(nn->layers[i], layer_path); 
         }
+
+        /* save to layer path */
+        nn->layers[i]->save(nn->layers[i], layer_path); 
+        fprintf(fp, "%s:%s\n", nn->layers[i]->layer_name, layer_path);  
     }
 
     fclose(fp); 
@@ -192,21 +191,28 @@ void load_model_params(net_t *nn, char *filepath) {
         exit(0);  
     }
 
-    /* create layers within base directory */
-    for(int i = 0; i < nn->layer_count; i++){
-        size_t layer_path_size = strlen(filepath) + strlen("layer") + 1;
-        char *layer_path = malloc(layer_path_size * sizeof(char));  
-        sprintf(layer_path, "%s/%s_%d", filepath, "layer", i);
-        // nn->layers[i]->save_layer_architecture(nn->layers[i], fp); 
+    size_t architecture_path_size = strlen(filepath) + strlen("architecture") + 1;
+    char *model_architecture_path = malloc(architecture_path_size * sizeof(char));   
+    sprintf(model_architecture_path, "%s/%s", filepath, "architecture");
 
-        /* Save parameters for layers that contain them */
-        if(nn->layers[i]->load != NULL){
-            if(access(layer_path, F_OK) == -1){
-                printf("No saved layer exists in %s\n", filepath);
-                exit(0);  
-            }
-            nn->layers[i]->load(nn->layers[i], layer_path); 
-        }
+    /* create layers from architecture file */
+    char buffer[1000]; 
+    hash_table_t *layers = layer_map(); 
+    FILE *fp = fopen(model_architecture_path, "r"); 
+    int counter = 0, count; 
+    while(fgets(buffer, 1000, fp)) {
+
+        end_line_terminate(buffer); 
+        array_t *vals = match_delimeter_file(buffer, ":"); 
+
+        char *layer_type = vals->items[0]->label; 
+        char *path = vals->items[1]->label; 
+
+        layer_t *(*load_layer)(char*) = lookup_table_key(layers, layer_type); 
+        layer_t *layer_instance = load_layer(path);        
+        layer(nn, layer_instance); 
+
+        counter += 1; 
     }
 
 

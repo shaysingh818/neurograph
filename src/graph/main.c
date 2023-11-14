@@ -1,20 +1,59 @@
-#include "includes/graph.h"
-
+#include "tests/includes/test_graph.h" 
+#include "tests/includes/test_path.h" 
+#include "tests/includes/test_search.h" 
+#include "tests/includes/test_community.h" 
 
 int main(int argc, char **argv) {
+	
+	/* conversion methods */ 
+   	test_to_list();
+	test_to_weighted_list();
+   	test_to_directed_list(); 	
+	test_to_directed_weighted_list();
 
-	/* test random walk */
-    int vertices = 5; // num of vertices
+	/* frame to graph methods */
+	test_frame_to_unweighted_graph(); 
+	test_frame_to_weighted_graph(); 
+	test_unused_slots();
 
-    graph_t *g = init_graph(vertices, vertices, false);
-    add_node(g->list, 0, "A", 1, "B", 0);
-    add_node(g->list, 0, "A", 2, "C", 0);
-    add_node(g->list, 0, "A", 3, "D", 0);
-    add_node(g->list, 1, "B", 2, "C", 0);
-    add_node(g->list, 4, "E", 2, "C", 0);
+	/* graph markup language methods */
+	test_get_max_vertex_count(); 
+	test_get_nodes(); 
+	test_get_nodes_from_file(); 
+	test_serialize_adj_list_sorted_labels();
+	test_serialize_adj_list(); 
+	test_deserialize_adj_list();  
 
-    print_graph(g->list);
+	/* searching */
+	test_bfs_one();
+	test_bfs_two();
+	test_dfs_one();
 
-	return 0; 
+	/* shortest path */
+	test_bellman_ford();
+	test_dijkstra();
+	test_dijkstra_two();
+	test_dijkstra_vertice();  
+	test_dijkstra_vertice_two();  
+	test_shortest_path();
+	test_dijkstra_mat();
+	test_dijkstra_origin_vertex_mat(); 
+	test_shortest_path_mat();
+
+	/* random walk */
+   	test_random_walk();
+	test_weighted_random_walk();
+	test_random_walk_mat(); 
+
+	/* community detection */
+	test_degree_centrality();
+	test_weighted_degree_centrality();
+	test_degree_centrality_mat();
+	test_kosaraju();
+	test_label_nodes(); 
+	test_label_propagation();
+	test_iterative_label_propagation(); 
+	test_triangle_count();  
+
 
 }

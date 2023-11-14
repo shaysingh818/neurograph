@@ -1,5 +1,5 @@
 #include "includes/graph.h"
-#include "../data_structures/includes/queue.h"
+#include "../data_structures/queue/includes/queue.h"
 
 
 
@@ -40,6 +40,7 @@ void remove_unused_slots(graph_t *g) {
 	int remainder = g->vertices - last_used_indice; 
 	int new_size = g->vertices - remainder; 
 	resize_adj_list(g->list, new_size+1);
+	g->vertices = new_size+1; 
 } 
 
 
@@ -117,16 +118,16 @@ void print_graph_list(graph_t *g) {
 }
 
 
-graph_t *frame_to_unweighted_graph(frame_t *frame, int *cols, int size, bool directed) {
+graph_t *frame_to_unweighted_graph(frame_t *frame, array_t *cols, bool directed) {
 
 	/* create graph to be returned */ 
-	int vertex_count = frame->row_limit * size;	
+	int vertex_count = frame->row_limit * cols->item_count;	
 	graph_t *g = init_graph(vertex_count, vertex_count, directed);
 	ordered_set_t *set = init_array_set(vertex_count); 
 
 
 	/* validate that graph is unweighted */
-	if(size % 2 != 0) {
+	if(cols->item_count % 2 != 0) {
 		if(FRAME_DEBUG) {
 			printf("Unweighted graph should be in pairs of 2\n"); 
 		}
@@ -134,13 +135,21 @@ graph_t *frame_to_unweighted_graph(frame_t *frame, int *cols, int size, bool dir
 		return g; 
 	}
 
-	for(int i = 0; i < size; i+=2){
+
+	for(int i = 0; i < cols->item_count; i+=2){
 
 		/* extract values */
-		row_value_t **src_header_values = frame->headers[cols[i]]->values;
-		row_value_t **dst_header_values = frame->headers[cols[i+1]]->values;
+		row_value_t **src_header_values = lookup_table_key(
+			frame->frame, 
+			cols->items[i]->label
+		);
 
-		for(int j = 1; j < frame->row_limit; j++){
+		row_value_t **dst_header_values = lookup_table_key(
+			frame->frame, 
+			cols->items[i+1]->label
+		);
+
+		for(int j = 0; j < frame->row_limit; j++){
 
 			char *src = src_header_values[j]->value; 
 			char *dst = dst_header_values[j]->value;
@@ -159,15 +168,15 @@ graph_t *frame_to_unweighted_graph(frame_t *frame, int *cols, int size, bool dir
 }
 
 
-graph_t *frame_to_weighted_graph(frame_t *frame, int *cols, int size, bool directed) {
+graph_t *frame_to_weighted_graph(frame_t *frame, array_t *cols, bool directed) {
 
 	/* create graph */
-	int vertex_count = frame->row_limit * size;	
+	int vertex_count = frame->row_limit * cols->item_count;	
 	graph_t *g = init_graph(vertex_count, vertex_count, directed);
 	ordered_set_t *set = init_array_set(vertex_count); 
 
 	/* validate that graph is unweighted */ 
-	if(size % 3 != 0) {
+	if(cols->item_count % 3 != 0) {
 		if(FRAME_DEBUG) {
 			printf("Weighted graph should be in pairs of 3\n"); 
 		}
@@ -175,14 +184,25 @@ graph_t *frame_to_weighted_graph(frame_t *frame, int *cols, int size, bool direc
 		return g; 
 	}
 
-    for(int i = 0; i < size; i+=3){
+    for(int i = 0; i < cols->item_count; i+=3){
 	
 		/* extract values */
-		row_value_t **src_header_values = frame->headers[cols[i]]->values;
-		row_value_t **dst_header_values = frame->headers[cols[i+1]]->values;
-		row_value_t **weight_header_values = frame->headers[cols[i+2]]->values;
+		row_value_t **src_header_values = lookup_table_key(
+			frame->frame, 
+			cols->items[i]->label
+		);
 
-		for(int j = 1; j < frame->row_limit; j++) {
+		row_value_t **dst_header_values = lookup_table_key(
+			frame->frame, 
+			cols->items[i+1]->label
+		); 
+
+		row_value_t **weight_header_values = lookup_table_key(
+			frame->frame, 
+			cols->items[i+2]->label
+		);
+
+		for(int j = 0; j < frame->row_limit; j++) {
 
 			char *src = src_header_values[j]->value; 
 			char *dst = dst_header_values[j]->value;
@@ -401,8 +421,8 @@ graph_t *serialize_graph_list(char *filename, int file_size, bool directed){
 			int dst_id = atoi(row_values->tokens[i]);
 			char *dst = row_values->tokens[i+1];
 			int weight = atoi(row_values->tokens[i+2]);
-			remove_char(dst, '"');
-			remove_char(src, '"'); 
+			remove_character(dst, '"');
+			remove_character(src, '"'); 
 			add_node(g->list, src_id, src, dst_id, dst, weight);
 		} 
 		row_count += 1;
@@ -425,17 +445,17 @@ void deserialize_graph_list(graph_t *g, char *filename) {
 		node_t *result = get_node_by_id(g->list, i); 
 		int id = result->id; 
 		char *label = result->label;
-		remove_char(label, '"'); 
+		remove_character(label, '"'); 
 
 		fprintf(fp, "[%d,\"%s\"]: ", id, label);  
 		node_t *head = g->list->items[i]->head;
 		fprintf(fp, "("); 
 		while(head) {
 			if (head->next == NULL){
-				remove_char(head->label, '"'); 
+				remove_character(head->label, '"'); 
 				fprintf(fp, "[%d,\"%s\",%d]", head->id, head->label, head->weight);
 			} else {
-				remove_char(head->label, '"'); 
+				remove_character(head->label, '"'); 
 				fprintf(fp, "[%d,\"%s\",%d],", head->id, head->label, head->weight);
 			}
 			head  = head->next;

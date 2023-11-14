@@ -3,7 +3,7 @@
 
 #include "../../networks/includes/layer.h"
 #include "../../networks/includes/network.h"
-#include "../../extractors/includes/frame.h"
+#include "../../extractors/dataframe/includes/frame.h"
 #include <assert.h>  
 
 void test_train_iris_model(); 

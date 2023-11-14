@@ -25,15 +25,18 @@ void test_save_load_graph_config() {
 
 void test_save_load_movies_graph() {
 
-	int indices[2] = {1,5}; 
 	char *input_path = "../../examples/data/movies.csv";
 	char *output_path = "../../examples/gml/integration/movies.gmul";
 
-	frame_t *frame = init_frame(input_path, 1024, 100); 
+	frame_t *frame = dataframe(input_path, 1024, 100, NULL); 
 	assert(frame->status);
 
+    array_t *selected_cols = init_array(); 
+    insert_char(selected_cols, "movie_name"); 
+    insert_char(selected_cols, "genre");
+
 	graph_t *result = frame_to_unweighted_graph(
-		frame, indices, 2, false
+		frame, selected_cols, false
 	);
 
 	/* de serialize */ 
@@ -52,12 +55,16 @@ void test_save_load_public_transport_graph() {
 	char *input_path = "../../examples/data/public_transport.csv";
 	char *output_path = "../../examples/gml/integration/public_transport.gmul";
 
-	frame_t *frame = init_frame(input_path, 1024, 500); 
+	frame_t *frame = dataframe(input_path, 1024, 500, NULL); 
 	assert(frame->status);
+
+    array_t *selected_cols = init_array(); 
+    insert_char(selected_cols, "payCardName"); 
+    insert_char(selected_cols, "corridorName");
 
 
 	graph_t *result = frame_to_unweighted_graph(
-		frame, indices, 2, false
+		frame, selected_cols, false
 	);
 
 	remove_unused_slots(result); 
@@ -72,15 +79,18 @@ void test_save_load_public_transport_graph() {
 
 void test_save_load_online_retail_graph() {
 
-	int indices[2] = {6, 0}; 
 	char *input_path = "../../examples/data/online_retail.csv";
 	char *output_path = "../../examples/gml/integration/online_retail.gmul";
 
-	frame_t *frame = init_frame(input_path, 1024, 500); 
+	frame_t *frame = dataframe(input_path, 1024, 500, NULL); 
 	assert(frame->status);
 
+    array_t *selected_cols = init_array(); 
+    insert_char(selected_cols, "InvoiceNo"); 
+    insert_char(selected_cols, "CustomerID");
+
 	graph_t *result = frame_to_unweighted_graph(
-		frame, indices, 2, false
+		frame, selected_cols, false
 	);
 
 	remove_unused_slots(result); 

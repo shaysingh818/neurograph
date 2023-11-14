@@ -1,27 +1,61 @@
 #include "includes/layer.h"
 
-void serialize_layer(char* filename, layer_t *layer) {
-    FILE* file = fopen(filename, "wb"); // Open the file for binary write
 
-    if (file != NULL) {
-        // Write the neural network structure to the file
-        fwrite(layer, sizeof(layer_t*), 1, file);
+loss_value_t *loss_val(double(*loss)(double val), mat_t*(*loss_prime)(mat_t *val)) {
+    loss_value_t *val = malloc(sizeof(loss_value_t)); 
+    val->loss = loss; 
+    val->loss_prime = loss_prime; 
+    return val; 
+} 
 
-        fclose(file);
-    } else {
-        printf("Error: Unable to open the file for writing.\n");
-    }
+
+hash_table_t *loss_map() {
+
+    hash_table_t *loss_table = hash_table(
+        1, 0.5, 
+        compare_char,
+        NULL, 
+        free_char, 
+        additive_hash
+    ); 
+
+    add_table_map(
+        loss_table, 
+        str("tanh"), 
+        loss_val(tanh_activation, tanh_prime)
+    ); 
+
+    add_table_map(
+        loss_table, 
+        str("sigmoid"), 
+        loss_val(sigmoid, sigmoid_prime)
+    ); 
+
+    return loss_table; 
 }
 
-void deserialize_layer(char* filename, layer_t *layer) {
-    FILE* file = fopen(filename, "rb"); // Open the file for binary read
 
-    if (file != NULL) {
-        // Read the neural network structure from the file
-        fread(layer, sizeof(layer_t*), 1, file);
+hash_table_t *layer_map() {
 
-        fclose(file);
-    } else {
-        printf("Error: Unable to open the file for reading.\n");
-    }
-}
+    hash_table_t *layer_table = hash_table(
+        1, 0.5, 
+        compare_char,
+        NULL, 
+        free_char, 
+        additive_hash
+    );
+
+    add_table_map(
+        layer_table, 
+        str("linear"), 
+        load_linear
+    ); 
+
+    add_table_map(
+        layer_table, 
+        str("loss"), 
+        load_activation
+    ); 
+
+    return layer_table; 
+} 
