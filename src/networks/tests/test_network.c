@@ -220,6 +220,7 @@ void test_load_model_params() {
     double learning_rate = 0.1; 
     double inputs[16][2] = {{0,0},{0,1},{1,0},{1,1}};
     double outputs[4][1] = {{0},{1},{1},{0}};
+    char *model_path = "../../examples/models/testnet"; 
 
     /* create x input */
     mat_t *x = copy_arr_to_matrix(4, 2, inputs); 
@@ -228,7 +229,7 @@ void test_load_model_params() {
 
     /* model architecture */
     net_t *nn = init_network(learning_rate, input, 0);
-    load_model_params(nn, "../../examples/models/testnet/architecture");
+    load_model_params(nn, model_path);
     forward_nodes(nn->graph); 
 
     int output_index = nn->graph->curr_index - 1;
@@ -239,8 +240,11 @@ void test_load_model_params() {
     bool condition = (v0 < v1 && v0 < v2) && (v3 < v1 && v3 < v2); 
     assert(condition);
 
+    /* remove the entire testnet */
+    char cmd[100];
+    sprintf(cmd, "rm -rf %s", model_path);
+    int rm_result = system(cmd);
+    assert(rm_result == 0);  
 
     printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
-
-
 } 

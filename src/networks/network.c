@@ -191,10 +191,14 @@ void load_model_params(net_t *nn, char *filepath) {
         exit(0);  
     }
 
+    size_t architecture_path_size = strlen(filepath) + strlen("architecture") + 1;
+    char *model_architecture_path = malloc(architecture_path_size * sizeof(char));   
+    sprintf(model_architecture_path, "%s/%s", filepath, "architecture");
+
     /* create layers from architecture file */
     char buffer[1000]; 
     hash_table_t *layers = layer_map(); 
-    FILE *fp = fopen(filepath, "r"); 
+    FILE *fp = fopen(model_architecture_path, "r"); 
     int counter = 0, count; 
     while(fgets(buffer, 1000, fp)) {
 
