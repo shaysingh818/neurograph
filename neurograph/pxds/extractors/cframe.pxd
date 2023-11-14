@@ -15,7 +15,7 @@ cdef extern from "../src/extractors/dataframe/includes/frame.h":
     struct Frame:
         int buffer_size
         int header_count
-        int current_row
+        int curr_row
         int row_count
         int row_limit
         char *filename
