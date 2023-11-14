@@ -192,21 +192,16 @@ void test_save_model_params() {
         "architecture" 
     };
 
+    for(int i = 0; i < 5; i++){
 
-    if((dir = opendir(model_path)) != NULL) {
-        int counter = 0; 
-        while((ent = readdir(dir)) != NULL) {
-            if(ent->d_name[0] == '.') {
-                continue; 
-            }
-            bool compare = strcmp(ent->d_name, expected_files[counter]) == 0; 
-            assert(compare); 
-            counter += 1; 
-        }
-        closedir(dir); 
-    } else {
-        printf("Unable to open directory: %s\n", model_path); 
-        exit(0); 
+        char *test_path, curr_path; 
+        size_t path_size = strlen(model_path)+1 + strlen(expected_files[i])+1; 
+        test_path = malloc(path_size * sizeof(char)); 
+        sprintf(test_path, "%s/%s", model_path, expected_files[i]);
+
+        /* validate path exists */
+        assert(access(test_path, F_OK) != -1); 
+        
     }
 
 
