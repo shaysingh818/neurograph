@@ -1,7 +1,4 @@
 import unittest
-from ctypes import POINTER
-from ngraph import Graph, QueueService
-from ngraph.structures import Queue
 from pprint import pprint
 
 class TestGraphMethods(unittest.TestCase):
