@@ -40,7 +40,8 @@ setup(
                 # extractors
                 "../src/extractors/dataframe/frame.c", 
                 "../src/extractors/dataframe/re.c",
-                "../src/extractors/dataframe/utils.c"
+                "../src/extractors/dataframe/utils.c",
+                "../src/extractors/dataframe/operations.c"
             ],
         )
     ])

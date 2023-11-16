@@ -5,8 +5,15 @@ from pprint import pprint
 def main():
 
     # create dataframe
-    df = ng.DataFrame(b"../examples/data/ms_prediction.csv", 10)
-    pprint(df.props())    
+    df = ng.DataFrame("../examples/data/ms_prediction.csv", 10)
+    headers = df.get_headers()
+
+    print("Rows")
+    results = df.rows()
+    pprint(results)
+
+
+    
     
     # # select features to work with 
     # df.features()

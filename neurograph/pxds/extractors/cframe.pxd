@@ -58,3 +58,5 @@ cdef extern from "../src/extractors/dataframe/includes/frame.h":
 
     void drop_cols(Frame *frame, ll.Array *cols)
 
+    RowValue **get_row_key(frame_t *frame, char *key) 
+

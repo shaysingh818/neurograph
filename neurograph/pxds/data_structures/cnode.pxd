@@ -4,6 +4,7 @@ cdef extern from "../src/data_structures/node/includes/node.h":
         int id
         int weight
         int counter
+        char *label
         Node* next
         Node* left
         Node* right
