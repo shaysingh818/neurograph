@@ -1,11 +1,14 @@
 #include "includes/operations.h"
 
 
-frame_t *add_frame_cols(frame_t *frame, void *col1, void *col2) {
+frame_t *add_frame_cols(frame_t *frame, char *col1, char *col2) {
+
+    void *col1_ptr = (void*)col1; 
+    void *col2_ptr = (void*)col2; 
 
     /* look up values and allocate where results are stored */
-    row_value_t **r1 = lookup_table_key(frame->frame, col1); 
-    row_value_t **r2 = lookup_table_key(frame->frame, col2);
+    row_value_t **r1 = lookup_table_key(frame->frame, col1_ptr); 
+    row_value_t **r2 = lookup_table_key(frame->frame, col2_ptr);
     row_value_t **result = malloc(frame->row_limit * sizeof(row_value_t*)); 
     insert_char(frame->headers, "result"); 
 
@@ -49,11 +52,15 @@ frame_t *add_frame_cols(frame_t *frame, void *col1, void *col2) {
 }
 
 
-frame_t *subtract_frame_cols(frame_t *frame, void *col1, void *col2) {
+frame_t *subtract_frame_cols(frame_t *frame, char *col1, char *col2) {
+
+    /* cast to void pointers */
+    void *col1_ptr = (void*)col1; 
+    void *col2_ptr = (void*)col2; 
 
     /* look up values and allocate where results are stored */
-    row_value_t **r1 = lookup_table_key(frame->frame, col1); 
-    row_value_t **r2 = lookup_table_key(frame->frame, col2);
+    row_value_t **r1 = lookup_table_key(frame->frame, col1_ptr); 
+    row_value_t **r2 = lookup_table_key(frame->frame, col2_ptr);
     row_value_t **result = malloc(frame->row_limit * sizeof(row_value_t*)); 
     insert_char(frame->headers, "result"); 
 

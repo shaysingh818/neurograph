@@ -152,6 +152,13 @@ void extract_headers(frame_t *frame) {
 }
 
 
+row_value_t **get_row_key(frame_t *frame, char *key) {
+	void *key_ptr = (void*)key; 
+    row_value_t **row_values = lookup_table_key(frame->frame, key_ptr);
+	return row_values; 
+}
+
+
 void init_rows(frame_t *frame) {
 
 	FILE* fp = fopen(frame->filename, "r");
