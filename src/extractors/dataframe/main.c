@@ -18,14 +18,14 @@ int main(int argc, char **argv) {
     test_add_frame_cols(); 
     test_subtract_frame_cols(); 
 
-	/* gml testing */
-	test_gml_expression_set();
-	test_gml_weights_ids_expression(); 
+    /* gml testing */
+    test_gml_expression_set();
+    test_gml_weights_ids_expression(); 
 
     /* regular expression testing */
-	test_match_single();
-	test_match_pattern(); 
-	test_csv_line(); 
-	test_blank_values();  
+    test_match_single();
+    test_match_pattern();  
+    test_csv_line(); 
+    test_blank_values();  
 
 }
