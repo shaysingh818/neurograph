@@ -1,7 +1,8 @@
 from setuptools import setup
 from Cython.Build import cythonize
 from distutils.extension import Extension
-
+import os
+from glob import glob
 
 # # C Extension
 # extensions = [
@@ -24,25 +25,40 @@ from distutils.extension import Extension
 setup(
     ext_modules = cythonize([
         Extension(
-            name="frame", 
+            name="neurograph.extractors", 
             sources=[
-                "frame.py",
-
+                os.path.join("neurograph", "extractors.pyx"),
                 # data structures
-                "../src/data_structures/map/hash.c",
-                "../src/data_structures/map/table.c",
-                "../src/data_structures/map/map.c",
-                "../src/data_structures/node/node.c",
-                "../src/data_structures/matrix/matrix.c",
-                "../src/data_structures/list/array.c",
-                "../src/data_structures/list/ll.c",
+                # "../src/data_structures/map/hash.c",
+                # "../src/data_structures/map/table.c",
+                # "../src/data_structures/map/map.c",
+                # "../src/data_structures/node/node.c",
+                # "../src/data_structures/matrix/matrix.c",
+                # "../src/data_structures/list/array.c",
+                # "../src/data_structures/list/ll.c",
 
-                # extractors
-                "../src/extractors/dataframe/frame.c", 
-                "../src/extractors/dataframe/re.c",
-                "../src/extractors/dataframe/utils.c",
-                "../src/extractors/dataframe/operations.c"
+                # # extractors
+                # "../src/extractors/dataframe/frame.c", 
+                # "../src/extractors/dataframe/re.c",
+                # "../src/extractors/dataframe/utils.c",
+                # "../src/extractors/dataframe/operations.c"
             ],
+        ),
+        Extension(
+            name="neurograph.structures",
+            sources=[
+                os.path.join("neurograph", "structures.pyx"), 
+                # "../src/data_structures/map/table.c",
+                # "../src/data_structures/map/hash.c",
+                # "../src/data_structures/node/node.c",
+                # "../src/data_structures/matrix/matrix.c",
+                # "../src/data_structures/list/array.c",
+                # "../src/data_structures/list/ll.c",
+                # "../src/extractors/dataframe/frame.c", 
+                # "../src/extractors/dataframe/re.c",
+                # "../src/extractors/dataframe/utils.c",
+                # "../src/extractors/dataframe/operations.c"
+            ]
         )
     ])
 )

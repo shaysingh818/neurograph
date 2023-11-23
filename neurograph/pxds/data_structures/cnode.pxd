@@ -1,4 +1,4 @@
-cdef extern from "../src/data_structures/node/includes/node.h":
+cdef extern from "../../src/data_structures/node/includes/node.h":
     
     struct Node:
         int id

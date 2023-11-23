@@ -1,32 +1,28 @@
-import frame as ng
 import cython
 from pprint import pprint
+from neurograph.extractors import DataFrame
+from neurograph.structures import Matrix
 
 def main():
 
+
     # create dataframe
-    df = ng.DataFrame("../examples/data/ms_prediction.csv", 10)
-    headers = df.get_headers()
+    df = DataFrame("../examples/data/ms_prediction.csv", 10) 
+    df.features()
 
-    print("Rows")
-    results = df.rows()
-    pprint(results)
+    x = Matrix(df, cols=["Schooling", "Age", "Gender"])
+    x.print_mat()
+
+    y = Matrix(df, ["group"])
+    y.print_mat()
 
 
     
-    
-    # # select features to work with 
-    # df.features()
-    # df.select_cols(cols=[
-    #     "Gender",
-    #     "Age",
-    #     "Schooling"
-    # ])
 
-    # print("Show selected features\n")
-    # df.view_selected_features()
-    # print("\n")
-    # df.to_matrix()
+
+
+    
+
 
 
 

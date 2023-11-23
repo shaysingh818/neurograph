@@ -1,5 +1,5 @@
 
-cdef extern from "../src/data_structures/matrix/includes/matrix.h":
+cdef extern from "../../src/data_structures/matrix/includes/matrix.h":
 
     struct Matrix:
         int rows
@@ -7,5 +7,8 @@ cdef extern from "../src/data_structures/matrix/includes/matrix.h":
         double **arr
     
     Matrix *init_vec(int rows, int cols, bint identity)
-    void print_vec(Matrix *m);  
+    Matrix *init_matrix(int rows, int cols)
+    Matrix *copy_matrix(Matrix *m) 
+    Matrix *copy_matrix_values(Matrix *m, Matrix *n)
+    void print_vec(Matrix *m)  
 

@@ -113,7 +113,7 @@ mat_t *frame_to_matrix(frame_t *frame, array_t *cols) {
 	}
 
 	return mat_result;  
-} 
+}
 
 
 void extract_headers(frame_t *frame) {

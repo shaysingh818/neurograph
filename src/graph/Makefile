@@ -27,6 +27,13 @@ source: $(OBJECTS) $(TEST_OBJECTS) $(DEPS)
 	mkdir $(OBJS)
 	mv $(filter-out main.o, $(OBJECTS)) $(OBJS)
 
+
+headers:
+	mkdir -p graph/
+	cp -r includes/ graph/	
+	mv graph/ ../neurograph
+	cp graph.h ../neurograph
+
 # clean compilation (target doesn't work)
 clean_binary:
 	rm $(TARGET)

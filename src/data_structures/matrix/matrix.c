@@ -186,6 +186,17 @@ mat_t *copy_arr_to_matrix(int m, int n, double arr[m][n]) {
 } 
 
 
+void copy_matrix_values(mat_t *m, mat_t *n) {
+
+	m->rows = n->rows; 
+	m->cols = n->cols; 
+    for(int i = 0; i < n->rows; i++){
+        for(int j = 0; j < n->cols; j++){
+            m->arr[i][j] = n->arr[i][j];
+        }
+    }
+
+} 
 
 bool compare_matrix(mat_t *n, mat_t *m){
 	

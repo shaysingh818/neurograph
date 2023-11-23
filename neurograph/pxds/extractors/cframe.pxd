@@ -5,7 +5,7 @@ cimport pxds.data_structures.cset as set
 cimport pxds.extractors.cre as re
 cimport pxds.extractors.cutils as utils 
 
-cdef extern from "../src/extractors/dataframe/includes/frame.h":
+cdef extern from "../../src/extractors/dataframe/includes/frame.h":
 
     struct RowValue:
         size_t value_size
@@ -46,6 +46,8 @@ cdef extern from "../src/extractors/dataframe/includes/frame.h":
 
     matrix.Matrix *frame_to_matrix(Frame *frame, ll.Array *cols)
 
+    void frame_matrix(Frame *frame, ll.Array *cols, matrix.Matrix *m); 
+
     void extract_headers(Frame *frame)
 
     void init_rows(Frame *frame)
@@ -59,4 +61,3 @@ cdef extern from "../src/extractors/dataframe/includes/frame.h":
     void drop_cols(Frame *frame, ll.Array *cols)
 
     RowValue **get_row_key(frame_t *frame, char *key) 
-

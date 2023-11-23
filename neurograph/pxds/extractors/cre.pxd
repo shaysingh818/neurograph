@@ -1,7 +1,7 @@
 cimport pxds.data_structures.cll as ll
 
 
-cdef extern from "../src/extractors/dataframe/includes/re.h":
+cdef extern from "../../src/extractors/dataframe/includes/re.h":
 
     struct Tokens:
         char **tokens

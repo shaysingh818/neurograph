@@ -1,4 +1,4 @@
-import frame as ng
+import neurograph.tests.frame as ng
 import cython
 from pprint import pprint
 import unittest
@@ -54,18 +54,29 @@ class TestFrame(unittest.TestCase):
             self.assertEqual(movie_headers[i]["name"], expected_headers[i])
 
     def test_get_rows(self):
+
+        # create dataframe
         df = ng.DataFrame("../examples/data/ms_prediction.csv", 10)
         results = df.props()   
         self.assertEqual(results["row_limit"], 10)
         self.assertEqual(results["header_count"], 20)
         rows = df.rows()
 
+        expected_row1 = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+        expected_row2 = ['1','1','1','2','2','1','2','2','1', '2']
+        expected_last_row = ['1','1','1','1','1','1','1','1','1','1']
+        keys = []
+        for item in df.get_headers():
+            keys.append(item["name"])
+
         headers = df.get_headers()
         for i in range(len(headers)):
             key = headers[i]["name"]
             self.assertEqual(len(rows[key]), 10)
 
-
+        self.assertEqual(expected_row1, rows["Patient_ID"])
+        self.assertEqual(expected_row2, rows["Gender"])
+        self.assertEqual(expected_last_row, rows["group"])
 
 
     def test_select_cols(self):
