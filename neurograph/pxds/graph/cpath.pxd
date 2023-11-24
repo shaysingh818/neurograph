@@ -1,7 +1,7 @@
 
 cimport pxds.data_structures.cnode as node
 cimport pxds.data_structures.cmatrix as matrix
-cimport pxds.graph.graph as graph
+cimport pxds.graph.cgraph as graph
 
 cdef extern from "<neurograph/graph/includes/path.h>":
 
