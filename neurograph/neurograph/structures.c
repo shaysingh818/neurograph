@@ -4,6 +4,9 @@
 {
     "distutils": {
         "depends": [],
+        "include_dirs": [
+            "include"
+        ],
         "libraries": [
             "neurograph"
         ],
@@ -1484,7 +1487,7 @@ struct __pyx_obj_10neurograph_10extractors_DataFrame;
 struct __pyx_obj_10neurograph_10structures_Matrix;
 
 /* "neurograph/extractors.pxd":5
- * cimport pxds.data_structures.cmatrix as matrix
+ * cimport libneurograph.data_structures.cmatrix as matrix
  * 
  * cdef class DataFrame:             # <<<<<<<<<<<<<<
  * 
@@ -1499,7 +1502,7 @@ struct __pyx_obj_10neurograph_10extractors_DataFrame {
 
 
 /* "neurograph/structures.pxd":5
- * cimport pxds.data_structures.cmatrix as matrix
+ * cimport libneurograph.data_structures.cmatrix as matrix
  * 
  * cdef class Matrix:             # <<<<<<<<<<<<<<
  * 
@@ -2106,29 +2109,29 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 /* #### Code section: module_declarations ### */
 
-/* Module declarations from "pxds.data_structures.cnode" */
+/* Module declarations from "libneurograph.data_structures.cnode" */
 
-/* Module declarations from "pxds.data_structures.clist" */
+/* Module declarations from "libneurograph.data_structures.clist" */
 
-/* Module declarations from "pxds.data_structures.cmatrix" */
+/* Module declarations from "libneurograph.data_structures.cmatrix" */
 
-/* Module declarations from "pxds.data_structures.cqueue" */
+/* Module declarations from "libneurograph.data_structures.cqueue" */
 
-/* Module declarations from "pxds.data_structures.cset" */
+/* Module declarations from "libneurograph.data_structures.cset" */
 
-/* Module declarations from "pxds.data_structures" */
+/* Module declarations from "libneurograph.data_structures" */
 
-/* Module declarations from "pxds.extractors.cre" */
+/* Module declarations from "libneurograph.extractors.cre" */
 
-/* Module declarations from "pxds.extractors.cutils" */
+/* Module declarations from "libneurograph.extractors.cutils" */
 
-/* Module declarations from "pxds.extractors" */
+/* Module declarations from "libneurograph.extractors" */
 
-/* Module declarations from "pxds" */
+/* Module declarations from "libneurograph" */
 
-/* Module declarations from "pxds.data_structures.cmap" */
+/* Module declarations from "libneurograph.data_structures.cmap" */
 
-/* Module declarations from "pxds.extractors.cframe" */
+/* Module declarations from "libneurograph.extractors.cframe" */
 
 /* Module declarations from "neurograph.extractors" */
 
@@ -4112,9 +4115,9 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "neurograph/structures.pyx":1
- * cimport pxds.extractors.cframe as fr             # <<<<<<<<<<<<<<
- * cimport pxds.data_structures.clist as ll
- * cimport pxds.data_structures.cmatrix as matrix
+ * cimport libneurograph.extractors.cframe as fr             # <<<<<<<<<<<<<<
+ * cimport libneurograph.data_structures.clist as ll
+ * cimport libneurograph.data_structures.cmatrix as matrix
  */
   __pyx_t_3 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);

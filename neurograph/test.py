@@ -5,7 +5,6 @@ from neurograph.structures import Matrix
 
 def main():
 
-
     # create dataframe
     df = DataFrame("../examples/data/ms_prediction.csv", 10) 
     df.features()

@@ -1,4 +1,5 @@
-import neurograph.tests.frame as ng
+from neurograph.extractors import DataFrame
+from neurograph.structures import Matrix
 import cython
 from pprint import pprint
 import unittest
@@ -8,7 +9,7 @@ class TestFrame(unittest.TestCase):
     def test_dataframe(self):
         
         # create dataframe
-        df = ng.DataFrame("../examples/data/ms_prediction.csv", 10)
+        df = DataFrame("../examples/data/ms_prediction.csv", 10)
         results = df.props()           
         self.assertEqual(results["buffer_size"], 1024)
         self.assertEqual(results["current_row"], 10)
@@ -24,7 +25,7 @@ class TestFrame(unittest.TestCase):
     def test_features(self):
         
         # create dataframe
-        df = ng.DataFrame("../examples/data/ms_prediction.csv", 10)
+        df = DataFrame("../examples/data/ms_prediction.csv", 10)
         results = df.props()
         self.assertEqual(results["header_count"], 20)
 
@@ -40,7 +41,7 @@ class TestFrame(unittest.TestCase):
         for i in range(len(headers)):
             self.assertEqual(headers[i]["name"], expected_headers[i])
 
-        movie_df = ng.DataFrame("../examples/data/movies.csv", 10)
+        movie_df = DataFrame("../examples/data/movies.csv", 10)
         results = movie_df.props() 
         self.assertEqual(results["header_count"], 9)
 
@@ -56,7 +57,7 @@ class TestFrame(unittest.TestCase):
     def test_get_rows(self):
 
         # create dataframe
-        df = ng.DataFrame("../examples/data/ms_prediction.csv", 10)
+        df = DataFrame("../examples/data/ms_prediction.csv", 10)
         results = df.props()   
         self.assertEqual(results["row_limit"], 10)
         self.assertEqual(results["header_count"], 20)

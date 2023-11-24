@@ -10,14 +10,16 @@ setup(
             sources=[
                 os.path.join("neurograph", "extractors.pyx"),
             ],
-            libraries=["neurograph"]
+            libraries=["neurograph"],
+            include_dirs=["include"]
         ),
         Extension(
             name="neurograph.structures",
             sources=[
                 os.path.join("neurograph", "structures.pyx"), 
             ],
-            libraries=["neurograph"]
+            libraries=["neurograph"],
+            include_dirs=["include"]
         )
     ])
 )

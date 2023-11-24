@@ -1,6 +1,6 @@
-cimport pxds.extractors.cframe as fr
-cimport pxds.data_structures.clist as ll
-cimport pxds.data_structures.cmatrix as matrix
+cimport libneurograph.extractors.cframe as fr
+cimport libneurograph.data_structures.clist as ll
+cimport libneurograph.data_structures.cmatrix as matrix
 
 cdef class Matrix:
 
