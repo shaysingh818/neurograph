@@ -1,6 +1,6 @@
 cimport pxds.data_structures.cnode
 
-cdef extern from "../../src/data_structures/map/includes/map.h":
+cdef extern from "<neurograph/data_structures/map/includes/map.h>":
 
     ctypedef void (*destructor_func)(void*)
     ctypedef bint (*compare_func)(void*, void*)
@@ -30,8 +30,8 @@ cdef extern from "../../src/data_structures/map/includes/map.h":
         hash_func hash_function
     )
 
-    void add_map(HashTable *table, void *key, void *value);
-    int additive_hash(int state, char *input, size_t len); 
-    int jenkins_hash(int state, char *input, size_t len); 
+    void add_map(HashTable *table, void *key, void *value)
+    int additive_hash(int state, char *input, size_t len)
+    int jenkins_hash(int state, char *input, size_t len)
 
 

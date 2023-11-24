@@ -4,6 +4,9 @@
 {
     "distutils": {
         "depends": [],
+        "libraries": [
+            "neurograph"
+        ],
         "name": "neurograph.structures",
         "sources": [
             "neurograph/structures.pyx"
@@ -1186,13 +1189,17 @@ static CYTHON_INLINE float __PYX_NAN() {
 #define __PYX_HAVE__neurograph__structures
 #define __PYX_HAVE_API__neurograph__structures
 /* Early includes */
-#include "../../src/data_structures/node/includes/node.h"
-#include "../../src/data_structures/list/includes/array.h"
-#include "../../src/data_structures/map/includes/map.h"
-#include "../../src/data_structures/matrix/includes/matrix.h"
-#include "../../src/extractors/dataframe/includes/re.h"
-#include "../../src/extractors/dataframe/includes/utils.h"
-#include "../../src/extractors/dataframe/includes/frame.h"
+#include <neurograph/data_structures/node/includes/node.h>
+#include <neurograph/data_structures/list/includes/array.h>
+#include <neurograph/data_structures/list/includes/adj_list.h>
+#include <neurograph/data_structures/map/includes/map.h>
+#include <neurograph/data_structures/matrix/includes/matrix.h>
+#include <neurograph/data_structures/matrix/includes/adj_mat.h>
+#include <neurograph/data_structures/queue/includes/queue.h>
+#include <neurograph/data_structures/set/includes/set.h>
+#include <neurograph/extractors/dataframe/includes/re.h>
+#include <neurograph/extractors/dataframe/includes/utils.h>
+#include <neurograph/extractors/dataframe/includes/frame.h>
 #ifdef _OPENMP
 #include <omp.h>
 #endif /* _OPENMP */
@@ -2101,9 +2108,11 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 /* Module declarations from "pxds.data_structures.cnode" */
 
-/* Module declarations from "pxds.data_structures.cmap" */
+/* Module declarations from "pxds.data_structures.clist" */
 
 /* Module declarations from "pxds.data_structures.cmatrix" */
+
+/* Module declarations from "pxds.data_structures.cqueue" */
 
 /* Module declarations from "pxds.data_structures.cset" */
 
@@ -2117,7 +2126,7 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 /* Module declarations from "pxds" */
 
-/* Module declarations from "pxds.data_structures.cll" */
+/* Module declarations from "pxds.data_structures.cmap" */
 
 /* Module declarations from "pxds.extractors.cframe" */
 
@@ -2206,6 +2215,8 @@ typedef struct {
   #endif
   #ifdef __Pyx_Coroutine_USED
   PyTypeObject *__pyx_CoroutineType;
+  #endif
+  #if CYTHON_USE_MODULE_STATE
   #endif
   #if CYTHON_USE_MODULE_STATE
   #endif
@@ -2463,6 +2474,8 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #endif
 #ifdef __Pyx_Coroutine_USED
 #define __pyx_CoroutineType __pyx_mstate_global->__pyx_CoroutineType
+#endif
+#if CYTHON_USE_MODULE_STATE
 #endif
 #if CYTHON_USE_MODULE_STATE
 #endif
@@ -4100,7 +4113,7 @@ if (!__Pyx_RefNanny) {
 
   /* "neurograph/structures.pyx":1
  * cimport pxds.extractors.cframe as fr             # <<<<<<<<<<<<<<
- * cimport pxds.data_structures.cll as ll
+ * cimport pxds.data_structures.clist as ll
  * cimport pxds.data_structures.cmatrix as matrix
  */
   __pyx_t_3 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1, __pyx_L1_error)
