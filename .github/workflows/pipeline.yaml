@@ -122,8 +122,8 @@ jobs:
       - name: Install C Library
         working-directory: src/
         run: |
-          make
-          make install
+          sudo make
+          sudo make install
 
       - name: Install Dependencies
         working-directory: neurograph/
