@@ -119,6 +119,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Install C Library
+        working-directory: src/
+        run: |
+          make
+          make install
+
       - name: Install Dependencies
         working-directory: neurograph/
         run: pip install -r requirements.txt
