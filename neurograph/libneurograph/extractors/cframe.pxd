@@ -1,5 +1,5 @@
 cimport libneurograph.data_structures.clist as ll
-cimport libneurograph.data_structures.cmap as map
+cimport libneurograph.data_structures.ctable as table
 cimport libneurograph.data_structures.cmatrix as matrix
 cimport libneurograph.data_structures.cset as set
 cimport libneurograph.extractors.cre as re
@@ -23,7 +23,7 @@ cdef extern from "<neurograph/extractors/dataframe/includes/frame.h>":
         char *delimeter
         bint status
         ll.Array *headers
-        map.HashTable *frame
+        table.BinTable *frame
 
     ctypedef Frame frame_t
 
@@ -60,4 +60,4 @@ cdef extern from "<neurograph/extractors/dataframe/includes/frame.h>":
 
     void drop_cols(Frame *frame, ll.Array *cols)
 
-    RowValue **get_row_key(frame_t *frame, char *key) 
+    char **get_row_key(frame_t *frame, char *key) 

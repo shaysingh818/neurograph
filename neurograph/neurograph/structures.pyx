@@ -23,3 +23,9 @@ cdef class Matrix:
 
     def print_mat(self):
         matrix.print_vec(self.mat)
+
+    def rows(self):
+        return self.mat.rows
+
+    def cols(self):
+        return self.mat.cols

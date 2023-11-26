@@ -7,3 +7,5 @@ cdef class DataFrame:
     cdef fr.Frame *frame
     cdef ll.Array *selected_cols
     cdef matrix.Matrix *mat
+    cdef str filename
+    cdef int row_limit
