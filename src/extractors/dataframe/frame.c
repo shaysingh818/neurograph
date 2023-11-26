@@ -152,10 +152,16 @@ void extract_headers(frame_t *frame) {
 }
 
 
-row_value_t **get_row_key(frame_t *frame, char *key) {
+char **get_row_key(frame_t *frame, char *key) {
 	void *key_ptr = (void*)key; 
+	char **result = malloc(frame->row_limit * sizeof(char*)); 
     row_value_t **row_values = lookup_table_key(frame->frame, key_ptr);
-	return row_values; 
+	for(int i = 0; i < frame->row_limit; i++){
+		size_t char_size = strlen(row_values[i]->value)+1; 
+		result[i] = malloc(char_size * sizeof(char)); 
+		strcpy(result[i], row_values[i]->value); 
+	}
+	return result; 
 }
 
 
@@ -254,4 +260,5 @@ void drop_cols(frame_t *frame, array_t *cols) {
 		remove_char(frame->headers, cols->items[i]->label); 
 		delete_table_key(frame->frame, cols->items[i]->label);
 	}
+	frame->header_count = frame->header_count - cols->item_count; 
 } 

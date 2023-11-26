@@ -16,7 +16,8 @@ int main(int argc, char **argv) {
 
     /* test operations */
     test_add_frame_cols(); 
-    test_subtract_frame_cols(); 
+    test_subtract_frame_cols();
+    test_continous_ops();  
 
     /* gml testing */
     test_gml_expression_set();

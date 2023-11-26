@@ -79,6 +79,6 @@ void select_cols(frame_t *frame, void** headers);
 void drop_cols(frame_t *frame, array_t *cols); 
 
 /* get row values from key */
-row_value_t **get_row_key(frame_t *frame, char *key); 
+char **get_row_key(frame_t *frame, char *key); 
 
 #endif

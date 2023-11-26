@@ -58,7 +58,8 @@ void add_table_map(hash_table_t *table, void *key, void *value) {
             bin->hash_key = hash_key;  
             bin->key = key;
             bin->value = value; 
-            table->active++; table->used++; 
+            table->active++; table->used++;
+
             break;  
         }
 
@@ -66,7 +67,7 @@ void add_table_map(hash_table_t *table, void *key, void *value) {
             bin->is_free = bin->is_deleted = false; 
             bin->hash_key = hash_key;
             bin->key = key;
-            bin->value = value; 
+            bin->value = value;
             table->active++; 
             break; 
         }
@@ -74,13 +75,14 @@ void add_table_map(hash_table_t *table, void *key, void *value) {
         if(bin->hash_key == hash_key){
             if(table->key_cmp(bin->key, key)){
                 delete_table_key(table, key); 
-                add_table_map(table, key, value); 
+                add_table_map(table, key, value);
                 return; 
             } else {
                 continue; 
             }
         }
-    }  
+    } 
+
 
 
     if(table->used > table->size / 2){
@@ -91,7 +93,7 @@ void add_table_map(hash_table_t *table, void *key, void *value) {
 
 void delete_table_key(hash_table_t *table, void *key) {
 
-	int hash_key = table->hash_function(0, (char*)key, strlen(key)+1); 
+	int hash_key = table->hash_function(0, (char*)key, strlen(key)+1);
     for(int i = 0; i < table->size; i++){
         int index = probe(hash_key, i, table->size); 
         bin_t *bin = &table->table[index]; 

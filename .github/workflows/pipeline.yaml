@@ -8,7 +8,6 @@ on:
 
 jobs:
 
-
   build-core-packages:
     runs-on: ubuntu-latest
     steps:
@@ -156,19 +155,3 @@ jobs:
             mkdocs-material-
       - run: pip install mkdocs-material 
       - run: mkdocs gh-deploy --force
-
-
-      # - name: Build Python Package
-      #   working-directory: neurograph/
-      #   run: |
-      #     pip install setuptools
-      #     pip install wheel
-      #     python setup.py bdist_wheel
-
-      # - name: Install Wheel File
-      #   working-directory: neurograph/dist
-      #   run: pip3 install neurograph-0.4.0-py3-none-any.whl
-
-      # - name: Unit Tests
-      #   working-directory: neurograph/tests/
-      #   run: python3 -m pytest
