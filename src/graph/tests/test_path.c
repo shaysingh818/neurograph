@@ -318,17 +318,14 @@ void test_weighted_random_walk() {
 
 	/* specific steps */ 
     int steps = 10;
-    int path[steps];
-	int path2[steps]; 
 
 	/* create walk structure to output results as tuple */ 
-	walk_t *w = init_walk(steps);
-    walk_t *result = weighted_random_walk_list(g, w, 0);
+    walk_t *result = weighted_random_walk_list(g, 0, 10);
 
 	/* iterate through walk results and check if sum matches path */ 
    	int test_sum = 0; 	
 	for(int i = 0; i < result->steps; i++) {
-	   	node_t *node = g->list->items[w->path[i]]->head; 	
+	   	node_t *node = g->list->items[result->path[i]]->head; 	
 		test_sum += node->weight; 
 	}
 

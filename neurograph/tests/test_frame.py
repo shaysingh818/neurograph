@@ -1,6 +1,5 @@
 from neurograph.extractors import DataFrame
 from neurograph.structures import Matrix
-import cython
 from pprint import pprint
 import unittest
 

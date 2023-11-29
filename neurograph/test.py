@@ -2,18 +2,24 @@ import cython
 from pprint import pprint
 from neurograph.extractors import DataFrame
 from neurograph.structures import Matrix
+from neurograph.graph import Graph, SerializedGraph, DataFrameGraph, GraphWalk
 
 def main():
 
-    # create dataframe
-    df = DataFrame("../examples/data/ms_prediction.csv", 10)
-    df.subtract(cols=["Patient_ID", "Age"], result="my_sum")
-    print(df.map_header("my_sum"))
-    # df.sum(cols=["Patient_ID", "Age"], result="my_sum")
-    # pprint(df.rows())
+    # create graph
+    g = Graph(vertices=5, directed=False)
+    g.add_node(src_id=0, src="A", dst_id=1, dst="B", weight=0)
+    g.add_node(src_id=0, src="A", dst_id=2, dst="C", weight=5)
+    g.add_node(src_id=0, src="A", dst_id=3, dst="D", weight=15)
+    g.add_node(src_id=1, src="B", dst_id=2, dst="C", weight=7)
+    g.add_node(src_id=4, src="E", dst_id=2, dst="C", weight=8)
 
-    # power_gen_df = DataFrame("../examples/data/power_generation.csv", 10)
-    # power_gen_df.subtract(cols=["Deviation", "Actual(MU)"], result="sum")
-    # pprint(power_gen_df.rows())
+    graph_walk = GraphWalk(graph=g, start_vertex=0, steps=10)
+    pprint(graph_walk.contents())
+
+
+
+
+
 
 main()

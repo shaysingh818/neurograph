@@ -20,6 +20,13 @@ setup(
             ],
             libraries=["neurograph"],
             include_dirs=["include"]
+        ),
+        Extension(
+            name="neurograph.graph",
+            sources=[
+                os.path.join("neurograph", "graph.pyx"), 
+            ],
+            libraries=["neurograph"],
         )
     ])
 )

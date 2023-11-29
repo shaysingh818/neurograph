@@ -441,11 +441,14 @@ void deserialize_graph_list(graph_t *g, char *filename) {
 		printf("File does not exist\n");
 	}
 
+
+
 	for(int i = 0; i < g->list->v; i++){
-		node_t *result = get_node_by_id(g->list, i); 
+		node_t *result = get_node_by_id(g->list, i);
 		int id = result->id; 
 		char *label = result->label;
-		remove_character(label, '"'); 
+		remove_character(label, '"');
+
 
 		fprintf(fp, "[%d,\"%s\"]: ", id, label);  
 		node_t *head = g->list->items[i]->head;
