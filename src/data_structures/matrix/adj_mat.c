@@ -56,6 +56,7 @@ void add_node_mat(
 		m->weights->arr[src_id][dst_id] = weight; 
 		m->weights->arr[dst_id][src_id] = weight;  
 	}
+
 }
 
 
@@ -94,10 +95,10 @@ adj_mat_t *transpose_items_mat(adj_mat_t *m, adj_mat_t *r) {
 
 void print_adj_mat(adj_mat_t *mat){
     for(int i = 0; i < mat->v; i++){
-		printf("%d: ", i); 
+		printf("%d: ", i);
         for(int j = 0; j < mat->v; j++){
             node_t *neighbor = mat->items[i*mat->v+j];
-            if(neighbor->label != NULL){
+            if(neighbor->id > -1){
 				printf(
 					"-> (%d, %s, %d)",
 					neighbor->id, neighbor->label, neighbor->weight

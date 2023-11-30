@@ -151,7 +151,7 @@ int add_end_node(adj_list_t *g, int src_id, char *src_label, int weight) {
 void print_graph(adj_list_t *g) {
 	for(int i = 0; i < g->v; i++){
 		node_t *head = g->items[i]->head;
-		printf("%d ", i); 
+		printf("%d ", i);
 		while(head) {
 			printf("-> (%d, %s)", head->id, head->label); 
 			if(head->weight >= 0) {

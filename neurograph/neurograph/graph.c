@@ -1568,15 +1568,15 @@ struct __pyx_obj_10neurograph_5graph_Walk {
 };
 
 
-/* "neurograph/graph.pyx":132
+/* "neurograph/graph.pxd":32
  * 
  * 
  * cdef class GraphWalk(Walk):             # <<<<<<<<<<<<<<
- * 
- *     def __cinit__(self):
+ *     cdef gr.Graph *graph
  */
 struct __pyx_obj_10neurograph_5graph_GraphWalk {
   struct __pyx_obj_10neurograph_5graph_Walk __pyx_base;
+  struct Graph *graph;
 };
 
 /* #### Code section: utility_code_proto ### */
@@ -2297,7 +2297,7 @@ static PyObject *__pyx_builtin_TypeError;
 /* #### Code section: string_decls ### */
 static const char __pyx_k_i[] = "i";
 static const char __pyx_k_gc[] = "gc";
-static const char __pyx_k__28[] = "?";
+static const char __pyx_k__30[] = "?";
 static const char __pyx_k_dst[] = "dst";
 static const char __pyx_k_int[] = "int";
 static const char __pyx_k_src[] = "src";
@@ -2325,14 +2325,15 @@ static const char __pyx_k_cycles[] = "cycles";
 static const char __pyx_k_dst_id[] = "dst_id";
 static const char __pyx_k_enable[] = "enable";
 static const char __pyx_k_encode[] = "encode";
+static const char __pyx_k_matrix[] = "matrix";
 static const char __pyx_k_reduce[] = "__reduce__";
-static const char __pyx_k_result[] = "result";
 static const char __pyx_k_return[] = "return";
 static const char __pyx_k_src_id[] = "src_id";
 static const char __pyx_k_weight[] = "weight";
 static const char __pyx_k_disable[] = "disable";
 static const char __pyx_k_results[] = "results";
 static const char __pyx_k_add_node[] = "add_node";
+static const char __pyx_k_adj_list[] = "adj_list";
 static const char __pyx_k_contents[] = "contents";
 static const char __pyx_k_dijkstra[] = "dijkstra";
 static const char __pyx_k_directed[] = "directed";
@@ -2356,6 +2357,7 @@ static const char __pyx_k_MemoryError[] = "MemoryError";
 static const char __pyx_k_output_path[] = "output_path";
 static const char __pyx_k_print_graph[] = "print_graph";
 static const char __pyx_k_result_list[] = "result_list";
+static const char __pyx_k_Graph_matrix[] = "Graph.matrix";
 static const char __pyx_k_is_coroutine[] = "_is_coroutine";
 static const char __pyx_k_start_vertex[] = "start_vertex";
 static const char __pyx_k_stringsource[] = "<stringsource>";
@@ -2365,7 +2367,7 @@ static const char __pyx_k_reduce_cython[] = "__reduce_cython__";
 static const char __pyx_k_shortest_path[] = "shortest_path";
 static const char __pyx_k_DataFrameGraph[] = "DataFrameGraph";
 static const char __pyx_k_Graph_add_node[] = "Graph.add_node";
-static const char __pyx_k_Graph_contents[] = "Graph.contents";
+static const char __pyx_k_Graph_adj_list[] = "Graph.adj_list";
 static const char __pyx_k_Graph_dijkstra[] = "Graph.dijkstra";
 static const char __pyx_k_Graph_vertices[] = "Graph.vertices";
 static const char __pyx_k_SerializedGraph[] = "SerializedGraph";
@@ -2390,16 +2392,17 @@ static const char __pyx_k_no_default___reduce___due_to_non[] = "no default __red
 /* #### Code section: decls ### */
 static int __pyx_pf_10neurograph_5graph_5Graph___cinit__(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self); /* proto */
 static int __pyx_pf_10neurograph_5graph_5Graph_2__init__(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self, PyObject *__pyx_v_vertices, PyObject *__pyx_v_directed); /* proto */
-static PyObject *__pyx_pf_10neurograph_5graph_5Graph_4vertices(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_10neurograph_5graph_5Graph_6edges(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_10neurograph_5graph_5Graph_8add_node(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self, PyObject *__pyx_v_src_id, PyObject *__pyx_v_src, PyObject *__pyx_v_dst_id, PyObject *__pyx_v_dst, PyObject *__pyx_v_weight); /* proto */
-static PyObject *__pyx_pf_10neurograph_5graph_5Graph_10contents(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_10neurograph_5graph_5Graph_12save(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self, PyObject *__pyx_v_output_path); /* proto */
+static PyObject *__pyx_pf_10neurograph_5graph_5Graph_4add_node(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self, PyObject *__pyx_v_src_id, PyObject *__pyx_v_src, PyObject *__pyx_v_dst_id, PyObject *__pyx_v_dst, PyObject *__pyx_v_weight); /* proto */
+static PyObject *__pyx_pf_10neurograph_5graph_5Graph_6adj_list(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10neurograph_5graph_5Graph_8save(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self, PyObject *__pyx_v_output_path); /* proto */
+static PyObject *__pyx_pf_10neurograph_5graph_5Graph_10dijkstra(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self, PyObject *__pyx_v_start_vertex, PyObject *__pyx_v_matrix); /* proto */
+static PyObject *__pyx_pf_10neurograph_5graph_5Graph_12shortest_path(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self, PyObject *__pyx_v_start_vertex, PyObject *__pyx_v_end_vertex, PyObject *__pyx_v_matrix); /* proto */
 static PyObject *__pyx_pf_10neurograph_5graph_5Graph_14print_graph(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_10neurograph_5graph_5Graph_16dijkstra(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self, PyObject *__pyx_v_start_vertex); /* proto */
-static PyObject *__pyx_pf_10neurograph_5graph_5Graph_18shortest_path(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self, PyObject *__pyx_v_start_vertex, PyObject *__pyx_v_end_vertex); /* proto */
-static PyObject *__pyx_pf_10neurograph_5graph_5Graph_20__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_10neurograph_5graph_5Graph_22__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_10neurograph_5graph_5Graph_16matrix(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10neurograph_5graph_5Graph_18vertices(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10neurograph_5graph_5Graph_20edges(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10neurograph_5graph_5Graph_22__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10neurograph_5graph_5Graph_24__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_pf_10neurograph_5graph_15SerializedGraph___cinit__(struct __pyx_obj_10neurograph_5graph_SerializedGraph *__pyx_v_self); /* proto */
 static int __pyx_pf_10neurograph_5graph_15SerializedGraph_2__init__(struct __pyx_obj_10neurograph_5graph_SerializedGraph *__pyx_v_self, PyObject *__pyx_v_filename, PyObject *__pyx_v_file_size, PyObject *__pyx_v_directed); /* proto */
 static PyObject *__pyx_pf_10neurograph_5graph_15SerializedGraph_4__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10neurograph_5graph_SerializedGraph *__pyx_v_self); /* proto */
@@ -2414,7 +2417,7 @@ static PyObject *__pyx_pf_10neurograph_5graph_4Walk_4contents(struct __pyx_obj_1
 static PyObject *__pyx_pf_10neurograph_5graph_4Walk_6__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10neurograph_5graph_Walk *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_10neurograph_5graph_4Walk_8__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10neurograph_5graph_Walk *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_pf_10neurograph_5graph_9GraphWalk___cinit__(struct __pyx_obj_10neurograph_5graph_GraphWalk *__pyx_v_self); /* proto */
-static int __pyx_pf_10neurograph_5graph_9GraphWalk_2__init__(struct __pyx_obj_10neurograph_5graph_GraphWalk *__pyx_v_self, struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_graph, PyObject *__pyx_v_start_vertex, PyObject *__pyx_v_steps); /* proto */
+static int __pyx_pf_10neurograph_5graph_9GraphWalk_2__init__(struct __pyx_obj_10neurograph_5graph_GraphWalk *__pyx_v_self, struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_graph, PyObject *__pyx_v_start_vertex, PyObject *__pyx_v_steps, PyObject *__pyx_v_weighted, PyObject *__pyx_v_matrix); /* proto */
 static PyObject *__pyx_pf_10neurograph_5graph_9GraphWalk_4__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10neurograph_5graph_GraphWalk *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_10neurograph_5graph_9GraphWalk_6__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10neurograph_5graph_GraphWalk *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_tp_new_10neurograph_5graph_Graph(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -2499,9 +2502,10 @@ typedef struct {
   PyObject *__pyx_n_s_Graph___reduce_cython;
   PyObject *__pyx_n_s_Graph___setstate_cython;
   PyObject *__pyx_n_s_Graph_add_node;
-  PyObject *__pyx_n_s_Graph_contents;
+  PyObject *__pyx_n_s_Graph_adj_list;
   PyObject *__pyx_n_s_Graph_dijkstra;
   PyObject *__pyx_n_s_Graph_edges;
+  PyObject *__pyx_n_s_Graph_matrix;
   PyObject *__pyx_n_s_Graph_print_graph;
   PyObject *__pyx_n_s_Graph_save;
   PyObject *__pyx_n_s_Graph_shortest_path;
@@ -2515,8 +2519,9 @@ typedef struct {
   PyObject *__pyx_n_s_Walk___reduce_cython;
   PyObject *__pyx_n_s_Walk___setstate_cython;
   PyObject *__pyx_n_s_Walk_contents;
-  PyObject *__pyx_n_s__28;
+  PyObject *__pyx_n_s__30;
   PyObject *__pyx_n_s_add_node;
+  PyObject *__pyx_n_s_adj_list;
   PyObject *__pyx_n_s_append;
   PyObject *__pyx_n_s_asyncio_coroutines;
   PyObject *__pyx_n_s_cline_in_traceback;
@@ -2547,6 +2552,7 @@ typedef struct {
   PyObject *__pyx_n_s_item;
   PyObject *__pyx_n_s_list;
   PyObject *__pyx_n_s_main;
+  PyObject *__pyx_n_s_matrix;
   PyObject *__pyx_n_s_name;
   PyObject *__pyx_n_s_neurograph_graph;
   PyObject *__pyx_kp_s_neurograph_graph_pyx;
@@ -2559,7 +2565,6 @@ typedef struct {
   PyObject *__pyx_n_s_reduce;
   PyObject *__pyx_n_s_reduce_cython;
   PyObject *__pyx_n_s_reduce_ex;
-  PyObject *__pyx_n_s_result;
   PyObject *__pyx_n_s_result_list;
   PyObject *__pyx_n_s_results;
   PyObject *__pyx_n_s_return;
@@ -2583,32 +2588,34 @@ typedef struct {
   PyObject *__pyx_n_s_weighted_sum;
   PyObject *__pyx_int_1024;
   PyObject *__pyx_tuple_;
-  PyObject *__pyx_tuple__4;
-  PyObject *__pyx_tuple__6;
-  PyObject *__pyx_tuple__8;
-  PyObject *__pyx_tuple__11;
-  PyObject *__pyx_tuple__13;
-  PyObject *__pyx_tuple__16;
-  PyObject *__pyx_tuple__22;
+  PyObject *__pyx_tuple__3;
+  PyObject *__pyx_tuple__5;
+  PyObject *__pyx_tuple__7;
+  PyObject *__pyx_tuple__9;
+  PyObject *__pyx_tuple__10;
+  PyObject *__pyx_tuple__12;
+  PyObject *__pyx_tuple__18;
+  PyObject *__pyx_tuple__24;
   PyObject *__pyx_codeobj__2;
-  PyObject *__pyx_codeobj__3;
-  PyObject *__pyx_codeobj__5;
-  PyObject *__pyx_codeobj__7;
-  PyObject *__pyx_codeobj__9;
-  PyObject *__pyx_codeobj__10;
-  PyObject *__pyx_codeobj__12;
+  PyObject *__pyx_codeobj__4;
+  PyObject *__pyx_codeobj__6;
+  PyObject *__pyx_codeobj__8;
+  PyObject *__pyx_codeobj__11;
+  PyObject *__pyx_codeobj__13;
   PyObject *__pyx_codeobj__14;
   PyObject *__pyx_codeobj__15;
+  PyObject *__pyx_codeobj__16;
   PyObject *__pyx_codeobj__17;
-  PyObject *__pyx_codeobj__18;
   PyObject *__pyx_codeobj__19;
   PyObject *__pyx_codeobj__20;
   PyObject *__pyx_codeobj__21;
+  PyObject *__pyx_codeobj__22;
   PyObject *__pyx_codeobj__23;
-  PyObject *__pyx_codeobj__24;
   PyObject *__pyx_codeobj__25;
   PyObject *__pyx_codeobj__26;
   PyObject *__pyx_codeobj__27;
+  PyObject *__pyx_codeobj__28;
+  PyObject *__pyx_codeobj__29;
 } __pyx_mstate;
 
 #if CYTHON_USE_MODULE_STATE
@@ -2672,9 +2679,10 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_Graph___reduce_cython);
   Py_CLEAR(clear_module_state->__pyx_n_s_Graph___setstate_cython);
   Py_CLEAR(clear_module_state->__pyx_n_s_Graph_add_node);
-  Py_CLEAR(clear_module_state->__pyx_n_s_Graph_contents);
+  Py_CLEAR(clear_module_state->__pyx_n_s_Graph_adj_list);
   Py_CLEAR(clear_module_state->__pyx_n_s_Graph_dijkstra);
   Py_CLEAR(clear_module_state->__pyx_n_s_Graph_edges);
+  Py_CLEAR(clear_module_state->__pyx_n_s_Graph_matrix);
   Py_CLEAR(clear_module_state->__pyx_n_s_Graph_print_graph);
   Py_CLEAR(clear_module_state->__pyx_n_s_Graph_save);
   Py_CLEAR(clear_module_state->__pyx_n_s_Graph_shortest_path);
@@ -2688,8 +2696,9 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_Walk___reduce_cython);
   Py_CLEAR(clear_module_state->__pyx_n_s_Walk___setstate_cython);
   Py_CLEAR(clear_module_state->__pyx_n_s_Walk_contents);
-  Py_CLEAR(clear_module_state->__pyx_n_s__28);
+  Py_CLEAR(clear_module_state->__pyx_n_s__30);
   Py_CLEAR(clear_module_state->__pyx_n_s_add_node);
+  Py_CLEAR(clear_module_state->__pyx_n_s_adj_list);
   Py_CLEAR(clear_module_state->__pyx_n_s_append);
   Py_CLEAR(clear_module_state->__pyx_n_s_asyncio_coroutines);
   Py_CLEAR(clear_module_state->__pyx_n_s_cline_in_traceback);
@@ -2720,6 +2729,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_item);
   Py_CLEAR(clear_module_state->__pyx_n_s_list);
   Py_CLEAR(clear_module_state->__pyx_n_s_main);
+  Py_CLEAR(clear_module_state->__pyx_n_s_matrix);
   Py_CLEAR(clear_module_state->__pyx_n_s_name);
   Py_CLEAR(clear_module_state->__pyx_n_s_neurograph_graph);
   Py_CLEAR(clear_module_state->__pyx_kp_s_neurograph_graph_pyx);
@@ -2732,7 +2742,6 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_reduce);
   Py_CLEAR(clear_module_state->__pyx_n_s_reduce_cython);
   Py_CLEAR(clear_module_state->__pyx_n_s_reduce_ex);
-  Py_CLEAR(clear_module_state->__pyx_n_s_result);
   Py_CLEAR(clear_module_state->__pyx_n_s_result_list);
   Py_CLEAR(clear_module_state->__pyx_n_s_results);
   Py_CLEAR(clear_module_state->__pyx_n_s_return);
@@ -2756,32 +2765,34 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_weighted_sum);
   Py_CLEAR(clear_module_state->__pyx_int_1024);
   Py_CLEAR(clear_module_state->__pyx_tuple_);
-  Py_CLEAR(clear_module_state->__pyx_tuple__4);
-  Py_CLEAR(clear_module_state->__pyx_tuple__6);
-  Py_CLEAR(clear_module_state->__pyx_tuple__8);
-  Py_CLEAR(clear_module_state->__pyx_tuple__11);
-  Py_CLEAR(clear_module_state->__pyx_tuple__13);
-  Py_CLEAR(clear_module_state->__pyx_tuple__16);
-  Py_CLEAR(clear_module_state->__pyx_tuple__22);
+  Py_CLEAR(clear_module_state->__pyx_tuple__3);
+  Py_CLEAR(clear_module_state->__pyx_tuple__5);
+  Py_CLEAR(clear_module_state->__pyx_tuple__7);
+  Py_CLEAR(clear_module_state->__pyx_tuple__9);
+  Py_CLEAR(clear_module_state->__pyx_tuple__10);
+  Py_CLEAR(clear_module_state->__pyx_tuple__12);
+  Py_CLEAR(clear_module_state->__pyx_tuple__18);
+  Py_CLEAR(clear_module_state->__pyx_tuple__24);
   Py_CLEAR(clear_module_state->__pyx_codeobj__2);
-  Py_CLEAR(clear_module_state->__pyx_codeobj__3);
-  Py_CLEAR(clear_module_state->__pyx_codeobj__5);
-  Py_CLEAR(clear_module_state->__pyx_codeobj__7);
-  Py_CLEAR(clear_module_state->__pyx_codeobj__9);
-  Py_CLEAR(clear_module_state->__pyx_codeobj__10);
-  Py_CLEAR(clear_module_state->__pyx_codeobj__12);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__4);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__6);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__8);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__11);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__13);
   Py_CLEAR(clear_module_state->__pyx_codeobj__14);
   Py_CLEAR(clear_module_state->__pyx_codeobj__15);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__16);
   Py_CLEAR(clear_module_state->__pyx_codeobj__17);
-  Py_CLEAR(clear_module_state->__pyx_codeobj__18);
   Py_CLEAR(clear_module_state->__pyx_codeobj__19);
   Py_CLEAR(clear_module_state->__pyx_codeobj__20);
   Py_CLEAR(clear_module_state->__pyx_codeobj__21);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__22);
   Py_CLEAR(clear_module_state->__pyx_codeobj__23);
-  Py_CLEAR(clear_module_state->__pyx_codeobj__24);
   Py_CLEAR(clear_module_state->__pyx_codeobj__25);
   Py_CLEAR(clear_module_state->__pyx_codeobj__26);
   Py_CLEAR(clear_module_state->__pyx_codeobj__27);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__28);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__29);
   return 0;
 }
 #endif
@@ -2823,9 +2834,10 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_Graph___reduce_cython);
   Py_VISIT(traverse_module_state->__pyx_n_s_Graph___setstate_cython);
   Py_VISIT(traverse_module_state->__pyx_n_s_Graph_add_node);
-  Py_VISIT(traverse_module_state->__pyx_n_s_Graph_contents);
+  Py_VISIT(traverse_module_state->__pyx_n_s_Graph_adj_list);
   Py_VISIT(traverse_module_state->__pyx_n_s_Graph_dijkstra);
   Py_VISIT(traverse_module_state->__pyx_n_s_Graph_edges);
+  Py_VISIT(traverse_module_state->__pyx_n_s_Graph_matrix);
   Py_VISIT(traverse_module_state->__pyx_n_s_Graph_print_graph);
   Py_VISIT(traverse_module_state->__pyx_n_s_Graph_save);
   Py_VISIT(traverse_module_state->__pyx_n_s_Graph_shortest_path);
@@ -2839,8 +2851,9 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_Walk___reduce_cython);
   Py_VISIT(traverse_module_state->__pyx_n_s_Walk___setstate_cython);
   Py_VISIT(traverse_module_state->__pyx_n_s_Walk_contents);
-  Py_VISIT(traverse_module_state->__pyx_n_s__28);
+  Py_VISIT(traverse_module_state->__pyx_n_s__30);
   Py_VISIT(traverse_module_state->__pyx_n_s_add_node);
+  Py_VISIT(traverse_module_state->__pyx_n_s_adj_list);
   Py_VISIT(traverse_module_state->__pyx_n_s_append);
   Py_VISIT(traverse_module_state->__pyx_n_s_asyncio_coroutines);
   Py_VISIT(traverse_module_state->__pyx_n_s_cline_in_traceback);
@@ -2871,6 +2884,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_item);
   Py_VISIT(traverse_module_state->__pyx_n_s_list);
   Py_VISIT(traverse_module_state->__pyx_n_s_main);
+  Py_VISIT(traverse_module_state->__pyx_n_s_matrix);
   Py_VISIT(traverse_module_state->__pyx_n_s_name);
   Py_VISIT(traverse_module_state->__pyx_n_s_neurograph_graph);
   Py_VISIT(traverse_module_state->__pyx_kp_s_neurograph_graph_pyx);
@@ -2883,7 +2897,6 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_reduce);
   Py_VISIT(traverse_module_state->__pyx_n_s_reduce_cython);
   Py_VISIT(traverse_module_state->__pyx_n_s_reduce_ex);
-  Py_VISIT(traverse_module_state->__pyx_n_s_result);
   Py_VISIT(traverse_module_state->__pyx_n_s_result_list);
   Py_VISIT(traverse_module_state->__pyx_n_s_results);
   Py_VISIT(traverse_module_state->__pyx_n_s_return);
@@ -2907,32 +2920,34 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_weighted_sum);
   Py_VISIT(traverse_module_state->__pyx_int_1024);
   Py_VISIT(traverse_module_state->__pyx_tuple_);
-  Py_VISIT(traverse_module_state->__pyx_tuple__4);
-  Py_VISIT(traverse_module_state->__pyx_tuple__6);
-  Py_VISIT(traverse_module_state->__pyx_tuple__8);
-  Py_VISIT(traverse_module_state->__pyx_tuple__11);
-  Py_VISIT(traverse_module_state->__pyx_tuple__13);
-  Py_VISIT(traverse_module_state->__pyx_tuple__16);
-  Py_VISIT(traverse_module_state->__pyx_tuple__22);
+  Py_VISIT(traverse_module_state->__pyx_tuple__3);
+  Py_VISIT(traverse_module_state->__pyx_tuple__5);
+  Py_VISIT(traverse_module_state->__pyx_tuple__7);
+  Py_VISIT(traverse_module_state->__pyx_tuple__9);
+  Py_VISIT(traverse_module_state->__pyx_tuple__10);
+  Py_VISIT(traverse_module_state->__pyx_tuple__12);
+  Py_VISIT(traverse_module_state->__pyx_tuple__18);
+  Py_VISIT(traverse_module_state->__pyx_tuple__24);
   Py_VISIT(traverse_module_state->__pyx_codeobj__2);
-  Py_VISIT(traverse_module_state->__pyx_codeobj__3);
-  Py_VISIT(traverse_module_state->__pyx_codeobj__5);
-  Py_VISIT(traverse_module_state->__pyx_codeobj__7);
-  Py_VISIT(traverse_module_state->__pyx_codeobj__9);
-  Py_VISIT(traverse_module_state->__pyx_codeobj__10);
-  Py_VISIT(traverse_module_state->__pyx_codeobj__12);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__4);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__6);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__8);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__11);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__13);
   Py_VISIT(traverse_module_state->__pyx_codeobj__14);
   Py_VISIT(traverse_module_state->__pyx_codeobj__15);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__16);
   Py_VISIT(traverse_module_state->__pyx_codeobj__17);
-  Py_VISIT(traverse_module_state->__pyx_codeobj__18);
   Py_VISIT(traverse_module_state->__pyx_codeobj__19);
   Py_VISIT(traverse_module_state->__pyx_codeobj__20);
   Py_VISIT(traverse_module_state->__pyx_codeobj__21);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__22);
   Py_VISIT(traverse_module_state->__pyx_codeobj__23);
-  Py_VISIT(traverse_module_state->__pyx_codeobj__24);
   Py_VISIT(traverse_module_state->__pyx_codeobj__25);
   Py_VISIT(traverse_module_state->__pyx_codeobj__26);
   Py_VISIT(traverse_module_state->__pyx_codeobj__27);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__28);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__29);
   return 0;
 }
 #endif
@@ -3010,9 +3025,10 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_Graph___reduce_cython __pyx_mstate_global->__pyx_n_s_Graph___reduce_cython
 #define __pyx_n_s_Graph___setstate_cython __pyx_mstate_global->__pyx_n_s_Graph___setstate_cython
 #define __pyx_n_s_Graph_add_node __pyx_mstate_global->__pyx_n_s_Graph_add_node
-#define __pyx_n_s_Graph_contents __pyx_mstate_global->__pyx_n_s_Graph_contents
+#define __pyx_n_s_Graph_adj_list __pyx_mstate_global->__pyx_n_s_Graph_adj_list
 #define __pyx_n_s_Graph_dijkstra __pyx_mstate_global->__pyx_n_s_Graph_dijkstra
 #define __pyx_n_s_Graph_edges __pyx_mstate_global->__pyx_n_s_Graph_edges
+#define __pyx_n_s_Graph_matrix __pyx_mstate_global->__pyx_n_s_Graph_matrix
 #define __pyx_n_s_Graph_print_graph __pyx_mstate_global->__pyx_n_s_Graph_print_graph
 #define __pyx_n_s_Graph_save __pyx_mstate_global->__pyx_n_s_Graph_save
 #define __pyx_n_s_Graph_shortest_path __pyx_mstate_global->__pyx_n_s_Graph_shortest_path
@@ -3026,8 +3042,9 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_Walk___reduce_cython __pyx_mstate_global->__pyx_n_s_Walk___reduce_cython
 #define __pyx_n_s_Walk___setstate_cython __pyx_mstate_global->__pyx_n_s_Walk___setstate_cython
 #define __pyx_n_s_Walk_contents __pyx_mstate_global->__pyx_n_s_Walk_contents
-#define __pyx_n_s__28 __pyx_mstate_global->__pyx_n_s__28
+#define __pyx_n_s__30 __pyx_mstate_global->__pyx_n_s__30
 #define __pyx_n_s_add_node __pyx_mstate_global->__pyx_n_s_add_node
+#define __pyx_n_s_adj_list __pyx_mstate_global->__pyx_n_s_adj_list
 #define __pyx_n_s_append __pyx_mstate_global->__pyx_n_s_append
 #define __pyx_n_s_asyncio_coroutines __pyx_mstate_global->__pyx_n_s_asyncio_coroutines
 #define __pyx_n_s_cline_in_traceback __pyx_mstate_global->__pyx_n_s_cline_in_traceback
@@ -3058,6 +3075,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_item __pyx_mstate_global->__pyx_n_s_item
 #define __pyx_n_s_list __pyx_mstate_global->__pyx_n_s_list
 #define __pyx_n_s_main __pyx_mstate_global->__pyx_n_s_main
+#define __pyx_n_s_matrix __pyx_mstate_global->__pyx_n_s_matrix
 #define __pyx_n_s_name __pyx_mstate_global->__pyx_n_s_name
 #define __pyx_n_s_neurograph_graph __pyx_mstate_global->__pyx_n_s_neurograph_graph
 #define __pyx_kp_s_neurograph_graph_pyx __pyx_mstate_global->__pyx_kp_s_neurograph_graph_pyx
@@ -3070,7 +3088,6 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_reduce __pyx_mstate_global->__pyx_n_s_reduce
 #define __pyx_n_s_reduce_cython __pyx_mstate_global->__pyx_n_s_reduce_cython
 #define __pyx_n_s_reduce_ex __pyx_mstate_global->__pyx_n_s_reduce_ex
-#define __pyx_n_s_result __pyx_mstate_global->__pyx_n_s_result
 #define __pyx_n_s_result_list __pyx_mstate_global->__pyx_n_s_result_list
 #define __pyx_n_s_results __pyx_mstate_global->__pyx_n_s_results
 #define __pyx_n_s_return __pyx_mstate_global->__pyx_n_s_return
@@ -3094,35 +3111,37 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_weighted_sum __pyx_mstate_global->__pyx_n_s_weighted_sum
 #define __pyx_int_1024 __pyx_mstate_global->__pyx_int_1024
 #define __pyx_tuple_ __pyx_mstate_global->__pyx_tuple_
-#define __pyx_tuple__4 __pyx_mstate_global->__pyx_tuple__4
-#define __pyx_tuple__6 __pyx_mstate_global->__pyx_tuple__6
-#define __pyx_tuple__8 __pyx_mstate_global->__pyx_tuple__8
-#define __pyx_tuple__11 __pyx_mstate_global->__pyx_tuple__11
-#define __pyx_tuple__13 __pyx_mstate_global->__pyx_tuple__13
-#define __pyx_tuple__16 __pyx_mstate_global->__pyx_tuple__16
-#define __pyx_tuple__22 __pyx_mstate_global->__pyx_tuple__22
+#define __pyx_tuple__3 __pyx_mstate_global->__pyx_tuple__3
+#define __pyx_tuple__5 __pyx_mstate_global->__pyx_tuple__5
+#define __pyx_tuple__7 __pyx_mstate_global->__pyx_tuple__7
+#define __pyx_tuple__9 __pyx_mstate_global->__pyx_tuple__9
+#define __pyx_tuple__10 __pyx_mstate_global->__pyx_tuple__10
+#define __pyx_tuple__12 __pyx_mstate_global->__pyx_tuple__12
+#define __pyx_tuple__18 __pyx_mstate_global->__pyx_tuple__18
+#define __pyx_tuple__24 __pyx_mstate_global->__pyx_tuple__24
 #define __pyx_codeobj__2 __pyx_mstate_global->__pyx_codeobj__2
-#define __pyx_codeobj__3 __pyx_mstate_global->__pyx_codeobj__3
-#define __pyx_codeobj__5 __pyx_mstate_global->__pyx_codeobj__5
-#define __pyx_codeobj__7 __pyx_mstate_global->__pyx_codeobj__7
-#define __pyx_codeobj__9 __pyx_mstate_global->__pyx_codeobj__9
-#define __pyx_codeobj__10 __pyx_mstate_global->__pyx_codeobj__10
-#define __pyx_codeobj__12 __pyx_mstate_global->__pyx_codeobj__12
+#define __pyx_codeobj__4 __pyx_mstate_global->__pyx_codeobj__4
+#define __pyx_codeobj__6 __pyx_mstate_global->__pyx_codeobj__6
+#define __pyx_codeobj__8 __pyx_mstate_global->__pyx_codeobj__8
+#define __pyx_codeobj__11 __pyx_mstate_global->__pyx_codeobj__11
+#define __pyx_codeobj__13 __pyx_mstate_global->__pyx_codeobj__13
 #define __pyx_codeobj__14 __pyx_mstate_global->__pyx_codeobj__14
 #define __pyx_codeobj__15 __pyx_mstate_global->__pyx_codeobj__15
+#define __pyx_codeobj__16 __pyx_mstate_global->__pyx_codeobj__16
 #define __pyx_codeobj__17 __pyx_mstate_global->__pyx_codeobj__17
-#define __pyx_codeobj__18 __pyx_mstate_global->__pyx_codeobj__18
 #define __pyx_codeobj__19 __pyx_mstate_global->__pyx_codeobj__19
 #define __pyx_codeobj__20 __pyx_mstate_global->__pyx_codeobj__20
 #define __pyx_codeobj__21 __pyx_mstate_global->__pyx_codeobj__21
+#define __pyx_codeobj__22 __pyx_mstate_global->__pyx_codeobj__22
 #define __pyx_codeobj__23 __pyx_mstate_global->__pyx_codeobj__23
-#define __pyx_codeobj__24 __pyx_mstate_global->__pyx_codeobj__24
 #define __pyx_codeobj__25 __pyx_mstate_global->__pyx_codeobj__25
 #define __pyx_codeobj__26 __pyx_mstate_global->__pyx_codeobj__26
 #define __pyx_codeobj__27 __pyx_mstate_global->__pyx_codeobj__27
+#define __pyx_codeobj__28 __pyx_mstate_global->__pyx_codeobj__28
+#define __pyx_codeobj__29 __pyx_mstate_global->__pyx_codeobj__29
 /* #### Code section: module_code ### */
 
-/* "neurograph/graph.pyx":8
+/* "neurograph/graph.pyx":9
  * cdef class Graph:
  * 
  *     def __cinit__(self):             # <<<<<<<<<<<<<<
@@ -3157,7 +3176,7 @@ static int __pyx_pw_10neurograph_5graph_5Graph_1__cinit__(PyObject *__pyx_v_self
 static int __pyx_pf_10neurograph_5graph_5Graph___cinit__(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self) {
   int __pyx_r;
 
-  /* "neurograph/graph.pyx":9
+  /* "neurograph/graph.pyx":10
  * 
  *     def __cinit__(self):
  *         self.graph = NULL             # <<<<<<<<<<<<<<
@@ -3166,7 +3185,7 @@ static int __pyx_pf_10neurograph_5graph_5Graph___cinit__(struct __pyx_obj_10neur
  */
   __pyx_v_self->graph = NULL;
 
-  /* "neurograph/graph.pyx":8
+  /* "neurograph/graph.pyx":9
  * cdef class Graph:
  * 
  *     def __cinit__(self):             # <<<<<<<<<<<<<<
@@ -3179,7 +3198,7 @@ static int __pyx_pf_10neurograph_5graph_5Graph___cinit__(struct __pyx_obj_10neur
   return __pyx_r;
 }
 
-/* "neurograph/graph.pyx":11
+/* "neurograph/graph.pyx":12
  *         self.graph = NULL
  * 
  *     def __init__(self, vertices: int, directed: bool):             # <<<<<<<<<<<<<<
@@ -3226,7 +3245,7 @@ static int __pyx_pw_10neurograph_5graph_5Graph_3__init__(PyObject *__pyx_v_self,
           (void)__Pyx_Arg_NewRef_VARARGS(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 11, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 12, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
@@ -3234,14 +3253,14 @@ static int __pyx_pw_10neurograph_5graph_5Graph_3__init__(PyObject *__pyx_v_self,
           (void)__Pyx_Arg_NewRef_VARARGS(values[1]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 11, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 12, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); __PYX_ERR(0, 11, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); __PYX_ERR(0, 12, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 11, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 12, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 2)) {
       goto __pyx_L5_argtuple_error;
@@ -3254,7 +3273,7 @@ static int __pyx_pw_10neurograph_5graph_5Graph_3__init__(PyObject *__pyx_v_self,
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, __pyx_nargs); __PYX_ERR(0, 11, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, __pyx_nargs); __PYX_ERR(0, 12, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -3268,7 +3287,7 @@ static int __pyx_pw_10neurograph_5graph_5Graph_3__init__(PyObject *__pyx_v_self,
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_vertices), (&PyInt_Type), 0, "vertices", 1))) __PYX_ERR(0, 11, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_vertices), (&PyInt_Type), 0, "vertices", 1))) __PYX_ERR(0, 12, __pyx_L1_error)
   __pyx_r = __pyx_pf_10neurograph_5graph_5Graph_2__init__(((struct __pyx_obj_10neurograph_5graph_Graph *)__pyx_v_self), __pyx_v_vertices, __pyx_v_directed);
 
   /* function exit code */
@@ -3295,19 +3314,19 @@ static int __pyx_pf_10neurograph_5graph_5Graph_2__init__(struct __pyx_obj_10neur
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
 
-  /* "neurograph/graph.pyx":12
+  /* "neurograph/graph.pyx":13
  * 
  *     def __init__(self, vertices: int, directed: bool):
  *         self.graph = gr.init_graph(vertices, vertices, directed)             # <<<<<<<<<<<<<<
  *         if self.graph is NULL:
  *             raise MemoryError()
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_vertices); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 12, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_vertices); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 12, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_v_directed); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_vertices); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 13, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_vertices); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 13, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_v_directed); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 13, __pyx_L1_error)
   __pyx_v_self->graph = init_graph(__pyx_t_1, __pyx_t_2, __pyx_t_3);
 
-  /* "neurograph/graph.pyx":13
+  /* "neurograph/graph.pyx":14
  *     def __init__(self, vertices: int, directed: bool):
  *         self.graph = gr.init_graph(vertices, vertices, directed)
  *         if self.graph is NULL:             # <<<<<<<<<<<<<<
@@ -3317,16 +3336,16 @@ static int __pyx_pf_10neurograph_5graph_5Graph_2__init__(struct __pyx_obj_10neur
   __pyx_t_3 = (__pyx_v_self->graph == NULL);
   if (unlikely(__pyx_t_3)) {
 
-    /* "neurograph/graph.pyx":14
+    /* "neurograph/graph.pyx":15
  *         self.graph = gr.init_graph(vertices, vertices, directed)
  *         if self.graph is NULL:
  *             raise MemoryError()             # <<<<<<<<<<<<<<
  * 
- *     def vertices(self):
+ *     def add_node(self, src_id: int, src: str, dst_id: int, dst: str, weight: int):
  */
-    PyErr_NoMemory(); __PYX_ERR(0, 14, __pyx_L1_error)
+    PyErr_NoMemory(); __PYX_ERR(0, 15, __pyx_L1_error)
 
-    /* "neurograph/graph.pyx":13
+    /* "neurograph/graph.pyx":14
  *     def __init__(self, vertices: int, directed: bool):
  *         self.graph = gr.init_graph(vertices, vertices, directed)
  *         if self.graph is NULL:             # <<<<<<<<<<<<<<
@@ -3335,7 +3354,7 @@ static int __pyx_pf_10neurograph_5graph_5Graph_2__init__(struct __pyx_obj_10neur
  */
   }
 
-  /* "neurograph/graph.pyx":11
+  /* "neurograph/graph.pyx":12
  *         self.graph = NULL
  * 
  *     def __init__(self, vertices: int, directed: bool):             # <<<<<<<<<<<<<<
@@ -3353,206 +3372,24 @@ static int __pyx_pf_10neurograph_5graph_5Graph_2__init__(struct __pyx_obj_10neur
   return __pyx_r;
 }
 
-/* "neurograph/graph.pyx":16
+/* "neurograph/graph.pyx":17
  *             raise MemoryError()
- * 
- *     def vertices(self):             # <<<<<<<<<<<<<<
- *         return self.graph.vertices
- * 
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_10neurograph_5graph_5Graph_5vertices(PyObject *__pyx_v_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-); /*proto*/
-static PyMethodDef __pyx_mdef_10neurograph_5graph_5Graph_5vertices = {"vertices", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_5vertices, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_10neurograph_5graph_5Graph_5vertices(PyObject *__pyx_v_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-) {
-  #if !CYTHON_METH_FASTCALL
-  CYTHON_UNUSED Py_ssize_t __pyx_nargs;
-  #endif
-  CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("vertices (wrapper)", 0);
-  #if !CYTHON_METH_FASTCALL
-  #if CYTHON_ASSUME_SAFE_MACROS
-  __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
-  #else
-  __pyx_nargs = PyTuple_Size(__pyx_args); if (unlikely(__pyx_nargs < 0)) return NULL;
-  #endif
-  #endif
-  __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
-  if (unlikely(__pyx_nargs > 0)) {
-    __Pyx_RaiseArgtupleInvalid("vertices", 1, 0, 0, __pyx_nargs); return NULL;}
-  if (unlikely(__pyx_kwds) && __Pyx_NumKwargs_FASTCALL(__pyx_kwds) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "vertices", 0))) return NULL;
-  __pyx_r = __pyx_pf_10neurograph_5graph_5Graph_4vertices(((struct __pyx_obj_10neurograph_5graph_Graph *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_10neurograph_5graph_5Graph_4vertices(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("vertices", 1);
-
-  /* "neurograph/graph.pyx":17
- * 
- *     def vertices(self):
- *         return self.graph.vertices             # <<<<<<<<<<<<<<
- * 
- *     def edges(self):
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->graph->vertices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 17, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* "neurograph/graph.pyx":16
- *             raise MemoryError()
- * 
- *     def vertices(self):             # <<<<<<<<<<<<<<
- *         return self.graph.vertices
- * 
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("neurograph.graph.Graph.vertices", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "neurograph/graph.pyx":19
- *         return self.graph.vertices
- * 
- *     def edges(self):             # <<<<<<<<<<<<<<
- *         return self.graph.edges
- * 
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_10neurograph_5graph_5Graph_7edges(PyObject *__pyx_v_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-); /*proto*/
-static PyMethodDef __pyx_mdef_10neurograph_5graph_5Graph_7edges = {"edges", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_7edges, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_10neurograph_5graph_5Graph_7edges(PyObject *__pyx_v_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-) {
-  #if !CYTHON_METH_FASTCALL
-  CYTHON_UNUSED Py_ssize_t __pyx_nargs;
-  #endif
-  CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("edges (wrapper)", 0);
-  #if !CYTHON_METH_FASTCALL
-  #if CYTHON_ASSUME_SAFE_MACROS
-  __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
-  #else
-  __pyx_nargs = PyTuple_Size(__pyx_args); if (unlikely(__pyx_nargs < 0)) return NULL;
-  #endif
-  #endif
-  __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
-  if (unlikely(__pyx_nargs > 0)) {
-    __Pyx_RaiseArgtupleInvalid("edges", 1, 0, 0, __pyx_nargs); return NULL;}
-  if (unlikely(__pyx_kwds) && __Pyx_NumKwargs_FASTCALL(__pyx_kwds) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "edges", 0))) return NULL;
-  __pyx_r = __pyx_pf_10neurograph_5graph_5Graph_6edges(((struct __pyx_obj_10neurograph_5graph_Graph *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_10neurograph_5graph_5Graph_6edges(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("edges", 1);
-
-  /* "neurograph/graph.pyx":20
- * 
- *     def edges(self):
- *         return self.graph.edges             # <<<<<<<<<<<<<<
- * 
- *     def add_node(self, src_id: int, src: str, dst_id: int, dst: str, weight: int):
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->graph->edges); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* "neurograph/graph.pyx":19
- *         return self.graph.vertices
- * 
- *     def edges(self):             # <<<<<<<<<<<<<<
- *         return self.graph.edges
- * 
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("neurograph.graph.Graph.edges", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "neurograph/graph.pyx":22
- *         return self.graph.edges
  * 
  *     def add_node(self, src_id: int, src: str, dst_id: int, dst: str, weight: int):             # <<<<<<<<<<<<<<
- *         result = ll.add_node(
- *             self.graph.list,
+ * 
+ *         # add to adjacency list
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10neurograph_5graph_5Graph_9add_node(PyObject *__pyx_v_self, 
+static PyObject *__pyx_pw_10neurograph_5graph_5Graph_5add_node(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_10neurograph_5graph_5Graph_9add_node = {"add_node", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_9add_node, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_10neurograph_5graph_5Graph_9add_node(PyObject *__pyx_v_self, 
+static PyMethodDef __pyx_mdef_10neurograph_5graph_5Graph_5add_node = {"add_node", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_5add_node, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_10neurograph_5graph_5Graph_5add_node(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -3608,7 +3445,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 22, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 17, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
@@ -3616,9 +3453,9 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[1]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 22, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 17, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("add_node", 1, 5, 5, 1); __PYX_ERR(0, 22, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add_node", 1, 5, 5, 1); __PYX_ERR(0, 17, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -3626,9 +3463,9 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[2]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 22, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 17, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("add_node", 1, 5, 5, 2); __PYX_ERR(0, 22, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add_node", 1, 5, 5, 2); __PYX_ERR(0, 17, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
@@ -3636,9 +3473,9 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[3]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 22, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 17, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("add_node", 1, 5, 5, 3); __PYX_ERR(0, 22, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add_node", 1, 5, 5, 3); __PYX_ERR(0, 17, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
@@ -3646,14 +3483,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[4]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 22, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 17, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("add_node", 1, 5, 5, 4); __PYX_ERR(0, 22, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add_node", 1, 5, 5, 4); __PYX_ERR(0, 17, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "add_node") < 0)) __PYX_ERR(0, 22, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "add_node") < 0)) __PYX_ERR(0, 17, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 5)) {
       goto __pyx_L5_argtuple_error;
@@ -3672,7 +3509,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("add_node", 1, 5, 5, __pyx_nargs); __PYX_ERR(0, 22, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("add_node", 1, 5, 5, __pyx_nargs); __PYX_ERR(0, 17, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -3686,12 +3523,12 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_src_id), (&PyInt_Type), 0, "src_id", 1))) __PYX_ERR(0, 22, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_src), (&PyString_Type), 0, "src", 1))) __PYX_ERR(0, 22, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_dst_id), (&PyInt_Type), 0, "dst_id", 1))) __PYX_ERR(0, 22, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_dst), (&PyString_Type), 0, "dst", 1))) __PYX_ERR(0, 22, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_weight), (&PyInt_Type), 0, "weight", 1))) __PYX_ERR(0, 22, __pyx_L1_error)
-  __pyx_r = __pyx_pf_10neurograph_5graph_5Graph_8add_node(((struct __pyx_obj_10neurograph_5graph_Graph *)__pyx_v_self), __pyx_v_src_id, __pyx_v_src, __pyx_v_dst_id, __pyx_v_dst, __pyx_v_weight);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_src_id), (&PyInt_Type), 0, "src_id", 1))) __PYX_ERR(0, 17, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_src), (&PyString_Type), 0, "src", 1))) __PYX_ERR(0, 17, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_dst_id), (&PyInt_Type), 0, "dst_id", 1))) __PYX_ERR(0, 17, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_dst), (&PyString_Type), 0, "dst", 1))) __PYX_ERR(0, 17, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_weight), (&PyInt_Type), 0, "weight", 1))) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_r = __pyx_pf_10neurograph_5graph_5Graph_4add_node(((struct __pyx_obj_10neurograph_5graph_Graph *)__pyx_v_self), __pyx_v_src_id, __pyx_v_src, __pyx_v_dst_id, __pyx_v_dst, __pyx_v_weight);
 
   /* function exit code */
   goto __pyx_L0;
@@ -3708,8 +3545,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10neurograph_5graph_5Graph_8add_node(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self, PyObject *__pyx_v_src_id, PyObject *__pyx_v_src, PyObject *__pyx_v_dst_id, PyObject *__pyx_v_dst, PyObject *__pyx_v_weight) {
-  int __pyx_v_result;
+static PyObject *__pyx_pf_10neurograph_5graph_5Graph_4add_node(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self, PyObject *__pyx_v_src_id, PyObject *__pyx_v_src, PyObject *__pyx_v_dst_id, PyObject *__pyx_v_dst, PyObject *__pyx_v_weight) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -3719,78 +3555,111 @@ static PyObject *__pyx_pf_10neurograph_5graph_5Graph_8add_node(struct __pyx_obj_
   PyObject *__pyx_t_5 = NULL;
   char *__pyx_t_6;
   int __pyx_t_7;
+  double __pyx_t_8;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("add_node", 1);
 
-  /* "neurograph/graph.pyx":25
- *         result = ll.add_node(
+  /* "neurograph/graph.pyx":22
+ *         ll.add_node(
  *             self.graph.list,
  *             src_id, src.encode('utf-8'),             # <<<<<<<<<<<<<<
  *             dst_id, dst.encode('utf-8'),
  *             weight
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_src_id); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 25, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_encode, __pyx_v_src, __pyx_kp_s_utf_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_src_id); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_encode, __pyx_v_src, __pyx_kp_s_utf_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_AsWritableString(__pyx_t_2); if (unlikely((!__pyx_t_3) && PyErr_Occurred())) __PYX_ERR(0, 25, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_AsWritableString(__pyx_t_2); if (unlikely((!__pyx_t_3) && PyErr_Occurred())) __PYX_ERR(0, 22, __pyx_L1_error)
 
-  /* "neurograph/graph.pyx":26
+  /* "neurograph/graph.pyx":23
  *             self.graph.list,
  *             src_id, src.encode('utf-8'),
  *             dst_id, dst.encode('utf-8'),             # <<<<<<<<<<<<<<
  *             weight
  *         )
  */
-  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_v_dst_id); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 26, __pyx_L1_error)
-  __pyx_t_5 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_encode, __pyx_v_dst, __pyx_kp_s_utf_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_v_dst_id); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_encode, __pyx_v_dst, __pyx_kp_s_utf_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __Pyx_PyObject_AsWritableString(__pyx_t_5); if (unlikely((!__pyx_t_6) && PyErr_Occurred())) __PYX_ERR(0, 26, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_AsWritableString(__pyx_t_5); if (unlikely((!__pyx_t_6) && PyErr_Occurred())) __PYX_ERR(0, 23, __pyx_L1_error)
 
-  /* "neurograph/graph.pyx":27
+  /* "neurograph/graph.pyx":24
  *             src_id, src.encode('utf-8'),
  *             dst_id, dst.encode('utf-8'),
  *             weight             # <<<<<<<<<<<<<<
  *         )
- *         return result
- */
-  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_v_weight); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 27, __pyx_L1_error)
-
-  /* "neurograph/graph.pyx":23
  * 
- *     def add_node(self, src_id: int, src: str, dst_id: int, dst: str, weight: int):
- *         result = ll.add_node(             # <<<<<<<<<<<<<<
+ */
+  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_v_weight); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 24, __pyx_L1_error)
+
+  /* "neurograph/graph.pyx":20
+ * 
+ *         # add to adjacency list
+ *         ll.add_node(             # <<<<<<<<<<<<<<
  *             self.graph.list,
  *             src_id, src.encode('utf-8'),
  */
-  __pyx_v_result = add_node(__pyx_v_self->graph->list, __pyx_t_1, __pyx_t_3, __pyx_t_4, __pyx_t_6, __pyx_t_7);
+  (void)(add_node(__pyx_v_self->graph->list, __pyx_t_1, __pyx_t_3, __pyx_t_4, __pyx_t_6, __pyx_t_7));
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "neurograph/graph.pyx":29
+  /* "neurograph/graph.pyx":30
+ *         mat.add_node_mat(
+ *             self.graph.matrix,
+ *             src_id, src.encode('utf-8'),             # <<<<<<<<<<<<<<
+ *             dst_id, dst.encode('utf-8'),
+ *             weight
+ */
+  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_v_src_id); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 30, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_encode, __pyx_v_src, __pyx_kp_s_utf_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_6 = __Pyx_PyObject_AsWritableString(__pyx_t_5); if (unlikely((!__pyx_t_6) && PyErr_Occurred())) __PYX_ERR(0, 30, __pyx_L1_error)
+
+  /* "neurograph/graph.pyx":31
+ *             self.graph.matrix,
+ *             src_id, src.encode('utf-8'),
+ *             dst_id, dst.encode('utf-8'),             # <<<<<<<<<<<<<<
  *             weight
  *         )
- *         return result             # <<<<<<<<<<<<<<
- * 
- *     def contents(self):
  */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_result); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 29, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_r = __pyx_t_5;
-  __pyx_t_5 = 0;
-  goto __pyx_L0;
+  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_v_dst_id); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_encode, __pyx_v_dst, __pyx_kp_s_utf_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_PyObject_AsWritableString(__pyx_t_2); if (unlikely((!__pyx_t_3) && PyErr_Occurred())) __PYX_ERR(0, 31, __pyx_L1_error)
 
-  /* "neurograph/graph.pyx":22
- *         return self.graph.edges
+  /* "neurograph/graph.pyx":32
+ *             src_id, src.encode('utf-8'),
+ *             dst_id, dst.encode('utf-8'),
+ *             weight             # <<<<<<<<<<<<<<
+ *         )
+ * 
+ */
+  __pyx_t_8 = __pyx_PyFloat_AsDouble(__pyx_v_weight); if (unlikely((__pyx_t_8 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 32, __pyx_L1_error)
+
+  /* "neurograph/graph.pyx":28
+ * 
+ *         # add to matrice
+ *         mat.add_node_mat(             # <<<<<<<<<<<<<<
+ *             self.graph.matrix,
+ *             src_id, src.encode('utf-8'),
+ */
+  add_node_mat(__pyx_v_self->graph->matrix, __pyx_t_7, __pyx_t_6, __pyx_t_4, __pyx_t_3, __pyx_t_8);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "neurograph/graph.pyx":17
+ *             raise MemoryError()
  * 
  *     def add_node(self, src_id: int, src: str, dst_id: int, dst: str, weight: int):             # <<<<<<<<<<<<<<
- *         result = ll.add_node(
- *             self.graph.list,
+ * 
+ *         # add to adjacency list
  */
 
   /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_5);
@@ -3802,24 +3671,24 @@ static PyObject *__pyx_pf_10neurograph_5graph_5Graph_8add_node(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "neurograph/graph.pyx":31
- *         return result
+/* "neurograph/graph.pyx":36
  * 
- *     def contents(self):             # <<<<<<<<<<<<<<
+ * 
+ *     def adj_list(self):             # <<<<<<<<<<<<<<
  *         results = {}
  *         for i in range(self.graph.list.v):
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10neurograph_5graph_5Graph_11contents(PyObject *__pyx_v_self, 
+static PyObject *__pyx_pw_10neurograph_5graph_5Graph_7adj_list(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_10neurograph_5graph_5Graph_11contents = {"contents", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_11contents, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_10neurograph_5graph_5Graph_11contents(PyObject *__pyx_v_self, 
+static PyMethodDef __pyx_mdef_10neurograph_5graph_5Graph_7adj_list = {"adj_list", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_7adj_list, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_10neurograph_5graph_5Graph_7adj_list(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -3832,7 +3701,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("contents (wrapper)", 0);
+  __Pyx_RefNannySetupContext("adj_list (wrapper)", 0);
   #if !CYTHON_METH_FASTCALL
   #if CYTHON_ASSUME_SAFE_MACROS
   __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
@@ -3842,16 +3711,16 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   #endif
   __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
   if (unlikely(__pyx_nargs > 0)) {
-    __Pyx_RaiseArgtupleInvalid("contents", 1, 0, 0, __pyx_nargs); return NULL;}
-  if (unlikely(__pyx_kwds) && __Pyx_NumKwargs_FASTCALL(__pyx_kwds) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "contents", 0))) return NULL;
-  __pyx_r = __pyx_pf_10neurograph_5graph_5Graph_10contents(((struct __pyx_obj_10neurograph_5graph_Graph *)__pyx_v_self));
+    __Pyx_RaiseArgtupleInvalid("adj_list", 1, 0, 0, __pyx_nargs); return NULL;}
+  if (unlikely(__pyx_kwds) && __Pyx_NumKwargs_FASTCALL(__pyx_kwds) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "adj_list", 0))) return NULL;
+  __pyx_r = __pyx_pf_10neurograph_5graph_5Graph_6adj_list(((struct __pyx_obj_10neurograph_5graph_Graph *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10neurograph_5graph_5Graph_10contents(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self) {
+static PyObject *__pyx_pf_10neurograph_5graph_5Graph_6adj_list(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self) {
   PyObject *__pyx_v_results = NULL;
   int __pyx_v_i;
   struct Node *__pyx_v_head;
@@ -3872,22 +3741,22 @@ static PyObject *__pyx_pf_10neurograph_5graph_5Graph_10contents(struct __pyx_obj
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("contents", 1);
+  __Pyx_RefNannySetupContext("adj_list", 1);
 
-  /* "neurograph/graph.pyx":32
+  /* "neurograph/graph.pyx":37
  * 
- *     def contents(self):
+ *     def adj_list(self):
  *         results = {}             # <<<<<<<<<<<<<<
  *         for i in range(self.graph.list.v):
  *             results[i] = []
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_results = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "neurograph/graph.pyx":33
- *     def contents(self):
+  /* "neurograph/graph.pyx":38
+ *     def adj_list(self):
  *         results = {}
  *         for i in range(self.graph.list.v):             # <<<<<<<<<<<<<<
  *             results[i] = []
@@ -3898,22 +3767,22 @@ static PyObject *__pyx_pf_10neurograph_5graph_5Graph_10contents(struct __pyx_obj
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_i = __pyx_t_4;
 
-    /* "neurograph/graph.pyx":34
+    /* "neurograph/graph.pyx":39
  *         results = {}
  *         for i in range(self.graph.list.v):
  *             results[i] = []             # <<<<<<<<<<<<<<
  *             head = self.graph.list.items[i].head
  *             while head:
  */
-    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
+    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 34, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 39, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (unlikely((PyDict_SetItem(__pyx_v_results, __pyx_t_5, __pyx_t_1) < 0))) __PYX_ERR(0, 34, __pyx_L1_error)
+    if (unlikely((PyDict_SetItem(__pyx_v_results, __pyx_t_5, __pyx_t_1) < 0))) __PYX_ERR(0, 39, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "neurograph/graph.pyx":35
+    /* "neurograph/graph.pyx":40
  *         for i in range(self.graph.list.v):
  *             results[i] = []
  *             head = self.graph.list.items[i].head             # <<<<<<<<<<<<<<
@@ -3923,7 +3792,7 @@ static PyObject *__pyx_pf_10neurograph_5graph_5Graph_10contents(struct __pyx_obj
     __pyx_t_6 = (__pyx_v_self->graph->list->items[__pyx_v_i])->head;
     __pyx_v_head = __pyx_t_6;
 
-    /* "neurograph/graph.pyx":36
+    /* "neurograph/graph.pyx":41
  *             results[i] = []
  *             head = self.graph.list.items[i].head
  *             while head:             # <<<<<<<<<<<<<<
@@ -3934,47 +3803,47 @@ static PyObject *__pyx_pf_10neurograph_5graph_5Graph_10contents(struct __pyx_obj
       __pyx_t_7 = (__pyx_v_head != 0);
       if (!__pyx_t_7) break;
 
-      /* "neurograph/graph.pyx":37
+      /* "neurograph/graph.pyx":42
  *             head = self.graph.list.items[i].head
  *             while head:
  *                 item = (head.id, head.label.decode('utf-8'))             # <<<<<<<<<<<<<<
  *                 results[i].append(item)
  *                 head = head.next
  */
-      __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_head->id); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_head->id); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __pyx_t_8 = __pyx_v_head->label;
-      __pyx_t_9 = __Pyx_ssize_strlen(__pyx_t_8); if (unlikely(__pyx_t_9 == ((Py_ssize_t)-1))) __PYX_ERR(0, 37, __pyx_L1_error)
-      __pyx_t_5 = __Pyx_decode_c_string(__pyx_t_8, 0, __pyx_t_9, NULL, NULL, PyUnicode_DecodeUTF8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 37, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_ssize_strlen(__pyx_t_8); if (unlikely(__pyx_t_9 == ((Py_ssize_t)-1))) __PYX_ERR(0, 42, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_decode_c_string(__pyx_t_8, 0, __pyx_t_9, NULL, NULL, PyUnicode_DecodeUTF8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 42, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_10 = PyTuple_New(2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 37, __pyx_L1_error)
+      __pyx_t_10 = PyTuple_New(2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 42, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_GIVEREF(__pyx_t_1);
-      if (__Pyx_PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error);
+      if (__Pyx_PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error);
       __Pyx_INCREF(__pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_5);
-      if (__Pyx_PyTuple_SET_ITEM(__pyx_t_10, 1, __pyx_t_5)) __PYX_ERR(0, 37, __pyx_L1_error);
+      if (__Pyx_PyTuple_SET_ITEM(__pyx_t_10, 1, __pyx_t_5)) __PYX_ERR(0, 42, __pyx_L1_error);
       __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_XDECREF_SET(__pyx_v_item, ((PyObject*)__pyx_t_10));
       __pyx_t_10 = 0;
 
-      /* "neurograph/graph.pyx":38
+      /* "neurograph/graph.pyx":43
  *             while head:
  *                 item = (head.id, head.label.decode('utf-8'))
  *                 results[i].append(item)             # <<<<<<<<<<<<<<
  *                 head = head.next
  *         return results
  */
-      __pyx_t_10 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 38, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 43, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_results, __pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 38, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_results, __pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 43, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __pyx_t_11 = __Pyx_PyObject_Append(__pyx_t_5, __pyx_v_item); if (unlikely(__pyx_t_11 == ((int)-1))) __PYX_ERR(0, 38, __pyx_L1_error)
+      __pyx_t_11 = __Pyx_PyObject_Append(__pyx_t_5, __pyx_v_item); if (unlikely(__pyx_t_11 == ((int)-1))) __PYX_ERR(0, 43, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "neurograph/graph.pyx":39
+      /* "neurograph/graph.pyx":44
  *                 item = (head.id, head.label.decode('utf-8'))
  *                 results[i].append(item)
  *                 head = head.next             # <<<<<<<<<<<<<<
@@ -3986,7 +3855,7 @@ static PyObject *__pyx_pf_10neurograph_5graph_5Graph_10contents(struct __pyx_obj
     }
   }
 
-  /* "neurograph/graph.pyx":40
+  /* "neurograph/graph.pyx":45
  *                 results[i].append(item)
  *                 head = head.next
  *         return results             # <<<<<<<<<<<<<<
@@ -3998,10 +3867,10 @@ static PyObject *__pyx_pf_10neurograph_5graph_5Graph_10contents(struct __pyx_obj
   __pyx_r = __pyx_v_results;
   goto __pyx_L0;
 
-  /* "neurograph/graph.pyx":31
- *         return result
+  /* "neurograph/graph.pyx":36
  * 
- *     def contents(self):             # <<<<<<<<<<<<<<
+ * 
+ *     def adj_list(self):             # <<<<<<<<<<<<<<
  *         results = {}
  *         for i in range(self.graph.list.v):
  */
@@ -4011,7 +3880,7 @@ static PyObject *__pyx_pf_10neurograph_5graph_5Graph_10contents(struct __pyx_obj
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_10);
-  __Pyx_AddTraceback("neurograph.graph.Graph.contents", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("neurograph.graph.Graph.adj_list", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_results);
@@ -4021,7 +3890,7 @@ static PyObject *__pyx_pf_10neurograph_5graph_5Graph_10contents(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "neurograph/graph.pyx":42
+/* "neurograph/graph.pyx":47
  *         return results
  * 
  *     def save(self, output_path: str):             # <<<<<<<<<<<<<<
@@ -4030,15 +3899,15 @@ static PyObject *__pyx_pf_10neurograph_5graph_5Graph_10contents(struct __pyx_obj
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10neurograph_5graph_5Graph_13save(PyObject *__pyx_v_self, 
+static PyObject *__pyx_pw_10neurograph_5graph_5Graph_9save(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_10neurograph_5graph_5Graph_13save = {"save", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_13save, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_10neurograph_5graph_5Graph_13save(PyObject *__pyx_v_self, 
+static PyMethodDef __pyx_mdef_10neurograph_5graph_5Graph_9save = {"save", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_9save, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_10neurograph_5graph_5Graph_9save(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -4082,12 +3951,12 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 42, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 47, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "save") < 0)) __PYX_ERR(0, 42, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "save") < 0)) __PYX_ERR(0, 47, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 1)) {
       goto __pyx_L5_argtuple_error;
@@ -4098,7 +3967,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("save", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 42, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("save", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 47, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -4112,8 +3981,8 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_output_path), (&PyString_Type), 0, "output_path", 1))) __PYX_ERR(0, 42, __pyx_L1_error)
-  __pyx_r = __pyx_pf_10neurograph_5graph_5Graph_12save(((struct __pyx_obj_10neurograph_5graph_Graph *)__pyx_v_self), __pyx_v_output_path);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_output_path), (&PyString_Type), 0, "output_path", 1))) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_r = __pyx_pf_10neurograph_5graph_5Graph_8save(((struct __pyx_obj_10neurograph_5graph_Graph *)__pyx_v_self), __pyx_v_output_path);
 
   /* function exit code */
   goto __pyx_L0;
@@ -4130,7 +3999,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10neurograph_5graph_5Graph_12save(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self, PyObject *__pyx_v_output_path) {
+static PyObject *__pyx_pf_10neurograph_5graph_5Graph_8save(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self, PyObject *__pyx_v_output_path) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -4140,18 +4009,18 @@ static PyObject *__pyx_pf_10neurograph_5graph_5Graph_12save(struct __pyx_obj_10n
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("save", 1);
 
-  /* "neurograph/graph.pyx":45
+  /* "neurograph/graph.pyx":50
  *         gr.deserialize_graph_list(
  *             self.graph,
  *             output_path.encode('utf-8')             # <<<<<<<<<<<<<<
  *         )
  * 
  */
-  __pyx_t_1 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_encode, __pyx_v_output_path, __pyx_kp_s_utf_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_encode, __pyx_v_output_path, __pyx_kp_s_utf_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_AsWritableString(__pyx_t_1); if (unlikely((!__pyx_t_2) && PyErr_Occurred())) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_AsWritableString(__pyx_t_1); if (unlikely((!__pyx_t_2) && PyErr_Occurred())) __PYX_ERR(0, 50, __pyx_L1_error)
 
-  /* "neurograph/graph.pyx":43
+  /* "neurograph/graph.pyx":48
  * 
  *     def save(self, output_path: str):
  *         gr.deserialize_graph_list(             # <<<<<<<<<<<<<<
@@ -4161,7 +4030,7 @@ static PyObject *__pyx_pf_10neurograph_5graph_5Graph_12save(struct __pyx_obj_10n
   deserialize_graph_list(__pyx_v_self->graph, __pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "neurograph/graph.pyx":42
+  /* "neurograph/graph.pyx":47
  *         return results
  * 
  *     def save(self, output_path: str):             # <<<<<<<<<<<<<<
@@ -4182,8 +4051,535 @@ static PyObject *__pyx_pf_10neurograph_5graph_5Graph_12save(struct __pyx_obj_10n
   return __pyx_r;
 }
 
-/* "neurograph/graph.pyx":48
+/* "neurograph/graph.pyx":53
  *         )
+ * 
+ *     def dijkstra(self, start_vertex: int, matrix=False) -> list:             # <<<<<<<<<<<<<<
+ *         result_list = []
+ *         if matrix:
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_10neurograph_5graph_5Graph_11dijkstra(PyObject *__pyx_v_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+); /*proto*/
+static PyMethodDef __pyx_mdef_10neurograph_5graph_5Graph_11dijkstra = {"dijkstra", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_11dijkstra, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_10neurograph_5graph_5Graph_11dijkstra(PyObject *__pyx_v_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+) {
+  PyObject *__pyx_v_start_vertex = 0;
+  PyObject *__pyx_v_matrix = 0;
+  #if !CYTHON_METH_FASTCALL
+  CYTHON_UNUSED Py_ssize_t __pyx_nargs;
+  #endif
+  CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
+  PyObject* values[2] = {0,0};
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("dijkstra (wrapper)", 0);
+  #if !CYTHON_METH_FASTCALL
+  #if CYTHON_ASSUME_SAFE_MACROS
+  __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
+  #else
+  __pyx_nargs = PyTuple_Size(__pyx_args); if (unlikely(__pyx_nargs < 0)) return NULL;
+  #endif
+  #endif
+  __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
+  {
+    PyObject **__pyx_pyargnames[] = {&__pyx_n_s_start_vertex,&__pyx_n_s_matrix,0};
+    values[1] = __Pyx_Arg_NewRef_FASTCALL(((PyObject *)Py_False));
+    if (__pyx_kwds) {
+      Py_ssize_t kw_args;
+      switch (__pyx_nargs) {
+        case  2: values[1] = __Pyx_Arg_FASTCALL(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = __Pyx_NumKwargs_FASTCALL(__pyx_kwds);
+      switch (__pyx_nargs) {
+        case  0:
+        if (likely((values[0] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_start_vertex)) != 0)) {
+          (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
+          kw_args--;
+        }
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 53, __pyx_L3_error)
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_matrix);
+          if (value) { values[1] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 53, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        const Py_ssize_t kwd_pos_args = __pyx_nargs;
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "dijkstra") < 0)) __PYX_ERR(0, 53, __pyx_L3_error)
+      }
+    } else {
+      switch (__pyx_nargs) {
+        case  2: values[1] = __Pyx_Arg_FASTCALL(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+    }
+    __pyx_v_start_vertex = ((PyObject*)values[0]);
+    __pyx_v_matrix = values[1];
+  }
+  goto __pyx_L6_skip;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("dijkstra", 0, 1, 2, __pyx_nargs); __PYX_ERR(0, 53, __pyx_L3_error)
+  __pyx_L6_skip:;
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L3_error:;
+  {
+    Py_ssize_t __pyx_temp;
+    for (__pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
+      __Pyx_Arg_XDECREF_FASTCALL(values[__pyx_temp]);
+    }
+  }
+  __Pyx_AddTraceback("neurograph.graph.Graph.dijkstra", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_start_vertex), (&PyInt_Type), 0, "start_vertex", 1))) __PYX_ERR(0, 53, __pyx_L1_error)
+  __pyx_r = __pyx_pf_10neurograph_5graph_5Graph_10dijkstra(((struct __pyx_obj_10neurograph_5graph_Graph *)__pyx_v_self), __pyx_v_start_vertex, __pyx_v_matrix);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  {
+    Py_ssize_t __pyx_temp;
+    for (__pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
+      __Pyx_Arg_XDECREF_FASTCALL(values[__pyx_temp]);
+    }
+  }
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_10neurograph_5graph_5Graph_10dijkstra(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self, PyObject *__pyx_v_start_vertex, PyObject *__pyx_v_matrix) {
+  PyObject *__pyx_v_result_list = NULL;
+  int *__pyx_v_results;
+  int __pyx_v_i;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_t_2;
+  int __pyx_t_3;
+  int __pyx_t_4;
+  int __pyx_t_5;
+  int __pyx_t_6;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("dijkstra", 1);
+
+  /* "neurograph/graph.pyx":54
+ * 
+ *     def dijkstra(self, start_vertex: int, matrix=False) -> list:
+ *         result_list = []             # <<<<<<<<<<<<<<
+ *         if matrix:
+ *             results = cp.dijkstra_mat(self.graph, start_vertex)
+ */
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_result_list = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "neurograph/graph.pyx":55
+ *     def dijkstra(self, start_vertex: int, matrix=False) -> list:
+ *         result_list = []
+ *         if matrix:             # <<<<<<<<<<<<<<
+ *             results = cp.dijkstra_mat(self.graph, start_vertex)
+ *         else:
+ */
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_matrix); if (unlikely((__pyx_t_2 < 0))) __PYX_ERR(0, 55, __pyx_L1_error)
+  if (__pyx_t_2) {
+
+    /* "neurograph/graph.pyx":56
+ *         result_list = []
+ *         if matrix:
+ *             results = cp.dijkstra_mat(self.graph, start_vertex)             # <<<<<<<<<<<<<<
+ *         else:
+ *             results = cp.dijkstra_list(self.graph, start_vertex)
+ */
+    __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_start_vertex); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 56, __pyx_L1_error)
+    __pyx_v_results = dijkstra_mat(__pyx_v_self->graph, __pyx_t_3);
+
+    /* "neurograph/graph.pyx":55
+ *     def dijkstra(self, start_vertex: int, matrix=False) -> list:
+ *         result_list = []
+ *         if matrix:             # <<<<<<<<<<<<<<
+ *             results = cp.dijkstra_mat(self.graph, start_vertex)
+ *         else:
+ */
+    goto __pyx_L3;
+  }
+
+  /* "neurograph/graph.pyx":58
+ *             results = cp.dijkstra_mat(self.graph, start_vertex)
+ *         else:
+ *             results = cp.dijkstra_list(self.graph, start_vertex)             # <<<<<<<<<<<<<<
+ * 
+ *         for i in range(self.graph.vertices):
+ */
+  /*else*/ {
+    __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_start_vertex); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 58, __pyx_L1_error)
+    __pyx_v_results = dijkstra_list(__pyx_v_self->graph, __pyx_t_3);
+  }
+  __pyx_L3:;
+
+  /* "neurograph/graph.pyx":60
+ *             results = cp.dijkstra_list(self.graph, start_vertex)
+ * 
+ *         for i in range(self.graph.vertices):             # <<<<<<<<<<<<<<
+ *             result_list.append(results[i])
+ *         return result_list
+ */
+  __pyx_t_3 = __pyx_v_self->graph->vertices;
+  __pyx_t_4 = __pyx_t_3;
+  for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
+    __pyx_v_i = __pyx_t_5;
+
+    /* "neurograph/graph.pyx":61
+ * 
+ *         for i in range(self.graph.vertices):
+ *             result_list.append(results[i])             # <<<<<<<<<<<<<<
+ *         return result_list
+ * 
+ */
+    __pyx_t_1 = __Pyx_PyInt_From_int((__pyx_v_results[__pyx_v_i])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_6 = __Pyx_PyList_Append(__pyx_v_result_list, __pyx_t_1); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 61, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  }
+
+  /* "neurograph/graph.pyx":62
+ *         for i in range(self.graph.vertices):
+ *             result_list.append(results[i])
+ *         return result_list             # <<<<<<<<<<<<<<
+ * 
+ *     def shortest_path(self, start_vertex: int, end_vertex: int, matrix=False):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_result_list);
+  __pyx_r = __pyx_v_result_list;
+  goto __pyx_L0;
+
+  /* "neurograph/graph.pyx":53
+ *         )
+ * 
+ *     def dijkstra(self, start_vertex: int, matrix=False) -> list:             # <<<<<<<<<<<<<<
+ *         result_list = []
+ *         if matrix:
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("neurograph.graph.Graph.dijkstra", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_result_list);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "neurograph/graph.pyx":64
+ *         return result_list
+ * 
+ *     def shortest_path(self, start_vertex: int, end_vertex: int, matrix=False):             # <<<<<<<<<<<<<<
+ *         if matrix:
+ *             return cp.shortest_path_mat(
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_10neurograph_5graph_5Graph_13shortest_path(PyObject *__pyx_v_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+); /*proto*/
+static PyMethodDef __pyx_mdef_10neurograph_5graph_5Graph_13shortest_path = {"shortest_path", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_13shortest_path, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_10neurograph_5graph_5Graph_13shortest_path(PyObject *__pyx_v_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+) {
+  PyObject *__pyx_v_start_vertex = 0;
+  PyObject *__pyx_v_end_vertex = 0;
+  PyObject *__pyx_v_matrix = 0;
+  #if !CYTHON_METH_FASTCALL
+  CYTHON_UNUSED Py_ssize_t __pyx_nargs;
+  #endif
+  CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
+  PyObject* values[3] = {0,0,0};
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("shortest_path (wrapper)", 0);
+  #if !CYTHON_METH_FASTCALL
+  #if CYTHON_ASSUME_SAFE_MACROS
+  __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
+  #else
+  __pyx_nargs = PyTuple_Size(__pyx_args); if (unlikely(__pyx_nargs < 0)) return NULL;
+  #endif
+  #endif
+  __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
+  {
+    PyObject **__pyx_pyargnames[] = {&__pyx_n_s_start_vertex,&__pyx_n_s_end_vertex,&__pyx_n_s_matrix,0};
+    values[2] = __Pyx_Arg_NewRef_FASTCALL(((PyObject *)Py_False));
+    if (__pyx_kwds) {
+      Py_ssize_t kw_args;
+      switch (__pyx_nargs) {
+        case  3: values[2] = __Pyx_Arg_FASTCALL(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = __Pyx_Arg_FASTCALL(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = __Pyx_NumKwargs_FASTCALL(__pyx_kwds);
+      switch (__pyx_nargs) {
+        case  0:
+        if (likely((values[0] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_start_vertex)) != 0)) {
+          (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
+          kw_args--;
+        }
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 64, __pyx_L3_error)
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_end_vertex)) != 0)) {
+          (void)__Pyx_Arg_NewRef_FASTCALL(values[1]);
+          kw_args--;
+        }
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 64, __pyx_L3_error)
+        else {
+          __Pyx_RaiseArgtupleInvalid("shortest_path", 0, 2, 3, 1); __PYX_ERR(0, 64, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_matrix);
+          if (value) { values[2] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 64, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        const Py_ssize_t kwd_pos_args = __pyx_nargs;
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "shortest_path") < 0)) __PYX_ERR(0, 64, __pyx_L3_error)
+      }
+    } else {
+      switch (__pyx_nargs) {
+        case  3: values[2] = __Pyx_Arg_FASTCALL(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = __Pyx_Arg_FASTCALL(__pyx_args, 1);
+        values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+    }
+    __pyx_v_start_vertex = ((PyObject*)values[0]);
+    __pyx_v_end_vertex = ((PyObject*)values[1]);
+    __pyx_v_matrix = values[2];
+  }
+  goto __pyx_L6_skip;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("shortest_path", 0, 2, 3, __pyx_nargs); __PYX_ERR(0, 64, __pyx_L3_error)
+  __pyx_L6_skip:;
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L3_error:;
+  {
+    Py_ssize_t __pyx_temp;
+    for (__pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
+      __Pyx_Arg_XDECREF_FASTCALL(values[__pyx_temp]);
+    }
+  }
+  __Pyx_AddTraceback("neurograph.graph.Graph.shortest_path", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_start_vertex), (&PyInt_Type), 0, "start_vertex", 1))) __PYX_ERR(0, 64, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_end_vertex), (&PyInt_Type), 0, "end_vertex", 1))) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_r = __pyx_pf_10neurograph_5graph_5Graph_12shortest_path(((struct __pyx_obj_10neurograph_5graph_Graph *)__pyx_v_self), __pyx_v_start_vertex, __pyx_v_end_vertex, __pyx_v_matrix);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  {
+    Py_ssize_t __pyx_temp;
+    for (__pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
+      __Pyx_Arg_XDECREF_FASTCALL(values[__pyx_temp]);
+    }
+  }
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_10neurograph_5graph_5Graph_12shortest_path(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self, PyObject *__pyx_v_start_vertex, PyObject *__pyx_v_end_vertex, PyObject *__pyx_v_matrix) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  int __pyx_t_2;
+  int __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("shortest_path", 1);
+
+  /* "neurograph/graph.pyx":65
+ * 
+ *     def shortest_path(self, start_vertex: int, end_vertex: int, matrix=False):
+ *         if matrix:             # <<<<<<<<<<<<<<
+ *             return cp.shortest_path_mat(
+ *                 self.graph,
+ */
+  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_matrix); if (unlikely((__pyx_t_1 < 0))) __PYX_ERR(0, 65, __pyx_L1_error)
+  if (__pyx_t_1) {
+
+    /* "neurograph/graph.pyx":66
+ *     def shortest_path(self, start_vertex: int, end_vertex: int, matrix=False):
+ *         if matrix:
+ *             return cp.shortest_path_mat(             # <<<<<<<<<<<<<<
+ *                 self.graph,
+ *                 start_vertex,
+ */
+    __Pyx_XDECREF(__pyx_r);
+
+    /* "neurograph/graph.pyx":68
+ *             return cp.shortest_path_mat(
+ *                 self.graph,
+ *                 start_vertex,             # <<<<<<<<<<<<<<
+ *                 end_vertex
+ *             )
+ */
+    __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_start_vertex); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 68, __pyx_L1_error)
+
+    /* "neurograph/graph.pyx":69
+ *                 self.graph,
+ *                 start_vertex,
+ *                 end_vertex             # <<<<<<<<<<<<<<
+ *             )
+ *         else:
+ */
+    __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_end_vertex); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 69, __pyx_L1_error)
+
+    /* "neurograph/graph.pyx":66
+ *     def shortest_path(self, start_vertex: int, end_vertex: int, matrix=False):
+ *         if matrix:
+ *             return cp.shortest_path_mat(             # <<<<<<<<<<<<<<
+ *                 self.graph,
+ *                 start_vertex,
+ */
+    __pyx_t_4 = __Pyx_PyInt_From_int(shortest_path_mat(__pyx_v_self->graph, __pyx_t_2, __pyx_t_3)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 66, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_r = __pyx_t_4;
+    __pyx_t_4 = 0;
+    goto __pyx_L0;
+
+    /* "neurograph/graph.pyx":65
+ * 
+ *     def shortest_path(self, start_vertex: int, end_vertex: int, matrix=False):
+ *         if matrix:             # <<<<<<<<<<<<<<
+ *             return cp.shortest_path_mat(
+ *                 self.graph,
+ */
+  }
+
+  /* "neurograph/graph.pyx":72
+ *             )
+ *         else:
+ *             return cp.shortest_path_list(             # <<<<<<<<<<<<<<
+ *                 self.graph,
+ *                 start_vertex,
+ */
+  /*else*/ {
+    __Pyx_XDECREF(__pyx_r);
+
+    /* "neurograph/graph.pyx":74
+ *             return cp.shortest_path_list(
+ *                 self.graph,
+ *                 start_vertex,             # <<<<<<<<<<<<<<
+ *                 end_vertex
+ *             )
+ */
+    __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_start_vertex); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 74, __pyx_L1_error)
+
+    /* "neurograph/graph.pyx":75
+ *                 self.graph,
+ *                 start_vertex,
+ *                 end_vertex             # <<<<<<<<<<<<<<
+ *             )
+ * 
+ */
+    __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_end_vertex); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 75, __pyx_L1_error)
+
+    /* "neurograph/graph.pyx":72
+ *             )
+ *         else:
+ *             return cp.shortest_path_list(             # <<<<<<<<<<<<<<
+ *                 self.graph,
+ *                 start_vertex,
+ */
+    __pyx_t_4 = __Pyx_PyInt_From_int(shortest_path_list(__pyx_v_self->graph, __pyx_t_3, __pyx_t_2)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 72, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_r = __pyx_t_4;
+    __pyx_t_4 = 0;
+    goto __pyx_L0;
+  }
+
+  /* "neurograph/graph.pyx":64
+ *         return result_list
+ * 
+ *     def shortest_path(self, start_vertex: int, end_vertex: int, matrix=False):             # <<<<<<<<<<<<<<
+ *         if matrix:
+ *             return cp.shortest_path_mat(
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("neurograph.graph.Graph.shortest_path", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "neurograph/graph.pyx":78
+ *             )
  * 
  *     def print_graph(self):             # <<<<<<<<<<<<<<
  *         ll.print_graph(self.graph.list)
@@ -4236,17 +4632,17 @@ static PyObject *__pyx_pf_10neurograph_5graph_5Graph_14print_graph(struct __pyx_
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("print_graph", 1);
 
-  /* "neurograph/graph.pyx":49
+  /* "neurograph/graph.pyx":79
  * 
  *     def print_graph(self):
  *         ll.print_graph(self.graph.list)             # <<<<<<<<<<<<<<
  * 
- *     def dijkstra(self, start_vertex: int) -> list:
+ *     def matrix(self):
  */
   print_graph(__pyx_v_self->graph->list);
 
-  /* "neurograph/graph.pyx":48
- *         )
+  /* "neurograph/graph.pyx":78
+ *             )
  * 
  *     def print_graph(self):             # <<<<<<<<<<<<<<
  *         ll.print_graph(self.graph.list)
@@ -4260,42 +4656,37 @@ static PyObject *__pyx_pf_10neurograph_5graph_5Graph_14print_graph(struct __pyx_
   return __pyx_r;
 }
 
-/* "neurograph/graph.pyx":51
+/* "neurograph/graph.pyx":81
  *         ll.print_graph(self.graph.list)
  * 
- *     def dijkstra(self, start_vertex: int) -> list:             # <<<<<<<<<<<<<<
- *         result_list = []
- *         results = cp.dijkstra_list(self.graph, start_vertex)
+ *     def matrix(self):             # <<<<<<<<<<<<<<
+ *         mat.print_adj_mat(self.graph.matrix)
+ * 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10neurograph_5graph_5Graph_17dijkstra(PyObject *__pyx_v_self, 
+static PyObject *__pyx_pw_10neurograph_5graph_5Graph_17matrix(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_10neurograph_5graph_5Graph_17dijkstra = {"dijkstra", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_17dijkstra, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_10neurograph_5graph_5Graph_17dijkstra(PyObject *__pyx_v_self, 
+static PyMethodDef __pyx_mdef_10neurograph_5graph_5Graph_17matrix = {"matrix", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_17matrix, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_10neurograph_5graph_5Graph_17matrix(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ) {
-  PyObject *__pyx_v_start_vertex = 0;
   #if !CYTHON_METH_FASTCALL
   CYTHON_UNUSED Py_ssize_t __pyx_nargs;
   #endif
   CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
-  PyObject* values[1] = {0};
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("dijkstra (wrapper)", 0);
+  __Pyx_RefNannySetupContext("matrix (wrapper)", 0);
   #if !CYTHON_METH_FASTCALL
   #if CYTHON_ASSUME_SAFE_MACROS
   __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
@@ -4304,203 +4695,76 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   #endif
   #endif
   __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
-  {
-    PyObject **__pyx_pyargnames[] = {&__pyx_n_s_start_vertex,0};
-    if (__pyx_kwds) {
-      Py_ssize_t kw_args;
-      switch (__pyx_nargs) {
-        case  1: values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = __Pyx_NumKwargs_FASTCALL(__pyx_kwds);
-      switch (__pyx_nargs) {
-        case  0:
-        if (likely((values[0] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_start_vertex)) != 0)) {
-          (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
-          kw_args--;
-        }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 51, __pyx_L3_error)
-        else goto __pyx_L5_argtuple_error;
-      }
-      if (unlikely(kw_args > 0)) {
-        const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "dijkstra") < 0)) __PYX_ERR(0, 51, __pyx_L3_error)
-      }
-    } else if (unlikely(__pyx_nargs != 1)) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
-    }
-    __pyx_v_start_vertex = ((PyObject*)values[0]);
-  }
-  goto __pyx_L6_skip;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("dijkstra", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 51, __pyx_L3_error)
-  __pyx_L6_skip:;
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L3_error:;
-  {
-    Py_ssize_t __pyx_temp;
-    for (__pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
-      __Pyx_Arg_XDECREF_FASTCALL(values[__pyx_temp]);
-    }
-  }
-  __Pyx_AddTraceback("neurograph.graph.Graph.dijkstra", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_start_vertex), (&PyInt_Type), 0, "start_vertex", 1))) __PYX_ERR(0, 51, __pyx_L1_error)
-  __pyx_r = __pyx_pf_10neurograph_5graph_5Graph_16dijkstra(((struct __pyx_obj_10neurograph_5graph_Graph *)__pyx_v_self), __pyx_v_start_vertex);
+  if (unlikely(__pyx_nargs > 0)) {
+    __Pyx_RaiseArgtupleInvalid("matrix", 1, 0, 0, __pyx_nargs); return NULL;}
+  if (unlikely(__pyx_kwds) && __Pyx_NumKwargs_FASTCALL(__pyx_kwds) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "matrix", 0))) return NULL;
+  __pyx_r = __pyx_pf_10neurograph_5graph_5Graph_16matrix(((struct __pyx_obj_10neurograph_5graph_Graph *)__pyx_v_self));
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __pyx_r = NULL;
-  __pyx_L0:;
-  {
-    Py_ssize_t __pyx_temp;
-    for (__pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
-      __Pyx_Arg_XDECREF_FASTCALL(values[__pyx_temp]);
-    }
-  }
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10neurograph_5graph_5Graph_16dijkstra(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self, PyObject *__pyx_v_start_vertex) {
-  PyObject *__pyx_v_result_list = NULL;
-  int *__pyx_v_results;
-  int __pyx_v_i;
+static PyObject *__pyx_pf_10neurograph_5graph_5Graph_16matrix(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_t_2;
-  int __pyx_t_3;
-  int __pyx_t_4;
-  int __pyx_t_5;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("dijkstra", 1);
+  __Pyx_RefNannySetupContext("matrix", 1);
 
-  /* "neurograph/graph.pyx":52
+  /* "neurograph/graph.pyx":82
  * 
- *     def dijkstra(self, start_vertex: int) -> list:
- *         result_list = []             # <<<<<<<<<<<<<<
- *         results = cp.dijkstra_list(self.graph, start_vertex)
- *         for i in range(self.graph.vertices):
- */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_result_list = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
-
-  /* "neurograph/graph.pyx":53
- *     def dijkstra(self, start_vertex: int) -> list:
- *         result_list = []
- *         results = cp.dijkstra_list(self.graph, start_vertex)             # <<<<<<<<<<<<<<
- *         for i in range(self.graph.vertices):
- *             result_list.append(results[i])
- */
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_start_vertex); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 53, __pyx_L1_error)
-  __pyx_v_results = dijkstra_list(__pyx_v_self->graph, __pyx_t_2);
-
-  /* "neurograph/graph.pyx":54
- *         result_list = []
- *         results = cp.dijkstra_list(self.graph, start_vertex)
- *         for i in range(self.graph.vertices):             # <<<<<<<<<<<<<<
- *             result_list.append(results[i])
- *         return result_list
- */
-  __pyx_t_2 = __pyx_v_self->graph->vertices;
-  __pyx_t_3 = __pyx_t_2;
-  for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
-    __pyx_v_i = __pyx_t_4;
-
-    /* "neurograph/graph.pyx":55
- *         results = cp.dijkstra_list(self.graph, start_vertex)
- *         for i in range(self.graph.vertices):
- *             result_list.append(results[i])             # <<<<<<<<<<<<<<
- *         return result_list
+ *     def matrix(self):
+ *         mat.print_adj_mat(self.graph.matrix)             # <<<<<<<<<<<<<<
  * 
+ *     def vertices(self):
  */
-    __pyx_t_1 = __Pyx_PyInt_From_int((__pyx_v_results[__pyx_v_i])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_PyList_Append(__pyx_v_result_list, __pyx_t_1); if (unlikely(__pyx_t_5 == ((int)-1))) __PYX_ERR(0, 55, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  }
+  print_adj_mat(__pyx_v_self->graph->matrix);
 
-  /* "neurograph/graph.pyx":56
- *         for i in range(self.graph.vertices):
- *             result_list.append(results[i])
- *         return result_list             # <<<<<<<<<<<<<<
- * 
- *     def shortest_path(self, start_vertex: int, end_vertex: int):
- */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_result_list);
-  __pyx_r = __pyx_v_result_list;
-  goto __pyx_L0;
-
-  /* "neurograph/graph.pyx":51
+  /* "neurograph/graph.pyx":81
  *         ll.print_graph(self.graph.list)
  * 
- *     def dijkstra(self, start_vertex: int) -> list:             # <<<<<<<<<<<<<<
- *         result_list = []
- *         results = cp.dijkstra_list(self.graph, start_vertex)
+ *     def matrix(self):             # <<<<<<<<<<<<<<
+ *         mat.print_adj_mat(self.graph.matrix)
+ * 
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("neurograph.graph.Graph.dijkstra", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_result_list);
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "neurograph/graph.pyx":58
- *         return result_list
+/* "neurograph/graph.pyx":84
+ *         mat.print_adj_mat(self.graph.matrix)
  * 
- *     def shortest_path(self, start_vertex: int, end_vertex: int):             # <<<<<<<<<<<<<<
- *         return cp.shortest_path_list(
- *             self.graph,
+ *     def vertices(self):             # <<<<<<<<<<<<<<
+ *         return self.graph.vertices
+ * 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10neurograph_5graph_5Graph_19shortest_path(PyObject *__pyx_v_self, 
+static PyObject *__pyx_pw_10neurograph_5graph_5Graph_19vertices(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_10neurograph_5graph_5Graph_19shortest_path = {"shortest_path", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_19shortest_path, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_10neurograph_5graph_5Graph_19shortest_path(PyObject *__pyx_v_self, 
+static PyMethodDef __pyx_mdef_10neurograph_5graph_5Graph_19vertices = {"vertices", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_19vertices, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_10neurograph_5graph_5Graph_19vertices(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ) {
-  PyObject *__pyx_v_start_vertex = 0;
-  PyObject *__pyx_v_end_vertex = 0;
   #if !CYTHON_METH_FASTCALL
   CYTHON_UNUSED Py_ssize_t __pyx_nargs;
   #endif
   CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
-  PyObject* values[2] = {0,0};
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("shortest_path (wrapper)", 0);
+  __Pyx_RefNannySetupContext("vertices (wrapper)", 0);
   #if !CYTHON_METH_FASTCALL
   #if CYTHON_ASSUME_SAFE_MACROS
   __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
@@ -4509,149 +4773,142 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   #endif
   #endif
   __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
-  {
-    PyObject **__pyx_pyargnames[] = {&__pyx_n_s_start_vertex,&__pyx_n_s_end_vertex,0};
-    if (__pyx_kwds) {
-      Py_ssize_t kw_args;
-      switch (__pyx_nargs) {
-        case  2: values[1] = __Pyx_Arg_FASTCALL(__pyx_args, 1);
-        CYTHON_FALLTHROUGH;
-        case  1: values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = __Pyx_NumKwargs_FASTCALL(__pyx_kwds);
-      switch (__pyx_nargs) {
-        case  0:
-        if (likely((values[0] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_start_vertex)) != 0)) {
-          (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
-          kw_args--;
-        }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 58, __pyx_L3_error)
-        else goto __pyx_L5_argtuple_error;
-        CYTHON_FALLTHROUGH;
-        case  1:
-        if (likely((values[1] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_end_vertex)) != 0)) {
-          (void)__Pyx_Arg_NewRef_FASTCALL(values[1]);
-          kw_args--;
-        }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 58, __pyx_L3_error)
-        else {
-          __Pyx_RaiseArgtupleInvalid("shortest_path", 1, 2, 2, 1); __PYX_ERR(0, 58, __pyx_L3_error)
-        }
-      }
-      if (unlikely(kw_args > 0)) {
-        const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "shortest_path") < 0)) __PYX_ERR(0, 58, __pyx_L3_error)
-      }
-    } else if (unlikely(__pyx_nargs != 2)) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
-      values[1] = __Pyx_Arg_FASTCALL(__pyx_args, 1);
-    }
-    __pyx_v_start_vertex = ((PyObject*)values[0]);
-    __pyx_v_end_vertex = ((PyObject*)values[1]);
-  }
-  goto __pyx_L6_skip;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("shortest_path", 1, 2, 2, __pyx_nargs); __PYX_ERR(0, 58, __pyx_L3_error)
-  __pyx_L6_skip:;
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L3_error:;
-  {
-    Py_ssize_t __pyx_temp;
-    for (__pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
-      __Pyx_Arg_XDECREF_FASTCALL(values[__pyx_temp]);
-    }
-  }
-  __Pyx_AddTraceback("neurograph.graph.Graph.shortest_path", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_start_vertex), (&PyInt_Type), 0, "start_vertex", 1))) __PYX_ERR(0, 58, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_end_vertex), (&PyInt_Type), 0, "end_vertex", 1))) __PYX_ERR(0, 58, __pyx_L1_error)
-  __pyx_r = __pyx_pf_10neurograph_5graph_5Graph_18shortest_path(((struct __pyx_obj_10neurograph_5graph_Graph *)__pyx_v_self), __pyx_v_start_vertex, __pyx_v_end_vertex);
+  if (unlikely(__pyx_nargs > 0)) {
+    __Pyx_RaiseArgtupleInvalid("vertices", 1, 0, 0, __pyx_nargs); return NULL;}
+  if (unlikely(__pyx_kwds) && __Pyx_NumKwargs_FASTCALL(__pyx_kwds) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "vertices", 0))) return NULL;
+  __pyx_r = __pyx_pf_10neurograph_5graph_5Graph_18vertices(((struct __pyx_obj_10neurograph_5graph_Graph *)__pyx_v_self));
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __pyx_r = NULL;
-  __pyx_L0:;
-  {
-    Py_ssize_t __pyx_temp;
-    for (__pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
-      __Pyx_Arg_XDECREF_FASTCALL(values[__pyx_temp]);
-    }
-  }
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10neurograph_5graph_5Graph_18shortest_path(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self, PyObject *__pyx_v_start_vertex, PyObject *__pyx_v_end_vertex) {
+static PyObject *__pyx_pf_10neurograph_5graph_5Graph_18vertices(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  int __pyx_t_2;
-  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("shortest_path", 1);
+  __Pyx_RefNannySetupContext("vertices", 1);
 
-  /* "neurograph/graph.pyx":59
+  /* "neurograph/graph.pyx":85
  * 
- *     def shortest_path(self, start_vertex: int, end_vertex: int):
- *         return cp.shortest_path_list(             # <<<<<<<<<<<<<<
- *             self.graph,
- *             start_vertex,
+ *     def vertices(self):
+ *         return self.graph.vertices             # <<<<<<<<<<<<<<
+ * 
+ *     def edges(self):
  */
   __Pyx_XDECREF(__pyx_r);
-
-  /* "neurograph/graph.pyx":61
- *         return cp.shortest_path_list(
- *             self.graph,
- *             start_vertex,             # <<<<<<<<<<<<<<
- *             end_vertex
- *         )
- */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_start_vertex); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 61, __pyx_L1_error)
-
-  /* "neurograph/graph.pyx":62
- *             self.graph,
- *             start_vertex,
- *             end_vertex             # <<<<<<<<<<<<<<
- *         )
- * 
- */
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_end_vertex); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 62, __pyx_L1_error)
-
-  /* "neurograph/graph.pyx":59
- * 
- *     def shortest_path(self, start_vertex: int, end_vertex: int):
- *         return cp.shortest_path_list(             # <<<<<<<<<<<<<<
- *             self.graph,
- *             start_vertex,
- */
-  __pyx_t_3 = __Pyx_PyInt_From_int(shortest_path_list(__pyx_v_self->graph, __pyx_t_1, __pyx_t_2)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 59, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_r = __pyx_t_3;
-  __pyx_t_3 = 0;
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->graph->vertices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 85, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "neurograph/graph.pyx":58
- *         return result_list
+  /* "neurograph/graph.pyx":84
+ *         mat.print_adj_mat(self.graph.matrix)
  * 
- *     def shortest_path(self, start_vertex: int, end_vertex: int):             # <<<<<<<<<<<<<<
- *         return cp.shortest_path_list(
- *             self.graph,
+ *     def vertices(self):             # <<<<<<<<<<<<<<
+ *         return self.graph.vertices
+ * 
  */
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("neurograph.graph.Graph.shortest_path", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("neurograph.graph.Graph.vertices", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "neurograph/graph.pyx":87
+ *         return self.graph.vertices
+ * 
+ *     def edges(self):             # <<<<<<<<<<<<<<
+ *         return self.graph.edges
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_10neurograph_5graph_5Graph_21edges(PyObject *__pyx_v_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+); /*proto*/
+static PyMethodDef __pyx_mdef_10neurograph_5graph_5Graph_21edges = {"edges", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_21edges, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_10neurograph_5graph_5Graph_21edges(PyObject *__pyx_v_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+) {
+  #if !CYTHON_METH_FASTCALL
+  CYTHON_UNUSED Py_ssize_t __pyx_nargs;
+  #endif
+  CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("edges (wrapper)", 0);
+  #if !CYTHON_METH_FASTCALL
+  #if CYTHON_ASSUME_SAFE_MACROS
+  __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
+  #else
+  __pyx_nargs = PyTuple_Size(__pyx_args); if (unlikely(__pyx_nargs < 0)) return NULL;
+  #endif
+  #endif
+  __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
+  if (unlikely(__pyx_nargs > 0)) {
+    __Pyx_RaiseArgtupleInvalid("edges", 1, 0, 0, __pyx_nargs); return NULL;}
+  if (unlikely(__pyx_kwds) && __Pyx_NumKwargs_FASTCALL(__pyx_kwds) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "edges", 0))) return NULL;
+  __pyx_r = __pyx_pf_10neurograph_5graph_5Graph_20edges(((struct __pyx_obj_10neurograph_5graph_Graph *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_10neurograph_5graph_5Graph_20edges(struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("edges", 1);
+
+  /* "neurograph/graph.pyx":88
+ * 
+ *     def edges(self):
+ *         return self.graph.edges             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->graph->edges); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "neurograph/graph.pyx":87
+ *         return self.graph.vertices
+ * 
+ *     def edges(self):             # <<<<<<<<<<<<<<
+ *         return self.graph.edges
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("neurograph.graph.Graph.edges", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -4666,15 +4923,15 @@ static PyObject *__pyx_pf_10neurograph_5graph_5Graph_18shortest_path(struct __py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10neurograph_5graph_5Graph_21__reduce_cython__(PyObject *__pyx_v_self, 
+static PyObject *__pyx_pw_10neurograph_5graph_5Graph_23__reduce_cython__(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_10neurograph_5graph_5Graph_21__reduce_cython__ = {"__reduce_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_21__reduce_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_10neurograph_5graph_5Graph_21__reduce_cython__(PyObject *__pyx_v_self, 
+static PyMethodDef __pyx_mdef_10neurograph_5graph_5Graph_23__reduce_cython__ = {"__reduce_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_23__reduce_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_10neurograph_5graph_5Graph_23__reduce_cython__(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -4699,14 +4956,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   if (unlikely(__pyx_nargs > 0)) {
     __Pyx_RaiseArgtupleInvalid("__reduce_cython__", 1, 0, 0, __pyx_nargs); return NULL;}
   if (unlikely(__pyx_kwds) && __Pyx_NumKwargs_FASTCALL(__pyx_kwds) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "__reduce_cython__", 0))) return NULL;
-  __pyx_r = __pyx_pf_10neurograph_5graph_5Graph_20__reduce_cython__(((struct __pyx_obj_10neurograph_5graph_Graph *)__pyx_v_self));
+  __pyx_r = __pyx_pf_10neurograph_5graph_5Graph_22__reduce_cython__(((struct __pyx_obj_10neurograph_5graph_Graph *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10neurograph_5graph_5Graph_20__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self) {
+static PyObject *__pyx_pf_10neurograph_5graph_5Graph_22__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_lineno = 0;
@@ -4746,15 +5003,15 @@ static PyObject *__pyx_pf_10neurograph_5graph_5Graph_20__reduce_cython__(CYTHON_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10neurograph_5graph_5Graph_23__setstate_cython__(PyObject *__pyx_v_self, 
+static PyObject *__pyx_pw_10neurograph_5graph_5Graph_25__setstate_cython__(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_10neurograph_5graph_5Graph_23__setstate_cython__ = {"__setstate_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_23__setstate_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_10neurograph_5graph_5Graph_23__setstate_cython__(PyObject *__pyx_v_self, 
+static PyMethodDef __pyx_mdef_10neurograph_5graph_5Graph_25__setstate_cython__ = {"__setstate_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_25__setstate_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_10neurograph_5graph_5Graph_25__setstate_cython__(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -4828,7 +5085,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_10neurograph_5graph_5Graph_22__setstate_cython__(((struct __pyx_obj_10neurograph_5graph_Graph *)__pyx_v_self), __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_10neurograph_5graph_5Graph_24__setstate_cython__(((struct __pyx_obj_10neurograph_5graph_Graph *)__pyx_v_self), __pyx_v___pyx_state);
 
   /* function exit code */
   {
@@ -4841,7 +5098,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10neurograph_5graph_5Graph_22__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_10neurograph_5graph_5Graph_24__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_lineno = 0;
@@ -4873,7 +5130,7 @@ static PyObject *__pyx_pf_10neurograph_5graph_5Graph_22__setstate_cython__(CYTHO
   return __pyx_r;
 }
 
-/* "neurograph/graph.pyx":67
+/* "neurograph/graph.pyx":93
  * cdef class SerializedGraph(Graph):
  * 
  *     def __cinit__(self):             # <<<<<<<<<<<<<<
@@ -4908,7 +5165,7 @@ static int __pyx_pw_10neurograph_5graph_15SerializedGraph_1__cinit__(PyObject *_
 static int __pyx_pf_10neurograph_5graph_15SerializedGraph___cinit__(struct __pyx_obj_10neurograph_5graph_SerializedGraph *__pyx_v_self) {
   int __pyx_r;
 
-  /* "neurograph/graph.pyx":68
+  /* "neurograph/graph.pyx":94
  * 
  *     def __cinit__(self):
  *         self.graph = NULL             # <<<<<<<<<<<<<<
@@ -4917,7 +5174,7 @@ static int __pyx_pf_10neurograph_5graph_15SerializedGraph___cinit__(struct __pyx
  */
   __pyx_v_self->__pyx_base.graph = NULL;
 
-  /* "neurograph/graph.pyx":67
+  /* "neurograph/graph.pyx":93
  * cdef class SerializedGraph(Graph):
  * 
  *     def __cinit__(self):             # <<<<<<<<<<<<<<
@@ -4930,7 +5187,7 @@ static int __pyx_pf_10neurograph_5graph_15SerializedGraph___cinit__(struct __pyx
   return __pyx_r;
 }
 
-/* "neurograph/graph.pyx":70
+/* "neurograph/graph.pyx":96
  *         self.graph = NULL
  * 
  *     def __init__(self, filename: str, file_size=1024, directed=False):             # <<<<<<<<<<<<<<
@@ -4982,26 +5239,26 @@ static int __pyx_pw_10neurograph_5graph_15SerializedGraph_3__init__(PyObject *__
           (void)__Pyx_Arg_NewRef_VARARGS(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 70, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 96, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_VARARGS(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_file_size);
           if (value) { values[1] = __Pyx_Arg_NewRef_VARARGS(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 70, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 96, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_VARARGS(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_directed);
           if (value) { values[2] = __Pyx_Arg_NewRef_VARARGS(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 70, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 96, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 70, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 96, __pyx_L3_error)
       }
     } else {
       switch (__pyx_nargs) {
@@ -5020,7 +5277,7 @@ static int __pyx_pw_10neurograph_5graph_15SerializedGraph_3__init__(PyObject *__
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 3, __pyx_nargs); __PYX_ERR(0, 70, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 3, __pyx_nargs); __PYX_ERR(0, 96, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -5034,7 +5291,7 @@ static int __pyx_pw_10neurograph_5graph_15SerializedGraph_3__init__(PyObject *__
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_filename), (&PyString_Type), 0, "filename", 1))) __PYX_ERR(0, 70, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_filename), (&PyString_Type), 0, "filename", 1))) __PYX_ERR(0, 96, __pyx_L1_error)
   __pyx_r = __pyx_pf_10neurograph_5graph_15SerializedGraph_2__init__(((struct __pyx_obj_10neurograph_5graph_SerializedGraph *)__pyx_v_self), __pyx_v_filename, __pyx_v_file_size, __pyx_v_directed);
 
   /* function exit code */
@@ -5065,19 +5322,19 @@ static int __pyx_pf_10neurograph_5graph_15SerializedGraph_2__init__(struct __pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 1);
 
-  /* "neurograph/graph.pyx":71
+  /* "neurograph/graph.pyx":97
  * 
  *     def __init__(self, filename: str, file_size=1024, directed=False):
  *         filename_encode = filename.encode('utf-8')             # <<<<<<<<<<<<<<
  *         self.filename = filename
  *         self.file_size = file_size
  */
-  __pyx_t_1 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_encode, __pyx_v_filename, __pyx_kp_s_utf_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_encode, __pyx_v_filename, __pyx_kp_s_utf_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 97, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_filename_encode = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "neurograph/graph.pyx":72
+  /* "neurograph/graph.pyx":98
  *     def __init__(self, filename: str, file_size=1024, directed=False):
  *         filename_encode = filename.encode('utf-8')
  *         self.filename = filename             # <<<<<<<<<<<<<<
@@ -5090,29 +5347,29 @@ static int __pyx_pf_10neurograph_5graph_15SerializedGraph_2__init__(struct __pyx
   __Pyx_DECREF(__pyx_v_self->filename);
   __pyx_v_self->filename = __pyx_v_filename;
 
-  /* "neurograph/graph.pyx":73
+  /* "neurograph/graph.pyx":99
  *         filename_encode = filename.encode('utf-8')
  *         self.filename = filename
  *         self.file_size = file_size             # <<<<<<<<<<<<<<
  *         self.graph = gr.serialize_graph_list(filename_encode, file_size, directed)
  *         if self.graph is NULL:
  */
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_file_size); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 73, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_file_size); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 99, __pyx_L1_error)
   __pyx_v_self->file_size = __pyx_t_2;
 
-  /* "neurograph/graph.pyx":74
+  /* "neurograph/graph.pyx":100
  *         self.filename = filename
  *         self.file_size = file_size
  *         self.graph = gr.serialize_graph_list(filename_encode, file_size, directed)             # <<<<<<<<<<<<<<
  *         if self.graph is NULL:
  *             raise MemoryError()
  */
-  __pyx_t_3 = __Pyx_PyObject_AsWritableString(__pyx_v_filename_encode); if (unlikely((!__pyx_t_3) && PyErr_Occurred())) __PYX_ERR(0, 74, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_file_size); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 74, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_directed); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 74, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_AsWritableString(__pyx_v_filename_encode); if (unlikely((!__pyx_t_3) && PyErr_Occurred())) __PYX_ERR(0, 100, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_file_size); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 100, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_directed); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 100, __pyx_L1_error)
   __pyx_v_self->__pyx_base.graph = serialize_graph_list(__pyx_t_3, __pyx_t_2, __pyx_t_4);
 
-  /* "neurograph/graph.pyx":75
+  /* "neurograph/graph.pyx":101
  *         self.file_size = file_size
  *         self.graph = gr.serialize_graph_list(filename_encode, file_size, directed)
  *         if self.graph is NULL:             # <<<<<<<<<<<<<<
@@ -5122,16 +5379,16 @@ static int __pyx_pf_10neurograph_5graph_15SerializedGraph_2__init__(struct __pyx
   __pyx_t_4 = (__pyx_v_self->__pyx_base.graph == NULL);
   if (unlikely(__pyx_t_4)) {
 
-    /* "neurograph/graph.pyx":76
+    /* "neurograph/graph.pyx":102
  *         self.graph = gr.serialize_graph_list(filename_encode, file_size, directed)
  *         if self.graph is NULL:
  *             raise MemoryError()             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    PyErr_NoMemory(); __PYX_ERR(0, 76, __pyx_L1_error)
+    PyErr_NoMemory(); __PYX_ERR(0, 102, __pyx_L1_error)
 
-    /* "neurograph/graph.pyx":75
+    /* "neurograph/graph.pyx":101
  *         self.file_size = file_size
  *         self.graph = gr.serialize_graph_list(filename_encode, file_size, directed)
  *         if self.graph is NULL:             # <<<<<<<<<<<<<<
@@ -5140,7 +5397,7 @@ static int __pyx_pf_10neurograph_5graph_15SerializedGraph_2__init__(struct __pyx
  */
   }
 
-  /* "neurograph/graph.pyx":70
+  /* "neurograph/graph.pyx":96
  *         self.graph = NULL
  * 
  *     def __init__(self, filename: str, file_size=1024, directed=False):             # <<<<<<<<<<<<<<
@@ -5375,7 +5632,7 @@ static PyObject *__pyx_pf_10neurograph_5graph_15SerializedGraph_6__setstate_cyth
   return __pyx_r;
 }
 
-/* "neurograph/graph.pyx":81
+/* "neurograph/graph.pyx":107
  * cdef class DataFrameGraph(Graph):
  * 
  *     def __cinit__(self):             # <<<<<<<<<<<<<<
@@ -5410,7 +5667,7 @@ static int __pyx_pw_10neurograph_5graph_14DataFrameGraph_1__cinit__(PyObject *__
 static int __pyx_pf_10neurograph_5graph_14DataFrameGraph___cinit__(struct __pyx_obj_10neurograph_5graph_DataFrameGraph *__pyx_v_self) {
   int __pyx_r;
 
-  /* "neurograph/graph.pyx":82
+  /* "neurograph/graph.pyx":108
  * 
  *     def __cinit__(self):
  *         self.graph = NULL             # <<<<<<<<<<<<<<
@@ -5419,7 +5676,7 @@ static int __pyx_pf_10neurograph_5graph_14DataFrameGraph___cinit__(struct __pyx_
  */
   __pyx_v_self->__pyx_base.graph = NULL;
 
-  /* "neurograph/graph.pyx":81
+  /* "neurograph/graph.pyx":107
  * cdef class DataFrameGraph(Graph):
  * 
  *     def __cinit__(self):             # <<<<<<<<<<<<<<
@@ -5432,7 +5689,7 @@ static int __pyx_pf_10neurograph_5graph_14DataFrameGraph___cinit__(struct __pyx_
   return __pyx_r;
 }
 
-/* "neurograph/graph.pyx":84
+/* "neurograph/graph.pyx":110
  *         self.graph = NULL
  * 
  *     def __init__(self, dataframe: DataFrame, cols: list, directed: bool, weighted: bool):             # <<<<<<<<<<<<<<
@@ -5485,7 +5742,7 @@ static int __pyx_pw_10neurograph_5graph_14DataFrameGraph_3__init__(PyObject *__p
           (void)__Pyx_Arg_NewRef_VARARGS(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 84, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 110, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
@@ -5493,9 +5750,9 @@ static int __pyx_pw_10neurograph_5graph_14DataFrameGraph_3__init__(PyObject *__p
           (void)__Pyx_Arg_NewRef_VARARGS(values[1]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 84, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 110, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 4, 4, 1); __PYX_ERR(0, 84, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 4, 4, 1); __PYX_ERR(0, 110, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -5503,9 +5760,9 @@ static int __pyx_pw_10neurograph_5graph_14DataFrameGraph_3__init__(PyObject *__p
           (void)__Pyx_Arg_NewRef_VARARGS(values[2]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 84, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 110, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 4, 4, 2); __PYX_ERR(0, 84, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 4, 4, 2); __PYX_ERR(0, 110, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
@@ -5513,14 +5770,14 @@ static int __pyx_pw_10neurograph_5graph_14DataFrameGraph_3__init__(PyObject *__p
           (void)__Pyx_Arg_NewRef_VARARGS(values[3]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 84, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 110, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 4, 4, 3); __PYX_ERR(0, 84, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 4, 4, 3); __PYX_ERR(0, 110, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 84, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 110, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 4)) {
       goto __pyx_L5_argtuple_error;
@@ -5537,7 +5794,7 @@ static int __pyx_pw_10neurograph_5graph_14DataFrameGraph_3__init__(PyObject *__p
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 4, 4, __pyx_nargs); __PYX_ERR(0, 84, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 4, 4, __pyx_nargs); __PYX_ERR(0, 110, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -5551,8 +5808,8 @@ static int __pyx_pw_10neurograph_5graph_14DataFrameGraph_3__init__(PyObject *__p
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_dataframe), __pyx_ptype_10neurograph_10extractors_DataFrame, 0, "dataframe", 0))) __PYX_ERR(0, 84, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_cols), (&PyList_Type), 0, "cols", 1))) __PYX_ERR(0, 84, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_dataframe), __pyx_ptype_10neurograph_10extractors_DataFrame, 0, "dataframe", 0))) __PYX_ERR(0, 110, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_cols), (&PyList_Type), 0, "cols", 1))) __PYX_ERR(0, 110, __pyx_L1_error)
   __pyx_r = __pyx_pf_10neurograph_5graph_14DataFrameGraph_2__init__(((struct __pyx_obj_10neurograph_5graph_DataFrameGraph *)__pyx_v_self), __pyx_v_dataframe, __pyx_v_cols, __pyx_v_directed, __pyx_v_weighted);
 
   /* function exit code */
@@ -5586,7 +5843,7 @@ static int __pyx_pf_10neurograph_5graph_14DataFrameGraph_2__init__(struct __pyx_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 1);
 
-  /* "neurograph/graph.pyx":87
+  /* "neurograph/graph.pyx":113
  * 
  *         # select cols to create graph
  *         self.frame = dataframe             # <<<<<<<<<<<<<<
@@ -5599,7 +5856,7 @@ static int __pyx_pf_10neurograph_5graph_14DataFrameGraph_2__init__(struct __pyx_
   __Pyx_DECREF((PyObject *)__pyx_v_self->frame);
   __pyx_v_self->frame = __pyx_v_dataframe;
 
-  /* "neurograph/graph.pyx":88
+  /* "neurograph/graph.pyx":114
  *         # select cols to create graph
  *         self.frame = dataframe
  *         self.columns = ll.init_array()             # <<<<<<<<<<<<<<
@@ -5608,7 +5865,7 @@ static int __pyx_pf_10neurograph_5graph_14DataFrameGraph_2__init__(struct __pyx_
  */
   __pyx_v_self->columns = init_array();
 
-  /* "neurograph/graph.pyx":89
+  /* "neurograph/graph.pyx":115
  *         self.frame = dataframe
  *         self.columns = ll.init_array()
  *         for item in cols:             # <<<<<<<<<<<<<<
@@ -5621,43 +5878,43 @@ static int __pyx_pf_10neurograph_5graph_14DataFrameGraph_2__init__(struct __pyx_
     {
       Py_ssize_t __pyx_temp = __Pyx_PyList_GET_SIZE(__pyx_t_1);
       #if !CYTHON_ASSUME_SAFE_MACROS
-      if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 89, __pyx_L1_error)
+      if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 115, __pyx_L1_error)
       #endif
       if (__pyx_t_2 >= __pyx_temp) break;
     }
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely((0 < 0))) __PYX_ERR(0, 89, __pyx_L1_error)
+    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely((0 < 0))) __PYX_ERR(0, 115, __pyx_L1_error)
     #else
-    __pyx_t_3 = __Pyx_PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 89, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 115, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
     __Pyx_XDECREF_SET(__pyx_v_item, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "neurograph/graph.pyx":90
+    /* "neurograph/graph.pyx":116
  *         self.columns = ll.init_array()
  *         for item in cols:
  *             ll.insert_char(self.columns, bytes(item, encoding="utf8"))             # <<<<<<<<<<<<<<
  * 
  *         if weighted:
  */
-    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 90, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 116, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_INCREF(__pyx_v_item);
     __Pyx_GIVEREF(__pyx_v_item);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_item)) __PYX_ERR(0, 90, __pyx_L1_error);
-    __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 90, __pyx_L1_error)
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_item)) __PYX_ERR(0, 116, __pyx_L1_error);
+    __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 116, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_encoding, __pyx_n_s_utf8) < 0) __PYX_ERR(0, 90, __pyx_L1_error)
-    __pyx_t_5 = __Pyx_PyObject_Call(((PyObject *)(&PyBytes_Type)), __pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 90, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_encoding, __pyx_n_s_utf8) < 0) __PYX_ERR(0, 116, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(((PyObject *)(&PyBytes_Type)), __pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 116, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_6 = __Pyx_PyBytes_AsWritableString(__pyx_t_5); if (unlikely((!__pyx_t_6) && PyErr_Occurred())) __PYX_ERR(0, 90, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyBytes_AsWritableString(__pyx_t_5); if (unlikely((!__pyx_t_6) && PyErr_Occurred())) __PYX_ERR(0, 116, __pyx_L1_error)
     insert_char(__pyx_v_self->columns, __pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "neurograph/graph.pyx":89
+    /* "neurograph/graph.pyx":115
  *         self.frame = dataframe
  *         self.columns = ll.init_array()
  *         for item in cols:             # <<<<<<<<<<<<<<
@@ -5667,26 +5924,26 @@ static int __pyx_pf_10neurograph_5graph_14DataFrameGraph_2__init__(struct __pyx_
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "neurograph/graph.pyx":92
+  /* "neurograph/graph.pyx":118
  *             ll.insert_char(self.columns, bytes(item, encoding="utf8"))
  * 
  *         if weighted:             # <<<<<<<<<<<<<<
  *             self.graph = gr.frame_to_weighted_graph(
  *                 self.frame.frame,
  */
-  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_v_weighted); if (unlikely((__pyx_t_7 < 0))) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_v_weighted); if (unlikely((__pyx_t_7 < 0))) __PYX_ERR(0, 118, __pyx_L1_error)
   if (__pyx_t_7) {
 
-    /* "neurograph/graph.pyx":96
+    /* "neurograph/graph.pyx":122
  *                 self.frame.frame,
  *                 self.columns,
  *                 directed             # <<<<<<<<<<<<<<
  *             )
  *         else:
  */
-    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_v_directed); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 96, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_v_directed); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 122, __pyx_L1_error)
 
-    /* "neurograph/graph.pyx":93
+    /* "neurograph/graph.pyx":119
  * 
  *         if weighted:
  *             self.graph = gr.frame_to_weighted_graph(             # <<<<<<<<<<<<<<
@@ -5695,7 +5952,7 @@ static int __pyx_pf_10neurograph_5graph_14DataFrameGraph_2__init__(struct __pyx_
  */
     __pyx_v_self->__pyx_base.graph = frame_to_weighted_graph(__pyx_v_self->frame->frame, __pyx_v_self->columns, __pyx_t_7);
 
-    /* "neurograph/graph.pyx":92
+    /* "neurograph/graph.pyx":118
  *             ll.insert_char(self.columns, bytes(item, encoding="utf8"))
  * 
  *         if weighted:             # <<<<<<<<<<<<<<
@@ -5705,7 +5962,7 @@ static int __pyx_pf_10neurograph_5graph_14DataFrameGraph_2__init__(struct __pyx_
     goto __pyx_L6;
   }
 
-  /* "neurograph/graph.pyx":99
+  /* "neurograph/graph.pyx":125
  *             )
  *         else:
  *             self.graph = gr.frame_to_unweighted_graph(             # <<<<<<<<<<<<<<
@@ -5714,16 +5971,16 @@ static int __pyx_pf_10neurograph_5graph_14DataFrameGraph_2__init__(struct __pyx_
  */
   /*else*/ {
 
-    /* "neurograph/graph.pyx":102
+    /* "neurograph/graph.pyx":128
  *                 self.frame.frame,
  *                 self.columns,
  *                 directed             # <<<<<<<<<<<<<<
  *             )
  * 
  */
-    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_v_directed); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 102, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_v_directed); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 128, __pyx_L1_error)
 
-    /* "neurograph/graph.pyx":99
+    /* "neurograph/graph.pyx":125
  *             )
  *         else:
  *             self.graph = gr.frame_to_unweighted_graph(             # <<<<<<<<<<<<<<
@@ -5734,7 +5991,7 @@ static int __pyx_pf_10neurograph_5graph_14DataFrameGraph_2__init__(struct __pyx_
   }
   __pyx_L6:;
 
-  /* "neurograph/graph.pyx":105
+  /* "neurograph/graph.pyx":131
  *             )
  * 
  *         if self.graph is NULL:             # <<<<<<<<<<<<<<
@@ -5744,16 +6001,16 @@ static int __pyx_pf_10neurograph_5graph_14DataFrameGraph_2__init__(struct __pyx_
   __pyx_t_7 = (__pyx_v_self->__pyx_base.graph == NULL);
   if (unlikely(__pyx_t_7)) {
 
-    /* "neurograph/graph.pyx":106
+    /* "neurograph/graph.pyx":132
  * 
  *         if self.graph is NULL:
  *             raise MemoryError()             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    PyErr_NoMemory(); __PYX_ERR(0, 106, __pyx_L1_error)
+    PyErr_NoMemory(); __PYX_ERR(0, 132, __pyx_L1_error)
 
-    /* "neurograph/graph.pyx":105
+    /* "neurograph/graph.pyx":131
  *             )
  * 
  *         if self.graph is NULL:             # <<<<<<<<<<<<<<
@@ -5762,7 +6019,7 @@ static int __pyx_pf_10neurograph_5graph_14DataFrameGraph_2__init__(struct __pyx_
  */
   }
 
-  /* "neurograph/graph.pyx":84
+  /* "neurograph/graph.pyx":110
  *         self.graph = NULL
  * 
  *     def __init__(self, dataframe: DataFrame, cols: list, directed: bool, weighted: bool):             # <<<<<<<<<<<<<<
@@ -6000,7 +6257,7 @@ static PyObject *__pyx_pf_10neurograph_5graph_14DataFrameGraph_6__setstate_cytho
   return __pyx_r;
 }
 
-/* "neurograph/graph.pyx":111
+/* "neurograph/graph.pyx":137
  * cdef class Walk:
  * 
  *     def __cinit__(self):             # <<<<<<<<<<<<<<
@@ -6035,7 +6292,7 @@ static int __pyx_pw_10neurograph_5graph_4Walk_1__cinit__(PyObject *__pyx_v_self,
 static int __pyx_pf_10neurograph_5graph_4Walk___cinit__(struct __pyx_obj_10neurograph_5graph_Walk *__pyx_v_self) {
   int __pyx_r;
 
-  /* "neurograph/graph.pyx":112
+  /* "neurograph/graph.pyx":138
  * 
  *     def __cinit__(self):
  *         self.walk = NULL             # <<<<<<<<<<<<<<
@@ -6044,7 +6301,7 @@ static int __pyx_pf_10neurograph_5graph_4Walk___cinit__(struct __pyx_obj_10neuro
  */
   __pyx_v_self->walk = NULL;
 
-  /* "neurograph/graph.pyx":111
+  /* "neurograph/graph.pyx":137
  * cdef class Walk:
  * 
  *     def __cinit__(self):             # <<<<<<<<<<<<<<
@@ -6057,7 +6314,7 @@ static int __pyx_pf_10neurograph_5graph_4Walk___cinit__(struct __pyx_obj_10neuro
   return __pyx_r;
 }
 
-/* "neurograph/graph.pyx":114
+/* "neurograph/graph.pyx":140
  *         self.walk = NULL
  * 
  *     def __init__(self, steps: int):             # <<<<<<<<<<<<<<
@@ -6101,12 +6358,12 @@ static int __pyx_pw_10neurograph_5graph_4Walk_3__init__(PyObject *__pyx_v_self, 
           (void)__Pyx_Arg_NewRef_VARARGS(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 114, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 140, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 114, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 140, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 1)) {
       goto __pyx_L5_argtuple_error;
@@ -6117,7 +6374,7 @@ static int __pyx_pw_10neurograph_5graph_4Walk_3__init__(PyObject *__pyx_v_self, 
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 114, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 140, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -6131,7 +6388,7 @@ static int __pyx_pw_10neurograph_5graph_4Walk_3__init__(PyObject *__pyx_v_self, 
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_steps), (&PyInt_Type), 0, "steps", 1))) __PYX_ERR(0, 114, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_steps), (&PyInt_Type), 0, "steps", 1))) __PYX_ERR(0, 140, __pyx_L1_error)
   __pyx_r = __pyx_pf_10neurograph_5graph_4Walk_2__init__(((struct __pyx_obj_10neurograph_5graph_Walk *)__pyx_v_self), __pyx_v_steps);
 
   /* function exit code */
@@ -6157,17 +6414,17 @@ static int __pyx_pf_10neurograph_5graph_4Walk_2__init__(struct __pyx_obj_10neuro
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
 
-  /* "neurograph/graph.pyx":115
+  /* "neurograph/graph.pyx":141
  * 
  *     def __init__(self, steps: int):
  *         self.walk = gr.init_walk(steps)             # <<<<<<<<<<<<<<
  *         if self.walk is NULL:
  *             raise MemoryError()
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_steps); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 115, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_steps); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 141, __pyx_L1_error)
   __pyx_v_self->walk = init_walk(__pyx_t_1);
 
-  /* "neurograph/graph.pyx":116
+  /* "neurograph/graph.pyx":142
  *     def __init__(self, steps: int):
  *         self.walk = gr.init_walk(steps)
  *         if self.walk is NULL:             # <<<<<<<<<<<<<<
@@ -6177,16 +6434,16 @@ static int __pyx_pf_10neurograph_5graph_4Walk_2__init__(struct __pyx_obj_10neuro
   __pyx_t_2 = (__pyx_v_self->walk == NULL);
   if (unlikely(__pyx_t_2)) {
 
-    /* "neurograph/graph.pyx":117
+    /* "neurograph/graph.pyx":143
  *         self.walk = gr.init_walk(steps)
  *         if self.walk is NULL:
  *             raise MemoryError()             # <<<<<<<<<<<<<<
  * 
  *     def contents(self):
  */
-    PyErr_NoMemory(); __PYX_ERR(0, 117, __pyx_L1_error)
+    PyErr_NoMemory(); __PYX_ERR(0, 143, __pyx_L1_error)
 
-    /* "neurograph/graph.pyx":116
+    /* "neurograph/graph.pyx":142
  *     def __init__(self, steps: int):
  *         self.walk = gr.init_walk(steps)
  *         if self.walk is NULL:             # <<<<<<<<<<<<<<
@@ -6195,7 +6452,7 @@ static int __pyx_pf_10neurograph_5graph_4Walk_2__init__(struct __pyx_obj_10neuro
  */
   }
 
-  /* "neurograph/graph.pyx":114
+  /* "neurograph/graph.pyx":140
  *         self.walk = NULL
  * 
  *     def __init__(self, steps: int):             # <<<<<<<<<<<<<<
@@ -6213,7 +6470,7 @@ static int __pyx_pf_10neurograph_5graph_4Walk_2__init__(struct __pyx_obj_10neuro
   return __pyx_r;
 }
 
-/* "neurograph/graph.pyx":119
+/* "neurograph/graph.pyx":145
  *             raise MemoryError()
  * 
  *     def contents(self):             # <<<<<<<<<<<<<<
@@ -6278,19 +6535,19 @@ static PyObject *__pyx_pf_10neurograph_5graph_4Walk_4contents(struct __pyx_obj_1
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("contents", 1);
 
-  /* "neurograph/graph.pyx":120
+  /* "neurograph/graph.pyx":146
  * 
  *     def contents(self):
  *         steps = []             # <<<<<<<<<<<<<<
  *         for i in range(self.walk.steps):
  *             steps.append(self.walk.path[i])
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 120, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 146, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_steps = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "neurograph/graph.pyx":121
+  /* "neurograph/graph.pyx":147
  *     def contents(self):
  *         steps = []
  *         for i in range(self.walk.steps):             # <<<<<<<<<<<<<<
@@ -6302,20 +6559,20 @@ static PyObject *__pyx_pf_10neurograph_5graph_4Walk_4contents(struct __pyx_obj_1
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_i = __pyx_t_4;
 
-    /* "neurograph/graph.pyx":122
+    /* "neurograph/graph.pyx":148
  *         steps = []
  *         for i in range(self.walk.steps):
  *             steps.append(self.walk.path[i])             # <<<<<<<<<<<<<<
  * 
  *         return {
  */
-    __pyx_t_1 = __Pyx_PyInt_From_int((__pyx_v_self->walk->path[__pyx_v_i])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyInt_From_int((__pyx_v_self->walk->path[__pyx_v_i])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_PyList_Append(__pyx_v_steps, __pyx_t_1); if (unlikely(__pyx_t_5 == ((int)-1))) __PYX_ERR(0, 122, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyList_Append(__pyx_v_steps, __pyx_t_1); if (unlikely(__pyx_t_5 == ((int)-1))) __PYX_ERR(0, 148, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "neurograph/graph.pyx":124
+  /* "neurograph/graph.pyx":150
  *             steps.append(self.walk.path[i])
  * 
  *         return {             # <<<<<<<<<<<<<<
@@ -6324,57 +6581,57 @@ static PyObject *__pyx_pf_10neurograph_5graph_4Walk_4contents(struct __pyx_obj_1
  */
   __Pyx_XDECREF(__pyx_r);
 
-  /* "neurograph/graph.pyx":125
+  /* "neurograph/graph.pyx":151
  * 
  *         return {
  *             "path": steps,             # <<<<<<<<<<<<<<
  *             "steps": self.walk.steps,
  *             "weighted_sum": self.walk.weighted_sum,
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 125, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 151, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_path, __pyx_v_steps) < 0) __PYX_ERR(0, 125, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_path, __pyx_v_steps) < 0) __PYX_ERR(0, 151, __pyx_L1_error)
 
-  /* "neurograph/graph.pyx":126
+  /* "neurograph/graph.pyx":152
  *         return {
  *             "path": steps,
  *             "steps": self.walk.steps,             # <<<<<<<<<<<<<<
  *             "weighted_sum": self.walk.weighted_sum,
  *             "cycles": self.walk.cycles
  */
-  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_self->walk->steps); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 126, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_self->walk->steps); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 152, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_steps, __pyx_t_6) < 0) __PYX_ERR(0, 125, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_steps, __pyx_t_6) < 0) __PYX_ERR(0, 151, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "neurograph/graph.pyx":127
+  /* "neurograph/graph.pyx":153
  *             "path": steps,
  *             "steps": self.walk.steps,
  *             "weighted_sum": self.walk.weighted_sum,             # <<<<<<<<<<<<<<
  *             "cycles": self.walk.cycles
  *         }
  */
-  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_self->walk->weighted_sum); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 127, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_self->walk->weighted_sum); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 153, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_weighted_sum, __pyx_t_6) < 0) __PYX_ERR(0, 125, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_weighted_sum, __pyx_t_6) < 0) __PYX_ERR(0, 151, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "neurograph/graph.pyx":128
+  /* "neurograph/graph.pyx":154
  *             "steps": self.walk.steps,
  *             "weighted_sum": self.walk.weighted_sum,
  *             "cycles": self.walk.cycles             # <<<<<<<<<<<<<<
  *         }
  * 
  */
-  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_self->walk->cycles); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 128, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_self->walk->cycles); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 154, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_cycles, __pyx_t_6) < 0) __PYX_ERR(0, 125, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_cycles, __pyx_t_6) < 0) __PYX_ERR(0, 151, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "neurograph/graph.pyx":119
+  /* "neurograph/graph.pyx":145
  *             raise MemoryError()
  * 
  *     def contents(self):             # <<<<<<<<<<<<<<
@@ -6609,7 +6866,7 @@ static PyObject *__pyx_pf_10neurograph_5graph_4Walk_8__setstate_cython__(CYTHON_
   return __pyx_r;
 }
 
-/* "neurograph/graph.pyx":134
+/* "neurograph/graph.pyx":160
  * cdef class GraphWalk(Walk):
  * 
  *     def __cinit__(self):             # <<<<<<<<<<<<<<
@@ -6644,16 +6901,16 @@ static int __pyx_pw_10neurograph_5graph_9GraphWalk_1__cinit__(PyObject *__pyx_v_
 static int __pyx_pf_10neurograph_5graph_9GraphWalk___cinit__(struct __pyx_obj_10neurograph_5graph_GraphWalk *__pyx_v_self) {
   int __pyx_r;
 
-  /* "neurograph/graph.pyx":135
+  /* "neurograph/graph.pyx":161
  * 
  *     def __cinit__(self):
  *         self.walk = NULL             # <<<<<<<<<<<<<<
  * 
- *     def __init__(self, graph: Graph, start_vertex: int, steps: int):
+ *     def __init__(self, graph: Graph, start_vertex: int, steps: int, weighted: bool, matrix=False):
  */
   __pyx_v_self->__pyx_base.walk = NULL;
 
-  /* "neurograph/graph.pyx":134
+  /* "neurograph/graph.pyx":160
  * cdef class GraphWalk(Walk):
  * 
  *     def __cinit__(self):             # <<<<<<<<<<<<<<
@@ -6666,12 +6923,12 @@ static int __pyx_pf_10neurograph_5graph_9GraphWalk___cinit__(struct __pyx_obj_10
   return __pyx_r;
 }
 
-/* "neurograph/graph.pyx":137
+/* "neurograph/graph.pyx":163
  *         self.walk = NULL
  * 
- *     def __init__(self, graph: Graph, start_vertex: int, steps: int):             # <<<<<<<<<<<<<<
- *         self.walk = cp.random_walk_list(graph.graph, start_vertex, steps)
- *         if self.walk is NULL:
+ *     def __init__(self, graph: Graph, start_vertex: int, steps: int, weighted: bool, matrix=False):             # <<<<<<<<<<<<<<
+ * 
+ *         if weighted:
  */
 
 /* Python wrapper */
@@ -6680,9 +6937,11 @@ static int __pyx_pw_10neurograph_5graph_9GraphWalk_3__init__(PyObject *__pyx_v_s
   struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_graph = 0;
   PyObject *__pyx_v_start_vertex = 0;
   PyObject *__pyx_v_steps = 0;
+  PyObject *__pyx_v_weighted = 0;
+  PyObject *__pyx_v_matrix = 0;
   CYTHON_UNUSED Py_ssize_t __pyx_nargs;
   CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
-  PyObject* values[3] = {0,0,0};
+  PyObject* values[5] = {0,0,0,0,0};
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -6696,10 +6955,15 @@ static int __pyx_pw_10neurograph_5graph_9GraphWalk_3__init__(PyObject *__pyx_v_s
   #endif
   __pyx_kwvalues = __Pyx_KwValues_VARARGS(__pyx_args, __pyx_nargs);
   {
-    PyObject **__pyx_pyargnames[] = {&__pyx_n_s_graph,&__pyx_n_s_start_vertex,&__pyx_n_s_steps,0};
+    PyObject **__pyx_pyargnames[] = {&__pyx_n_s_graph,&__pyx_n_s_start_vertex,&__pyx_n_s_steps,&__pyx_n_s_weighted,&__pyx_n_s_matrix,0};
+    values[4] = __Pyx_Arg_NewRef_VARARGS(((PyObject *)Py_False));
     if (__pyx_kwds) {
       Py_ssize_t kw_args;
       switch (__pyx_nargs) {
+        case  5: values[4] = __Pyx_Arg_VARARGS(__pyx_args, 4);
+        CYTHON_FALLTHROUGH;
+        case  4: values[3] = __Pyx_Arg_VARARGS(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
         case  3: values[2] = __Pyx_Arg_VARARGS(__pyx_args, 2);
         CYTHON_FALLTHROUGH;
         case  2: values[1] = __Pyx_Arg_VARARGS(__pyx_args, 1);
@@ -6716,7 +6980,7 @@ static int __pyx_pw_10neurograph_5graph_9GraphWalk_3__init__(PyObject *__pyx_v_s
           (void)__Pyx_Arg_NewRef_VARARGS(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 137, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 163, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
@@ -6724,9 +6988,9 @@ static int __pyx_pw_10neurograph_5graph_9GraphWalk_3__init__(PyObject *__pyx_v_s
           (void)__Pyx_Arg_NewRef_VARARGS(values[1]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 137, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 163, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, 1); __PYX_ERR(0, 137, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 4, 5, 1); __PYX_ERR(0, 163, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -6734,29 +6998,53 @@ static int __pyx_pw_10neurograph_5graph_9GraphWalk_3__init__(PyObject *__pyx_v_s
           (void)__Pyx_Arg_NewRef_VARARGS(values[2]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 137, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 163, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, 2); __PYX_ERR(0, 137, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 4, 5, 2); __PYX_ERR(0, 163, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  3:
+        if (likely((values[3] = __Pyx_GetKwValue_VARARGS(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_weighted)) != 0)) {
+          (void)__Pyx_Arg_NewRef_VARARGS(values[3]);
+          kw_args--;
+        }
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 163, __pyx_L3_error)
+        else {
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 4, 5, 3); __PYX_ERR(0, 163, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  4:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_GetKwValue_VARARGS(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_matrix);
+          if (value) { values[4] = __Pyx_Arg_NewRef_VARARGS(value); kw_args--; }
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 163, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 137, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 163, __pyx_L3_error)
       }
-    } else if (unlikely(__pyx_nargs != 3)) {
-      goto __pyx_L5_argtuple_error;
     } else {
-      values[0] = __Pyx_Arg_VARARGS(__pyx_args, 0);
-      values[1] = __Pyx_Arg_VARARGS(__pyx_args, 1);
-      values[2] = __Pyx_Arg_VARARGS(__pyx_args, 2);
+      switch (__pyx_nargs) {
+        case  5: values[4] = __Pyx_Arg_VARARGS(__pyx_args, 4);
+        CYTHON_FALLTHROUGH;
+        case  4: values[3] = __Pyx_Arg_VARARGS(__pyx_args, 3);
+        values[2] = __Pyx_Arg_VARARGS(__pyx_args, 2);
+        values[1] = __Pyx_Arg_VARARGS(__pyx_args, 1);
+        values[0] = __Pyx_Arg_VARARGS(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
     }
     __pyx_v_graph = ((struct __pyx_obj_10neurograph_5graph_Graph *)values[0]);
     __pyx_v_start_vertex = ((PyObject*)values[1]);
     __pyx_v_steps = ((PyObject*)values[2]);
+    __pyx_v_weighted = values[3];
+    __pyx_v_matrix = values[4];
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, __pyx_nargs); __PYX_ERR(0, 137, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 4, 5, __pyx_nargs); __PYX_ERR(0, 163, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -6770,10 +7058,10 @@ static int __pyx_pw_10neurograph_5graph_9GraphWalk_3__init__(PyObject *__pyx_v_s
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_graph), __pyx_ptype_10neurograph_5graph_Graph, 0, "graph", 0))) __PYX_ERR(0, 137, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_start_vertex), (&PyInt_Type), 0, "start_vertex", 1))) __PYX_ERR(0, 137, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_steps), (&PyInt_Type), 0, "steps", 1))) __PYX_ERR(0, 137, __pyx_L1_error)
-  __pyx_r = __pyx_pf_10neurograph_5graph_9GraphWalk_2__init__(((struct __pyx_obj_10neurograph_5graph_GraphWalk *)__pyx_v_self), __pyx_v_graph, __pyx_v_start_vertex, __pyx_v_steps);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_graph), __pyx_ptype_10neurograph_5graph_Graph, 0, "graph", 0))) __PYX_ERR(0, 163, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_start_vertex), (&PyInt_Type), 0, "start_vertex", 1))) __PYX_ERR(0, 163, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_steps), (&PyInt_Type), 0, "steps", 1))) __PYX_ERR(0, 163, __pyx_L1_error)
+  __pyx_r = __pyx_pf_10neurograph_5graph_9GraphWalk_2__init__(((struct __pyx_obj_10neurograph_5graph_GraphWalk *)__pyx_v_self), __pyx_v_graph, __pyx_v_start_vertex, __pyx_v_steps, __pyx_v_weighted, __pyx_v_matrix);
 
   /* function exit code */
   goto __pyx_L0;
@@ -6790,7 +7078,7 @@ static int __pyx_pw_10neurograph_5graph_9GraphWalk_3__init__(PyObject *__pyx_v_s
   return __pyx_r;
 }
 
-static int __pyx_pf_10neurograph_5graph_9GraphWalk_2__init__(struct __pyx_obj_10neurograph_5graph_GraphWalk *__pyx_v_self, struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_graph, PyObject *__pyx_v_start_vertex, PyObject *__pyx_v_steps) {
+static int __pyx_pf_10neurograph_5graph_9GraphWalk_2__init__(struct __pyx_obj_10neurograph_5graph_GraphWalk *__pyx_v_self, struct __pyx_obj_10neurograph_5graph_Graph *__pyx_v_graph, PyObject *__pyx_v_start_vertex, PyObject *__pyx_v_steps, PyObject *__pyx_v_weighted, PyObject *__pyx_v_matrix) {
   int __pyx_r;
   int __pyx_t_1;
   int __pyx_t_2;
@@ -6799,47 +7087,171 @@ static int __pyx_pf_10neurograph_5graph_9GraphWalk_2__init__(struct __pyx_obj_10
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
 
-  /* "neurograph/graph.pyx":138
+  /* "neurograph/graph.pyx":165
+ *     def __init__(self, graph: Graph, start_vertex: int, steps: int, weighted: bool, matrix=False):
  * 
- *     def __init__(self, graph: Graph, start_vertex: int, steps: int):
- *         self.walk = cp.random_walk_list(graph.graph, start_vertex, steps)             # <<<<<<<<<<<<<<
- *         if self.walk is NULL:
- *             raise MemoryError()
+ *         if weighted:             # <<<<<<<<<<<<<<
+ *             self.walk = cp.weighted_random_walk_list(
+ *                 graph.graph,
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_start_vertex); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 138, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_steps); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 138, __pyx_L1_error)
-  __pyx_v_self->__pyx_base.walk = random_walk_list(__pyx_v_graph->graph, __pyx_t_1, __pyx_t_2);
+  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_weighted); if (unlikely((__pyx_t_1 < 0))) __PYX_ERR(0, 165, __pyx_L1_error)
+  if (__pyx_t_1) {
 
-  /* "neurograph/graph.pyx":139
- *     def __init__(self, graph: Graph, start_vertex: int, steps: int):
- *         self.walk = cp.random_walk_list(graph.graph, start_vertex, steps)
+    /* "neurograph/graph.pyx":168
+ *             self.walk = cp.weighted_random_walk_list(
+ *                 graph.graph,
+ *                 start_vertex,             # <<<<<<<<<<<<<<
+ *                 steps
+ *             )
+ */
+    __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_start_vertex); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 168, __pyx_L1_error)
+
+    /* "neurograph/graph.pyx":169
+ *                 graph.graph,
+ *                 start_vertex,
+ *                 steps             # <<<<<<<<<<<<<<
+ *             )
+ *         else:
+ */
+    __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_steps); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 169, __pyx_L1_error)
+
+    /* "neurograph/graph.pyx":166
+ * 
+ *         if weighted:
+ *             self.walk = cp.weighted_random_walk_list(             # <<<<<<<<<<<<<<
+ *                 graph.graph,
+ *                 start_vertex,
+ */
+    __pyx_v_self->__pyx_base.walk = weighted_random_walk_list(__pyx_v_graph->graph, __pyx_t_2, __pyx_t_3);
+
+    /* "neurograph/graph.pyx":165
+ *     def __init__(self, graph: Graph, start_vertex: int, steps: int, weighted: bool, matrix=False):
+ * 
+ *         if weighted:             # <<<<<<<<<<<<<<
+ *             self.walk = cp.weighted_random_walk_list(
+ *                 graph.graph,
+ */
+    goto __pyx_L3;
+  }
+
+  /* "neurograph/graph.pyx":172
+ *             )
+ *         else:
+ *             if matrix:             # <<<<<<<<<<<<<<
+ *                 self.walk = cp.random_walk_mat(
+ *                     graph.graph,
+ */
+  /*else*/ {
+    __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_matrix); if (unlikely((__pyx_t_1 < 0))) __PYX_ERR(0, 172, __pyx_L1_error)
+    if (__pyx_t_1) {
+
+      /* "neurograph/graph.pyx":175
+ *                 self.walk = cp.random_walk_mat(
+ *                     graph.graph,
+ *                     start_vertex,             # <<<<<<<<<<<<<<
+ *                     steps
+ *                 )
+ */
+      __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_start_vertex); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 175, __pyx_L1_error)
+
+      /* "neurograph/graph.pyx":176
+ *                     graph.graph,
+ *                     start_vertex,
+ *                     steps             # <<<<<<<<<<<<<<
+ *                 )
+ *             else:
+ */
+      __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_steps); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 176, __pyx_L1_error)
+
+      /* "neurograph/graph.pyx":173
+ *         else:
+ *             if matrix:
+ *                 self.walk = cp.random_walk_mat(             # <<<<<<<<<<<<<<
+ *                     graph.graph,
+ *                     start_vertex,
+ */
+      __pyx_v_self->__pyx_base.walk = random_walk_mat(__pyx_v_graph->graph, __pyx_t_3, __pyx_t_2);
+
+      /* "neurograph/graph.pyx":172
+ *             )
+ *         else:
+ *             if matrix:             # <<<<<<<<<<<<<<
+ *                 self.walk = cp.random_walk_mat(
+ *                     graph.graph,
+ */
+      goto __pyx_L4;
+    }
+
+    /* "neurograph/graph.pyx":179
+ *                 )
+ *             else:
+ *                 self.walk = cp.random_walk_list(             # <<<<<<<<<<<<<<
+ *                     graph.graph,
+ *                     start_vertex,
+ */
+    /*else*/ {
+
+      /* "neurograph/graph.pyx":181
+ *                 self.walk = cp.random_walk_list(
+ *                     graph.graph,
+ *                     start_vertex,             # <<<<<<<<<<<<<<
+ *                     steps
+ *                 )
+ */
+      __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_start_vertex); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 181, __pyx_L1_error)
+
+      /* "neurograph/graph.pyx":182
+ *                     graph.graph,
+ *                     start_vertex,
+ *                     steps             # <<<<<<<<<<<<<<
+ *                 )
+ * 
+ */
+      __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_steps); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 182, __pyx_L1_error)
+
+      /* "neurograph/graph.pyx":179
+ *                 )
+ *             else:
+ *                 self.walk = cp.random_walk_list(             # <<<<<<<<<<<<<<
+ *                     graph.graph,
+ *                     start_vertex,
+ */
+      __pyx_v_self->__pyx_base.walk = random_walk_list(__pyx_v_graph->graph, __pyx_t_2, __pyx_t_3);
+    }
+    __pyx_L4:;
+  }
+  __pyx_L3:;
+
+  /* "neurograph/graph.pyx":185
+ *                 )
+ * 
  *         if self.walk is NULL:             # <<<<<<<<<<<<<<
  *             raise MemoryError()
  */
-  __pyx_t_3 = (__pyx_v_self->__pyx_base.walk == NULL);
-  if (unlikely(__pyx_t_3)) {
+  __pyx_t_1 = (__pyx_v_self->__pyx_base.walk == NULL);
+  if (unlikely(__pyx_t_1)) {
 
-    /* "neurograph/graph.pyx":140
- *         self.walk = cp.random_walk_list(graph.graph, start_vertex, steps)
+    /* "neurograph/graph.pyx":186
+ * 
  *         if self.walk is NULL:
  *             raise MemoryError()             # <<<<<<<<<<<<<<
  */
-    PyErr_NoMemory(); __PYX_ERR(0, 140, __pyx_L1_error)
+    PyErr_NoMemory(); __PYX_ERR(0, 186, __pyx_L1_error)
 
-    /* "neurograph/graph.pyx":139
- *     def __init__(self, graph: Graph, start_vertex: int, steps: int):
- *         self.walk = cp.random_walk_list(graph.graph, start_vertex, steps)
+    /* "neurograph/graph.pyx":185
+ *                 )
+ * 
  *         if self.walk is NULL:             # <<<<<<<<<<<<<<
  *             raise MemoryError()
  */
   }
 
-  /* "neurograph/graph.pyx":137
+  /* "neurograph/graph.pyx":163
  *         self.walk = NULL
  * 
- *     def __init__(self, graph: Graph, start_vertex: int, steps: int):             # <<<<<<<<<<<<<<
- *         self.walk = cp.random_walk_list(graph.graph, start_vertex, steps)
- *         if self.walk is NULL:
+ *     def __init__(self, graph: Graph, start_vertex: int, steps: int, weighted: bool, matrix=False):             # <<<<<<<<<<<<<<
+ * 
+ *         if weighted:
  */
 
   /* function exit code */
@@ -7105,16 +7517,17 @@ static void __pyx_tp_dealloc_10neurograph_5graph_Graph(PyObject *o) {
 }
 
 static PyMethodDef __pyx_methods_10neurograph_5graph_Graph[] = {
-  {"vertices", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_5vertices, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
-  {"edges", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_7edges, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
-  {"add_node", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_9add_node, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
-  {"contents", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_11contents, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
-  {"save", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_13save, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
+  {"add_node", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_5add_node, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
+  {"adj_list", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_7adj_list, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
+  {"save", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_9save, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
+  {"dijkstra", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_11dijkstra, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
+  {"shortest_path", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_13shortest_path, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
   {"print_graph", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_15print_graph, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
-  {"dijkstra", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_17dijkstra, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
-  {"shortest_path", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_19shortest_path, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
-  {"__reduce_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_21__reduce_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
-  {"__setstate_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_23__setstate_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
+  {"matrix", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_17matrix, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
+  {"vertices", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_19vertices, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
+  {"edges", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_21edges, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
+  {"__reduce_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_23__reduce_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
+  {"__setstate_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_5graph_5Graph_25__setstate_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
   {0, 0, 0, 0}
 };
 #if CYTHON_USE_TYPE_SPECS
@@ -7781,9 +8194,10 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_n_s_Graph___reduce_cython, __pyx_k_Graph___reduce_cython, sizeof(__pyx_k_Graph___reduce_cython), 0, 0, 1, 1},
     {&__pyx_n_s_Graph___setstate_cython, __pyx_k_Graph___setstate_cython, sizeof(__pyx_k_Graph___setstate_cython), 0, 0, 1, 1},
     {&__pyx_n_s_Graph_add_node, __pyx_k_Graph_add_node, sizeof(__pyx_k_Graph_add_node), 0, 0, 1, 1},
-    {&__pyx_n_s_Graph_contents, __pyx_k_Graph_contents, sizeof(__pyx_k_Graph_contents), 0, 0, 1, 1},
+    {&__pyx_n_s_Graph_adj_list, __pyx_k_Graph_adj_list, sizeof(__pyx_k_Graph_adj_list), 0, 0, 1, 1},
     {&__pyx_n_s_Graph_dijkstra, __pyx_k_Graph_dijkstra, sizeof(__pyx_k_Graph_dijkstra), 0, 0, 1, 1},
     {&__pyx_n_s_Graph_edges, __pyx_k_Graph_edges, sizeof(__pyx_k_Graph_edges), 0, 0, 1, 1},
+    {&__pyx_n_s_Graph_matrix, __pyx_k_Graph_matrix, sizeof(__pyx_k_Graph_matrix), 0, 0, 1, 1},
     {&__pyx_n_s_Graph_print_graph, __pyx_k_Graph_print_graph, sizeof(__pyx_k_Graph_print_graph), 0, 0, 1, 1},
     {&__pyx_n_s_Graph_save, __pyx_k_Graph_save, sizeof(__pyx_k_Graph_save), 0, 0, 1, 1},
     {&__pyx_n_s_Graph_shortest_path, __pyx_k_Graph_shortest_path, sizeof(__pyx_k_Graph_shortest_path), 0, 0, 1, 1},
@@ -7797,8 +8211,9 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_n_s_Walk___reduce_cython, __pyx_k_Walk___reduce_cython, sizeof(__pyx_k_Walk___reduce_cython), 0, 0, 1, 1},
     {&__pyx_n_s_Walk___setstate_cython, __pyx_k_Walk___setstate_cython, sizeof(__pyx_k_Walk___setstate_cython), 0, 0, 1, 1},
     {&__pyx_n_s_Walk_contents, __pyx_k_Walk_contents, sizeof(__pyx_k_Walk_contents), 0, 0, 1, 1},
-    {&__pyx_n_s__28, __pyx_k__28, sizeof(__pyx_k__28), 0, 0, 1, 1},
+    {&__pyx_n_s__30, __pyx_k__30, sizeof(__pyx_k__30), 0, 0, 1, 1},
     {&__pyx_n_s_add_node, __pyx_k_add_node, sizeof(__pyx_k_add_node), 0, 0, 1, 1},
+    {&__pyx_n_s_adj_list, __pyx_k_adj_list, sizeof(__pyx_k_adj_list), 0, 0, 1, 1},
     {&__pyx_n_s_append, __pyx_k_append, sizeof(__pyx_k_append), 0, 0, 1, 1},
     {&__pyx_n_s_asyncio_coroutines, __pyx_k_asyncio_coroutines, sizeof(__pyx_k_asyncio_coroutines), 0, 0, 1, 1},
     {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
@@ -7829,6 +8244,7 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_n_s_item, __pyx_k_item, sizeof(__pyx_k_item), 0, 0, 1, 1},
     {&__pyx_n_s_list, __pyx_k_list, sizeof(__pyx_k_list), 0, 0, 1, 1},
     {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
+    {&__pyx_n_s_matrix, __pyx_k_matrix, sizeof(__pyx_k_matrix), 0, 0, 1, 1},
     {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
     {&__pyx_n_s_neurograph_graph, __pyx_k_neurograph_graph, sizeof(__pyx_k_neurograph_graph), 0, 0, 1, 1},
     {&__pyx_kp_s_neurograph_graph_pyx, __pyx_k_neurograph_graph_pyx, sizeof(__pyx_k_neurograph_graph_pyx), 0, 0, 1, 0},
@@ -7841,7 +8257,6 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_n_s_reduce, __pyx_k_reduce, sizeof(__pyx_k_reduce), 0, 0, 1, 1},
     {&__pyx_n_s_reduce_cython, __pyx_k_reduce_cython, sizeof(__pyx_k_reduce_cython), 0, 0, 1, 1},
     {&__pyx_n_s_reduce_ex, __pyx_k_reduce_ex, sizeof(__pyx_k_reduce_ex), 0, 0, 1, 1},
-    {&__pyx_n_s_result, __pyx_k_result, sizeof(__pyx_k_result), 0, 0, 1, 1},
     {&__pyx_n_s_result_list, __pyx_k_result_list, sizeof(__pyx_k_result_list), 0, 0, 1, 1},
     {&__pyx_n_s_results, __pyx_k_results, sizeof(__pyx_k_results), 0, 0, 1, 1},
     {&__pyx_n_s_return, __pyx_k_return, sizeof(__pyx_k_return), 0, 0, 1, 1},
@@ -7869,8 +8284,8 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
 }
 /* #### Code section: cached_builtins ### */
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(0, 14, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 33, __pyx_L1_error)
+  __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 38, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
@@ -7882,102 +8297,114 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "neurograph/graph.pyx":16
+  /* "neurograph/graph.pyx":17
  *             raise MemoryError()
  * 
- *     def vertices(self):             # <<<<<<<<<<<<<<
- *         return self.graph.vertices
+ *     def add_node(self, src_id: int, src: str, dst_id: int, dst: str, weight: int):             # <<<<<<<<<<<<<<
  * 
+ *         # add to adjacency list
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_src_id, __pyx_n_s_src, __pyx_n_s_dst_id, __pyx_n_s_dst, __pyx_n_s_weight); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
-  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_graph_pyx, __pyx_n_s_vertices, 16, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(6, 0, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_graph_pyx, __pyx_n_s_add_node, 17, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 17, __pyx_L1_error)
 
-  /* "neurograph/graph.pyx":19
- *         return self.graph.vertices
+  /* "neurograph/graph.pyx":36
  * 
- *     def edges(self):             # <<<<<<<<<<<<<<
- *         return self.graph.edges
  * 
- */
-  __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_graph_pyx, __pyx_n_s_edges, 19, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 19, __pyx_L1_error)
-
-  /* "neurograph/graph.pyx":22
- *         return self.graph.edges
- * 
- *     def add_node(self, src_id: int, src: str, dst_id: int, dst: str, weight: int):             # <<<<<<<<<<<<<<
- *         result = ll.add_node(
- *             self.graph.list,
- */
-  __pyx_tuple__4 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_src_id, __pyx_n_s_src, __pyx_n_s_dst_id, __pyx_n_s_dst, __pyx_n_s_weight, __pyx_n_s_result); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 22, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__4);
-  __Pyx_GIVEREF(__pyx_tuple__4);
-  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(6, 0, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_graph_pyx, __pyx_n_s_add_node, 22, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 22, __pyx_L1_error)
-
-  /* "neurograph/graph.pyx":31
- *         return result
- * 
- *     def contents(self):             # <<<<<<<<<<<<<<
+ *     def adj_list(self):             # <<<<<<<<<<<<<<
  *         results = {}
  *         for i in range(self.graph.list.v):
  */
-  __pyx_tuple__6 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_results, __pyx_n_s_i, __pyx_n_s_head, __pyx_n_s_item); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 31, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__6);
-  __Pyx_GIVEREF(__pyx_tuple__6);
-  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__6, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_graph_pyx, __pyx_n_s_contents, 31, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_results, __pyx_n_s_i, __pyx_n_s_head, __pyx_n_s_item); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__3);
+  __Pyx_GIVEREF(__pyx_tuple__3);
+  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_graph_pyx, __pyx_n_s_adj_list, 36, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) __PYX_ERR(0, 36, __pyx_L1_error)
 
-  /* "neurograph/graph.pyx":42
+  /* "neurograph/graph.pyx":47
  *         return results
  * 
  *     def save(self, output_path: str):             # <<<<<<<<<<<<<<
  *         gr.deserialize_graph_list(
  *             self.graph,
  */
-  __pyx_tuple__8 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_output_path); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 42, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__8);
-  __Pyx_GIVEREF(__pyx_tuple__8);
-  __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__8, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_graph_pyx, __pyx_n_s_save, 42, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_output_path); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__5);
+  __Pyx_GIVEREF(__pyx_tuple__5);
+  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__5, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_graph_pyx, __pyx_n_s_save, 47, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) __PYX_ERR(0, 47, __pyx_L1_error)
 
-  /* "neurograph/graph.pyx":48
+  /* "neurograph/graph.pyx":53
  *         )
+ * 
+ *     def dijkstra(self, start_vertex: int, matrix=False) -> list:             # <<<<<<<<<<<<<<
+ *         result_list = []
+ *         if matrix:
+ */
+  __pyx_tuple__7 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_start_vertex, __pyx_n_s_matrix, __pyx_n_s_result_list, __pyx_n_s_results, __pyx_n_s_i); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__7);
+  __Pyx_GIVEREF(__pyx_tuple__7);
+  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(3, 0, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_graph_pyx, __pyx_n_s_dijkstra, 53, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __pyx_tuple__9 = PyTuple_Pack(1, Py_False); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__9);
+  __Pyx_GIVEREF(__pyx_tuple__9);
+
+  /* "neurograph/graph.pyx":64
+ *         return result_list
+ * 
+ *     def shortest_path(self, start_vertex: int, end_vertex: int, matrix=False):             # <<<<<<<<<<<<<<
+ *         if matrix:
+ *             return cp.shortest_path_mat(
+ */
+  __pyx_tuple__10 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_start_vertex, __pyx_n_s_end_vertex, __pyx_n_s_matrix); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__10);
+  __Pyx_GIVEREF(__pyx_tuple__10);
+  __pyx_codeobj__11 = (PyObject*)__Pyx_PyCode_New(4, 0, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__10, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_graph_pyx, __pyx_n_s_shortest_path, 64, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__11)) __PYX_ERR(0, 64, __pyx_L1_error)
+
+  /* "neurograph/graph.pyx":78
+ *             )
  * 
  *     def print_graph(self):             # <<<<<<<<<<<<<<
  *         ll.print_graph(self.graph.list)
  * 
  */
-  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_graph_pyx, __pyx_n_s_print_graph, 48, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__12);
+  __Pyx_GIVEREF(__pyx_tuple__12);
+  __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_graph_pyx, __pyx_n_s_print_graph, 78, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) __PYX_ERR(0, 78, __pyx_L1_error)
 
-  /* "neurograph/graph.pyx":51
+  /* "neurograph/graph.pyx":81
  *         ll.print_graph(self.graph.list)
  * 
- *     def dijkstra(self, start_vertex: int) -> list:             # <<<<<<<<<<<<<<
- *         result_list = []
- *         results = cp.dijkstra_list(self.graph, start_vertex)
- */
-  __pyx_tuple__11 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_start_vertex, __pyx_n_s_result_list, __pyx_n_s_results, __pyx_n_s_i); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 51, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__11);
-  __Pyx_GIVEREF(__pyx_tuple__11);
-  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_graph_pyx, __pyx_n_s_dijkstra, 51, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 51, __pyx_L1_error)
-
-  /* "neurograph/graph.pyx":58
- *         return result_list
+ *     def matrix(self):             # <<<<<<<<<<<<<<
+ *         mat.print_adj_mat(self.graph.matrix)
  * 
- *     def shortest_path(self, start_vertex: int, end_vertex: int):             # <<<<<<<<<<<<<<
- *         return cp.shortest_path_list(
- *             self.graph,
  */
-  __pyx_tuple__13 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_start_vertex, __pyx_n_s_end_vertex); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 58, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__13);
-  __Pyx_GIVEREF(__pyx_tuple__13);
-  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(3, 0, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_graph_pyx, __pyx_n_s_shortest_path, 58, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_graph_pyx, __pyx_n_s_matrix, 81, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 81, __pyx_L1_error)
+
+  /* "neurograph/graph.pyx":84
+ *         mat.print_adj_mat(self.graph.matrix)
+ * 
+ *     def vertices(self):             # <<<<<<<<<<<<<<
+ *         return self.graph.vertices
+ * 
+ */
+  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_graph_pyx, __pyx_n_s_vertices, 84, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) __PYX_ERR(0, 84, __pyx_L1_error)
+
+  /* "neurograph/graph.pyx":87
+ *         return self.graph.vertices
+ * 
+ *     def edges(self):             # <<<<<<<<<<<<<<
+ *         return self.graph.edges
+ * 
+ */
+  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_graph_pyx, __pyx_n_s_edges, 87, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 87, __pyx_L1_error)
 
   /* "(tree fragment)":1
  * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
  *     raise TypeError, "no default __reduce__ due to non-trivial __cinit__"
  * def __setstate_cython__(self, __pyx_state):
  */
-  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_reduce_cython, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_codeobj__17 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_reduce_cython, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__17)) __PYX_ERR(1, 1, __pyx_L1_error)
 
   /* "(tree fragment)":3
  * def __reduce_cython__(self):
@@ -7985,17 +8412,17 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     raise TypeError, "no default __reduce__ due to non-trivial __cinit__"
  */
-  __pyx_tuple__16 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_pyx_state); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(1, 3, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__16);
-  __Pyx_GIVEREF(__pyx_tuple__16);
-  __pyx_codeobj__17 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__16, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_setstate_cython, 3, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__17)) __PYX_ERR(1, 3, __pyx_L1_error)
+  __pyx_tuple__18 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_pyx_state); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(1, 3, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__18);
+  __Pyx_GIVEREF(__pyx_tuple__18);
+  __pyx_codeobj__19 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__18, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_setstate_cython, 3, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__19)) __PYX_ERR(1, 3, __pyx_L1_error)
 
   /* "(tree fragment)":1
  * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
  *     raise TypeError, "no default __reduce__ due to non-trivial __cinit__"
  * def __setstate_cython__(self, __pyx_state):
  */
-  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_reduce_cython, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_reduce_cython, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(1, 1, __pyx_L1_error)
 
   /* "(tree fragment)":3
  * def __reduce_cython__(self):
@@ -8003,14 +8430,14 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     raise TypeError, "no default __reduce__ due to non-trivial __cinit__"
  */
-  __pyx_codeobj__19 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__16, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_setstate_cython, 3, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__19)) __PYX_ERR(1, 3, __pyx_L1_error)
+  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__18, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_setstate_cython, 3, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(1, 3, __pyx_L1_error)
 
   /* "(tree fragment)":1
  * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
  *     raise TypeError, "no default __reduce__ due to non-trivial __cinit__"
  * def __setstate_cython__(self, __pyx_state):
  */
-  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_reduce_cython, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_reduce_cython, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(1, 1, __pyx_L1_error)
 
   /* "(tree fragment)":3
  * def __reduce_cython__(self):
@@ -8018,26 +8445,26 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     raise TypeError, "no default __reduce__ due to non-trivial __cinit__"
  */
-  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__16, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_setstate_cython, 3, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(1, 3, __pyx_L1_error)
+  __pyx_codeobj__23 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__18, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_setstate_cython, 3, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__23)) __PYX_ERR(1, 3, __pyx_L1_error)
 
-  /* "neurograph/graph.pyx":119
+  /* "neurograph/graph.pyx":145
  *             raise MemoryError()
  * 
  *     def contents(self):             # <<<<<<<<<<<<<<
  *         steps = []
  *         for i in range(self.walk.steps):
  */
-  __pyx_tuple__22 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_steps, __pyx_n_s_i); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 119, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__22);
-  __Pyx_GIVEREF(__pyx_tuple__22);
-  __pyx_codeobj__23 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__22, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_graph_pyx, __pyx_n_s_contents, 119, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__23)) __PYX_ERR(0, 119, __pyx_L1_error)
+  __pyx_tuple__24 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_steps, __pyx_n_s_i); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(0, 145, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__24);
+  __Pyx_GIVEREF(__pyx_tuple__24);
+  __pyx_codeobj__25 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__24, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_graph_pyx, __pyx_n_s_contents, 145, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__25)) __PYX_ERR(0, 145, __pyx_L1_error)
 
   /* "(tree fragment)":1
  * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
  *     raise TypeError, "no default __reduce__ due to non-trivial __cinit__"
  * def __setstate_cython__(self, __pyx_state):
  */
-  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_reduce_cython, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_reduce_cython, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(1, 1, __pyx_L1_error)
 
   /* "(tree fragment)":3
  * def __reduce_cython__(self):
@@ -8045,14 +8472,14 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     raise TypeError, "no default __reduce__ due to non-trivial __cinit__"
  */
-  __pyx_codeobj__25 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__16, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_setstate_cython, 3, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__25)) __PYX_ERR(1, 3, __pyx_L1_error)
+  __pyx_codeobj__27 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__18, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_setstate_cython, 3, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__27)) __PYX_ERR(1, 3, __pyx_L1_error)
 
   /* "(tree fragment)":1
  * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
  *     raise TypeError, "no default __reduce__ due to non-trivial __cinit__"
  * def __setstate_cython__(self, __pyx_state):
  */
-  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_reduce_cython, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_codeobj__28 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_reduce_cython, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__28)) __PYX_ERR(1, 1, __pyx_L1_error)
 
   /* "(tree fragment)":3
  * def __reduce_cython__(self):
@@ -8060,7 +8487,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     raise TypeError, "no default __reduce__ due to non-trivial __cinit__"
  */
-  __pyx_codeobj__27 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__16, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_setstate_cython, 3, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__27)) __PYX_ERR(1, 3, __pyx_L1_error)
+  __pyx_codeobj__29 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__18, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_setstate_cython, 3, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__29)) __PYX_ERR(1, 3, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -8126,15 +8553,15 @@ static int __Pyx_modinit_type_init_code(void) {
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
   #if CYTHON_USE_TYPE_SPECS
-  __pyx_ptype_10neurograph_5graph_Graph = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_10neurograph_5graph_Graph_spec, NULL); if (unlikely(!__pyx_ptype_10neurograph_5graph_Graph)) __PYX_ERR(0, 6, __pyx_L1_error)
-  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_10neurograph_5graph_Graph_spec, __pyx_ptype_10neurograph_5graph_Graph) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_ptype_10neurograph_5graph_Graph = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_10neurograph_5graph_Graph_spec, NULL); if (unlikely(!__pyx_ptype_10neurograph_5graph_Graph)) __PYX_ERR(0, 7, __pyx_L1_error)
+  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_10neurograph_5graph_Graph_spec, __pyx_ptype_10neurograph_5graph_Graph) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
   #else
   __pyx_ptype_10neurograph_5graph_Graph = &__pyx_type_10neurograph_5graph_Graph;
   #endif
   #if !CYTHON_COMPILING_IN_LIMITED_API
   #endif
   #if !CYTHON_USE_TYPE_SPECS
-  if (__Pyx_PyType_Ready(__pyx_ptype_10neurograph_5graph_Graph) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
+  if (__Pyx_PyType_Ready(__pyx_ptype_10neurograph_5graph_Graph) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
   #endif
   #if PY_MAJOR_VERSION < 3
   __pyx_ptype_10neurograph_5graph_Graph->tp_print = 0;
@@ -8144,17 +8571,17 @@ static int __Pyx_modinit_type_init_code(void) {
     __pyx_ptype_10neurograph_5graph_Graph->tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
   #endif
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Graph, (PyObject *) __pyx_ptype_10neurograph_5graph_Graph) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Graph, (PyObject *) __pyx_ptype_10neurograph_5graph_Graph) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
   #if !CYTHON_COMPILING_IN_LIMITED_API
-  if (__Pyx_setup_reduce((PyObject *) __pyx_ptype_10neurograph_5graph_Graph) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject *) __pyx_ptype_10neurograph_5graph_Graph) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
   #endif
   #if CYTHON_USE_TYPE_SPECS
-  __pyx_t_1 = PyTuple_Pack(1, (PyObject *)__pyx_ptype_10neurograph_5graph_Graph); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_Pack(1, (PyObject *)__pyx_ptype_10neurograph_5graph_Graph); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10neurograph_5graph_SerializedGraph = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_10neurograph_5graph_SerializedGraph_spec, __pyx_t_1);
   __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_ptype_10neurograph_5graph_SerializedGraph)) __PYX_ERR(0, 65, __pyx_L1_error)
-  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_10neurograph_5graph_SerializedGraph_spec, __pyx_ptype_10neurograph_5graph_SerializedGraph) < 0) __PYX_ERR(0, 65, __pyx_L1_error)
+  if (unlikely(!__pyx_ptype_10neurograph_5graph_SerializedGraph)) __PYX_ERR(0, 91, __pyx_L1_error)
+  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_10neurograph_5graph_SerializedGraph_spec, __pyx_ptype_10neurograph_5graph_SerializedGraph) < 0) __PYX_ERR(0, 91, __pyx_L1_error)
   #else
   __pyx_ptype_10neurograph_5graph_SerializedGraph = &__pyx_type_10neurograph_5graph_SerializedGraph;
   #endif
@@ -8162,7 +8589,7 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_10neurograph_5graph_SerializedGraph->tp_base = __pyx_ptype_10neurograph_5graph_Graph;
   #endif
   #if !CYTHON_USE_TYPE_SPECS
-  if (__Pyx_PyType_Ready(__pyx_ptype_10neurograph_5graph_SerializedGraph) < 0) __PYX_ERR(0, 65, __pyx_L1_error)
+  if (__Pyx_PyType_Ready(__pyx_ptype_10neurograph_5graph_SerializedGraph) < 0) __PYX_ERR(0, 91, __pyx_L1_error)
   #endif
   #if PY_MAJOR_VERSION < 3
   __pyx_ptype_10neurograph_5graph_SerializedGraph->tp_print = 0;
@@ -8172,17 +8599,17 @@ static int __Pyx_modinit_type_init_code(void) {
     __pyx_ptype_10neurograph_5graph_SerializedGraph->tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
   #endif
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_SerializedGraph, (PyObject *) __pyx_ptype_10neurograph_5graph_SerializedGraph) < 0) __PYX_ERR(0, 65, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_SerializedGraph, (PyObject *) __pyx_ptype_10neurograph_5graph_SerializedGraph) < 0) __PYX_ERR(0, 91, __pyx_L1_error)
   #if !CYTHON_COMPILING_IN_LIMITED_API
-  if (__Pyx_setup_reduce((PyObject *) __pyx_ptype_10neurograph_5graph_SerializedGraph) < 0) __PYX_ERR(0, 65, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject *) __pyx_ptype_10neurograph_5graph_SerializedGraph) < 0) __PYX_ERR(0, 91, __pyx_L1_error)
   #endif
   #if CYTHON_USE_TYPE_SPECS
-  __pyx_t_1 = PyTuple_Pack(1, (PyObject *)__pyx_ptype_10neurograph_5graph_Graph); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_Pack(1, (PyObject *)__pyx_ptype_10neurograph_5graph_Graph); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 105, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10neurograph_5graph_DataFrameGraph = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_10neurograph_5graph_DataFrameGraph_spec, __pyx_t_1);
   __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_ptype_10neurograph_5graph_DataFrameGraph)) __PYX_ERR(0, 79, __pyx_L1_error)
-  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_10neurograph_5graph_DataFrameGraph_spec, __pyx_ptype_10neurograph_5graph_DataFrameGraph) < 0) __PYX_ERR(0, 79, __pyx_L1_error)
+  if (unlikely(!__pyx_ptype_10neurograph_5graph_DataFrameGraph)) __PYX_ERR(0, 105, __pyx_L1_error)
+  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_10neurograph_5graph_DataFrameGraph_spec, __pyx_ptype_10neurograph_5graph_DataFrameGraph) < 0) __PYX_ERR(0, 105, __pyx_L1_error)
   #else
   __pyx_ptype_10neurograph_5graph_DataFrameGraph = &__pyx_type_10neurograph_5graph_DataFrameGraph;
   #endif
@@ -8190,7 +8617,7 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_10neurograph_5graph_DataFrameGraph->tp_base = __pyx_ptype_10neurograph_5graph_Graph;
   #endif
   #if !CYTHON_USE_TYPE_SPECS
-  if (__Pyx_PyType_Ready(__pyx_ptype_10neurograph_5graph_DataFrameGraph) < 0) __PYX_ERR(0, 79, __pyx_L1_error)
+  if (__Pyx_PyType_Ready(__pyx_ptype_10neurograph_5graph_DataFrameGraph) < 0) __PYX_ERR(0, 105, __pyx_L1_error)
   #endif
   #if PY_MAJOR_VERSION < 3
   __pyx_ptype_10neurograph_5graph_DataFrameGraph->tp_print = 0;
@@ -8200,20 +8627,20 @@ static int __Pyx_modinit_type_init_code(void) {
     __pyx_ptype_10neurograph_5graph_DataFrameGraph->tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
   #endif
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_DataFrameGraph, (PyObject *) __pyx_ptype_10neurograph_5graph_DataFrameGraph) < 0) __PYX_ERR(0, 79, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_DataFrameGraph, (PyObject *) __pyx_ptype_10neurograph_5graph_DataFrameGraph) < 0) __PYX_ERR(0, 105, __pyx_L1_error)
   #if !CYTHON_COMPILING_IN_LIMITED_API
-  if (__Pyx_setup_reduce((PyObject *) __pyx_ptype_10neurograph_5graph_DataFrameGraph) < 0) __PYX_ERR(0, 79, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject *) __pyx_ptype_10neurograph_5graph_DataFrameGraph) < 0) __PYX_ERR(0, 105, __pyx_L1_error)
   #endif
   #if CYTHON_USE_TYPE_SPECS
-  __pyx_ptype_10neurograph_5graph_Walk = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_10neurograph_5graph_Walk_spec, NULL); if (unlikely(!__pyx_ptype_10neurograph_5graph_Walk)) __PYX_ERR(0, 109, __pyx_L1_error)
-  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_10neurograph_5graph_Walk_spec, __pyx_ptype_10neurograph_5graph_Walk) < 0) __PYX_ERR(0, 109, __pyx_L1_error)
+  __pyx_ptype_10neurograph_5graph_Walk = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_10neurograph_5graph_Walk_spec, NULL); if (unlikely(!__pyx_ptype_10neurograph_5graph_Walk)) __PYX_ERR(0, 135, __pyx_L1_error)
+  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_10neurograph_5graph_Walk_spec, __pyx_ptype_10neurograph_5graph_Walk) < 0) __PYX_ERR(0, 135, __pyx_L1_error)
   #else
   __pyx_ptype_10neurograph_5graph_Walk = &__pyx_type_10neurograph_5graph_Walk;
   #endif
   #if !CYTHON_COMPILING_IN_LIMITED_API
   #endif
   #if !CYTHON_USE_TYPE_SPECS
-  if (__Pyx_PyType_Ready(__pyx_ptype_10neurograph_5graph_Walk) < 0) __PYX_ERR(0, 109, __pyx_L1_error)
+  if (__Pyx_PyType_Ready(__pyx_ptype_10neurograph_5graph_Walk) < 0) __PYX_ERR(0, 135, __pyx_L1_error)
   #endif
   #if PY_MAJOR_VERSION < 3
   __pyx_ptype_10neurograph_5graph_Walk->tp_print = 0;
@@ -8223,17 +8650,17 @@ static int __Pyx_modinit_type_init_code(void) {
     __pyx_ptype_10neurograph_5graph_Walk->tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
   #endif
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Walk, (PyObject *) __pyx_ptype_10neurograph_5graph_Walk) < 0) __PYX_ERR(0, 109, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Walk, (PyObject *) __pyx_ptype_10neurograph_5graph_Walk) < 0) __PYX_ERR(0, 135, __pyx_L1_error)
   #if !CYTHON_COMPILING_IN_LIMITED_API
-  if (__Pyx_setup_reduce((PyObject *) __pyx_ptype_10neurograph_5graph_Walk) < 0) __PYX_ERR(0, 109, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject *) __pyx_ptype_10neurograph_5graph_Walk) < 0) __PYX_ERR(0, 135, __pyx_L1_error)
   #endif
   #if CYTHON_USE_TYPE_SPECS
-  __pyx_t_1 = PyTuple_Pack(1, (PyObject *)__pyx_ptype_10neurograph_5graph_Walk); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 132, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_Pack(1, (PyObject *)__pyx_ptype_10neurograph_5graph_Walk); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 158, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10neurograph_5graph_GraphWalk = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_10neurograph_5graph_GraphWalk_spec, __pyx_t_1);
   __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_ptype_10neurograph_5graph_GraphWalk)) __PYX_ERR(0, 132, __pyx_L1_error)
-  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_10neurograph_5graph_GraphWalk_spec, __pyx_ptype_10neurograph_5graph_GraphWalk) < 0) __PYX_ERR(0, 132, __pyx_L1_error)
+  if (unlikely(!__pyx_ptype_10neurograph_5graph_GraphWalk)) __PYX_ERR(0, 158, __pyx_L1_error)
+  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_10neurograph_5graph_GraphWalk_spec, __pyx_ptype_10neurograph_5graph_GraphWalk) < 0) __PYX_ERR(0, 158, __pyx_L1_error)
   #else
   __pyx_ptype_10neurograph_5graph_GraphWalk = &__pyx_type_10neurograph_5graph_GraphWalk;
   #endif
@@ -8241,7 +8668,7 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_10neurograph_5graph_GraphWalk->tp_base = __pyx_ptype_10neurograph_5graph_Walk;
   #endif
   #if !CYTHON_USE_TYPE_SPECS
-  if (__Pyx_PyType_Ready(__pyx_ptype_10neurograph_5graph_GraphWalk) < 0) __PYX_ERR(0, 132, __pyx_L1_error)
+  if (__Pyx_PyType_Ready(__pyx_ptype_10neurograph_5graph_GraphWalk) < 0) __PYX_ERR(0, 158, __pyx_L1_error)
   #endif
   #if PY_MAJOR_VERSION < 3
   __pyx_ptype_10neurograph_5graph_GraphWalk->tp_print = 0;
@@ -8251,9 +8678,9 @@ static int __Pyx_modinit_type_init_code(void) {
     __pyx_ptype_10neurograph_5graph_GraphWalk->tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
   #endif
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_GraphWalk, (PyObject *) __pyx_ptype_10neurograph_5graph_GraphWalk) < 0) __PYX_ERR(0, 132, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_GraphWalk, (PyObject *) __pyx_ptype_10neurograph_5graph_GraphWalk) < 0) __PYX_ERR(0, 158, __pyx_L1_error)
   #if !CYTHON_COMPILING_IN_LIMITED_API
-  if (__Pyx_setup_reduce((PyObject *) __pyx_ptype_10neurograph_5graph_GraphWalk) < 0) __PYX_ERR(0, 132, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject *) __pyx_ptype_10neurograph_5graph_GraphWalk) < 0) __PYX_ERR(0, 158, __pyx_L1_error)
   #endif
   __Pyx_RefNannyFinishContext();
   return 0;
@@ -8580,133 +9007,148 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "neurograph/graph.pyx":16
+  /* "neurograph/graph.pyx":17
  *             raise MemoryError()
  * 
- *     def vertices(self):             # <<<<<<<<<<<<<<
- *         return self.graph.vertices
- * 
- */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_5Graph_5vertices, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Graph_vertices, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__2)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_5graph_Graph, __pyx_n_s_vertices, __pyx_t_2) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  PyType_Modified(__pyx_ptype_10neurograph_5graph_Graph);
-
-  /* "neurograph/graph.pyx":19
- *         return self.graph.vertices
- * 
- *     def edges(self):             # <<<<<<<<<<<<<<
- *         return self.graph.edges
- * 
- */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_5Graph_7edges, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Graph_edges, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__3)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 19, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_5graph_Graph, __pyx_n_s_edges, __pyx_t_2) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  PyType_Modified(__pyx_ptype_10neurograph_5graph_Graph);
-
-  /* "neurograph/graph.pyx":22
- *         return self.graph.edges
- * 
  *     def add_node(self, src_id: int, src: str, dst_id: int, dst: str, weight: int):             # <<<<<<<<<<<<<<
- *         result = ll.add_node(
- *             self.graph.list,
+ * 
+ *         # add to adjacency list
  */
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_src_id, __pyx_n_s_int) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_src, __pyx_n_s_str) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dst_id, __pyx_n_s_int) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dst, __pyx_n_s_str) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_weight, __pyx_n_s_int) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_5Graph_9add_node, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Graph_add_node, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__5)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 22, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_src_id, __pyx_n_s_int) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_src, __pyx_n_s_str) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dst_id, __pyx_n_s_int) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dst, __pyx_n_s_str) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_weight, __pyx_n_s_int) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_5Graph_5add_node, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Graph_add_node, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__2)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_3, __pyx_t_2);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_5graph_Graph, __pyx_n_s_add_node, __pyx_t_3) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_5graph_Graph, __pyx_n_s_add_node, __pyx_t_3) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   PyType_Modified(__pyx_ptype_10neurograph_5graph_Graph);
 
-  /* "neurograph/graph.pyx":31
- *         return result
+  /* "neurograph/graph.pyx":36
  * 
- *     def contents(self):             # <<<<<<<<<<<<<<
+ * 
+ *     def adj_list(self):             # <<<<<<<<<<<<<<
  *         results = {}
  *         for i in range(self.graph.list.v):
  */
-  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_5Graph_11contents, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Graph_contents, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__7)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_5Graph_7adj_list, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Graph_adj_list, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__4)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_5graph_Graph, __pyx_n_s_contents, __pyx_t_3) < 0) __PYX_ERR(0, 31, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_5graph_Graph, __pyx_n_s_adj_list, __pyx_t_3) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   PyType_Modified(__pyx_ptype_10neurograph_5graph_Graph);
 
-  /* "neurograph/graph.pyx":42
+  /* "neurograph/graph.pyx":47
  *         return results
  * 
  *     def save(self, output_path: str):             # <<<<<<<<<<<<<<
  *         gr.deserialize_graph_list(
  *             self.graph,
  */
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_output_path, __pyx_n_s_str) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_5Graph_13save, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Graph_save, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__9)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_output_path, __pyx_n_s_str) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_5Graph_9save, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Graph_save, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__6)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_2, __pyx_t_3);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_5graph_Graph, __pyx_n_s_save, __pyx_t_2) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_5graph_Graph, __pyx_n_s_save, __pyx_t_2) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   PyType_Modified(__pyx_ptype_10neurograph_5graph_Graph);
 
-  /* "neurograph/graph.pyx":48
+  /* "neurograph/graph.pyx":53
  *         )
+ * 
+ *     def dijkstra(self, start_vertex: int, matrix=False) -> list:             # <<<<<<<<<<<<<<
+ *         result_list = []
+ *         if matrix:
+ */
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_start_vertex, __pyx_n_s_int) < 0) __PYX_ERR(0, 53, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_return, __pyx_n_s_list) < 0) __PYX_ERR(0, 53, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_5Graph_11dijkstra, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Graph_dijkstra, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__8)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_3, __pyx_tuple__9);
+  __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_3, __pyx_t_2);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_5graph_Graph, __pyx_n_s_dijkstra, __pyx_t_3) < 0) __PYX_ERR(0, 53, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  PyType_Modified(__pyx_ptype_10neurograph_5graph_Graph);
+
+  /* "neurograph/graph.pyx":64
+ *         return result_list
+ * 
+ *     def shortest_path(self, start_vertex: int, end_vertex: int, matrix=False):             # <<<<<<<<<<<<<<
+ *         if matrix:
+ *             return cp.shortest_path_mat(
+ */
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_start_vertex, __pyx_n_s_int) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_end_vertex, __pyx_n_s_int) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_5Graph_13shortest_path, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Graph_shortest_path, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__11)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_2, __pyx_tuple__9);
+  __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_2, __pyx_t_3);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_5graph_Graph, __pyx_n_s_shortest_path, __pyx_t_2) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  PyType_Modified(__pyx_ptype_10neurograph_5graph_Graph);
+
+  /* "neurograph/graph.pyx":78
+ *             )
  * 
  *     def print_graph(self):             # <<<<<<<<<<<<<<
  *         ll.print_graph(self.graph.list)
  * 
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_5Graph_15print_graph, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Graph_print_graph, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__10)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_5Graph_15print_graph, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Graph_print_graph, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__13)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_5graph_Graph, __pyx_n_s_print_graph, __pyx_t_2) < 0) __PYX_ERR(0, 48, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_5graph_Graph, __pyx_n_s_print_graph, __pyx_t_2) < 0) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   PyType_Modified(__pyx_ptype_10neurograph_5graph_Graph);
 
-  /* "neurograph/graph.pyx":51
+  /* "neurograph/graph.pyx":81
  *         ll.print_graph(self.graph.list)
  * 
- *     def dijkstra(self, start_vertex: int) -> list:             # <<<<<<<<<<<<<<
- *         result_list = []
- *         results = cp.dijkstra_list(self.graph, start_vertex)
- */
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 51, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_start_vertex, __pyx_n_s_int) < 0) __PYX_ERR(0, 51, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_return, __pyx_n_s_list) < 0) __PYX_ERR(0, 51, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_5Graph_17dijkstra, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Graph_dijkstra, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__12)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 51, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_3, __pyx_t_2);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_5graph_Graph, __pyx_n_s_dijkstra, __pyx_t_3) < 0) __PYX_ERR(0, 51, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  PyType_Modified(__pyx_ptype_10neurograph_5graph_Graph);
-
-  /* "neurograph/graph.pyx":58
- *         return result_list
+ *     def matrix(self):             # <<<<<<<<<<<<<<
+ *         mat.print_adj_mat(self.graph.matrix)
  * 
- *     def shortest_path(self, start_vertex: int, end_vertex: int):             # <<<<<<<<<<<<<<
- *         return cp.shortest_path_list(
- *             self.graph,
  */
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 58, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_start_vertex, __pyx_n_s_int) < 0) __PYX_ERR(0, 58, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_end_vertex, __pyx_n_s_int) < 0) __PYX_ERR(0, 58, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_5Graph_19shortest_path, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Graph_shortest_path, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__14)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_5Graph_17matrix, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Graph_matrix, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__14)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_2, __pyx_t_3);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_5graph_Graph, __pyx_n_s_shortest_path, __pyx_t_2) < 0) __PYX_ERR(0, 58, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_5graph_Graph, __pyx_n_s_matrix, __pyx_t_2) < 0) __PYX_ERR(0, 81, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  PyType_Modified(__pyx_ptype_10neurograph_5graph_Graph);
+
+  /* "neurograph/graph.pyx":84
+ *         mat.print_adj_mat(self.graph.matrix)
+ * 
+ *     def vertices(self):             # <<<<<<<<<<<<<<
+ *         return self.graph.vertices
+ * 
+ */
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_5Graph_19vertices, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Graph_vertices, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__15)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 84, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_5graph_Graph, __pyx_n_s_vertices, __pyx_t_2) < 0) __PYX_ERR(0, 84, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  PyType_Modified(__pyx_ptype_10neurograph_5graph_Graph);
+
+  /* "neurograph/graph.pyx":87
+ *         return self.graph.vertices
+ * 
+ *     def edges(self):             # <<<<<<<<<<<<<<
+ *         return self.graph.edges
+ * 
+ */
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_5Graph_21edges, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Graph_edges, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__16)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 87, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_5graph_Graph, __pyx_n_s_edges, __pyx_t_2) < 0) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   PyType_Modified(__pyx_ptype_10neurograph_5graph_Graph);
 
@@ -8715,7 +9157,7 @@ if (!__Pyx_RefNanny) {
  *     raise TypeError, "no default __reduce__ due to non-trivial __cinit__"
  * def __setstate_cython__(self, __pyx_state):
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_5Graph_21__reduce_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Graph___reduce_cython, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__15)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_5Graph_23__reduce_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Graph___reduce_cython, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__17)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_reduce_cython, __pyx_t_2) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -8726,7 +9168,7 @@ if (!__Pyx_RefNanny) {
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     raise TypeError, "no default __reduce__ due to non-trivial __cinit__"
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_5Graph_23__setstate_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Graph___setstate_cython, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__17)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 3, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_5Graph_25__setstate_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Graph___setstate_cython, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__19)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_setstate_cython, __pyx_t_2) < 0) __PYX_ERR(1, 3, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -8736,7 +9178,7 @@ if (!__Pyx_RefNanny) {
  *     raise TypeError, "no default __reduce__ due to non-trivial __cinit__"
  * def __setstate_cython__(self, __pyx_state):
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_15SerializedGraph_5__reduce_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_SerializedGraph___reduce_cython, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__18)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_15SerializedGraph_5__reduce_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_SerializedGraph___reduce_cython, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__20)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_reduce_cython, __pyx_t_2) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -8747,7 +9189,7 @@ if (!__Pyx_RefNanny) {
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     raise TypeError, "no default __reduce__ due to non-trivial __cinit__"
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_15SerializedGraph_7__setstate_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_SerializedGraph___setstate_cytho, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__19)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 3, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_15SerializedGraph_7__setstate_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_SerializedGraph___setstate_cytho, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__21)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_setstate_cython, __pyx_t_2) < 0) __PYX_ERR(1, 3, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -8757,7 +9199,7 @@ if (!__Pyx_RefNanny) {
  *     raise TypeError, "no default __reduce__ due to non-trivial __cinit__"
  * def __setstate_cython__(self, __pyx_state):
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_14DataFrameGraph_5__reduce_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrameGraph___reduce_cython, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__20)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_14DataFrameGraph_5__reduce_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrameGraph___reduce_cython, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__22)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_reduce_cython, __pyx_t_2) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -8768,21 +9210,21 @@ if (!__Pyx_RefNanny) {
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     raise TypeError, "no default __reduce__ due to non-trivial __cinit__"
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_14DataFrameGraph_7__setstate_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrameGraph___setstate_cython, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__21)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 3, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_14DataFrameGraph_7__setstate_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrameGraph___setstate_cython, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__23)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_setstate_cython, __pyx_t_2) < 0) __PYX_ERR(1, 3, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "neurograph/graph.pyx":119
+  /* "neurograph/graph.pyx":145
  *             raise MemoryError()
  * 
  *     def contents(self):             # <<<<<<<<<<<<<<
  *         steps = []
  *         for i in range(self.walk.steps):
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_4Walk_5contents, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Walk_contents, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__23)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 119, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_4Walk_5contents, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Walk_contents, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__25)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 145, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_5graph_Walk, __pyx_n_s_contents, __pyx_t_2) < 0) __PYX_ERR(0, 119, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_5graph_Walk, __pyx_n_s_contents, __pyx_t_2) < 0) __PYX_ERR(0, 145, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   PyType_Modified(__pyx_ptype_10neurograph_5graph_Walk);
 
@@ -8791,7 +9233,7 @@ if (!__Pyx_RefNanny) {
  *     raise TypeError, "no default __reduce__ due to non-trivial __cinit__"
  * def __setstate_cython__(self, __pyx_state):
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_4Walk_7__reduce_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Walk___reduce_cython, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__24)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_4Walk_7__reduce_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Walk___reduce_cython, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__26)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_reduce_cython, __pyx_t_2) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -8802,7 +9244,7 @@ if (!__Pyx_RefNanny) {
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     raise TypeError, "no default __reduce__ due to non-trivial __cinit__"
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_4Walk_9__setstate_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Walk___setstate_cython, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__25)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 3, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_4Walk_9__setstate_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Walk___setstate_cython, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__27)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_setstate_cython, __pyx_t_2) < 0) __PYX_ERR(1, 3, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -8812,7 +9254,7 @@ if (!__Pyx_RefNanny) {
  *     raise TypeError, "no default __reduce__ due to non-trivial __cinit__"
  * def __setstate_cython__(self, __pyx_state):
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_9GraphWalk_5__reduce_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_GraphWalk___reduce_cython, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__26)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_9GraphWalk_5__reduce_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_GraphWalk___reduce_cython, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__28)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_reduce_cython, __pyx_t_2) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -8823,7 +9265,7 @@ if (!__Pyx_RefNanny) {
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     raise TypeError, "no default __reduce__ due to non-trivial __cinit__"
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_9GraphWalk_7__setstate_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_GraphWalk___setstate_cython, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__27)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 3, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_5graph_9GraphWalk_7__setstate_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_GraphWalk___setstate_cython, NULL, __pyx_n_s_neurograph_graph, __pyx_d, ((PyObject *)__pyx_codeobj__29)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_setstate_cython, __pyx_t_2) < 0) __PYX_ERR(1, 3, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -12691,7 +13133,7 @@ __Pyx_PyType_GetName(PyTypeObject* tp)
     if (unlikely(name == NULL) || unlikely(!PyUnicode_Check(name))) {
         PyErr_Clear();
         Py_XDECREF(name);
-        name = __Pyx_NewRef(__pyx_n_s__28);
+        name = __Pyx_NewRef(__pyx_n_s__30);
     }
     return name;
 }

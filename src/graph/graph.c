@@ -28,7 +28,6 @@ walk_t *init_walk(int steps) {
 	return w; 
 }
 
-
 void remove_unused_slots(graph_t *g) {
 	int last_used_indice = 0;  
 	for(int i = g->vertices; i > 0; i--){

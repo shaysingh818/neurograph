@@ -21,7 +21,7 @@ class TestGraphMethods(unittest.TestCase):
         g.add_node(src_id=3, src="D", dst_id=5, dst="F", weight=9)
         g.add_node(src_id=3, src="D", dst_id=6, dst="G", weight=10)
         g.add_node(src_id=4, src="E", dst_id=6, dst="G", weight=3)
-        results = g.contents()
+        results = g.adj_list()
 
         # expected output from graph contents 
         expected_results = [
@@ -56,8 +56,8 @@ class TestGraphMethods(unittest.TestCase):
             directed=True # directed gives nodes with 0 relationships
         )
 
-        d_results = directed_g.contents()
-        results = g.contents()
+        d_results = directed_g.adj_list()
+        results = g.adj_list()
 
         # expected output from graph contents 
         directed_results = [
@@ -108,7 +108,7 @@ class TestGraphMethods(unittest.TestCase):
             directed=False,
             weighted=False
         )
-        results = df_graph.contents()
+        results = df_graph.adj_list()
 
         nond_results = [
            [
@@ -146,9 +146,13 @@ class TestGraphMethods(unittest.TestCase):
         g.add_node(src_id=4, src="E", dst_id=5, dst="F", weight=6)
         g.add_node(src_id=5, src="F", dst_id=6, dst="G", weight=6)
         g.add_node(src_id=4, src="E", dst_id=6, dst="G", weight=2)
+
+        # validate results
         results = g.dijkstra(start_vertex=0)
+        mat_results = g.dijkstra(start_vertex=0, matrix=True)
         expected = [0, 2, 6, 7, 17, 22, 19]
         self.assertEqual(results, expected)
+        self.assertEqual(mat_results, expected)
 
 
 
@@ -165,13 +169,15 @@ class TestGraphMethods(unittest.TestCase):
         g.add_node(src_id=4, src="E", dst_id=5, dst="F", weight=6)
         g.add_node(src_id=5, src="F", dst_id=6, dst="G", weight=6)
         g.add_node(src_id=4, src="E", dst_id=6, dst="G", weight=2)
-        results = g.shortest_path(start_vertex=0, end_vertex=3)
 
         for i in range(g.vertices()):
             start_vertex = i
             results = g.dijkstra(start_vertex=start_vertex)
             for j in range(g.vertices()):
-                temp_result = g.shortest_path(start_vertex=start_vertex, end_vertex=j)
+                temp_result = g.shortest_path(
+                    start_vertex=start_vertex, 
+                    end_vertex=j
+                )
                 self.assertEqual(temp_result, results[j])
 
     def test_random_walk(self):
@@ -184,13 +190,48 @@ class TestGraphMethods(unittest.TestCase):
         g.add_node(src_id=1, src="B", dst_id=2, dst="C", weight=7)
         g.add_node(src_id=4, src="E", dst_id=2, dst="C", weight=8)
 
-        graph_walk = GraphWalk(graph=g, start_vertex=0, steps=10)
-        results = graph_walk.contents()
+        graph_walk = GraphWalk(
+            graph=g, 
+            start_vertex=0, 
+            steps=10, 
+            weighted=False
+        )
 
+        results = graph_walk.contents()
         self.assertEqual(results["cycles"], 0)
         self.assertEqual(results["steps"], 10)
         self.assertEqual(results["weighted_sum"], 0)
         self.assertEqual(len(results["path"]), 10)
+
+        weighted_graph_walk = GraphWalk(
+            graph=g, 
+            start_vertex=0, 
+            steps=10, 
+            weighted=True
+        )
+
+        mat_graph_walk = GraphWalk(
+            graph=g, 
+            start_vertex=0, 
+            steps=10, 
+            weighted=False,
+            matrix=True
+        )
+
+        results = weighted_graph_walk.contents()
+        mat_results = mat_graph_walk.contents()
+
+        self.assertEqual(results["cycles"], 0)
+        self.assertEqual(results["steps"], 10)
+        self.assertEqual(len(results["path"]), 10)
+        condition = results["weighted_sum"] > 0
+        self.assertEqual(condition, True)
+
+        self.assertEqual(mat_results["cycles"], 0)
+        self.assertEqual(mat_results["steps"], 10)
+        self.assertEqual(len(mat_results["path"]), 10)
+        mat_condition = mat_results["weighted_sum"] > 0
+        self.assertEqual(mat_condition, True)
 
     def test_bfs(self):
         pass

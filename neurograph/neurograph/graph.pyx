@@ -1,6 +1,7 @@
 cimport libneurograph.graph.cgraph as gr
 cimport libneurograph.graph.cpath as cp
 cimport libneurograph.data_structures.clist as ll
+cimport libneurograph.data_structures.cmatrix as mat
 from neurograph.extractors cimport DataFrame
 
 cdef class Graph:
@@ -13,22 +14,26 @@ cdef class Graph:
         if self.graph is NULL:
             raise MemoryError()
 
-    def vertices(self):
-        return self.graph.vertices
-
-    def edges(self):
-        return self.graph.edges
-
     def add_node(self, src_id: int, src: str, dst_id: int, dst: str, weight: int):
-        result = ll.add_node(
+
+        # add to adjacency list
+        ll.add_node(
             self.graph.list, 
             src_id, src.encode('utf-8'),
             dst_id, dst.encode('utf-8'),
             weight
         )
-        return result
+
+        # add to matrice
+        mat.add_node_mat(
+            self.graph.matrix,
+            src_id, src.encode('utf-8'),
+            dst_id, dst.encode('utf-8'),
+            weight
+        )
+ 
     
-    def contents(self):
+    def adj_list(self):
         results = {}
         for i in range(self.graph.list.v):
             results[i] = []
@@ -45,23 +50,44 @@ cdef class Graph:
             output_path.encode('utf-8')
         )
 
-    def print_graph(self):
-        ll.print_graph(self.graph.list)
-
-    def dijkstra(self, start_vertex: int) -> list:
+    def dijkstra(self, start_vertex: int, matrix=False) -> list:
         result_list = []
-        results = cp.dijkstra_list(self.graph, start_vertex)
+        if matrix:
+            results = cp.dijkstra_mat(self.graph, start_vertex)
+        else:
+            results = cp.dijkstra_list(self.graph, start_vertex)
+
         for i in range(self.graph.vertices):
             result_list.append(results[i])
         return result_list
 
-    def shortest_path(self, start_vertex: int, end_vertex: int):
-        return cp.shortest_path_list(
-            self.graph,
-            start_vertex,
-            end_vertex
-        )
+    def shortest_path(self, start_vertex: int, end_vertex: int, matrix=False):
+        if matrix:
+            return cp.shortest_path_mat(
+                self.graph,
+                start_vertex,
+                end_vertex
+            )
+        else:
+            return cp.shortest_path_list(
+                self.graph,
+                start_vertex,
+                end_vertex
+            )
+
+    def print_graph(self):
+        ll.print_graph(self.graph.list)
+
+    def matrix(self):
+        mat.print_adj_mat(self.graph.matrix)
+
+    def vertices(self):
+        return self.graph.vertices
+
+    def edges(self):
+        return self.graph.edges
     
+
 cdef class SerializedGraph(Graph):
 
     def __cinit__(self):
@@ -134,7 +160,27 @@ cdef class GraphWalk(Walk):
     def __cinit__(self):
         self.walk = NULL
 
-    def __init__(self, graph: Graph, start_vertex: int, steps: int):
-        self.walk = cp.random_walk_list(graph.graph, start_vertex, steps)
+    def __init__(self, graph: Graph, start_vertex: int, steps: int, weighted: bool, matrix=False):
+
+        if weighted:
+            self.walk = cp.weighted_random_walk_list(
+                graph.graph, 
+                start_vertex, 
+                steps
+            )
+        else:
+            if matrix:
+                self.walk = cp.random_walk_mat(
+                    graph.graph, 
+                    start_vertex, 
+                    steps
+                )
+            else:
+                self.walk = cp.random_walk_list(
+                    graph.graph, 
+                    start_vertex, 
+                    steps
+                )
+
         if self.walk is NULL:
             raise MemoryError()
