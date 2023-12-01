@@ -1,5 +1,6 @@
 cimport libneurograph.graph.cgraph as gr
 cimport libneurograph.graph.cpath as cp
+cimport libneurograph.graph.ccommunity as cc
 cimport libneurograph.data_structures.clist as ll
 cimport libneurograph.data_structures.cmatrix as mat
 from neurograph.extractors cimport DataFrame
@@ -31,18 +32,18 @@ cdef class Graph:
             dst_id, dst.encode('utf-8'),
             weight
         )
- 
-    
-    def adj_list(self):
-        results = {}
-        for i in range(self.graph.list.v):
-            results[i] = []
-            head = self.graph.list.items[i].head
-            while head:
-                item = (head.id, head.label.decode('utf-8'))
-                results[i].append(item)
-                head = head.next
-        return results
+
+    def add_end_node(self, src_id: int, src: str, weight: int):
+        ll.add_end_node(
+            self.graph.list, 
+            src_id, 
+            src.encode('utf-8'), 
+            weight
+        )
+
+    def label_node(self, index: int, label: int):
+        gr.label_node(self.graph, index, label)
+
 
     def save(self, output_path: str):
         gr.deserialize_graph_list(
@@ -75,6 +76,36 @@ cdef class Graph:
                 end_vertex
             )
 
+    def closeness_centrality(self, start_vertex: int, normalized=False):
+        if normalized:
+            return cc.normalized_closeness_centrality_list(
+                self.graph,
+                start_vertex,
+            )
+        else:
+            return cc.closeness_centrality_list(
+                self.graph,
+                start_vertex,
+            )
+
+    def kosaraju(self, start_vertex: int, iterative=False):
+        predicted_labels = []
+        results = cc.kosaraju_list(self.graph, start_vertex)
+        for i in range(self.graph.list.v):
+            for j in range(self.graph.list.v):
+                print(results[i][j])
+                
+    def adj_list(self):
+        results = {}
+        for i in range(self.graph.list.v):
+            results[i] = []
+            head = self.graph.list.items[i].head
+            while head:
+                item = (head.id, head.label.decode('utf-8'))
+                results[i].append(item)
+                head = head.next
+        return results
+
     def print_graph(self):
         ll.print_graph(self.graph.list)
 
@@ -86,6 +117,13 @@ cdef class Graph:
 
     def edges(self):
         return self.graph.edges
+
+    def labels(self):
+        results = []
+        for i in range(self.graph.list.v):
+            results.append(self.graph.labels[i])
+        return results
+
     
 
 cdef class SerializedGraph(Graph):

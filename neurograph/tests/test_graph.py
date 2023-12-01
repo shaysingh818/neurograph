@@ -23,6 +23,12 @@ class TestGraphMethods(unittest.TestCase):
         g.add_node(src_id=4, src="E", dst_id=6, dst="G", weight=3)
         results = g.adj_list()
 
+        # label nodes
+        expected_labels = [0, 1, -1, -1, -1, -1, -1, -1, -1, -1]
+        g.label_node(index=0, label=0)
+        g.label_node(index=1, label=1)
+        self.assertEqual(g.labels(), expected_labels)
+
         # expected output from graph contents 
         expected_results = [
             [(1, 'B'), (2, 'C')],
@@ -232,6 +238,43 @@ class TestGraphMethods(unittest.TestCase):
         self.assertEqual(len(mat_results["path"]), 10)
         mat_condition = mat_results["weighted_sum"] > 0
         self.assertEqual(mat_condition, True)
+
+    def test_closeness_centrality(self):
+        
+        # create graph
+        g = Graph(vertices=7, directed=False)
+        g.add_node(src_id=0, src="A", dst_id=1, dst="B", weight=2)
+        g.add_node(src_id=0, src="A", dst_id=2, dst="C", weight=6)
+        g.add_node(src_id=1, src="B", dst_id=3, dst="D", weight=5)
+        g.add_node(src_id=2, src="C", dst_id=3, dst="D", weight=8)
+        g.add_node(src_id=3, src="D", dst_id=4, dst="E", weight=10)
+        g.add_node(src_id=3, src="D", dst_id=5, dst="F", weight=15)
+        g.add_node(src_id=4, src="E", dst_id=5, dst="F", weight=6)
+        g.add_node(src_id=5, src="F", dst_id=6, dst="G", weight=6)
+        g.add_node(src_id=4, src="E", dst_id=6, dst="G", weight=2)
+
+        # regular closeness
+        results = g.closeness_centrality(start_vertex=4)
+        self.assertEqual(results, 0.014705882407724857)
+
+        # normalized
+        n_results = g.closeness_centrality(
+            start_vertex=4,
+            normalized=True
+        )
+        self.assertEqual(n_results, 0.0882352963089943)
+
+    def test_degree_centrality(self):
+        pass
+
+    def test_kosaraju(self):
+        pass
+
+    def test_label_propagation(self):
+        pass
+
+    def test_triangle_count(self):
+        pass
 
     def test_bfs(self):
         pass

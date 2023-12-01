@@ -171,7 +171,6 @@ int *label_propagator_list(graph_t *g, int *labels, int start_vertex) {
 		predicted_labels[i] = -1; 
 	}
 
-
 	/* get items from queue and calculate probabilities */
 	for(int i = q->front_index; i <= q->rear_index; i++) {
 
@@ -196,7 +195,6 @@ int *label_propagator_list(graph_t *g, int *labels, int start_vertex) {
 		predicted_labels[node_index] = curr_label; 		
 	}
 
-
 	return predicted_labels; 
 } 
 
@@ -207,7 +205,6 @@ int *label_propagation_iterative_list(graph_t *g, int start_vertex) {
 	queue_t *q = init_queue(g->list->v);
 	int result = dfs(q, g, start_node); 
 	int curr_label = -1;
-
 
 	for(int i = q->front_index; i <= q->rear_index; i++) {
 
@@ -240,6 +237,10 @@ int *label_propagation_iterative_list(graph_t *g, int start_vertex) {
 		}
 
 		g->labels[node_id] = curr_label; 		
+	}
+
+	for(int i = 0; i < g->list->v; i++){
+		printf("%d\n", g->labels[i]); 
 	}
 
 	return g->labels; 

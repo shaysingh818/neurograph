@@ -15,6 +15,8 @@ cdef extern from "<neurograph/graph/includes/graph.h>":
     struct Graph:
         int vertices
         int edges
+        int *visited
+        int *labels
         char *filename
         bint directed
         arraylist.AdjacencyList *list

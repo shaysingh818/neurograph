@@ -259,6 +259,11 @@ void test_label_propagation() {
 		0, 1, 0, 0, -1, 1, 1
 	}; 
 
+	int *labels = malloc(vertices * sizeof(int));
+	for(int i = 0; i < vertices; i++){
+		labels[i] = -1; 
+	}
+
 	/* create adjacency list graph (test on smaller graph) */
 	graph_t *g = init_graph(vertices, vertices, false);
     add_node(g->list, 0, "A", 3, "D", 2);
@@ -268,15 +273,12 @@ void test_label_propagation() {
     add_node(g->list, 5, "F", 6, "G", 2);
     add_node(g->list, 5, "F", 1, "B", 2);
 
-	/* label nodes in graph */
-	int *labels = malloc(g->vertices * sizeof(int)); 
-	for(int i = 0; i < g->vertices; i++){
-		labels[i] = -1; 
-	}
 
 	/* label the red nodes (red is 0, green is 1) */
 	labels[0] = 0; 
 	labels[1] = 1;
+
+	print_graph_list(g); 
 
 	int *predicted_labels = label_propagator_list(g, labels, 0);
 	for(int i = 0; i < g->vertices; i++){
@@ -313,6 +315,7 @@ void test_iterative_label_propagation() {
 
 	int *labels = label_propagation_iterative_list(g, 0); 
 	for(int i = 0; i < g->list->v; i++){
+		printf("%d\n", labels[i]); 
 		assert(labels[i] == expected_output[i]);
 	}
 
