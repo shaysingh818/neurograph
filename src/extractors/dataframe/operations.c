@@ -1,13 +1,23 @@
 #include "includes/operations.h"
 
 
-frame_t *add_frame_cols(frame_t *frame, void *col1, void *col2) {
+void add_frame_cols(frame_t *frame, char *col1, char *col2, char *result_col) {
+
+    void *col1_ptr = (void*)col1; 
+    void *col2_ptr = (void*)col2; 
 
     /* look up values and allocate where results are stored */
-    row_value_t **r1 = lookup_table_key(frame->frame, col1); 
-    row_value_t **r2 = lookup_table_key(frame->frame, col2);
+    row_value_t **r1 = lookup_table_key(frame->frame, col1_ptr); 
+    row_value_t **r2 = lookup_table_key(frame->frame, col2_ptr);
     row_value_t **result = malloc(frame->row_limit * sizeof(row_value_t*)); 
-    insert_char(frame->headers, "result"); 
+    insert_char(frame->headers, result_col);
+    frame->header_count += 1; 
+
+    /* allocate space for key size (C didn't catch this but python did ) */
+    size_t result_key_size = strlen(result_col)+1; 
+    char *key_val = malloc(result_key_size * sizeof(char)); 
+    strcpy(key_val, result_col); 
+
 
     /* itereate through frame limit */
     for(int i = 0; i < frame->row_limit; i++){
@@ -38,24 +48,34 @@ frame_t *add_frame_cols(frame_t *frame, void *col1, void *col2) {
         }
 
 
-        char convert_result[20]; 
+        char *convert_result = malloc(20 * sizeof(char)); 
         double add_result = r1_float_value + r2_float_value;
         snprintf(convert_result, sizeof(convert_result), "%.2f", add_result);
         result[i] = init_row_value(i, convert_result);
     } 
 
-    add_table_map(frame->frame, "result", result); 
-    return frame; 
+
+    add_table_map(frame->frame, key_val, result);
 }
 
 
-frame_t *subtract_frame_cols(frame_t *frame, void *col1, void *col2) {
+void subtract_frame_cols(frame_t *frame, char *col1, char *col2, char *result_col) {
+
+    /* cast to void pointers */
+    void *col1_ptr = (void*)col1; 
+    void *col2_ptr = (void*)col2;
 
     /* look up values and allocate where results are stored */
-    row_value_t **r1 = lookup_table_key(frame->frame, col1); 
-    row_value_t **r2 = lookup_table_key(frame->frame, col2);
+    row_value_t **r1 = lookup_table_key(frame->frame, col1_ptr); 
+    row_value_t **r2 = lookup_table_key(frame->frame, col2_ptr);
     row_value_t **result = malloc(frame->row_limit * sizeof(row_value_t*)); 
-    insert_char(frame->headers, "result"); 
+    insert_char(frame->headers, result_col);
+    frame->header_count += 1;  
+
+    /* allocate space for key size (C didn't catch this but python did ) */
+    size_t result_key_size = strlen(result_col)+1; 
+    char *key_val = malloc(result_key_size * sizeof(char)); 
+    strcpy(key_val, result_col); 
 
     /* itereate through frame limit */
     for(int i = 0; i < frame->row_limit; i++){
@@ -86,12 +106,11 @@ frame_t *subtract_frame_cols(frame_t *frame, void *col1, void *col2) {
         }
 
 
-        char convert_result[20]; 
+        char *convert_result = malloc(20 * sizeof(char)); 
         double add_result = r1_float_value - r2_float_value;
         snprintf(convert_result, sizeof(convert_result), "%.2f", add_result);
         result[i] = init_row_value(i, convert_result);
     } 
 
-    add_table_map(frame->frame, "result", result); 
-    return frame; 
+    add_table_map(frame->frame, result_col, result);
 } 

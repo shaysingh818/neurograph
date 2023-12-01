@@ -183,11 +183,15 @@ walk_t *random_walk_list(graph_t *g, int start_vertex, int steps) {
 }
 
 
-walk_t *weighted_random_walk_list(graph_t *g, walk_t *w, int start_vertex) {
+walk_t *weighted_random_walk_list(graph_t *g, int start_vertex, int steps) {
 		
 	/* variables */ 	
 	int v = g->vertices;
-   	time_t t; 
+   	time_t t;
+
+
+	/* create walk structure */
+	walk_t *w = init_walk(steps); 	 
 
 	/* start with the src node */
 	node_t *start = g->list->items[start_vertex]->head;

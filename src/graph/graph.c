@@ -28,7 +28,6 @@ walk_t *init_walk(int steps) {
 	return w; 
 }
 
-
 void remove_unused_slots(graph_t *g) {
 	int last_used_indice = 0;  
 	for(int i = g->vertices; i > 0; i--){
@@ -441,11 +440,14 @@ void deserialize_graph_list(graph_t *g, char *filename) {
 		printf("File does not exist\n");
 	}
 
+
+
 	for(int i = 0; i < g->list->v; i++){
-		node_t *result = get_node_by_id(g->list, i); 
+		node_t *result = get_node_by_id(g->list, i);
 		int id = result->id; 
 		char *label = result->label;
-		remove_character(label, '"'); 
+		remove_character(label, '"');
+
 
 		fprintf(fp, "[%d,\"%s\"]: ", id, label);  
 		node_t *head = g->list->items[i]->head;

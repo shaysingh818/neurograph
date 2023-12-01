@@ -1,9 +1,9 @@
 LIB_DIR = lib
 
-default: neurograph
 
-neurograph: 
+all: 
 	python3 setup.py build_ext --inplace
 
 clean:
-	rm *.so *.c
+	rm neurograph/*.so
+	rm neurograph/*.c 

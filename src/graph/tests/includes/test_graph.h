@@ -9,7 +9,8 @@
 /* general utilties */
 void test_get_max_vertex_count(); 
 void test_get_nodes_from_file(); 
-void test_get_nodes();  
+void test_get_nodes(); 
+void test_add_node();  
 
 /* graph markup language methods */
 void test_gml_expression_adj_list(); 

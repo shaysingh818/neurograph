@@ -1,7 +1,7 @@
 BIN=bin
 CC=gcc
 TARGET=target/computation_graph
-CFLAGS = -g -lm -lpthread $(INCLUDES)
+CFLAGS = -g -lm -lpthread -fPIC $(INCLUDES)
 OBJS = objs
 
 # dependencies
@@ -24,6 +24,12 @@ source: $(OBJECTS) $(TEST_OBJECTS) $(DATA_STRUCTURES)
 	cc -o $(TARGET) $(OBJECTS) $(TEST_OBJECTS) $(DATA_STRUCTURES) $(CFLAGS)
 	mkdir $(OBJS)
 	mv $(filter-out main.o, $(OBJECTS)) $(OBJS)
+
+
+headers:
+	mkdir -p computation_graph/
+	cp -r includes/ computation_graph/
+	mv computation_graph ../neurograph
 
 # clean compilation (target doesn't work)
 clean_binary:

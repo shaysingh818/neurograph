@@ -35,6 +35,15 @@ build:
 	$(MAKE) -C ./dataframe
 	$(MAKE) -C ./databases
 
+
+headers:
+	mkdir -p extractors/dataframe
+	cp -r dataframe/includes extractors/dataframe
+	mkdir -p extractors/databases
+	cp -r databases/includes extractors/databases	
+	mv extractors ../neurograph
+	cp extractors.h ../neurograph
+
 obj:
 	mkdir $(OBJS)
 	cp $(DATAFRAME) $(DATABASES) $(OBJS)

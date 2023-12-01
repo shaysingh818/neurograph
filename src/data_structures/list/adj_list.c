@@ -36,8 +36,9 @@ adj_list_t *init_adj_list(int v, int e, bool directed) {
 
 
 node_t *get_node_by_id(adj_list_t *g, int search_id){
+	node_t *head;
 	for(int i = 0; i < g->v; i++){
-		node_t *head = g->items[i]->head; 
+		head = g->items[i]->head; 
 		while(head) {
 			if(head->id == search_id){
 				return head; 
@@ -45,6 +46,11 @@ node_t *get_node_by_id(adj_list_t *g, int search_id){
 			head = head->next; 			
 		}
 	}
+
+	if(head == NULL) {
+		head = create_node(search_id, "", 0);
+	}	
+	return head;
 }
 
 void resize_adj_list(adj_list_t *g, int new_size) {
@@ -76,6 +82,12 @@ adj_list_t *transpose_items(adj_list_t *g, adj_list_t *r) {
 int add_node(
 	adj_list_t *g, int src_id, char *src_label, 
 	int dest_id, char *dest_label, int weight) {
+
+	if(src_id >= g->v || dest_id >= g->v) {
+		printf("Not enough vertices in graph\n");
+		printf("Current amount of vertices: %d\n", g->v);
+		exit(0); 
+	}
 
 	node_t *check = NULL; 
 	node_t *new_node = create_node(dest_id, dest_label, weight);
@@ -139,7 +151,7 @@ int add_end_node(adj_list_t *g, int src_id, char *src_label, int weight) {
 void print_graph(adj_list_t *g) {
 	for(int i = 0; i < g->v; i++){
 		node_t *head = g->items[i]->head;
-		printf("%d ", i); 
+		printf("%d ", i);
 		while(head) {
 			printf("-> (%d, %s)", head->id, head->label); 
 			if(head->weight >= 0) {

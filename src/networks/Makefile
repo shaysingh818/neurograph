@@ -1,7 +1,7 @@
 BIN=bin
 CC=gcc
 TARGET=target/networks
-CFLAGS = -g -lm -lpthread $(INCLUDES)
+CFLAGS = -g -lm -lpthread -fPIC 
 OBJS = objs
 
 # dependencies
@@ -29,7 +29,12 @@ source: $(OBJECTS) $(TEST_OBJECTS) $(DEPS)
 	mkdir $(OBJS)
 	mv $(filter-out main.o, $(OBJECTS)) $(OBJS)
 
-# clean compilation (target doesn't work)
+headers:
+	mkdir -p networks/
+	cp -r includes/ networks/
+	mv networks ../neurograph
+	cp networks.h ../neurograph
+
 clean_binary:
 	rm $(TARGET)
 

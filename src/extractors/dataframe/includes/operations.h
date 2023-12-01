@@ -15,7 +15,7 @@
 
 
 /* initiate frame structure */
-frame_t *add_frame_cols(frame_t *frame, void *col1, void *col2); 
-frame_t *subtract_frame_cols(frame_t *frame, void *col1, void *col2); 
+void add_frame_cols(frame_t *frame, char *col1, char *col2, char *result_col); 
+void subtract_frame_cols(frame_t *frame, char *col1, char *col2, char *result_col); 
 
 #endif
