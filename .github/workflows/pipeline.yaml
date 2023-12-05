@@ -107,20 +107,6 @@ jobs:
       working-directory: src/tests/
       run: |
         ./target/test_neurograph
-
-    # container:
-    #   image: timbru31/ruby-node:latest
-
-    # services:
-    #   postgres:
-    #     image: postgres
-    #     env:
-    #       POSTGRES_PASSWORD: postgres
-    #     options: >-
-    #       --health-cmd pg_isready
-    #       --health-interval 10s
-    #       --health-timeout 5s
-    #       --health-retries 5
  
   # unit tests for python code base
   python-library:
@@ -132,7 +118,6 @@ jobs:
       - name: Install C Library
         working-directory: src/
         run: |
-          sudo make
           sudo make install
 
       - name: Install Dependencies
