@@ -2,7 +2,8 @@ BIN=bin
 CC=gcc
 TARGET=target/networks
 SO_TARGET=libnetworks.so
-CFLAGS = -g -lm -lpthread -fPIC -lds -lextractors -lcgraph 
+CFLAGS = -g -lm -lpthread -fPIC -lds -lextractors -lcgraph
+SO_FLAGS =  -fPIC -shared
 OBJS = objs
 
 # source and test
@@ -47,5 +48,3 @@ clean_package:
 clean:
 	rm -f *.o *~ *.pyc
 	rm -rf $(OBJS)
-	$(MAKE) -C  ../computation_graph clean
-	$(MAKE) -C  ../extractors clean
