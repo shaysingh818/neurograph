@@ -11,17 +11,13 @@ SO_FLAGS =  -fPIC
 OBJS := $(patsubst %.c,%.o,$(wildcard *.c))
 
 all:
-	$(MAKE) build
 	$(MAKE) source
 
 source:  $(OBJS) 
 	$(CC) -o $(TARGET) $(OBJS) $(FLAGS)
-	mkdir $(OBJ_DIR)
-	cp $(DEPS) $(OBJ_DIR)
 
 clean_binary:
 	rm $(TARGET)
-
 
 clean:
 	rm -f *.o *~
