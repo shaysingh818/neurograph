@@ -54,8 +54,7 @@ jobs:
     - name: Integration Test Package
       working-directory: src/tests/
       run: |
-        make clean
-        make
+        sudo make
 
 
   # build source for unit tests
