@@ -47,6 +47,7 @@ jobs:
     - name: Neurograph
       working-directory: src/
       run: |
+        sudo make clean
         sudo make install
 
     - name: Integration Test Package
