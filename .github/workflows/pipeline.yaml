@@ -69,8 +69,6 @@ jobs:
     - name: Install Source
       working-directory: src/
       run: |
-        sudo make uninstall
-        sudo make clean
         sudo make install
  
     - name: Data Structures Package
