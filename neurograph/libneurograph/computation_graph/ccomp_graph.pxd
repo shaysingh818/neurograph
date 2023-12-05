@@ -1,5 +1,5 @@
-import libneurograph.computation_graph.cvalue as value
-import libneurograph.data_structures.cmatrix as matrix
+cimport libneurograph.computation_graph.cvalue as value
+cimport libneurograph.data_structures.cmatrix as matrix
 
 cdef extern from "<neurograph/computation_graph/includes/computation_graph.h>":
 

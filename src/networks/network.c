@@ -43,6 +43,7 @@ void layer(net_t *nn, layer_t *layer){
         nn->num_layers = new_size; 
     }
 
+
     value_t *temp_inputs;
     if(nn->layer_count == 0){
         if(nn->batched){
@@ -84,7 +85,6 @@ void train(net_t *nn, int epochs, mat_t *y) {
         update_network_params(nn);
         
     }
-
 } 
 
 void batch_train(net_t *nn, int epochs, mat_t *y) {
@@ -96,7 +96,6 @@ void batch_train(net_t *nn, int epochs, mat_t *y) {
         mat_t **outputs = batch_matrix(y, nn->batch_size);
 
         for(int j = 0; j < epochs; j++){
-
 
             double err = 0.00; 
             for(int i = 0; i < samples; i++){

@@ -3,25 +3,32 @@ BIN=bin
 CC=gcc
 TARGET=target/extractors
 OBJS = objs
-
-
+SO_TARGET = libextractors.so
 
 # dependencies
-DATA_STRUCTURES := $(wildcard ../data_structures/objs/*.o)
 DATAFRAME := $(wildcard ./dataframe/objs/*.o)
 DATABASES := $(wildcard ./databases/objs/*.o)
-DEPS = $(DATA_STRUCTURES) $(DATAFRAME) $(DATABASES)
+DEPS = $(DATAFRAME) $(DATABASES)
 
 
 OBJECTS := $(patsubst %.c,%.o,$(wildcard *.c))
 
 # flags
-CFLAGS =  -lm -lpthread -g
+CFLAGS =  -lm -lpthread -g -lds
+SO_FLAGS =  -fPIC -shared
 
 all:
 	$(MAKE) build
 	$(MAKE) source
 	$(MAKE) obj
+
+install:
+	$(MAKE) shared
+	$(MAKE) headers
+
+uninstall:
+	rm -r /usr/local/include/extractors
+	rm /usr/local/lib/$(SO_TARGET)
 
 package:
 	$(MAKE) -C ./dataframe package
@@ -35,14 +42,17 @@ build:
 	$(MAKE) -C ./dataframe
 	$(MAKE) -C ./databases
 
+shared: $(OBJECTS) $(DEPS)
+	$(CC) -o $(SO_TARGET) $(SO_FLAGS) $(OBJECTS) $(DEPS) $(CFLAGS)
+	sudo mv $(SO_TARGET) /usr/local/lib
+	ldconfig
 
 headers:
 	mkdir -p extractors/dataframe
 	cp -r dataframe/includes extractors/dataframe
 	mkdir -p extractors/databases
 	cp -r databases/includes extractors/databases	
-	mv extractors ../neurograph
-	cp extractors.h ../neurograph
+	mv extractors /usr/local/include
 
 obj:
 	mkdir $(OBJS)

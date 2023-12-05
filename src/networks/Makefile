@@ -1,14 +1,9 @@
 BIN=bin
 CC=gcc
 TARGET=target/networks
-CFLAGS = -g -lm -lpthread -fPIC 
+SO_TARGET=libnetworks.so
+CFLAGS = -g -lm -lpthread -fPIC -lds -lextractors -lcgraph 
 OBJS = objs
-
-# dependencies
-EXTRACTORS := $(wildcard ../extractors/objs/*.o)
-DATA_STRUCTURES := $(wildcard ../data_structures/objs/*.o)
-COMPUTATION_GRAPH := $(wildcard ../computation_graph/objs/*.o)
-DEPS = $(DATA_STRUCTURES) $(COMPUTATION_GRAPH) $(EXTRACTORS)
 
 # source and test
 OBJECTS := $(patsubst %.c,%.o,$(wildcard *.c))
@@ -16,24 +11,30 @@ TEST_OBJECTS := $(patsubst %.c,%.o,$(wildcard ./tests/*.c))
 
 # link all programs here
 all:	
-	$(MAKE) -C ../computation_graph
-	$(MAKE) -C ../extractors package
 	$(MAKE) source
 
-# assumes data structures has already been built
-package:
-	$(MAKE) source
+install:
+	$(MAKE) shared
+	$(MAKE) headers
 
-source: $(OBJECTS) $(TEST_OBJECTS) $(DEPS)
-	cc -o $(TARGET) $(OBJECTS) $(TEST_OBJECTS) $(DEPS) $(CFLAGS)
+uninstall:
+	rm -r /usr/local/include/networks
+	rm /usr/local/lib/$(SO_TARGET)
+
+source: $(OBJECTS) $(TEST_OBJECTS)
+	cc -o $(TARGET) $(OBJECTS) $(TEST_OBJECTS) $(CFLAGS)
 	mkdir $(OBJS)
 	mv $(filter-out main.o, $(OBJECTS)) $(OBJS)
 
 headers:
 	mkdir -p networks/
 	cp -r includes/ networks/
-	mv networks ../neurograph
-	cp networks.h ../neurograph
+	mv networks /usr/local/include
+
+shared: $(OBJECTS) $(TEST_OBJECTS)
+	$(CC) -o $(SO_TARGET) $(SO_FLAGS) $(OBJECTS) $(TEST_OBJECTS) $(CFLAGS)
+	sudo mv $(SO_TARGET) /usr/local/lib
+	ldconfig
 
 clean_binary:
 	rm $(TARGET)

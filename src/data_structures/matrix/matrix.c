@@ -468,6 +468,11 @@ void fill_mat(mat_t *m, int n) {
 }
 
 
+void entry(mat_t *m, int row, int col, double value) {
+	m->arr[row][col] = value; 
+} 
+
+
 mat_t *vectorize(mat_t *input){
 	mat_t *result = init_matrix(input->rows*input->cols, 1);
 	int counter = 0;

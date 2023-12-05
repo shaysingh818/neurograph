@@ -1,10 +1,10 @@
-import libneurograph.data_structures.cmatrix as matrix
-import libneurograph.data_structures.ctable as table
-import libneurograph.computation_graph.cvalue as value
-import libneurograph.computation_graph.cgraph as cg
-import libneurograph.computation_graph.cops as ops
-import libneurograph.computation_graph.closs as loss
-import libneurograph.networks.clayer_types as ltypes
+cimport libneurograph.data_structures.cmatrix as matrix
+cimport libneurograph.data_structures.ctable as table
+cimport libneurograph.computation_graph.cvalue as value
+cimport libneurograph.computation_graph.ccomp_graph as cg
+cimport libneurograph.computation_graph.cops as ops
+cimport libneurograph.computation_graph.closs as loss
+cimport libneurograph.networks.clayer_types as ltypes
 
 cdef extern from "<neurograph/networks/includes/layer.h>":
 

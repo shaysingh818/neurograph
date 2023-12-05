@@ -1,7 +1,7 @@
-import libneurograph.data_structures.cmatrix as matrix
-import libneurograph.computation_graph.cvalue as value
-import libneurograph.computation_graph.cgraph as cg
-import libneurograph.networks.clayer as layer
+cimport libneurograph.data_structures.cmatrix as matrix
+cimport libneurograph.computation_graph.cvalue as value
+cimport libneurograph.computation_graph.ccomp_graph as cg
+cimport libneurograph.networks.clayer as la
 
 cdef extern from "<neurograph/networks/includes/network.h>":
 
@@ -17,12 +17,12 @@ cdef extern from "<neurograph/networks/includes/network.h>":
         bint batched; 
         matrix.Matrix **input_batches;  
         value.Value *input; 
-        layer.Layer **layers; 
+        la.Layer **layers; 
         cg.ComputationGraph *graph; 
 
     # network methods 
     Network *init_network(double learning_rate, value.Value *input, int batch_size);
-    void layer(Network *nn, layer.Layer *layer);
+    void layer(Network *nn, la.Layer *layer);
     void train(Network *nn, int epochs, matrix.Matrix *y); 
     void batch_train(Network *nn, int epochs, matrix.Matrix *y);  
     void update_network_params(Network *nn);

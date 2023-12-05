@@ -1,7 +1,7 @@
 cimport libneurograph.extractors.cre as re
 cimport libneurograph.extractors.cframe as frame
 
-cdef extern from "<neurograph/extractors/dataframe/includes/operations.h>":
+cdef extern from "<extractors/dataframe/includes/operations.h>":
 
     frame.Frame *add_frame_cols(
         frame.Frame *frame, 

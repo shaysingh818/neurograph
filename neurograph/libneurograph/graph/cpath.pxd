@@ -3,7 +3,7 @@ cimport libneurograph.data_structures.cnode as node
 cimport libneurograph.data_structures.cmatrix as matrix
 cimport libneurograph.graph.cgraph as graph
 
-cdef extern from "<neurograph/graph/includes/path.h>":
+cdef extern from "<graph/includes/path.h>":
 
     int *bellman_ford_list(graph.Graph *g, node.Node *root, int *dist); 
     int *dijkstra_list(graph.Graph *g, int start_vertex);

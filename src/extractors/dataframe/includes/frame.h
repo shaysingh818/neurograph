@@ -9,13 +9,13 @@
 #include <regex.h> 
 #include <errno.h>
 
-#include "../../../data_structures/list/includes/array.h"
-#include "../../../data_structures/list/includes/ll.h"
-#include "../../../data_structures/map/includes/map.h"
-#include "../../../data_structures/map/includes/table.h"
-#include "../../../data_structures/map/includes/hash.h"
-#include "../../../data_structures/matrix/includes/matrix.h"
-#include "../../../data_structures/set/includes/set.h"
+#include <data_structures/list/includes/array.h>
+#include <data_structures/list/includes/ll.h>
+#include <data_structures/map/includes/map.h>
+#include <data_structures/map/includes/table.h>
+#include <data_structures/map/includes/hash.h>
+#include <data_structures/matrix/includes/matrix.h>
+#include <data_structures/set/includes/set.h>
 #include "re.h"
 #include "utils.h"
 

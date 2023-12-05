@@ -1,4 +1,4 @@
-cdef extern from "<neurograph/data_structures/node/includes/node.h>":
+cdef extern from "<data_structures/node/includes/node.h>":
 
     struct Node:
         int id

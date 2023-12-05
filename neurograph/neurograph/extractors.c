@@ -4,11 +4,8 @@
 {
     "distutils": {
         "depends": [],
-        "include_dirs": [
-            "include"
-        ],
         "libraries": [
-            "neurograph"
+            "extractors"
         ],
         "name": "neurograph.extractors",
         "sources": [
@@ -1192,19 +1189,19 @@ static CYTHON_INLINE float __PYX_NAN() {
 #define __PYX_HAVE__neurograph__extractors
 #define __PYX_HAVE_API__neurograph__extractors
 /* Early includes */
-#include <neurograph/data_structures/node/includes/node.h>
-#include <neurograph/data_structures/list/includes/array.h>
-#include <neurograph/data_structures/list/includes/adj_list.h>
-#include <neurograph/data_structures/map/includes/hash.h>
-#include <neurograph/data_structures/map/includes/table.h>
-#include <neurograph/data_structures/matrix/includes/matrix.h>
-#include <neurograph/data_structures/matrix/includes/adj_mat.h>
-#include <neurograph/data_structures/queue/includes/queue.h>
-#include <neurograph/data_structures/set/includes/set.h>
-#include <neurograph/extractors/dataframe/includes/re.h>
-#include <neurograph/extractors/dataframe/includes/utils.h>
-#include <neurograph/extractors/dataframe/includes/frame.h>
-#include <neurograph/extractors/dataframe/includes/operations.h>
+#include <data_structures/node/includes/node.h>
+#include <data_structures/list/includes/array.h>
+#include <data_structures/list/includes/adj_list.h>
+#include <data_structures/map/includes/hash.h>
+#include <data_structures/map/includes/table.h>
+#include <data_structures/matrix/includes/matrix.h>
+#include <data_structures/matrix/includes/adj_mat.h>
+#include <data_structures/queue/includes/queue.h>
+#include <data_structures/set/includes/set.h>
+#include <extractors/dataframe/includes/re.h>
+#include <extractors/dataframe/includes/utils.h>
+#include <extractors/dataframe/includes/frame.h>
+#include <extractors/dataframe/includes/operations.h>
 #ifdef _OPENMP
 #include <omp.h>
 #endif /* _OPENMP */
@@ -1472,6 +1469,7 @@ static const char *__pyx_filename;
 static const char *__pyx_f[] = {
   "neurograph/extractors.pyx",
   "<stringsource>",
+  "neurograph/structures.pxd",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* ForceInitThreads.proto */
@@ -1484,7 +1482,23 @@ static const char *__pyx_f[] = {
 /* #### Code section: type_declarations ### */
 
 /*--- Type declarations ---*/
+struct __pyx_obj_10neurograph_10structures_Matrix;
 struct __pyx_obj_10neurograph_10extractors_DataFrame;
+
+/* "neurograph/structures.pxd":5
+ * cimport libneurograph.data_structures.cmatrix as matrix
+ * 
+ * cdef class Matrix:             # <<<<<<<<<<<<<<
+ * 
+ *     cdef matrix.Matrix *mat
+ */
+struct __pyx_obj_10neurograph_10structures_Matrix {
+  PyObject_HEAD
+  struct Matrix *mat;
+  struct Array *selected_cols;
+  struct Frame *frame;
+};
+
 
 /* "neurograph/extractors.pxd":5
  * cimport libneurograph.data_structures.cmatrix as matrix
@@ -1994,6 +2008,25 @@ static PyObject* __Pyx_PyObject_GenericGetAttr(PyObject* obj, PyObject* attr_nam
 static int __Pyx_setup_reduce(PyObject* type_obj);
 #endif
 
+/* TypeImport.proto */
+#ifndef __PYX_HAVE_RT_ImportType_proto_3_0_4
+#define __PYX_HAVE_RT_ImportType_proto_3_0_4
+#if defined (__STDC_VERSION__) && __STDC_VERSION__ >= 201112L
+#include <stdalign.h>
+#endif
+#if (defined (__STDC_VERSION__) && __STDC_VERSION__ >= 201112L) || __cplusplus >= 201103L
+#define __PYX_GET_STRUCT_ALIGNMENT_3_0_4(s) alignof(s)
+#else
+#define __PYX_GET_STRUCT_ALIGNMENT_3_0_4(s) sizeof(void*)
+#endif
+enum __Pyx_ImportType_CheckSize_3_0_4 {
+   __Pyx_ImportType_CheckSize_Error_3_0_4 = 0,
+   __Pyx_ImportType_CheckSize_Warn_3_0_4 = 1,
+   __Pyx_ImportType_CheckSize_Ignore_3_0_4 = 2
+};
+static PyTypeObject *__Pyx_ImportType_3_0_4(PyObject* module, const char *module_name, const char *class_name, size_t size, size_t alignment, enum __Pyx_ImportType_CheckSize_3_0_4 check_size);
+#endif
+
 /* Import.proto */
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
 
@@ -2252,6 +2285,8 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 /* Module declarations from "libneurograph.extractors.coperations" */
 
+/* Module declarations from "neurograph.structures" */
+
 /* Module declarations from "neurograph.extractors" */
 /* #### Code section: typeinfo ### */
 /* #### Code section: before_global_var ### */
@@ -2271,7 +2306,7 @@ static const char __pyx_k_i[] = "i";
 static const char __pyx_k__2[] = ".";
 static const char __pyx_k__3[] = "*";
 static const char __pyx_k_gc[] = "gc";
-static const char __pyx_k__28[] = "?";
+static const char __pyx_k__30[] = "?";
 static const char __pyx_k_col[] = "col";
 static const char __pyx_k_obj[] = "obj";
 static const char __pyx_k_row[] = "row";
@@ -2291,6 +2326,7 @@ static const char __pyx_k_rows[] = "rows";
 static const char __pyx_k_self[] = "self";
 static const char __pyx_k_spec[] = "__spec__";
 static const char __pyx_k_test[] = "__test__";
+static const char __pyx_k_utf8[] = "utf8";
 static const char __pyx_k_index[] = "index";
 static const char __pyx_k_print[] = "print";
 static const char __pyx_k_props[] = "props";
@@ -2304,6 +2340,7 @@ static const char __pyx_k_enable[] = "enable";
 static const char __pyx_k_encode[] = "encode";
 static const char __pyx_k_header[] = "header";
 static const char __pyx_k_import[] = "__import__";
+static const char __pyx_k_matrix[] = "matrix";
 static const char __pyx_k_my_val[] = "my_val";
 static const char __pyx_k_name_2[] = "__name__";
 static const char __pyx_k_reduce[] = "__reduce__";
@@ -2333,6 +2370,7 @@ static const char __pyx_k_reduce_ex[] = "__reduce_ex__";
 static const char __pyx_k_row_count[] = "row_count";
 static const char __pyx_k_row_limit[] = "row_limit";
 static const char __pyx_k_rows_dict[] = "rows_dict";
+static const char __pyx_k_to_matrix[] = "to_matrix";
 static const char __pyx_k_html_table[] = "html_table";
 static const char __pyx_k_map_header[] = "map_header";
 static const char __pyx_k_temp_array[] = "temp_array";
@@ -2350,6 +2388,7 @@ static const char __pyx_k_is_coroutine[] = "_is_coroutine";
 static const char __pyx_k_stringsource[] = "<stringsource>";
 static const char __pyx_k_DataFrame_sum[] = "DataFrame.sum";
 static const char __pyx_k_reduce_cython[] = "__reduce_cython__";
+static const char __pyx_k_selected_cols[] = "selected_cols";
 static const char __pyx_k_DataFrame_cols[] = "DataFrame.cols";
 static const char __pyx_k_DataFrame_html[] = "DataFrame.html";
 static const char __pyx_k_DataFrame_rows[] = "DataFrame.rows";
@@ -2362,6 +2401,7 @@ static const char __pyx_k_asyncio_coroutines[] = "asyncio.coroutines";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_DataFrame_drop_cols[] = "DataFrame.drop_cols";
 static const char __pyx_k_DataFrame_map_debug[] = "DataFrame.map_debug";
+static const char __pyx_k_DataFrame_to_matrix[] = "DataFrame.to_matrix";
 static const char __pyx_k_DataFrame_map_header[] = "DataFrame.map_header";
 static const char __pyx_k_neurograph_extractors[] = "neurograph.extractors";
 static const char __pyx_k_DataFrame_header_count[] = "DataFrame.header_count";
@@ -2383,13 +2423,14 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_12headers(struct 
 static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_14cols(struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_16drop_cols(struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self, PyObject *__pyx_v_cols); /* proto */
 static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_18rows(struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_20html(struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_22sum(struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self, PyObject *__pyx_v_cols, PyObject *__pyx_v_result); /* proto */
-static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_24subtract(struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self, PyObject *__pyx_v_cols, PyObject *__pyx_v_result); /* proto */
-static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_26map_debug(struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_28map_header(struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self, PyObject *__pyx_v_col); /* proto */
-static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_30__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_32__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_20to_matrix(struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self, PyObject *__pyx_v_cols); /* proto */
+static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_22html(struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_24sum(struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self, PyObject *__pyx_v_cols, PyObject *__pyx_v_result); /* proto */
+static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_26subtract(struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self, PyObject *__pyx_v_cols, PyObject *__pyx_v_result); /* proto */
+static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_28map_debug(struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_30map_header(struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self, PyObject *__pyx_v_col); /* proto */
+static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_32__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_34__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_tp_new_10neurograph_10extractors_DataFrame(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static __Pyx_CachedCFunction __pyx_umethod_PyString_Type_encode = {0, 0, 0, 0, 0};
 /* #### Code section: late_includes ### */
@@ -2442,6 +2483,9 @@ typedef struct {
   #if CYTHON_USE_MODULE_STATE
   #endif
   #if CYTHON_USE_MODULE_STATE
+  #endif
+  PyTypeObject *__pyx_ptype_10neurograph_10structures_Matrix;
+  #if CYTHON_USE_MODULE_STATE
   PyObject *__pyx_type_10neurograph_10extractors_DataFrame;
   #endif
   PyTypeObject *__pyx_ptype_10neurograph_10extractors_DataFrame;
@@ -2460,13 +2504,14 @@ typedef struct {
   PyObject *__pyx_n_s_DataFrame_rows;
   PyObject *__pyx_n_s_DataFrame_subtract;
   PyObject *__pyx_n_s_DataFrame_sum;
+  PyObject *__pyx_n_s_DataFrame_to_matrix;
   PyObject *__pyx_n_s_DataFrame_view_selected_features;
   PyObject *__pyx_n_s_MemoryError;
   PyObject *__pyx_kp_s_Neurograph_only_supports_2_colum;
   PyObject *__pyx_n_s_TypeError;
   PyObject *__pyx_kp_u__2;
-  PyObject *__pyx_n_s__28;
   PyObject *__pyx_n_s__3;
+  PyObject *__pyx_n_s__30;
   PyObject *__pyx_n_s_append;
   PyObject *__pyx_n_s_asyncio_coroutines;
   PyObject *__pyx_n_s_buffer_size;
@@ -2506,6 +2551,7 @@ typedef struct {
   PyObject *__pyx_n_s_main;
   PyObject *__pyx_n_s_map_debug;
   PyObject *__pyx_n_s_map_header;
+  PyObject *__pyx_n_s_matrix;
   PyObject *__pyx_n_s_memory_size;
   PyObject *__pyx_n_s_my_val;
   PyObject *__pyx_n_s_name;
@@ -2529,6 +2575,7 @@ typedef struct {
   PyObject *__pyx_n_s_row_limit;
   PyObject *__pyx_n_s_rows;
   PyObject *__pyx_n_s_rows_dict;
+  PyObject *__pyx_n_s_selected_cols;
   PyObject *__pyx_n_s_self;
   PyObject *__pyx_n_s_setstate;
   PyObject *__pyx_n_s_setstate_cython;
@@ -2545,6 +2592,8 @@ typedef struct {
   PyObject *__pyx_n_s_temp_array;
   PyObject *__pyx_n_s_test;
   PyObject *__pyx_n_s_thing;
+  PyObject *__pyx_n_s_to_matrix;
+  PyObject *__pyx_n_s_utf8;
   PyObject *__pyx_kp_s_utf_8;
   PyObject *__pyx_n_s_value;
   PyObject *__pyx_n_s_values;
@@ -2560,8 +2609,9 @@ typedef struct {
   PyObject *__pyx_tuple__15;
   PyObject *__pyx_tuple__17;
   PyObject *__pyx_tuple__19;
-  PyObject *__pyx_tuple__23;
-  PyObject *__pyx_tuple__26;
+  PyObject *__pyx_tuple__21;
+  PyObject *__pyx_tuple__25;
+  PyObject *__pyx_tuple__28;
   PyObject *__pyx_codeobj__5;
   PyObject *__pyx_codeobj__6;
   PyObject *__pyx_codeobj__7;
@@ -2572,11 +2622,12 @@ typedef struct {
   PyObject *__pyx_codeobj__16;
   PyObject *__pyx_codeobj__18;
   PyObject *__pyx_codeobj__20;
-  PyObject *__pyx_codeobj__21;
   PyObject *__pyx_codeobj__22;
+  PyObject *__pyx_codeobj__23;
   PyObject *__pyx_codeobj__24;
-  PyObject *__pyx_codeobj__25;
+  PyObject *__pyx_codeobj__26;
   PyObject *__pyx_codeobj__27;
+  PyObject *__pyx_codeobj__29;
 } __pyx_mstate;
 
 #if CYTHON_USE_MODULE_STATE
@@ -2619,6 +2670,7 @@ static int __pyx_m_clear(PyObject *m) {
   #ifdef __Pyx_FusedFunction_USED
   Py_CLEAR(clear_module_state->__pyx_FusedFunctionType);
   #endif
+  Py_CLEAR(clear_module_state->__pyx_ptype_10neurograph_10structures_Matrix);
   Py_CLEAR(clear_module_state->__pyx_ptype_10neurograph_10extractors_DataFrame);
   Py_CLEAR(clear_module_state->__pyx_type_10neurograph_10extractors_DataFrame);
   Py_CLEAR(clear_module_state->__pyx_n_s_DataFrame);
@@ -2636,13 +2688,14 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_DataFrame_rows);
   Py_CLEAR(clear_module_state->__pyx_n_s_DataFrame_subtract);
   Py_CLEAR(clear_module_state->__pyx_n_s_DataFrame_sum);
+  Py_CLEAR(clear_module_state->__pyx_n_s_DataFrame_to_matrix);
   Py_CLEAR(clear_module_state->__pyx_n_s_DataFrame_view_selected_features);
   Py_CLEAR(clear_module_state->__pyx_n_s_MemoryError);
   Py_CLEAR(clear_module_state->__pyx_kp_s_Neurograph_only_supports_2_colum);
   Py_CLEAR(clear_module_state->__pyx_n_s_TypeError);
   Py_CLEAR(clear_module_state->__pyx_kp_u__2);
-  Py_CLEAR(clear_module_state->__pyx_n_s__28);
   Py_CLEAR(clear_module_state->__pyx_n_s__3);
+  Py_CLEAR(clear_module_state->__pyx_n_s__30);
   Py_CLEAR(clear_module_state->__pyx_n_s_append);
   Py_CLEAR(clear_module_state->__pyx_n_s_asyncio_coroutines);
   Py_CLEAR(clear_module_state->__pyx_n_s_buffer_size);
@@ -2682,6 +2735,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_main);
   Py_CLEAR(clear_module_state->__pyx_n_s_map_debug);
   Py_CLEAR(clear_module_state->__pyx_n_s_map_header);
+  Py_CLEAR(clear_module_state->__pyx_n_s_matrix);
   Py_CLEAR(clear_module_state->__pyx_n_s_memory_size);
   Py_CLEAR(clear_module_state->__pyx_n_s_my_val);
   Py_CLEAR(clear_module_state->__pyx_n_s_name);
@@ -2705,6 +2759,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_row_limit);
   Py_CLEAR(clear_module_state->__pyx_n_s_rows);
   Py_CLEAR(clear_module_state->__pyx_n_s_rows_dict);
+  Py_CLEAR(clear_module_state->__pyx_n_s_selected_cols);
   Py_CLEAR(clear_module_state->__pyx_n_s_self);
   Py_CLEAR(clear_module_state->__pyx_n_s_setstate);
   Py_CLEAR(clear_module_state->__pyx_n_s_setstate_cython);
@@ -2721,6 +2776,8 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_temp_array);
   Py_CLEAR(clear_module_state->__pyx_n_s_test);
   Py_CLEAR(clear_module_state->__pyx_n_s_thing);
+  Py_CLEAR(clear_module_state->__pyx_n_s_to_matrix);
+  Py_CLEAR(clear_module_state->__pyx_n_s_utf8);
   Py_CLEAR(clear_module_state->__pyx_kp_s_utf_8);
   Py_CLEAR(clear_module_state->__pyx_n_s_value);
   Py_CLEAR(clear_module_state->__pyx_n_s_values);
@@ -2736,8 +2793,9 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_tuple__15);
   Py_CLEAR(clear_module_state->__pyx_tuple__17);
   Py_CLEAR(clear_module_state->__pyx_tuple__19);
-  Py_CLEAR(clear_module_state->__pyx_tuple__23);
-  Py_CLEAR(clear_module_state->__pyx_tuple__26);
+  Py_CLEAR(clear_module_state->__pyx_tuple__21);
+  Py_CLEAR(clear_module_state->__pyx_tuple__25);
+  Py_CLEAR(clear_module_state->__pyx_tuple__28);
   Py_CLEAR(clear_module_state->__pyx_codeobj__5);
   Py_CLEAR(clear_module_state->__pyx_codeobj__6);
   Py_CLEAR(clear_module_state->__pyx_codeobj__7);
@@ -2748,11 +2806,12 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_codeobj__16);
   Py_CLEAR(clear_module_state->__pyx_codeobj__18);
   Py_CLEAR(clear_module_state->__pyx_codeobj__20);
-  Py_CLEAR(clear_module_state->__pyx_codeobj__21);
   Py_CLEAR(clear_module_state->__pyx_codeobj__22);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__23);
   Py_CLEAR(clear_module_state->__pyx_codeobj__24);
-  Py_CLEAR(clear_module_state->__pyx_codeobj__25);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__26);
   Py_CLEAR(clear_module_state->__pyx_codeobj__27);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__29);
   return 0;
 }
 #endif
@@ -2773,6 +2832,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   #ifdef __Pyx_FusedFunction_USED
   Py_VISIT(traverse_module_state->__pyx_FusedFunctionType);
   #endif
+  Py_VISIT(traverse_module_state->__pyx_ptype_10neurograph_10structures_Matrix);
   Py_VISIT(traverse_module_state->__pyx_ptype_10neurograph_10extractors_DataFrame);
   Py_VISIT(traverse_module_state->__pyx_type_10neurograph_10extractors_DataFrame);
   Py_VISIT(traverse_module_state->__pyx_n_s_DataFrame);
@@ -2790,13 +2850,14 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_DataFrame_rows);
   Py_VISIT(traverse_module_state->__pyx_n_s_DataFrame_subtract);
   Py_VISIT(traverse_module_state->__pyx_n_s_DataFrame_sum);
+  Py_VISIT(traverse_module_state->__pyx_n_s_DataFrame_to_matrix);
   Py_VISIT(traverse_module_state->__pyx_n_s_DataFrame_view_selected_features);
   Py_VISIT(traverse_module_state->__pyx_n_s_MemoryError);
   Py_VISIT(traverse_module_state->__pyx_kp_s_Neurograph_only_supports_2_colum);
   Py_VISIT(traverse_module_state->__pyx_n_s_TypeError);
   Py_VISIT(traverse_module_state->__pyx_kp_u__2);
-  Py_VISIT(traverse_module_state->__pyx_n_s__28);
   Py_VISIT(traverse_module_state->__pyx_n_s__3);
+  Py_VISIT(traverse_module_state->__pyx_n_s__30);
   Py_VISIT(traverse_module_state->__pyx_n_s_append);
   Py_VISIT(traverse_module_state->__pyx_n_s_asyncio_coroutines);
   Py_VISIT(traverse_module_state->__pyx_n_s_buffer_size);
@@ -2836,6 +2897,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_main);
   Py_VISIT(traverse_module_state->__pyx_n_s_map_debug);
   Py_VISIT(traverse_module_state->__pyx_n_s_map_header);
+  Py_VISIT(traverse_module_state->__pyx_n_s_matrix);
   Py_VISIT(traverse_module_state->__pyx_n_s_memory_size);
   Py_VISIT(traverse_module_state->__pyx_n_s_my_val);
   Py_VISIT(traverse_module_state->__pyx_n_s_name);
@@ -2859,6 +2921,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_row_limit);
   Py_VISIT(traverse_module_state->__pyx_n_s_rows);
   Py_VISIT(traverse_module_state->__pyx_n_s_rows_dict);
+  Py_VISIT(traverse_module_state->__pyx_n_s_selected_cols);
   Py_VISIT(traverse_module_state->__pyx_n_s_self);
   Py_VISIT(traverse_module_state->__pyx_n_s_setstate);
   Py_VISIT(traverse_module_state->__pyx_n_s_setstate_cython);
@@ -2875,6 +2938,8 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_temp_array);
   Py_VISIT(traverse_module_state->__pyx_n_s_test);
   Py_VISIT(traverse_module_state->__pyx_n_s_thing);
+  Py_VISIT(traverse_module_state->__pyx_n_s_to_matrix);
+  Py_VISIT(traverse_module_state->__pyx_n_s_utf8);
   Py_VISIT(traverse_module_state->__pyx_kp_s_utf_8);
   Py_VISIT(traverse_module_state->__pyx_n_s_value);
   Py_VISIT(traverse_module_state->__pyx_n_s_values);
@@ -2890,8 +2955,9 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_tuple__15);
   Py_VISIT(traverse_module_state->__pyx_tuple__17);
   Py_VISIT(traverse_module_state->__pyx_tuple__19);
-  Py_VISIT(traverse_module_state->__pyx_tuple__23);
-  Py_VISIT(traverse_module_state->__pyx_tuple__26);
+  Py_VISIT(traverse_module_state->__pyx_tuple__21);
+  Py_VISIT(traverse_module_state->__pyx_tuple__25);
+  Py_VISIT(traverse_module_state->__pyx_tuple__28);
   Py_VISIT(traverse_module_state->__pyx_codeobj__5);
   Py_VISIT(traverse_module_state->__pyx_codeobj__6);
   Py_VISIT(traverse_module_state->__pyx_codeobj__7);
@@ -2902,11 +2968,12 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_codeobj__16);
   Py_VISIT(traverse_module_state->__pyx_codeobj__18);
   Py_VISIT(traverse_module_state->__pyx_codeobj__20);
-  Py_VISIT(traverse_module_state->__pyx_codeobj__21);
   Py_VISIT(traverse_module_state->__pyx_codeobj__22);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__23);
   Py_VISIT(traverse_module_state->__pyx_codeobj__24);
-  Py_VISIT(traverse_module_state->__pyx_codeobj__25);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__26);
   Py_VISIT(traverse_module_state->__pyx_codeobj__27);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__29);
   return 0;
 }
 #endif
@@ -2958,6 +3025,9 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #if CYTHON_USE_MODULE_STATE
 #endif
 #if CYTHON_USE_MODULE_STATE
+#endif
+#define __pyx_ptype_10neurograph_10structures_Matrix __pyx_mstate_global->__pyx_ptype_10neurograph_10structures_Matrix
+#if CYTHON_USE_MODULE_STATE
 #define __pyx_type_10neurograph_10extractors_DataFrame __pyx_mstate_global->__pyx_type_10neurograph_10extractors_DataFrame
 #endif
 #define __pyx_ptype_10neurograph_10extractors_DataFrame __pyx_mstate_global->__pyx_ptype_10neurograph_10extractors_DataFrame
@@ -2976,13 +3046,14 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_DataFrame_rows __pyx_mstate_global->__pyx_n_s_DataFrame_rows
 #define __pyx_n_s_DataFrame_subtract __pyx_mstate_global->__pyx_n_s_DataFrame_subtract
 #define __pyx_n_s_DataFrame_sum __pyx_mstate_global->__pyx_n_s_DataFrame_sum
+#define __pyx_n_s_DataFrame_to_matrix __pyx_mstate_global->__pyx_n_s_DataFrame_to_matrix
 #define __pyx_n_s_DataFrame_view_selected_features __pyx_mstate_global->__pyx_n_s_DataFrame_view_selected_features
 #define __pyx_n_s_MemoryError __pyx_mstate_global->__pyx_n_s_MemoryError
 #define __pyx_kp_s_Neurograph_only_supports_2_colum __pyx_mstate_global->__pyx_kp_s_Neurograph_only_supports_2_colum
 #define __pyx_n_s_TypeError __pyx_mstate_global->__pyx_n_s_TypeError
 #define __pyx_kp_u__2 __pyx_mstate_global->__pyx_kp_u__2
-#define __pyx_n_s__28 __pyx_mstate_global->__pyx_n_s__28
 #define __pyx_n_s__3 __pyx_mstate_global->__pyx_n_s__3
+#define __pyx_n_s__30 __pyx_mstate_global->__pyx_n_s__30
 #define __pyx_n_s_append __pyx_mstate_global->__pyx_n_s_append
 #define __pyx_n_s_asyncio_coroutines __pyx_mstate_global->__pyx_n_s_asyncio_coroutines
 #define __pyx_n_s_buffer_size __pyx_mstate_global->__pyx_n_s_buffer_size
@@ -3022,6 +3093,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_main __pyx_mstate_global->__pyx_n_s_main
 #define __pyx_n_s_map_debug __pyx_mstate_global->__pyx_n_s_map_debug
 #define __pyx_n_s_map_header __pyx_mstate_global->__pyx_n_s_map_header
+#define __pyx_n_s_matrix __pyx_mstate_global->__pyx_n_s_matrix
 #define __pyx_n_s_memory_size __pyx_mstate_global->__pyx_n_s_memory_size
 #define __pyx_n_s_my_val __pyx_mstate_global->__pyx_n_s_my_val
 #define __pyx_n_s_name __pyx_mstate_global->__pyx_n_s_name
@@ -3045,6 +3117,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_row_limit __pyx_mstate_global->__pyx_n_s_row_limit
 #define __pyx_n_s_rows __pyx_mstate_global->__pyx_n_s_rows
 #define __pyx_n_s_rows_dict __pyx_mstate_global->__pyx_n_s_rows_dict
+#define __pyx_n_s_selected_cols __pyx_mstate_global->__pyx_n_s_selected_cols
 #define __pyx_n_s_self __pyx_mstate_global->__pyx_n_s_self
 #define __pyx_n_s_setstate __pyx_mstate_global->__pyx_n_s_setstate
 #define __pyx_n_s_setstate_cython __pyx_mstate_global->__pyx_n_s_setstate_cython
@@ -3061,6 +3134,8 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_temp_array __pyx_mstate_global->__pyx_n_s_temp_array
 #define __pyx_n_s_test __pyx_mstate_global->__pyx_n_s_test
 #define __pyx_n_s_thing __pyx_mstate_global->__pyx_n_s_thing
+#define __pyx_n_s_to_matrix __pyx_mstate_global->__pyx_n_s_to_matrix
+#define __pyx_n_s_utf8 __pyx_mstate_global->__pyx_n_s_utf8
 #define __pyx_kp_s_utf_8 __pyx_mstate_global->__pyx_kp_s_utf_8
 #define __pyx_n_s_value __pyx_mstate_global->__pyx_n_s_value
 #define __pyx_n_s_values __pyx_mstate_global->__pyx_n_s_values
@@ -3076,8 +3151,9 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_tuple__15 __pyx_mstate_global->__pyx_tuple__15
 #define __pyx_tuple__17 __pyx_mstate_global->__pyx_tuple__17
 #define __pyx_tuple__19 __pyx_mstate_global->__pyx_tuple__19
-#define __pyx_tuple__23 __pyx_mstate_global->__pyx_tuple__23
-#define __pyx_tuple__26 __pyx_mstate_global->__pyx_tuple__26
+#define __pyx_tuple__21 __pyx_mstate_global->__pyx_tuple__21
+#define __pyx_tuple__25 __pyx_mstate_global->__pyx_tuple__25
+#define __pyx_tuple__28 __pyx_mstate_global->__pyx_tuple__28
 #define __pyx_codeobj__5 __pyx_mstate_global->__pyx_codeobj__5
 #define __pyx_codeobj__6 __pyx_mstate_global->__pyx_codeobj__6
 #define __pyx_codeobj__7 __pyx_mstate_global->__pyx_codeobj__7
@@ -3088,14 +3164,15 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_codeobj__16 __pyx_mstate_global->__pyx_codeobj__16
 #define __pyx_codeobj__18 __pyx_mstate_global->__pyx_codeobj__18
 #define __pyx_codeobj__20 __pyx_mstate_global->__pyx_codeobj__20
-#define __pyx_codeobj__21 __pyx_mstate_global->__pyx_codeobj__21
 #define __pyx_codeobj__22 __pyx_mstate_global->__pyx_codeobj__22
+#define __pyx_codeobj__23 __pyx_mstate_global->__pyx_codeobj__23
 #define __pyx_codeobj__24 __pyx_mstate_global->__pyx_codeobj__24
-#define __pyx_codeobj__25 __pyx_mstate_global->__pyx_codeobj__25
+#define __pyx_codeobj__26 __pyx_mstate_global->__pyx_codeobj__26
 #define __pyx_codeobj__27 __pyx_mstate_global->__pyx_codeobj__27
+#define __pyx_codeobj__29 __pyx_mstate_global->__pyx_codeobj__29
 /* #### Code section: module_code ### */
 
-/* "neurograph/extractors.pyx":11
+/* "neurograph/extractors.pyx":12
  * cdef class DataFrame:
  * 
  *     def __cinit__(self):             # <<<<<<<<<<<<<<
@@ -3130,7 +3207,7 @@ static int __pyx_pw_10neurograph_10extractors_9DataFrame_1__cinit__(PyObject *__
 static int __pyx_pf_10neurograph_10extractors_9DataFrame___cinit__(struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self) {
   int __pyx_r;
 
-  /* "neurograph/extractors.pyx":12
+  /* "neurograph/extractors.pyx":13
  * 
  *     def __cinit__(self):
  *         self.frame = NULL             # <<<<<<<<<<<<<<
@@ -3139,7 +3216,7 @@ static int __pyx_pf_10neurograph_10extractors_9DataFrame___cinit__(struct __pyx_
  */
   __pyx_v_self->frame = NULL;
 
-  /* "neurograph/extractors.pyx":11
+  /* "neurograph/extractors.pyx":12
  * cdef class DataFrame:
  * 
  *     def __cinit__(self):             # <<<<<<<<<<<<<<
@@ -3152,7 +3229,7 @@ static int __pyx_pf_10neurograph_10extractors_9DataFrame___cinit__(struct __pyx_
   return __pyx_r;
 }
 
-/* "neurograph/extractors.pyx":14
+/* "neurograph/extractors.pyx":15
  *         self.frame = NULL
  * 
  *     def __init__(self, filepath: str, row_limit: int, memory_size=1024):             # <<<<<<<<<<<<<<
@@ -3203,7 +3280,7 @@ static int __pyx_pw_10neurograph_10extractors_9DataFrame_3__init__(PyObject *__p
           (void)__Pyx_Arg_NewRef_VARARGS(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 14, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 15, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
@@ -3211,21 +3288,21 @@ static int __pyx_pw_10neurograph_10extractors_9DataFrame_3__init__(PyObject *__p
           (void)__Pyx_Arg_NewRef_VARARGS(values[1]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 14, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 15, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 3, 1); __PYX_ERR(0, 14, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 3, 1); __PYX_ERR(0, 15, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_VARARGS(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_memory_size);
           if (value) { values[2] = __Pyx_Arg_NewRef_VARARGS(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 14, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 15, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 14, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 15, __pyx_L3_error)
       }
     } else {
       switch (__pyx_nargs) {
@@ -3243,7 +3320,7 @@ static int __pyx_pw_10neurograph_10extractors_9DataFrame_3__init__(PyObject *__p
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 3, __pyx_nargs); __PYX_ERR(0, 14, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 3, __pyx_nargs); __PYX_ERR(0, 15, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -3257,8 +3334,8 @@ static int __pyx_pw_10neurograph_10extractors_9DataFrame_3__init__(PyObject *__p
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_filepath), (&PyString_Type), 0, "filepath", 1))) __PYX_ERR(0, 14, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_row_limit), (&PyInt_Type), 0, "row_limit", 1))) __PYX_ERR(0, 14, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_filepath), (&PyString_Type), 0, "filepath", 1))) __PYX_ERR(0, 15, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_row_limit), (&PyInt_Type), 0, "row_limit", 1))) __PYX_ERR(0, 15, __pyx_L1_error)
   __pyx_r = __pyx_pf_10neurograph_10extractors_9DataFrame_2__init__(((struct __pyx_obj_10neurograph_10extractors_DataFrame *)__pyx_v_self), __pyx_v_filepath, __pyx_v_row_limit, __pyx_v_memory_size);
 
   /* function exit code */
@@ -3290,31 +3367,31 @@ static int __pyx_pf_10neurograph_10extractors_9DataFrame_2__init__(struct __pyx_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 1);
 
-  /* "neurograph/extractors.pyx":15
+  /* "neurograph/extractors.pyx":16
  * 
  *     def __init__(self, filepath: str, row_limit: int, memory_size=1024):
  *         encoded_filepath = filepath.encode("utf-8")             # <<<<<<<<<<<<<<
  *         self.frame = fr.dataframe(encoded_filepath,memory_size, row_limit, ",")
  *         self.selected_cols = ll.init_array()
  */
-  __pyx_t_1 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_encode, __pyx_v_filepath, __pyx_kp_s_utf_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_encode, __pyx_v_filepath, __pyx_kp_s_utf_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_encoded_filepath = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "neurograph/extractors.pyx":16
+  /* "neurograph/extractors.pyx":17
  *     def __init__(self, filepath: str, row_limit: int, memory_size=1024):
  *         encoded_filepath = filepath.encode("utf-8")
  *         self.frame = fr.dataframe(encoded_filepath,memory_size, row_limit, ",")             # <<<<<<<<<<<<<<
  *         self.selected_cols = ll.init_array()
  *         if self.frame is NULL:
  */
-  __pyx_t_2 = __Pyx_PyObject_AsWritableString(__pyx_v_encoded_filepath); if (unlikely((!__pyx_t_2) && PyErr_Occurred())) __PYX_ERR(0, 16, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_memory_size); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 16, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_v_row_limit); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_AsWritableString(__pyx_v_encoded_filepath); if (unlikely((!__pyx_t_2) && PyErr_Occurred())) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_memory_size); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_v_row_limit); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 17, __pyx_L1_error)
   __pyx_v_self->frame = dataframe(__pyx_t_2, __pyx_t_3, __pyx_t_4, ((char *)","));
 
-  /* "neurograph/extractors.pyx":17
+  /* "neurograph/extractors.pyx":18
  *         encoded_filepath = filepath.encode("utf-8")
  *         self.frame = fr.dataframe(encoded_filepath,memory_size, row_limit, ",")
  *         self.selected_cols = ll.init_array()             # <<<<<<<<<<<<<<
@@ -3323,7 +3400,7 @@ static int __pyx_pf_10neurograph_10extractors_9DataFrame_2__init__(struct __pyx_
  */
   __pyx_v_self->selected_cols = init_array();
 
-  /* "neurograph/extractors.pyx":18
+  /* "neurograph/extractors.pyx":19
  *         self.frame = fr.dataframe(encoded_filepath,memory_size, row_limit, ",")
  *         self.selected_cols = ll.init_array()
  *         if self.frame is NULL:             # <<<<<<<<<<<<<<
@@ -3333,16 +3410,16 @@ static int __pyx_pf_10neurograph_10extractors_9DataFrame_2__init__(struct __pyx_
   __pyx_t_5 = (__pyx_v_self->frame == NULL);
   if (unlikely(__pyx_t_5)) {
 
-    /* "neurograph/extractors.pyx":19
+    /* "neurograph/extractors.pyx":20
  *         self.selected_cols = ll.init_array()
  *         if self.frame is NULL:
  *             raise MemoryError()             # <<<<<<<<<<<<<<
  * 
  *         # set general attributes
  */
-    PyErr_NoMemory(); __PYX_ERR(0, 19, __pyx_L1_error)
+    PyErr_NoMemory(); __PYX_ERR(0, 20, __pyx_L1_error)
 
-    /* "neurograph/extractors.pyx":18
+    /* "neurograph/extractors.pyx":19
  *         self.frame = fr.dataframe(encoded_filepath,memory_size, row_limit, ",")
  *         self.selected_cols = ll.init_array()
  *         if self.frame is NULL:             # <<<<<<<<<<<<<<
@@ -3351,7 +3428,7 @@ static int __pyx_pf_10neurograph_10extractors_9DataFrame_2__init__(struct __pyx_
  */
   }
 
-  /* "neurograph/extractors.pyx":22
+  /* "neurograph/extractors.pyx":23
  * 
  *         # set general attributes
  *         self.filename = filepath             # <<<<<<<<<<<<<<
@@ -3364,17 +3441,17 @@ static int __pyx_pf_10neurograph_10extractors_9DataFrame_2__init__(struct __pyx_
   __Pyx_DECREF(__pyx_v_self->filename);
   __pyx_v_self->filename = __pyx_v_filepath;
 
-  /* "neurograph/extractors.pyx":23
+  /* "neurograph/extractors.pyx":24
  *         # set general attributes
  *         self.filename = filepath
  *         self.row_limit = row_limit             # <<<<<<<<<<<<<<
  * 
  *     def features(self):
  */
-  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_v_row_limit); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_v_row_limit); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 24, __pyx_L1_error)
   __pyx_v_self->row_limit = __pyx_t_4;
 
-  /* "neurograph/extractors.pyx":14
+  /* "neurograph/extractors.pyx":15
  *         self.frame = NULL
  * 
  *     def __init__(self, filepath: str, row_limit: int, memory_size=1024):             # <<<<<<<<<<<<<<
@@ -3395,7 +3472,7 @@ static int __pyx_pf_10neurograph_10extractors_9DataFrame_2__init__(struct __pyx_
   return __pyx_r;
 }
 
-/* "neurograph/extractors.pyx":25
+/* "neurograph/extractors.pyx":26
  *         self.row_limit = row_limit
  * 
  *     def features(self):             # <<<<<<<<<<<<<<
@@ -3449,7 +3526,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_4features(struct 
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("features", 1);
 
-  /* "neurograph/extractors.pyx":26
+  /* "neurograph/extractors.pyx":27
  * 
  *     def features(self):
  *         fr.print_cols(self.frame)             # <<<<<<<<<<<<<<
@@ -3458,7 +3535,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_4features(struct 
  */
   print_cols(__pyx_v_self->frame);
 
-  /* "neurograph/extractors.pyx":25
+  /* "neurograph/extractors.pyx":26
  *         self.row_limit = row_limit
  * 
  *     def features(self):             # <<<<<<<<<<<<<<
@@ -3473,7 +3550,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_4features(struct 
   return __pyx_r;
 }
 
-/* "neurograph/extractors.pyx":28
+/* "neurograph/extractors.pyx":29
  *         fr.print_cols(self.frame)
  * 
  *     def view_selected_features(self):             # <<<<<<<<<<<<<<
@@ -3527,7 +3604,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_6view_selected_fe
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("view_selected_features", 1);
 
-  /* "neurograph/extractors.pyx":29
+  /* "neurograph/extractors.pyx":30
  * 
  *     def view_selected_features(self):
  *         ll.print_array(self.selected_cols)             # <<<<<<<<<<<<<<
@@ -3536,7 +3613,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_6view_selected_fe
  */
   print_array(__pyx_v_self->selected_cols);
 
-  /* "neurograph/extractors.pyx":28
+  /* "neurograph/extractors.pyx":29
  *         fr.print_cols(self.frame)
  * 
  *     def view_selected_features(self):             # <<<<<<<<<<<<<<
@@ -3551,7 +3628,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_6view_selected_fe
   return __pyx_r;
 }
 
-/* "neurograph/extractors.pyx":31
+/* "neurograph/extractors.pyx":32
  *         ll.print_array(self.selected_cols)
  * 
  *     def header_count(self):             # <<<<<<<<<<<<<<
@@ -3609,7 +3686,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_8header_count(str
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("header_count", 1);
 
-  /* "neurograph/extractors.pyx":32
+  /* "neurograph/extractors.pyx":33
  * 
  *     def header_count(self):
  *         return self.frame.header_count             # <<<<<<<<<<<<<<
@@ -3617,13 +3694,13 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_8header_count(str
  *     def props(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->frame->header_count); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->frame->header_count); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "neurograph/extractors.pyx":31
+  /* "neurograph/extractors.pyx":32
  *         ll.print_array(self.selected_cols)
  * 
  *     def header_count(self):             # <<<<<<<<<<<<<<
@@ -3642,7 +3719,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_8header_count(str
   return __pyx_r;
 }
 
-/* "neurograph/extractors.pyx":34
+/* "neurograph/extractors.pyx":35
  *         return self.frame.header_count
  * 
  *     def props(self):             # <<<<<<<<<<<<<<
@@ -3704,7 +3781,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_10props(struct __
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("props", 1);
 
-  /* "neurograph/extractors.pyx":35
+  /* "neurograph/extractors.pyx":36
  * 
  *     def props(self):
  *         return {             # <<<<<<<<<<<<<<
@@ -3713,69 +3790,69 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_10props(struct __
  */
   __Pyx_XDECREF(__pyx_r);
 
-  /* "neurograph/extractors.pyx":36
+  /* "neurograph/extractors.pyx":37
  *     def props(self):
  *         return {
  *             "buffer_size": self.frame.buffer_size,             # <<<<<<<<<<<<<<
  *             "header_count": self.frame.header_count,
  *             "current_row": self.frame.curr_row,
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->frame->buffer_size); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->frame->buffer_size); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_buffer_size, __pyx_t_2) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_buffer_size, __pyx_t_2) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "neurograph/extractors.pyx":37
+  /* "neurograph/extractors.pyx":38
  *         return {
  *             "buffer_size": self.frame.buffer_size,
  *             "header_count": self.frame.header_count,             # <<<<<<<<<<<<<<
  *             "current_row": self.frame.curr_row,
  *             "row_count": self.frame.row_count,
  */
-  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->frame->header_count); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->frame->header_count); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_header_count, __pyx_t_2) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_header_count, __pyx_t_2) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "neurograph/extractors.pyx":38
+  /* "neurograph/extractors.pyx":39
  *             "buffer_size": self.frame.buffer_size,
  *             "header_count": self.frame.header_count,
  *             "current_row": self.frame.curr_row,             # <<<<<<<<<<<<<<
  *             "row_count": self.frame.row_count,
  *             "row_limit": self.frame.row_limit,
  */
-  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->frame->curr_row); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->frame->curr_row); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_current_row, __pyx_t_2) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_current_row, __pyx_t_2) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "neurograph/extractors.pyx":39
+  /* "neurograph/extractors.pyx":40
  *             "header_count": self.frame.header_count,
  *             "current_row": self.frame.curr_row,
  *             "row_count": self.frame.row_count,             # <<<<<<<<<<<<<<
  *             "row_limit": self.frame.row_limit,
  *             "status": bool(self.frame.status),
  */
-  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->frame->row_count); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->frame->row_count); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_row_count, __pyx_t_2) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_row_count, __pyx_t_2) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "neurograph/extractors.pyx":40
+  /* "neurograph/extractors.pyx":41
  *             "current_row": self.frame.curr_row,
  *             "row_count": self.frame.row_count,
  *             "row_limit": self.frame.row_limit,             # <<<<<<<<<<<<<<
  *             "status": bool(self.frame.status),
  *             "filename": self.frame.filename.decode("utf-8"),
  */
-  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->frame->row_limit); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->frame->row_limit); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_row_limit, __pyx_t_2) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_row_limit, __pyx_t_2) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "neurograph/extractors.pyx":41
+  /* "neurograph/extractors.pyx":42
  *             "row_count": self.frame.row_count,
  *             "row_limit": self.frame.row_limit,
  *             "status": bool(self.frame.status),             # <<<<<<<<<<<<<<
@@ -3783,12 +3860,12 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_10props(struct __
  *         }
  */
   __pyx_t_3 = __pyx_v_self->frame->status;
-  __pyx_t_2 = __Pyx_PyBool_FromLong((!(!__pyx_t_3))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyBool_FromLong((!(!__pyx_t_3))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_status, __pyx_t_2) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_status, __pyx_t_2) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "neurograph/extractors.pyx":42
+  /* "neurograph/extractors.pyx":43
  *             "row_limit": self.frame.row_limit,
  *             "status": bool(self.frame.status),
  *             "filename": self.frame.filename.decode("utf-8"),             # <<<<<<<<<<<<<<
@@ -3796,16 +3873,16 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_10props(struct __
  * 
  */
   __pyx_t_4 = __pyx_v_self->frame->filename;
-  __pyx_t_5 = __Pyx_ssize_strlen(__pyx_t_4); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 42, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_decode_c_string(__pyx_t_4, 0, __pyx_t_5, NULL, NULL, PyUnicode_DecodeUTF8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_ssize_strlen(__pyx_t_4); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 43, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_decode_c_string(__pyx_t_4, 0, __pyx_t_5, NULL, NULL, PyUnicode_DecodeUTF8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_filename, __pyx_t_2) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_filename, __pyx_t_2) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "neurograph/extractors.pyx":34
+  /* "neurograph/extractors.pyx":35
  *         return self.frame.header_count
  * 
  *     def props(self):             # <<<<<<<<<<<<<<
@@ -3825,7 +3902,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_10props(struct __
   return __pyx_r;
 }
 
-/* "neurograph/extractors.pyx":45
+/* "neurograph/extractors.pyx":46
  *         }
  * 
  *     def headers(self):             # <<<<<<<<<<<<<<
@@ -3893,19 +3970,19 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_12headers(struct 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("headers", 1);
 
-  /* "neurograph/extractors.pyx":46
+  /* "neurograph/extractors.pyx":47
  * 
  *     def headers(self):
  *         header_list = []             # <<<<<<<<<<<<<<
  *         for i in range(self.frame.header_count):
  *             obj = {
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_header_list = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "neurograph/extractors.pyx":47
+  /* "neurograph/extractors.pyx":48
  *     def headers(self):
  *         header_list = []
  *         for i in range(self.frame.header_count):             # <<<<<<<<<<<<<<
@@ -3917,21 +3994,21 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_12headers(struct 
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_i = __pyx_t_4;
 
-    /* "neurograph/extractors.pyx":49
+    /* "neurograph/extractors.pyx":50
  *         for i in range(self.frame.header_count):
  *             obj = {
  *                 "index": self.frame.headers.items[i].id,             # <<<<<<<<<<<<<<
  *                 "name": self.frame.headers.items[i].label.decode("utf-8")
  *             }
  */
-    __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 50, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_PyInt_From_int((__pyx_v_self->frame->headers->items[__pyx_v_i])->id); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 49, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_From_int((__pyx_v_self->frame->headers->items[__pyx_v_i])->id); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 50, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_index, __pyx_t_5) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_index, __pyx_t_5) < 0) __PYX_ERR(0, 50, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "neurograph/extractors.pyx":50
+    /* "neurograph/extractors.pyx":51
  *             obj = {
  *                 "index": self.frame.headers.items[i].id,
  *                 "name": self.frame.headers.items[i].label.decode("utf-8")             # <<<<<<<<<<<<<<
@@ -3939,25 +4016,25 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_12headers(struct 
  *             header_list.append(obj)
  */
     __pyx_t_6 = (__pyx_v_self->frame->headers->items[__pyx_v_i])->label;
-    __pyx_t_7 = __Pyx_ssize_strlen(__pyx_t_6); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 50, __pyx_L1_error)
-    __pyx_t_5 = __Pyx_decode_c_string(__pyx_t_6, 0, __pyx_t_7, NULL, NULL, PyUnicode_DecodeUTF8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 50, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_ssize_strlen(__pyx_t_6); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 51, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_decode_c_string(__pyx_t_6, 0, __pyx_t_7, NULL, NULL, PyUnicode_DecodeUTF8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 51, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_name, __pyx_t_5) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_name, __pyx_t_5) < 0) __PYX_ERR(0, 50, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_XDECREF_SET(__pyx_v_obj, ((PyObject*)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "neurograph/extractors.pyx":52
+    /* "neurograph/extractors.pyx":53
  *                 "name": self.frame.headers.items[i].label.decode("utf-8")
  *             }
  *             header_list.append(obj)             # <<<<<<<<<<<<<<
  *         return header_list
  * 
  */
-    __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_header_list, __pyx_v_obj); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 52, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_header_list, __pyx_v_obj); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 53, __pyx_L1_error)
   }
 
-  /* "neurograph/extractors.pyx":53
+  /* "neurograph/extractors.pyx":54
  *             }
  *             header_list.append(obj)
  *         return header_list             # <<<<<<<<<<<<<<
@@ -3969,7 +4046,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_12headers(struct 
   __pyx_r = __pyx_v_header_list;
   goto __pyx_L0;
 
-  /* "neurograph/extractors.pyx":45
+  /* "neurograph/extractors.pyx":46
  *         }
  * 
  *     def headers(self):             # <<<<<<<<<<<<<<
@@ -3991,7 +4068,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_12headers(struct 
   return __pyx_r;
 }
 
-/* "neurograph/extractors.pyx":55
+/* "neurograph/extractors.pyx":56
  *         return header_list
  * 
  *     def cols(self):             # <<<<<<<<<<<<<<
@@ -4058,19 +4135,19 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_14cols(struct __p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("cols", 1);
 
-  /* "neurograph/extractors.pyx":56
+  /* "neurograph/extractors.pyx":57
  * 
  *     def cols(self):
  *         cols = []             # <<<<<<<<<<<<<<
  *         for i in range(self.frame.header_count):
  *             value = self.frame.headers.items[i].label
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 57, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_cols = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "neurograph/extractors.pyx":57
+  /* "neurograph/extractors.pyx":58
  *     def cols(self):
  *         cols = []
  *         for i in range(self.frame.header_count):             # <<<<<<<<<<<<<<
@@ -4082,7 +4159,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_14cols(struct __p
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_i = __pyx_t_4;
 
-    /* "neurograph/extractors.pyx":58
+    /* "neurograph/extractors.pyx":59
  *         cols = []
  *         for i in range(self.frame.header_count):
  *             value = self.frame.headers.items[i].label             # <<<<<<<<<<<<<<
@@ -4092,21 +4169,21 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_14cols(struct __p
     __pyx_t_5 = (__pyx_v_self->frame->headers->items[__pyx_v_i])->label;
     __pyx_v_value = __pyx_t_5;
 
-    /* "neurograph/extractors.pyx":59
+    /* "neurograph/extractors.pyx":60
  *         for i in range(self.frame.header_count):
  *             value = self.frame.headers.items[i].label
  *             cols.append(value.decode('utf-8'))             # <<<<<<<<<<<<<<
  *         return cols
  * 
  */
-    __pyx_t_6 = __Pyx_ssize_strlen(__pyx_v_value); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 59, __pyx_L1_error)
-    __pyx_t_1 = __Pyx_decode_c_string(__pyx_v_value, 0, __pyx_t_6, NULL, NULL, PyUnicode_DecodeUTF8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 59, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_ssize_strlen(__pyx_v_value); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 60, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_decode_c_string(__pyx_v_value, 0, __pyx_t_6, NULL, NULL, PyUnicode_DecodeUTF8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 60, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_7 = __Pyx_PyList_Append(__pyx_v_cols, __pyx_t_1); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(0, 59, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyList_Append(__pyx_v_cols, __pyx_t_1); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(0, 60, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "neurograph/extractors.pyx":60
+  /* "neurograph/extractors.pyx":61
  *             value = self.frame.headers.items[i].label
  *             cols.append(value.decode('utf-8'))
  *         return cols             # <<<<<<<<<<<<<<
@@ -4118,7 +4195,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_14cols(struct __p
   __pyx_r = __pyx_v_cols;
   goto __pyx_L0;
 
-  /* "neurograph/extractors.pyx":55
+  /* "neurograph/extractors.pyx":56
  *         return header_list
  * 
  *     def cols(self):             # <<<<<<<<<<<<<<
@@ -4138,7 +4215,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_14cols(struct __p
   return __pyx_r;
 }
 
-/* "neurograph/extractors.pyx":62
+/* "neurograph/extractors.pyx":63
  *         return cols
  * 
  *     def drop_cols(self, cols: list):             # <<<<<<<<<<<<<<
@@ -4199,12 +4276,12 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 62, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 63, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "drop_cols") < 0)) __PYX_ERR(0, 62, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "drop_cols") < 0)) __PYX_ERR(0, 63, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 1)) {
       goto __pyx_L5_argtuple_error;
@@ -4215,7 +4292,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("drop_cols", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 62, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("drop_cols", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 63, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -4229,7 +4306,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_cols), (&PyList_Type), 0, "cols", 1))) __PYX_ERR(0, 62, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_cols), (&PyList_Type), 0, "cols", 1))) __PYX_ERR(0, 63, __pyx_L1_error)
   __pyx_r = __pyx_pf_10neurograph_10extractors_9DataFrame_16drop_cols(((struct __pyx_obj_10neurograph_10extractors_DataFrame *)__pyx_v_self), __pyx_v_cols);
 
   /* function exit code */
@@ -4263,7 +4340,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_16drop_cols(struc
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("drop_cols", 1);
 
-  /* "neurograph/extractors.pyx":63
+  /* "neurograph/extractors.pyx":64
  * 
  *     def drop_cols(self, cols: list):
  *         temp_array = ll.init_array()             # <<<<<<<<<<<<<<
@@ -4272,7 +4349,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_16drop_cols(struc
  */
   __pyx_v_temp_array = init_array();
 
-  /* "neurograph/extractors.pyx":64
+  /* "neurograph/extractors.pyx":65
  *     def drop_cols(self, cols: list):
  *         temp_array = ll.init_array()
  *         for item in cols:             # <<<<<<<<<<<<<<
@@ -4285,41 +4362,41 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_16drop_cols(struc
     {
       Py_ssize_t __pyx_temp = __Pyx_PyList_GET_SIZE(__pyx_t_1);
       #if !CYTHON_ASSUME_SAFE_MACROS
-      if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 64, __pyx_L1_error)
+      if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 65, __pyx_L1_error)
       #endif
       if (__pyx_t_2 >= __pyx_temp) break;
     }
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely((0 < 0))) __PYX_ERR(0, 64, __pyx_L1_error)
+    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely((0 < 0))) __PYX_ERR(0, 65, __pyx_L1_error)
     #else
-    __pyx_t_3 = __Pyx_PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 64, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
     __Pyx_XDECREF_SET(__pyx_v_item, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "neurograph/extractors.pyx":67
+    /* "neurograph/extractors.pyx":68
  *             ll.insert_char(
  *                 temp_array,
  *                 bytes(item, encoding='utf-8')             # <<<<<<<<<<<<<<
  *             )
  *         fr.drop_cols(self.frame, temp_array)
  */
-    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 67, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 68, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_INCREF(__pyx_v_item);
     __Pyx_GIVEREF(__pyx_v_item);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_item)) __PYX_ERR(0, 67, __pyx_L1_error);
-    __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 67, __pyx_L1_error)
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_item)) __PYX_ERR(0, 68, __pyx_L1_error);
+    __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 68, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_encoding, __pyx_kp_s_utf_8) < 0) __PYX_ERR(0, 67, __pyx_L1_error)
-    __pyx_t_5 = __Pyx_PyObject_Call(((PyObject *)(&PyBytes_Type)), __pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 67, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_encoding, __pyx_kp_s_utf_8) < 0) __PYX_ERR(0, 68, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(((PyObject *)(&PyBytes_Type)), __pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 68, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_6 = __Pyx_PyBytes_AsWritableString(__pyx_t_5); if (unlikely((!__pyx_t_6) && PyErr_Occurred())) __PYX_ERR(0, 67, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyBytes_AsWritableString(__pyx_t_5); if (unlikely((!__pyx_t_6) && PyErr_Occurred())) __PYX_ERR(0, 68, __pyx_L1_error)
 
-    /* "neurograph/extractors.pyx":65
+    /* "neurograph/extractors.pyx":66
  *         temp_array = ll.init_array()
  *         for item in cols:
  *             ll.insert_char(             # <<<<<<<<<<<<<<
@@ -4329,7 +4406,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_16drop_cols(struc
     insert_char(__pyx_v_temp_array, __pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "neurograph/extractors.pyx":64
+    /* "neurograph/extractors.pyx":65
  *     def drop_cols(self, cols: list):
  *         temp_array = ll.init_array()
  *         for item in cols:             # <<<<<<<<<<<<<<
@@ -4339,7 +4416,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_16drop_cols(struc
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "neurograph/extractors.pyx":69
+  /* "neurograph/extractors.pyx":70
  *                 bytes(item, encoding='utf-8')
  *             )
  *         fr.drop_cols(self.frame, temp_array)             # <<<<<<<<<<<<<<
@@ -4348,7 +4425,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_16drop_cols(struc
  */
   drop_cols(__pyx_v_self->frame, __pyx_v_temp_array);
 
-  /* "neurograph/extractors.pyx":62
+  /* "neurograph/extractors.pyx":63
  *         return cols
  * 
  *     def drop_cols(self, cols: list):             # <<<<<<<<<<<<<<
@@ -4373,7 +4450,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_16drop_cols(struc
   return __pyx_r;
 }
 
-/* "neurograph/extractors.pyx":71
+/* "neurograph/extractors.pyx":72
  *         fr.drop_cols(self.frame, temp_array)
  * 
  *     def rows(self):             # <<<<<<<<<<<<<<
@@ -4444,26 +4521,26 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_18rows(struct __p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("rows", 1);
 
-  /* "neurograph/extractors.pyx":72
+  /* "neurograph/extractors.pyx":73
  * 
  *     def rows(self):
  *         result_dict = {}             # <<<<<<<<<<<<<<
  *         columns = self.cols()
  *         for item in columns:
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_result_dict = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "neurograph/extractors.pyx":73
+  /* "neurograph/extractors.pyx":74
  *     def rows(self):
  *         result_dict = {}
  *         columns = self.cols()             # <<<<<<<<<<<<<<
  *         for item in columns:
  *             result_dict[item] = []
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_cols); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 73, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_cols); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   __pyx_t_4 = 0;
@@ -4483,14 +4560,14 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_18rows(struct __p
     PyObject *__pyx_callargs[2] = {__pyx_t_3, NULL};
     __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_4, 0+__pyx_t_4);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 73, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
   __pyx_v_columns = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "neurograph/extractors.pyx":74
+  /* "neurograph/extractors.pyx":75
  *         result_dict = {}
  *         columns = self.cols()
  *         for item in columns:             # <<<<<<<<<<<<<<
@@ -4502,9 +4579,9 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_18rows(struct __p
     __pyx_t_5 = 0;
     __pyx_t_6 = NULL;
   } else {
-    __pyx_t_5 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_columns); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
+    __pyx_t_5 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_columns); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 75, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 74, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 75, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_6)) {
@@ -4512,28 +4589,28 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_18rows(struct __p
         {
           Py_ssize_t __pyx_temp = __Pyx_PyList_GET_SIZE(__pyx_t_1);
           #if !CYTHON_ASSUME_SAFE_MACROS
-          if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 74, __pyx_L1_error)
+          if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 75, __pyx_L1_error)
           #endif
           if (__pyx_t_5 >= __pyx_temp) break;
         }
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_2); __pyx_t_5++; if (unlikely((0 < 0))) __PYX_ERR(0, 74, __pyx_L1_error)
+        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_2); __pyx_t_5++; if (unlikely((0 < 0))) __PYX_ERR(0, 75, __pyx_L1_error)
         #else
-        __pyx_t_2 = __Pyx_PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 74, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 75, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       } else {
         {
           Py_ssize_t __pyx_temp = __Pyx_PyTuple_GET_SIZE(__pyx_t_1);
           #if !CYTHON_ASSUME_SAFE_MACROS
-          if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 74, __pyx_L1_error)
+          if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 75, __pyx_L1_error)
           #endif
           if (__pyx_t_5 >= __pyx_temp) break;
         }
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_2); __pyx_t_5++; if (unlikely((0 < 0))) __PYX_ERR(0, 74, __pyx_L1_error)
+        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_2); __pyx_t_5++; if (unlikely((0 < 0))) __PYX_ERR(0, 75, __pyx_L1_error)
         #else
-        __pyx_t_2 = __Pyx_PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 74, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 75, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       }
@@ -4543,7 +4620,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_18rows(struct __p
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 74, __pyx_L1_error)
+          else __PYX_ERR(0, 75, __pyx_L1_error)
         }
         break;
       }
@@ -4552,26 +4629,26 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_18rows(struct __p
     __Pyx_XDECREF_SET(__pyx_v_item, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "neurograph/extractors.pyx":75
+    /* "neurograph/extractors.pyx":76
  *         columns = self.cols()
  *         for item in columns:
  *             result_dict[item] = []             # <<<<<<<<<<<<<<
  *             for thing in self.map_header(item):
  *                 result_dict[item].append(thing)
  */
-    __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 75, __pyx_L1_error)
+    __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 76, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (unlikely((PyDict_SetItem(__pyx_v_result_dict, __pyx_v_item, __pyx_t_2) < 0))) __PYX_ERR(0, 75, __pyx_L1_error)
+    if (unlikely((PyDict_SetItem(__pyx_v_result_dict, __pyx_v_item, __pyx_t_2) < 0))) __PYX_ERR(0, 76, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "neurograph/extractors.pyx":76
+    /* "neurograph/extractors.pyx":77
  *         for item in columns:
  *             result_dict[item] = []
  *             for thing in self.map_header(item):             # <<<<<<<<<<<<<<
  *                 result_dict[item].append(thing)
  *         return result_dict
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_map_header); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 76, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_map_header); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 77, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_7 = NULL;
     __pyx_t_4 = 0;
@@ -4591,7 +4668,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_18rows(struct __p
       PyObject *__pyx_callargs[2] = {__pyx_t_7, __pyx_v_item};
       __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_4, 1+__pyx_t_4);
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-      if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 76, __pyx_L1_error)
+      if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 77, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     }
@@ -4600,9 +4677,9 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_18rows(struct __p
       __pyx_t_8 = 0;
       __pyx_t_9 = NULL;
     } else {
-      __pyx_t_8 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 76, __pyx_L1_error)
+      __pyx_t_8 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 77, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_9 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_3); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 76, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_3); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 77, __pyx_L1_error)
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     for (;;) {
@@ -4611,28 +4688,28 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_18rows(struct __p
           {
             Py_ssize_t __pyx_temp = __Pyx_PyList_GET_SIZE(__pyx_t_3);
             #if !CYTHON_ASSUME_SAFE_MACROS
-            if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 76, __pyx_L1_error)
+            if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 77, __pyx_L1_error)
             #endif
             if (__pyx_t_8 >= __pyx_temp) break;
           }
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_8); __Pyx_INCREF(__pyx_t_2); __pyx_t_8++; if (unlikely((0 < 0))) __PYX_ERR(0, 76, __pyx_L1_error)
+          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_8); __Pyx_INCREF(__pyx_t_2); __pyx_t_8++; if (unlikely((0 < 0))) __PYX_ERR(0, 77, __pyx_L1_error)
           #else
-          __pyx_t_2 = __Pyx_PySequence_ITEM(__pyx_t_3, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 76, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PySequence_ITEM(__pyx_t_3, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 77, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           #endif
         } else {
           {
             Py_ssize_t __pyx_temp = __Pyx_PyTuple_GET_SIZE(__pyx_t_3);
             #if !CYTHON_ASSUME_SAFE_MACROS
-            if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 76, __pyx_L1_error)
+            if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 77, __pyx_L1_error)
             #endif
             if (__pyx_t_8 >= __pyx_temp) break;
           }
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_8); __Pyx_INCREF(__pyx_t_2); __pyx_t_8++; if (unlikely((0 < 0))) __PYX_ERR(0, 76, __pyx_L1_error)
+          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_8); __Pyx_INCREF(__pyx_t_2); __pyx_t_8++; if (unlikely((0 < 0))) __PYX_ERR(0, 77, __pyx_L1_error)
           #else
-          __pyx_t_2 = __Pyx_PySequence_ITEM(__pyx_t_3, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 76, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PySequence_ITEM(__pyx_t_3, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 77, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           #endif
         }
@@ -4642,7 +4719,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_18rows(struct __p
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 76, __pyx_L1_error)
+            else __PYX_ERR(0, 77, __pyx_L1_error)
           }
           break;
         }
@@ -4651,19 +4728,19 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_18rows(struct __p
       __Pyx_XDECREF_SET(__pyx_v_thing, __pyx_t_2);
       __pyx_t_2 = 0;
 
-      /* "neurograph/extractors.pyx":77
+      /* "neurograph/extractors.pyx":78
  *             result_dict[item] = []
  *             for thing in self.map_header(item):
  *                 result_dict[item].append(thing)             # <<<<<<<<<<<<<<
  *         return result_dict
  * 
  */
-      __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_v_result_dict, __pyx_v_item); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 77, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_v_result_dict, __pyx_v_item); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 78, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_10 = __Pyx_PyObject_Append(__pyx_t_2, __pyx_v_thing); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 77, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyObject_Append(__pyx_t_2, __pyx_v_thing); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 78, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "neurograph/extractors.pyx":76
+      /* "neurograph/extractors.pyx":77
  *         for item in columns:
  *             result_dict[item] = []
  *             for thing in self.map_header(item):             # <<<<<<<<<<<<<<
@@ -4673,7 +4750,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_18rows(struct __p
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "neurograph/extractors.pyx":74
+    /* "neurograph/extractors.pyx":75
  *         result_dict = {}
  *         columns = self.cols()
  *         for item in columns:             # <<<<<<<<<<<<<<
@@ -4683,19 +4760,19 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_18rows(struct __p
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "neurograph/extractors.pyx":78
+  /* "neurograph/extractors.pyx":79
  *             for thing in self.map_header(item):
  *                 result_dict[item].append(thing)
  *         return result_dict             # <<<<<<<<<<<<<<
  * 
- *     def html(self):
+ *     def to_matrix(self, cols: list):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_result_dict);
   __pyx_r = __pyx_v_result_dict;
   goto __pyx_L0;
 
-  /* "neurograph/extractors.pyx":71
+  /* "neurograph/extractors.pyx":72
  *         fr.drop_cols(self.frame, temp_array)
  * 
  *     def rows(self):             # <<<<<<<<<<<<<<
@@ -4721,8 +4798,273 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_18rows(struct __p
   return __pyx_r;
 }
 
-/* "neurograph/extractors.pyx":80
+/* "neurograph/extractors.pyx":81
  *         return result_dict
+ * 
+ *     def to_matrix(self, cols: list):             # <<<<<<<<<<<<<<
+ *         selected_cols = ll.init_array()
+ *         for item in cols:
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_21to_matrix(PyObject *__pyx_v_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+); /*proto*/
+static PyMethodDef __pyx_mdef_10neurograph_10extractors_9DataFrame_21to_matrix = {"to_matrix", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_21to_matrix, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_21to_matrix(PyObject *__pyx_v_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+) {
+  PyObject *__pyx_v_cols = 0;
+  #if !CYTHON_METH_FASTCALL
+  CYTHON_UNUSED Py_ssize_t __pyx_nargs;
+  #endif
+  CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
+  PyObject* values[1] = {0};
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("to_matrix (wrapper)", 0);
+  #if !CYTHON_METH_FASTCALL
+  #if CYTHON_ASSUME_SAFE_MACROS
+  __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
+  #else
+  __pyx_nargs = PyTuple_Size(__pyx_args); if (unlikely(__pyx_nargs < 0)) return NULL;
+  #endif
+  #endif
+  __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
+  {
+    PyObject **__pyx_pyargnames[] = {&__pyx_n_s_cols,0};
+    if (__pyx_kwds) {
+      Py_ssize_t kw_args;
+      switch (__pyx_nargs) {
+        case  1: values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = __Pyx_NumKwargs_FASTCALL(__pyx_kwds);
+      switch (__pyx_nargs) {
+        case  0:
+        if (likely((values[0] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_cols)) != 0)) {
+          (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
+          kw_args--;
+        }
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 81, __pyx_L3_error)
+        else goto __pyx_L5_argtuple_error;
+      }
+      if (unlikely(kw_args > 0)) {
+        const Py_ssize_t kwd_pos_args = __pyx_nargs;
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "to_matrix") < 0)) __PYX_ERR(0, 81, __pyx_L3_error)
+      }
+    } else if (unlikely(__pyx_nargs != 1)) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
+    }
+    __pyx_v_cols = ((PyObject*)values[0]);
+  }
+  goto __pyx_L6_skip;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("to_matrix", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 81, __pyx_L3_error)
+  __pyx_L6_skip:;
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L3_error:;
+  {
+    Py_ssize_t __pyx_temp;
+    for (__pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
+      __Pyx_Arg_XDECREF_FASTCALL(values[__pyx_temp]);
+    }
+  }
+  __Pyx_AddTraceback("neurograph.extractors.DataFrame.to_matrix", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_cols), (&PyList_Type), 0, "cols", 1))) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_r = __pyx_pf_10neurograph_10extractors_9DataFrame_20to_matrix(((struct __pyx_obj_10neurograph_10extractors_DataFrame *)__pyx_v_self), __pyx_v_cols);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  {
+    Py_ssize_t __pyx_temp;
+    for (__pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
+      __Pyx_Arg_XDECREF_FASTCALL(values[__pyx_temp]);
+    }
+  }
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_20to_matrix(struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self, PyObject *__pyx_v_cols) {
+  struct Array *__pyx_v_selected_cols;
+  PyObject *__pyx_v_item = NULL;
+  struct __pyx_obj_10neurograph_10structures_Matrix *__pyx_v_matrix = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  Py_ssize_t __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  char *__pyx_t_6;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("to_matrix", 1);
+
+  /* "neurograph/extractors.pyx":82
+ * 
+ *     def to_matrix(self, cols: list):
+ *         selected_cols = ll.init_array()             # <<<<<<<<<<<<<<
+ *         for item in cols:
+ *             ll.insert_char(selected_cols, bytes(item, encoding="utf8"))
+ */
+  __pyx_v_selected_cols = init_array();
+
+  /* "neurograph/extractors.pyx":83
+ *     def to_matrix(self, cols: list):
+ *         selected_cols = ll.init_array()
+ *         for item in cols:             # <<<<<<<<<<<<<<
+ *             ll.insert_char(selected_cols, bytes(item, encoding="utf8"))
+ * 
+ */
+  __pyx_t_1 = __pyx_v_cols; __Pyx_INCREF(__pyx_t_1);
+  __pyx_t_2 = 0;
+  for (;;) {
+    {
+      Py_ssize_t __pyx_temp = __Pyx_PyList_GET_SIZE(__pyx_t_1);
+      #if !CYTHON_ASSUME_SAFE_MACROS
+      if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 83, __pyx_L1_error)
+      #endif
+      if (__pyx_t_2 >= __pyx_temp) break;
+    }
+    #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely((0 < 0))) __PYX_ERR(0, 83, __pyx_L1_error)
+    #else
+    __pyx_t_3 = __Pyx_PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 83, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    #endif
+    __Pyx_XDECREF_SET(__pyx_v_item, __pyx_t_3);
+    __pyx_t_3 = 0;
+
+    /* "neurograph/extractors.pyx":84
+ *         selected_cols = ll.init_array()
+ *         for item in cols:
+ *             ll.insert_char(selected_cols, bytes(item, encoding="utf8"))             # <<<<<<<<<<<<<<
+ * 
+ *         matrix = Matrix(self.row_limit, len(cols))
+ */
+    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 84, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_INCREF(__pyx_v_item);
+    __Pyx_GIVEREF(__pyx_v_item);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_item)) __PYX_ERR(0, 84, __pyx_L1_error);
+    __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 84, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_encoding, __pyx_n_s_utf8) < 0) __PYX_ERR(0, 84, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(((PyObject *)(&PyBytes_Type)), __pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 84, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_6 = __Pyx_PyBytes_AsWritableString(__pyx_t_5); if (unlikely((!__pyx_t_6) && PyErr_Occurred())) __PYX_ERR(0, 84, __pyx_L1_error)
+    insert_char(__pyx_v_selected_cols, __pyx_t_6);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+    /* "neurograph/extractors.pyx":83
+ *     def to_matrix(self, cols: list):
+ *         selected_cols = ll.init_array()
+ *         for item in cols:             # <<<<<<<<<<<<<<
+ *             ll.insert_char(selected_cols, bytes(item, encoding="utf8"))
+ * 
+ */
+  }
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "neurograph/extractors.pyx":86
+ *             ll.insert_char(selected_cols, bytes(item, encoding="utf8"))
+ * 
+ *         matrix = Matrix(self.row_limit, len(cols))             # <<<<<<<<<<<<<<
+ *         matrix.mat = fr.frame_to_matrix(self.frame, selected_cols)
+ *         return matrix
+ */
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->row_limit); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyList_GET_SIZE(__pyx_v_cols); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 86, __pyx_L1_error)
+  __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_GIVEREF(__pyx_t_1);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_1)) __PYX_ERR(0, 86, __pyx_L1_error);
+  __Pyx_GIVEREF(__pyx_t_5);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_5)) __PYX_ERR(0, 86, __pyx_L1_error);
+  __pyx_t_1 = 0;
+  __pyx_t_5 = 0;
+  __pyx_t_5 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_10neurograph_10structures_Matrix), __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_matrix = ((struct __pyx_obj_10neurograph_10structures_Matrix *)__pyx_t_5);
+  __pyx_t_5 = 0;
+
+  /* "neurograph/extractors.pyx":87
+ * 
+ *         matrix = Matrix(self.row_limit, len(cols))
+ *         matrix.mat = fr.frame_to_matrix(self.frame, selected_cols)             # <<<<<<<<<<<<<<
+ *         return matrix
+ * 
+ */
+  __pyx_v_matrix->mat = frame_to_matrix(__pyx_v_self->frame, __pyx_v_selected_cols);
+
+  /* "neurograph/extractors.pyx":88
+ *         matrix = Matrix(self.row_limit, len(cols))
+ *         matrix.mat = fr.frame_to_matrix(self.frame, selected_cols)
+ *         return matrix             # <<<<<<<<<<<<<<
+ * 
+ *     def html(self):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF((PyObject *)__pyx_v_matrix);
+  __pyx_r = ((PyObject *)__pyx_v_matrix);
+  goto __pyx_L0;
+
+  /* "neurograph/extractors.pyx":81
+ *         return result_dict
+ * 
+ *     def to_matrix(self, cols: list):             # <<<<<<<<<<<<<<
+ *         selected_cols = ll.init_array()
+ *         for item in cols:
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_AddTraceback("neurograph.extractors.DataFrame.to_matrix", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_item);
+  __Pyx_XDECREF((PyObject *)__pyx_v_matrix);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "neurograph/extractors.pyx":90
+ *         return matrix
  * 
  *     def html(self):             # <<<<<<<<<<<<<<
  *         rows_dict = self.rows()
@@ -4730,15 +5072,15 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_18rows(struct __p
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_21html(PyObject *__pyx_v_self, 
+static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_23html(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_10neurograph_10extractors_9DataFrame_21html = {"html", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_21html, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_21html(PyObject *__pyx_v_self, 
+static PyMethodDef __pyx_mdef_10neurograph_10extractors_9DataFrame_23html = {"html", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_23html, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_23html(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -4763,14 +5105,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   if (unlikely(__pyx_nargs > 0)) {
     __Pyx_RaiseArgtupleInvalid("html", 1, 0, 0, __pyx_nargs); return NULL;}
   if (unlikely(__pyx_kwds) && __Pyx_NumKwargs_FASTCALL(__pyx_kwds) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "html", 0))) return NULL;
-  __pyx_r = __pyx_pf_10neurograph_10extractors_9DataFrame_20html(((struct __pyx_obj_10neurograph_10extractors_DataFrame *)__pyx_v_self));
+  __pyx_r = __pyx_pf_10neurograph_10extractors_9DataFrame_22html(((struct __pyx_obj_10neurograph_10extractors_DataFrame *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_20html(struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self) {
+static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_22html(struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self) {
   PyObject *__pyx_v_rows_dict = NULL;
   PyObject *__pyx_v_table = NULL;
   PyObject *__pyx_v_html_table = NULL;
@@ -4789,14 +5131,14 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_20html(struct __p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("html", 1);
 
-  /* "neurograph/extractors.pyx":81
+  /* "neurograph/extractors.pyx":91
  * 
  *     def html(self):
  *         rows_dict = self.rows()             # <<<<<<<<<<<<<<
  *         table = [dict(zip(rows_dict, row)) for row in zip(*rows_dict.values())]
  *         html_table = tabulate(table, tablefmt='html', headers='keys')
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rows); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rows); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   __pyx_t_4 = 0;
@@ -4816,14 +5158,14 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_20html(struct __p
     PyObject *__pyx_callargs[2] = {__pyx_t_3, NULL};
     __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_4, 0+__pyx_t_4);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
   __pyx_v_rows_dict = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "neurograph/extractors.pyx":82
+  /* "neurograph/extractors.pyx":92
  *     def html(self):
  *         rows_dict = self.rows()
  *         table = [dict(zip(rows_dict, row)) for row in zip(*rows_dict.values())]             # <<<<<<<<<<<<<<
@@ -4831,9 +5173,9 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_20html(struct __p
  *         return html_table
  */
   { /* enter inner scope */
-    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L5_error)
+    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 92, __pyx_L5_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_rows_dict, __pyx_n_s_values); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 82, __pyx_L5_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_rows_dict, __pyx_n_s_values); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 92, __pyx_L5_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_5 = NULL;
     __pyx_t_4 = 0;
@@ -4853,14 +5195,14 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_20html(struct __p
       PyObject *__pyx_callargs[2] = {__pyx_t_5, NULL};
       __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_4, 0+__pyx_t_4);
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L5_error)
+      if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L5_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     }
-    __pyx_t_3 = __Pyx_PySequence_Tuple(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 82, __pyx_L5_error)
+    __pyx_t_3 = __Pyx_PySequence_Tuple(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 92, __pyx_L5_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_zip, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L5_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_zip, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L5_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     if (likely(PyList_CheckExact(__pyx_t_2)) || PyTuple_CheckExact(__pyx_t_2)) {
@@ -4868,9 +5210,9 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_20html(struct __p
       __pyx_t_6 = 0;
       __pyx_t_7 = NULL;
     } else {
-      __pyx_t_6 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 82, __pyx_L5_error)
+      __pyx_t_6 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 92, __pyx_L5_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_7 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 82, __pyx_L5_error)
+      __pyx_t_7 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 92, __pyx_L5_error)
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     for (;;) {
@@ -4879,28 +5221,28 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_20html(struct __p
           {
             Py_ssize_t __pyx_temp = __Pyx_PyList_GET_SIZE(__pyx_t_3);
             #if !CYTHON_ASSUME_SAFE_MACROS
-            if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 82, __pyx_L5_error)
+            if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 92, __pyx_L5_error)
             #endif
             if (__pyx_t_6 >= __pyx_temp) break;
           }
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_6); __Pyx_INCREF(__pyx_t_2); __pyx_t_6++; if (unlikely((0 < 0))) __PYX_ERR(0, 82, __pyx_L5_error)
+          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_6); __Pyx_INCREF(__pyx_t_2); __pyx_t_6++; if (unlikely((0 < 0))) __PYX_ERR(0, 92, __pyx_L5_error)
           #else
-          __pyx_t_2 = __Pyx_PySequence_ITEM(__pyx_t_3, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L5_error)
+          __pyx_t_2 = __Pyx_PySequence_ITEM(__pyx_t_3, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_2);
           #endif
         } else {
           {
             Py_ssize_t __pyx_temp = __Pyx_PyTuple_GET_SIZE(__pyx_t_3);
             #if !CYTHON_ASSUME_SAFE_MACROS
-            if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 82, __pyx_L5_error)
+            if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 92, __pyx_L5_error)
             #endif
             if (__pyx_t_6 >= __pyx_temp) break;
           }
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_6); __Pyx_INCREF(__pyx_t_2); __pyx_t_6++; if (unlikely((0 < 0))) __PYX_ERR(0, 82, __pyx_L5_error)
+          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_6); __Pyx_INCREF(__pyx_t_2); __pyx_t_6++; if (unlikely((0 < 0))) __PYX_ERR(0, 92, __pyx_L5_error)
           #else
-          __pyx_t_2 = __Pyx_PySequence_ITEM(__pyx_t_3, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L5_error)
+          __pyx_t_2 = __Pyx_PySequence_ITEM(__pyx_t_3, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_2);
           #endif
         }
@@ -4910,7 +5252,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_20html(struct __p
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 82, __pyx_L5_error)
+            else __PYX_ERR(0, 92, __pyx_L5_error)
           }
           break;
         }
@@ -4918,21 +5260,21 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_20html(struct __p
       }
       __Pyx_XDECREF_SET(__pyx_7genexpr__pyx_v_row, __pyx_t_2);
       __pyx_t_2 = 0;
-      __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L5_error)
+      __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L5_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_INCREF(__pyx_v_rows_dict);
       __Pyx_GIVEREF(__pyx_v_rows_dict);
-      if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_rows_dict)) __PYX_ERR(0, 82, __pyx_L5_error);
+      if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_rows_dict)) __PYX_ERR(0, 92, __pyx_L5_error);
       __Pyx_INCREF(__pyx_7genexpr__pyx_v_row);
       __Pyx_GIVEREF(__pyx_7genexpr__pyx_v_row);
-      if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_7genexpr__pyx_v_row)) __PYX_ERR(0, 82, __pyx_L5_error);
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_zip, __pyx_t_2, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 82, __pyx_L5_error)
+      if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_7genexpr__pyx_v_row)) __PYX_ERR(0, 92, __pyx_L5_error);
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_zip, __pyx_t_2, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 92, __pyx_L5_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyDict_Type)), __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L5_error)
+      __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyDict_Type)), __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L5_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_2))) __PYX_ERR(0, 82, __pyx_L5_error)
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_2))) __PYX_ERR(0, 92, __pyx_L5_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4946,25 +5288,25 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_20html(struct __p
   __pyx_v_table = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "neurograph/extractors.pyx":83
+  /* "neurograph/extractors.pyx":93
  *         rows_dict = self.rows()
  *         table = [dict(zip(rows_dict, row)) for row in zip(*rows_dict.values())]
  *         html_table = tabulate(table, tablefmt='html', headers='keys')             # <<<<<<<<<<<<<<
  *         return html_table
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_tabulate); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 83, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_tabulate); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 83, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(__pyx_v_table);
   __Pyx_GIVEREF(__pyx_v_table);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_table)) __PYX_ERR(0, 83, __pyx_L1_error);
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 83, __pyx_L1_error)
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_table)) __PYX_ERR(0, 93, __pyx_L1_error);
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_tablefmt, __pyx_n_s_html) < 0) __PYX_ERR(0, 83, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_headers, __pyx_n_s_keys) < 0) __PYX_ERR(0, 83, __pyx_L1_error)
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 83, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_tablefmt, __pyx_n_s_html) < 0) __PYX_ERR(0, 93, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_headers, __pyx_n_s_keys) < 0) __PYX_ERR(0, 93, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4972,7 +5314,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_20html(struct __p
   __pyx_v_html_table = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "neurograph/extractors.pyx":84
+  /* "neurograph/extractors.pyx":94
  *         table = [dict(zip(rows_dict, row)) for row in zip(*rows_dict.values())]
  *         html_table = tabulate(table, tablefmt='html', headers='keys')
  *         return html_table             # <<<<<<<<<<<<<<
@@ -4984,8 +5326,8 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_20html(struct __p
   __pyx_r = __pyx_v_html_table;
   goto __pyx_L0;
 
-  /* "neurograph/extractors.pyx":80
- *         return result_dict
+  /* "neurograph/extractors.pyx":90
+ *         return matrix
  * 
  *     def html(self):             # <<<<<<<<<<<<<<
  *         rows_dict = self.rows()
@@ -5010,7 +5352,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_20html(struct __p
   return __pyx_r;
 }
 
-/* "neurograph/extractors.pyx":86
+/* "neurograph/extractors.pyx":96
  *         return html_table
  * 
  *     def sum(self, cols: list , result: str):             # <<<<<<<<<<<<<<
@@ -5019,15 +5361,15 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_20html(struct __p
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_23sum(PyObject *__pyx_v_self, 
+static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_25sum(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_10neurograph_10extractors_9DataFrame_23sum = {"sum", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_23sum, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_23sum(PyObject *__pyx_v_self, 
+static PyMethodDef __pyx_mdef_10neurograph_10extractors_9DataFrame_25sum = {"sum", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_25sum, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_25sum(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -5074,7 +5416,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 86, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 96, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
@@ -5082,14 +5424,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[1]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 86, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 96, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("sum", 1, 2, 2, 1); __PYX_ERR(0, 86, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("sum", 1, 2, 2, 1); __PYX_ERR(0, 96, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "sum") < 0)) __PYX_ERR(0, 86, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "sum") < 0)) __PYX_ERR(0, 96, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 2)) {
       goto __pyx_L5_argtuple_error;
@@ -5102,7 +5444,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("sum", 1, 2, 2, __pyx_nargs); __PYX_ERR(0, 86, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("sum", 1, 2, 2, __pyx_nargs); __PYX_ERR(0, 96, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -5116,9 +5458,9 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_cols), (&PyList_Type), 0, "cols", 1))) __PYX_ERR(0, 86, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_result), (&PyString_Type), 0, "result", 1))) __PYX_ERR(0, 86, __pyx_L1_error)
-  __pyx_r = __pyx_pf_10neurograph_10extractors_9DataFrame_22sum(((struct __pyx_obj_10neurograph_10extractors_DataFrame *)__pyx_v_self), __pyx_v_cols, __pyx_v_result);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_cols), (&PyList_Type), 0, "cols", 1))) __PYX_ERR(0, 96, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_result), (&PyString_Type), 0, "result", 1))) __PYX_ERR(0, 96, __pyx_L1_error)
+  __pyx_r = __pyx_pf_10neurograph_10extractors_9DataFrame_24sum(((struct __pyx_obj_10neurograph_10extractors_DataFrame *)__pyx_v_self), __pyx_v_cols, __pyx_v_result);
 
   /* function exit code */
   goto __pyx_L0;
@@ -5135,7 +5477,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_22sum(struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self, PyObject *__pyx_v_cols, PyObject *__pyx_v_result) {
+static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_24sum(struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self, PyObject *__pyx_v_cols, PyObject *__pyx_v_result) {
   PyObject *__pyx_v_col1_encode = NULL;
   PyObject *__pyx_v_col2_encode = NULL;
   PyObject *__pyx_r = NULL;
@@ -5154,38 +5496,38 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_22sum(struct __py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("sum", 1);
 
-  /* "neurograph/extractors.pyx":88
+  /* "neurograph/extractors.pyx":98
  *     def sum(self, cols: list , result: str):
  * 
  *         if len(cols) > 2:             # <<<<<<<<<<<<<<
  *             print("Neurograph only supports 2 columns for ops")
  *             sys.exit(0)
  */
-  __pyx_t_1 = __Pyx_PyList_GET_SIZE(__pyx_v_cols); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 88, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyList_GET_SIZE(__pyx_v_cols); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 98, __pyx_L1_error)
   __pyx_t_2 = (__pyx_t_1 > 2);
   if (__pyx_t_2) {
 
-    /* "neurograph/extractors.pyx":89
+    /* "neurograph/extractors.pyx":99
  * 
  *         if len(cols) > 2:
  *             print("Neurograph only supports 2 columns for ops")             # <<<<<<<<<<<<<<
  *             sys.exit(0)
  * 
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 89, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 99, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "neurograph/extractors.pyx":90
+    /* "neurograph/extractors.pyx":100
  *         if len(cols) > 2:
  *             print("Neurograph only supports 2 columns for ops")
  *             sys.exit(0)             # <<<<<<<<<<<<<<
  * 
  *         col1_encode = cols[0].encode('utf-8')
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_sys); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 90, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_sys); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_exit); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 90, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_exit); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_4 = NULL;
@@ -5206,13 +5548,13 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_22sum(struct __py
       PyObject *__pyx_callargs[2] = {__pyx_t_4, __pyx_int_0};
       __pyx_t_3 = __Pyx_PyObject_FastCall(__pyx_t_5, __pyx_callargs+1-__pyx_t_6, 1+__pyx_t_6);
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 90, __pyx_L1_error)
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 100, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "neurograph/extractors.pyx":88
+    /* "neurograph/extractors.pyx":98
  *     def sum(self, cols: list , result: str):
  * 
  *         if len(cols) > 2:             # <<<<<<<<<<<<<<
@@ -5221,16 +5563,16 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_22sum(struct __py
  */
   }
 
-  /* "neurograph/extractors.pyx":92
+  /* "neurograph/extractors.pyx":102
  *             sys.exit(0)
  * 
  *         col1_encode = cols[0].encode('utf-8')             # <<<<<<<<<<<<<<
  *         col2_encode = cols[1].encode('utf-8')
  *         ops.add_frame_cols(
  */
-  __pyx_t_5 = __Pyx_GetItemInt_List(__pyx_v_cols, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_GetItemInt_List(__pyx_v_cols, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_encode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_encode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = NULL;
@@ -5251,23 +5593,23 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_22sum(struct __py
     PyObject *__pyx_callargs[2] = {__pyx_t_5, __pyx_kp_s_utf_8};
     __pyx_t_3 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_6, 1+__pyx_t_6);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 92, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 102, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
   __pyx_v_col1_encode = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "neurograph/extractors.pyx":93
+  /* "neurograph/extractors.pyx":103
  * 
  *         col1_encode = cols[0].encode('utf-8')
  *         col2_encode = cols[1].encode('utf-8')             # <<<<<<<<<<<<<<
  *         ops.add_frame_cols(
  *             self.frame,
  */
-  __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_cols, 1, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_cols, 1, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_encode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_encode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
@@ -5288,43 +5630,43 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_22sum(struct __py
     PyObject *__pyx_callargs[2] = {__pyx_t_4, __pyx_kp_s_utf_8};
     __pyx_t_3 = __Pyx_PyObject_FastCall(__pyx_t_5, __pyx_callargs+1-__pyx_t_6, 1+__pyx_t_6);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 93, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 103, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
   __pyx_v_col2_encode = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "neurograph/extractors.pyx":96
+  /* "neurograph/extractors.pyx":106
  *         ops.add_frame_cols(
  *             self.frame,
  *             col1_encode,             # <<<<<<<<<<<<<<
  *             col2_encode,
  *             result.encode('utf-8')
  */
-  __pyx_t_7 = __Pyx_PyObject_AsWritableString(__pyx_v_col1_encode); if (unlikely((!__pyx_t_7) && PyErr_Occurred())) __PYX_ERR(0, 96, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_AsWritableString(__pyx_v_col1_encode); if (unlikely((!__pyx_t_7) && PyErr_Occurred())) __PYX_ERR(0, 106, __pyx_L1_error)
 
-  /* "neurograph/extractors.pyx":97
+  /* "neurograph/extractors.pyx":107
  *             self.frame,
  *             col1_encode,
  *             col2_encode,             # <<<<<<<<<<<<<<
  *             result.encode('utf-8')
  *         )
  */
-  __pyx_t_8 = __Pyx_PyObject_AsWritableString(__pyx_v_col2_encode); if (unlikely((!__pyx_t_8) && PyErr_Occurred())) __PYX_ERR(0, 97, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_AsWritableString(__pyx_v_col2_encode); if (unlikely((!__pyx_t_8) && PyErr_Occurred())) __PYX_ERR(0, 107, __pyx_L1_error)
 
-  /* "neurograph/extractors.pyx":98
+  /* "neurograph/extractors.pyx":108
  *             col1_encode,
  *             col2_encode,
  *             result.encode('utf-8')             # <<<<<<<<<<<<<<
  *         )
  * 
  */
-  __pyx_t_3 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_encode, __pyx_v_result, __pyx_kp_s_utf_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 98, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_encode, __pyx_v_result, __pyx_kp_s_utf_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_9 = __Pyx_PyObject_AsWritableString(__pyx_t_3); if (unlikely((!__pyx_t_9) && PyErr_Occurred())) __PYX_ERR(0, 98, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_AsWritableString(__pyx_t_3); if (unlikely((!__pyx_t_9) && PyErr_Occurred())) __PYX_ERR(0, 108, __pyx_L1_error)
 
-  /* "neurograph/extractors.pyx":94
+  /* "neurograph/extractors.pyx":104
  *         col1_encode = cols[0].encode('utf-8')
  *         col2_encode = cols[1].encode('utf-8')
  *         ops.add_frame_cols(             # <<<<<<<<<<<<<<
@@ -5334,7 +5676,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_22sum(struct __py
   (void)(add_frame_cols(__pyx_v_self->frame, __pyx_t_7, __pyx_t_8, __pyx_t_9));
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "neurograph/extractors.pyx":86
+  /* "neurograph/extractors.pyx":96
  *         return html_table
  * 
  *     def sum(self, cols: list , result: str):             # <<<<<<<<<<<<<<
@@ -5359,7 +5701,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_22sum(struct __py
   return __pyx_r;
 }
 
-/* "neurograph/extractors.pyx":101
+/* "neurograph/extractors.pyx":111
  *         )
  * 
  *     def subtract(self, cols: list, result: str):             # <<<<<<<<<<<<<<
@@ -5368,15 +5710,15 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_22sum(struct __py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_25subtract(PyObject *__pyx_v_self, 
+static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_27subtract(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_10neurograph_10extractors_9DataFrame_25subtract = {"subtract", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_25subtract, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_25subtract(PyObject *__pyx_v_self, 
+static PyMethodDef __pyx_mdef_10neurograph_10extractors_9DataFrame_27subtract = {"subtract", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_27subtract, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_27subtract(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -5423,7 +5765,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 101, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 111, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
@@ -5431,14 +5773,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[1]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 101, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 111, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("subtract", 1, 2, 2, 1); __PYX_ERR(0, 101, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("subtract", 1, 2, 2, 1); __PYX_ERR(0, 111, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "subtract") < 0)) __PYX_ERR(0, 101, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "subtract") < 0)) __PYX_ERR(0, 111, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 2)) {
       goto __pyx_L5_argtuple_error;
@@ -5451,7 +5793,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("subtract", 1, 2, 2, __pyx_nargs); __PYX_ERR(0, 101, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("subtract", 1, 2, 2, __pyx_nargs); __PYX_ERR(0, 111, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -5465,9 +5807,9 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_cols), (&PyList_Type), 0, "cols", 1))) __PYX_ERR(0, 101, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_result), (&PyString_Type), 0, "result", 1))) __PYX_ERR(0, 101, __pyx_L1_error)
-  __pyx_r = __pyx_pf_10neurograph_10extractors_9DataFrame_24subtract(((struct __pyx_obj_10neurograph_10extractors_DataFrame *)__pyx_v_self), __pyx_v_cols, __pyx_v_result);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_cols), (&PyList_Type), 0, "cols", 1))) __PYX_ERR(0, 111, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_result), (&PyString_Type), 0, "result", 1))) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_r = __pyx_pf_10neurograph_10extractors_9DataFrame_26subtract(((struct __pyx_obj_10neurograph_10extractors_DataFrame *)__pyx_v_self), __pyx_v_cols, __pyx_v_result);
 
   /* function exit code */
   goto __pyx_L0;
@@ -5484,7 +5826,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_24subtract(struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self, PyObject *__pyx_v_cols, PyObject *__pyx_v_result) {
+static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_26subtract(struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self, PyObject *__pyx_v_cols, PyObject *__pyx_v_result) {
   PyObject *__pyx_v_col1_encode = NULL;
   PyObject *__pyx_v_col2_encode = NULL;
   PyObject *__pyx_r = NULL;
@@ -5503,38 +5845,38 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_24subtract(struct
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("subtract", 1);
 
-  /* "neurograph/extractors.pyx":103
+  /* "neurograph/extractors.pyx":113
  *     def subtract(self, cols: list, result: str):
  * 
  *         if len(cols) > 2:             # <<<<<<<<<<<<<<
  *             print("Neurograph only supports 2 columns for ops")
  *             sys.exit(0)
  */
-  __pyx_t_1 = __Pyx_PyList_GET_SIZE(__pyx_v_cols); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyList_GET_SIZE(__pyx_v_cols); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 113, __pyx_L1_error)
   __pyx_t_2 = (__pyx_t_1 > 2);
   if (__pyx_t_2) {
 
-    /* "neurograph/extractors.pyx":104
+    /* "neurograph/extractors.pyx":114
  * 
  *         if len(cols) > 2:
  *             print("Neurograph only supports 2 columns for ops")             # <<<<<<<<<<<<<<
  *             sys.exit(0)
  * 
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 114, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "neurograph/extractors.pyx":105
+    /* "neurograph/extractors.pyx":115
  *         if len(cols) > 2:
  *             print("Neurograph only supports 2 columns for ops")
  *             sys.exit(0)             # <<<<<<<<<<<<<<
  * 
  *         col1_encode = cols[0].encode('utf-8')
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_sys); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 105, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_sys); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 115, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_exit); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 105, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_exit); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 115, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_4 = NULL;
@@ -5555,13 +5897,13 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_24subtract(struct
       PyObject *__pyx_callargs[2] = {__pyx_t_4, __pyx_int_0};
       __pyx_t_3 = __Pyx_PyObject_FastCall(__pyx_t_5, __pyx_callargs+1-__pyx_t_6, 1+__pyx_t_6);
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 105, __pyx_L1_error)
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 115, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "neurograph/extractors.pyx":103
+    /* "neurograph/extractors.pyx":113
  *     def subtract(self, cols: list, result: str):
  * 
  *         if len(cols) > 2:             # <<<<<<<<<<<<<<
@@ -5570,16 +5912,16 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_24subtract(struct
  */
   }
 
-  /* "neurograph/extractors.pyx":107
+  /* "neurograph/extractors.pyx":117
  *             sys.exit(0)
  * 
  *         col1_encode = cols[0].encode('utf-8')             # <<<<<<<<<<<<<<
  *         col2_encode = cols[1].encode('utf-8')
  *         ops.subtract_frame_cols(
  */
-  __pyx_t_5 = __Pyx_GetItemInt_List(__pyx_v_cols, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_GetItemInt_List(__pyx_v_cols, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 117, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_encode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_encode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 117, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = NULL;
@@ -5600,23 +5942,23 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_24subtract(struct
     PyObject *__pyx_callargs[2] = {__pyx_t_5, __pyx_kp_s_utf_8};
     __pyx_t_3 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_6, 1+__pyx_t_6);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 107, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 117, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
   __pyx_v_col1_encode = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "neurograph/extractors.pyx":108
+  /* "neurograph/extractors.pyx":118
  * 
  *         col1_encode = cols[0].encode('utf-8')
  *         col2_encode = cols[1].encode('utf-8')             # <<<<<<<<<<<<<<
  *         ops.subtract_frame_cols(
  *             self.frame,
  */
-  __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_cols, 1, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 108, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_cols, 1, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 118, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_encode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 108, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_encode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 118, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
@@ -5637,43 +5979,43 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_24subtract(struct
     PyObject *__pyx_callargs[2] = {__pyx_t_4, __pyx_kp_s_utf_8};
     __pyx_t_3 = __Pyx_PyObject_FastCall(__pyx_t_5, __pyx_callargs+1-__pyx_t_6, 1+__pyx_t_6);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 108, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 118, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
   __pyx_v_col2_encode = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "neurograph/extractors.pyx":111
+  /* "neurograph/extractors.pyx":121
  *         ops.subtract_frame_cols(
  *             self.frame,
  *             col1_encode,             # <<<<<<<<<<<<<<
  *             col2_encode,
  *             result.encode('utf-8')
  */
-  __pyx_t_7 = __Pyx_PyObject_AsWritableString(__pyx_v_col1_encode); if (unlikely((!__pyx_t_7) && PyErr_Occurred())) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_AsWritableString(__pyx_v_col1_encode); if (unlikely((!__pyx_t_7) && PyErr_Occurred())) __PYX_ERR(0, 121, __pyx_L1_error)
 
-  /* "neurograph/extractors.pyx":112
+  /* "neurograph/extractors.pyx":122
  *             self.frame,
  *             col1_encode,
  *             col2_encode,             # <<<<<<<<<<<<<<
  *             result.encode('utf-8')
  *         )
  */
-  __pyx_t_8 = __Pyx_PyObject_AsWritableString(__pyx_v_col2_encode); if (unlikely((!__pyx_t_8) && PyErr_Occurred())) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_AsWritableString(__pyx_v_col2_encode); if (unlikely((!__pyx_t_8) && PyErr_Occurred())) __PYX_ERR(0, 122, __pyx_L1_error)
 
-  /* "neurograph/extractors.pyx":113
+  /* "neurograph/extractors.pyx":123
  *             col1_encode,
  *             col2_encode,
  *             result.encode('utf-8')             # <<<<<<<<<<<<<<
  *         )
  * 
  */
-  __pyx_t_3 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_encode, __pyx_v_result, __pyx_kp_s_utf_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 113, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_encode, __pyx_v_result, __pyx_kp_s_utf_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 123, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_9 = __Pyx_PyObject_AsWritableString(__pyx_t_3); if (unlikely((!__pyx_t_9) && PyErr_Occurred())) __PYX_ERR(0, 113, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_AsWritableString(__pyx_t_3); if (unlikely((!__pyx_t_9) && PyErr_Occurred())) __PYX_ERR(0, 123, __pyx_L1_error)
 
-  /* "neurograph/extractors.pyx":109
+  /* "neurograph/extractors.pyx":119
  *         col1_encode = cols[0].encode('utf-8')
  *         col2_encode = cols[1].encode('utf-8')
  *         ops.subtract_frame_cols(             # <<<<<<<<<<<<<<
@@ -5683,7 +6025,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_24subtract(struct
   (void)(subtract_frame_cols(__pyx_v_self->frame, __pyx_t_7, __pyx_t_8, __pyx_t_9));
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "neurograph/extractors.pyx":101
+  /* "neurograph/extractors.pyx":111
  *         )
  * 
  *     def subtract(self, cols: list, result: str):             # <<<<<<<<<<<<<<
@@ -5708,7 +6050,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_24subtract(struct
   return __pyx_r;
 }
 
-/* "neurograph/extractors.pyx":116
+/* "neurograph/extractors.pyx":126
  *         )
  * 
  *     def map_debug(self):             # <<<<<<<<<<<<<<
@@ -5717,15 +6059,15 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_24subtract(struct
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_27map_debug(PyObject *__pyx_v_self, 
+static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_29map_debug(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_10neurograph_10extractors_9DataFrame_27map_debug = {"map_debug", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_27map_debug, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_27map_debug(PyObject *__pyx_v_self, 
+static PyMethodDef __pyx_mdef_10neurograph_10extractors_9DataFrame_29map_debug = {"map_debug", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_29map_debug, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_29map_debug(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -5750,19 +6092,19 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   if (unlikely(__pyx_nargs > 0)) {
     __Pyx_RaiseArgtupleInvalid("map_debug", 1, 0, 0, __pyx_nargs); return NULL;}
   if (unlikely(__pyx_kwds) && __Pyx_NumKwargs_FASTCALL(__pyx_kwds) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "map_debug", 0))) return NULL;
-  __pyx_r = __pyx_pf_10neurograph_10extractors_9DataFrame_26map_debug(((struct __pyx_obj_10neurograph_10extractors_DataFrame *)__pyx_v_self));
+  __pyx_r = __pyx_pf_10neurograph_10extractors_9DataFrame_28map_debug(((struct __pyx_obj_10neurograph_10extractors_DataFrame *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_26map_debug(struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self) {
+static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_28map_debug(struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("map_debug", 1);
 
-  /* "neurograph/extractors.pyx":117
+  /* "neurograph/extractors.pyx":127
  * 
  *     def map_debug(self):
  *         table.print_table(self.frame.frame)             # <<<<<<<<<<<<<<
@@ -5771,7 +6113,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_26map_debug(struc
  */
   print_table(__pyx_v_self->frame->frame);
 
-  /* "neurograph/extractors.pyx":116
+  /* "neurograph/extractors.pyx":126
  *         )
  * 
  *     def map_debug(self):             # <<<<<<<<<<<<<<
@@ -5786,7 +6128,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_26map_debug(struc
   return __pyx_r;
 }
 
-/* "neurograph/extractors.pyx":119
+/* "neurograph/extractors.pyx":129
  *         table.print_table(self.frame.frame)
  * 
  *     def map_header(self, col: str):             # <<<<<<<<<<<<<<
@@ -5795,15 +6137,15 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_26map_debug(struc
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_29map_header(PyObject *__pyx_v_self, 
+static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_31map_header(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_10neurograph_10extractors_9DataFrame_29map_header = {"map_header", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_29map_header, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_29map_header(PyObject *__pyx_v_self, 
+static PyMethodDef __pyx_mdef_10neurograph_10extractors_9DataFrame_31map_header = {"map_header", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_31map_header, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_31map_header(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -5847,12 +6189,12 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 119, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 129, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "map_header") < 0)) __PYX_ERR(0, 119, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "map_header") < 0)) __PYX_ERR(0, 129, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 1)) {
       goto __pyx_L5_argtuple_error;
@@ -5863,7 +6205,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("map_header", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 119, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("map_header", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 129, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -5877,8 +6219,8 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_col), (&PyString_Type), 0, "col", 1))) __PYX_ERR(0, 119, __pyx_L1_error)
-  __pyx_r = __pyx_pf_10neurograph_10extractors_9DataFrame_28map_header(((struct __pyx_obj_10neurograph_10extractors_DataFrame *)__pyx_v_self), __pyx_v_col);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_col), (&PyString_Type), 0, "col", 1))) __PYX_ERR(0, 129, __pyx_L1_error)
+  __pyx_r = __pyx_pf_10neurograph_10extractors_9DataFrame_30map_header(((struct __pyx_obj_10neurograph_10extractors_DataFrame *)__pyx_v_self), __pyx_v_col);
 
   /* function exit code */
   goto __pyx_L0;
@@ -5895,7 +6237,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_28map_header(struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self, PyObject *__pyx_v_col) {
+static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_30map_header(struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self, PyObject *__pyx_v_col) {
   PyObject *__pyx_v_results = NULL;
   PyObject *__pyx_v_header = NULL;
   char **__pyx_v_rows;
@@ -5916,41 +6258,41 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_28map_header(stru
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("map_header", 1);
 
-  /* "neurograph/extractors.pyx":120
+  /* "neurograph/extractors.pyx":130
  * 
  *     def map_header(self, col: str):
  *         results = []             # <<<<<<<<<<<<<<
  *         header = col.encode('utf-8')
  *         rows = fr.get_row_key(self.frame, header)
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 120, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 130, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_results = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "neurograph/extractors.pyx":121
+  /* "neurograph/extractors.pyx":131
  *     def map_header(self, col: str):
  *         results = []
  *         header = col.encode('utf-8')             # <<<<<<<<<<<<<<
  *         rows = fr.get_row_key(self.frame, header)
  *         for item in range(self.frame.row_limit):
  */
-  __pyx_t_1 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_encode, __pyx_v_col, __pyx_kp_s_utf_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 121, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_encode, __pyx_v_col, __pyx_kp_s_utf_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_header = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "neurograph/extractors.pyx":122
+  /* "neurograph/extractors.pyx":132
  *         results = []
  *         header = col.encode('utf-8')
  *         rows = fr.get_row_key(self.frame, header)             # <<<<<<<<<<<<<<
  *         for item in range(self.frame.row_limit):
  *             value = rows[item]
  */
-  __pyx_t_2 = __Pyx_PyObject_AsWritableString(__pyx_v_header); if (unlikely((!__pyx_t_2) && PyErr_Occurred())) __PYX_ERR(0, 122, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_AsWritableString(__pyx_v_header); if (unlikely((!__pyx_t_2) && PyErr_Occurred())) __PYX_ERR(0, 132, __pyx_L1_error)
   __pyx_v_rows = get_row_key(__pyx_v_self->frame, __pyx_t_2);
 
-  /* "neurograph/extractors.pyx":123
+  /* "neurograph/extractors.pyx":133
  *         header = col.encode('utf-8')
  *         rows = fr.get_row_key(self.frame, header)
  *         for item in range(self.frame.row_limit):             # <<<<<<<<<<<<<<
@@ -5962,7 +6304,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_28map_header(stru
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_item = __pyx_t_5;
 
-    /* "neurograph/extractors.pyx":124
+    /* "neurograph/extractors.pyx":134
  *         rows = fr.get_row_key(self.frame, header)
  *         for item in range(self.frame.row_limit):
  *             value = rows[item]             # <<<<<<<<<<<<<<
@@ -5971,33 +6313,33 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_28map_header(stru
  */
     __pyx_v_value = (__pyx_v_rows[__pyx_v_item]);
 
-    /* "neurograph/extractors.pyx":125
+    /* "neurograph/extractors.pyx":135
  *         for item in range(self.frame.row_limit):
  *             value = rows[item]
  *             my_val = value.decode('utf-8')             # <<<<<<<<<<<<<<
  *             results.append(str(my_val))
  *         return results
  */
-    __pyx_t_6 = __Pyx_ssize_strlen(__pyx_v_value); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 125, __pyx_L1_error)
-    __pyx_t_1 = __Pyx_decode_c_string(__pyx_v_value, 0, __pyx_t_6, NULL, NULL, PyUnicode_DecodeUTF8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 125, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_ssize_strlen(__pyx_v_value); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 135, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_decode_c_string(__pyx_v_value, 0, __pyx_t_6, NULL, NULL, PyUnicode_DecodeUTF8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 135, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_my_val, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "neurograph/extractors.pyx":126
+    /* "neurograph/extractors.pyx":136
  *             value = rows[item]
  *             my_val = value.decode('utf-8')
  *             results.append(str(my_val))             # <<<<<<<<<<<<<<
  *         return results
  * 
  */
-    __pyx_t_1 = __Pyx_PyObject_Str(__pyx_v_my_val); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 126, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Str(__pyx_v_my_val); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 136, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_7 = __Pyx_PyList_Append(__pyx_v_results, __pyx_t_1); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(0, 126, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyList_Append(__pyx_v_results, __pyx_t_1); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(0, 136, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "neurograph/extractors.pyx":127
+  /* "neurograph/extractors.pyx":137
  *             my_val = value.decode('utf-8')
  *             results.append(str(my_val))
  *         return results             # <<<<<<<<<<<<<<
@@ -6009,7 +6351,7 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_28map_header(stru
   __pyx_r = __pyx_v_results;
   goto __pyx_L0;
 
-  /* "neurograph/extractors.pyx":119
+  /* "neurograph/extractors.pyx":129
  *         table.print_table(self.frame.frame)
  * 
  *     def map_header(self, col: str):             # <<<<<<<<<<<<<<
@@ -6038,15 +6380,15 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_28map_header(stru
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_31__reduce_cython__(PyObject *__pyx_v_self, 
+static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_33__reduce_cython__(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_10neurograph_10extractors_9DataFrame_31__reduce_cython__ = {"__reduce_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_31__reduce_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_31__reduce_cython__(PyObject *__pyx_v_self, 
+static PyMethodDef __pyx_mdef_10neurograph_10extractors_9DataFrame_33__reduce_cython__ = {"__reduce_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_33__reduce_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_33__reduce_cython__(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -6071,14 +6413,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   if (unlikely(__pyx_nargs > 0)) {
     __Pyx_RaiseArgtupleInvalid("__reduce_cython__", 1, 0, 0, __pyx_nargs); return NULL;}
   if (unlikely(__pyx_kwds) && __Pyx_NumKwargs_FASTCALL(__pyx_kwds) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "__reduce_cython__", 0))) return NULL;
-  __pyx_r = __pyx_pf_10neurograph_10extractors_9DataFrame_30__reduce_cython__(((struct __pyx_obj_10neurograph_10extractors_DataFrame *)__pyx_v_self));
+  __pyx_r = __pyx_pf_10neurograph_10extractors_9DataFrame_32__reduce_cython__(((struct __pyx_obj_10neurograph_10extractors_DataFrame *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_30__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self) {
+static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_32__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_lineno = 0;
@@ -6118,15 +6460,15 @@ static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_30__reduce_cython
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_33__setstate_cython__(PyObject *__pyx_v_self, 
+static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_35__setstate_cython__(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_10neurograph_10extractors_9DataFrame_33__setstate_cython__ = {"__setstate_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_33__setstate_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_33__setstate_cython__(PyObject *__pyx_v_self, 
+static PyMethodDef __pyx_mdef_10neurograph_10extractors_9DataFrame_35__setstate_cython__ = {"__setstate_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_35__setstate_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_10neurograph_10extractors_9DataFrame_35__setstate_cython__(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -6200,7 +6542,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_10neurograph_10extractors_9DataFrame_32__setstate_cython__(((struct __pyx_obj_10neurograph_10extractors_DataFrame *)__pyx_v_self), __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_10neurograph_10extractors_9DataFrame_34__setstate_cython__(((struct __pyx_obj_10neurograph_10extractors_DataFrame *)__pyx_v_self), __pyx_v___pyx_state);
 
   /* function exit code */
   {
@@ -6213,7 +6555,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_32__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_10neurograph_10extractors_9DataFrame_34__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10neurograph_10extractors_DataFrame *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_lineno = 0;
@@ -6297,13 +6639,14 @@ static PyMethodDef __pyx_methods_10neurograph_10extractors_DataFrame[] = {
   {"cols", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_15cols, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
   {"drop_cols", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_17drop_cols, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
   {"rows", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_19rows, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
-  {"html", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_21html, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
-  {"sum", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_23sum, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
-  {"subtract", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_25subtract, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
-  {"map_debug", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_27map_debug, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
-  {"map_header", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_29map_header, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
-  {"__reduce_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_31__reduce_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
-  {"__setstate_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_33__setstate_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
+  {"to_matrix", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_21to_matrix, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
+  {"html", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_23html, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
+  {"sum", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_25sum, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
+  {"subtract", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_27subtract, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
+  {"map_debug", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_29map_debug, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
+  {"map_header", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_31map_header, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
+  {"__reduce_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_33__reduce_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
+  {"__setstate_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_10neurograph_10extractors_9DataFrame_35__setstate_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
   {0, 0, 0, 0}
 };
 #if CYTHON_USE_TYPE_SPECS
@@ -6436,13 +6779,14 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_n_s_DataFrame_rows, __pyx_k_DataFrame_rows, sizeof(__pyx_k_DataFrame_rows), 0, 0, 1, 1},
     {&__pyx_n_s_DataFrame_subtract, __pyx_k_DataFrame_subtract, sizeof(__pyx_k_DataFrame_subtract), 0, 0, 1, 1},
     {&__pyx_n_s_DataFrame_sum, __pyx_k_DataFrame_sum, sizeof(__pyx_k_DataFrame_sum), 0, 0, 1, 1},
+    {&__pyx_n_s_DataFrame_to_matrix, __pyx_k_DataFrame_to_matrix, sizeof(__pyx_k_DataFrame_to_matrix), 0, 0, 1, 1},
     {&__pyx_n_s_DataFrame_view_selected_features, __pyx_k_DataFrame_view_selected_features, sizeof(__pyx_k_DataFrame_view_selected_features), 0, 0, 1, 1},
     {&__pyx_n_s_MemoryError, __pyx_k_MemoryError, sizeof(__pyx_k_MemoryError), 0, 0, 1, 1},
     {&__pyx_kp_s_Neurograph_only_supports_2_colum, __pyx_k_Neurograph_only_supports_2_colum, sizeof(__pyx_k_Neurograph_only_supports_2_colum), 0, 0, 1, 0},
     {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
     {&__pyx_kp_u__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 1, 0, 0},
-    {&__pyx_n_s__28, __pyx_k__28, sizeof(__pyx_k__28), 0, 0, 1, 1},
     {&__pyx_n_s__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 0, 1, 1},
+    {&__pyx_n_s__30, __pyx_k__30, sizeof(__pyx_k__30), 0, 0, 1, 1},
     {&__pyx_n_s_append, __pyx_k_append, sizeof(__pyx_k_append), 0, 0, 1, 1},
     {&__pyx_n_s_asyncio_coroutines, __pyx_k_asyncio_coroutines, sizeof(__pyx_k_asyncio_coroutines), 0, 0, 1, 1},
     {&__pyx_n_s_buffer_size, __pyx_k_buffer_size, sizeof(__pyx_k_buffer_size), 0, 0, 1, 1},
@@ -6482,6 +6826,7 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
     {&__pyx_n_s_map_debug, __pyx_k_map_debug, sizeof(__pyx_k_map_debug), 0, 0, 1, 1},
     {&__pyx_n_s_map_header, __pyx_k_map_header, sizeof(__pyx_k_map_header), 0, 0, 1, 1},
+    {&__pyx_n_s_matrix, __pyx_k_matrix, sizeof(__pyx_k_matrix), 0, 0, 1, 1},
     {&__pyx_n_s_memory_size, __pyx_k_memory_size, sizeof(__pyx_k_memory_size), 0, 0, 1, 1},
     {&__pyx_n_s_my_val, __pyx_k_my_val, sizeof(__pyx_k_my_val), 0, 0, 1, 1},
     {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
@@ -6505,6 +6850,7 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_n_s_row_limit, __pyx_k_row_limit, sizeof(__pyx_k_row_limit), 0, 0, 1, 1},
     {&__pyx_n_s_rows, __pyx_k_rows, sizeof(__pyx_k_rows), 0, 0, 1, 1},
     {&__pyx_n_s_rows_dict, __pyx_k_rows_dict, sizeof(__pyx_k_rows_dict), 0, 0, 1, 1},
+    {&__pyx_n_s_selected_cols, __pyx_k_selected_cols, sizeof(__pyx_k_selected_cols), 0, 0, 1, 1},
     {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
     {&__pyx_n_s_setstate, __pyx_k_setstate, sizeof(__pyx_k_setstate), 0, 0, 1, 1},
     {&__pyx_n_s_setstate_cython, __pyx_k_setstate_cython, sizeof(__pyx_k_setstate_cython), 0, 0, 1, 1},
@@ -6521,6 +6867,8 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_n_s_temp_array, __pyx_k_temp_array, sizeof(__pyx_k_temp_array), 0, 0, 1, 1},
     {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
     {&__pyx_n_s_thing, __pyx_k_thing, sizeof(__pyx_k_thing), 0, 0, 1, 1},
+    {&__pyx_n_s_to_matrix, __pyx_k_to_matrix, sizeof(__pyx_k_to_matrix), 0, 0, 1, 1},
+    {&__pyx_n_s_utf8, __pyx_k_utf8, sizeof(__pyx_k_utf8), 0, 0, 1, 1},
     {&__pyx_kp_s_utf_8, __pyx_k_utf_8, sizeof(__pyx_k_utf_8), 0, 0, 1, 0},
     {&__pyx_n_s_value, __pyx_k_value, sizeof(__pyx_k_value), 0, 0, 1, 1},
     {&__pyx_n_s_values, __pyx_k_values, sizeof(__pyx_k_values), 0, 0, 1, 1},
@@ -6532,10 +6880,10 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
 }
 /* #### Code section: cached_builtins ### */
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(0, 19, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 47, __pyx_L1_error)
-  __pyx_builtin_zip = __Pyx_GetBuiltinName(__pyx_n_s_zip); if (!__pyx_builtin_zip) __PYX_ERR(0, 82, __pyx_L1_error)
-  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 89, __pyx_L1_error)
+  __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_builtin_zip = __Pyx_GetBuiltinName(__pyx_n_s_zip); if (!__pyx_builtin_zip) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 99, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
@@ -6547,164 +6895,176 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "neurograph/extractors.pyx":89
+  /* "neurograph/extractors.pyx":99
  * 
  *         if len(cols) > 2:
  *             print("Neurograph only supports 2 columns for ops")             # <<<<<<<<<<<<<<
  *             sys.exit(0)
  * 
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_Neurograph_only_supports_2_colum); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 89, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_Neurograph_only_supports_2_colum); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "neurograph/extractors.pyx":25
+  /* "neurograph/extractors.pyx":26
  *         self.row_limit = row_limit
  * 
  *     def features(self):             # <<<<<<<<<<<<<<
  *         fr.print_cols(self.frame)
  * 
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
-  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_extractors_pyx, __pyx_n_s_features, 25, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_extractors_pyx, __pyx_n_s_features, 26, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 26, __pyx_L1_error)
 
-  /* "neurograph/extractors.pyx":28
+  /* "neurograph/extractors.pyx":29
  *         fr.print_cols(self.frame)
  * 
  *     def view_selected_features(self):             # <<<<<<<<<<<<<<
  *         ll.print_array(self.selected_cols)
  * 
  */
-  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_extractors_pyx, __pyx_n_s_view_selected_features, 28, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_extractors_pyx, __pyx_n_s_view_selected_features, 29, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) __PYX_ERR(0, 29, __pyx_L1_error)
 
-  /* "neurograph/extractors.pyx":31
+  /* "neurograph/extractors.pyx":32
  *         ll.print_array(self.selected_cols)
  * 
  *     def header_count(self):             # <<<<<<<<<<<<<<
  *         return self.frame.header_count
  * 
  */
-  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_extractors_pyx, __pyx_n_s_header_count, 31, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_extractors_pyx, __pyx_n_s_header_count, 32, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) __PYX_ERR(0, 32, __pyx_L1_error)
 
-  /* "neurograph/extractors.pyx":34
+  /* "neurograph/extractors.pyx":35
  *         return self.frame.header_count
  * 
  *     def props(self):             # <<<<<<<<<<<<<<
  *         return {
  *             "buffer_size": self.frame.buffer_size,
  */
-  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_extractors_pyx, __pyx_n_s_props, 34, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_extractors_pyx, __pyx_n_s_props, 35, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) __PYX_ERR(0, 35, __pyx_L1_error)
 
-  /* "neurograph/extractors.pyx":45
+  /* "neurograph/extractors.pyx":46
  *         }
  * 
  *     def headers(self):             # <<<<<<<<<<<<<<
  *         header_list = []
  *         for i in range(self.frame.header_count):
  */
-  __pyx_tuple__9 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_header_list, __pyx_n_s_i, __pyx_n_s_obj); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_tuple__9 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_header_list, __pyx_n_s_i, __pyx_n_s_obj); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
-  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_extractors_pyx, __pyx_n_s_headers, 45, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_extractors_pyx, __pyx_n_s_headers, 46, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 46, __pyx_L1_error)
 
-  /* "neurograph/extractors.pyx":55
+  /* "neurograph/extractors.pyx":56
  *         return header_list
  * 
  *     def cols(self):             # <<<<<<<<<<<<<<
  *         cols = []
  *         for i in range(self.frame.header_count):
  */
-  __pyx_tuple__11 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_cols, __pyx_n_s_i, __pyx_n_s_value); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __pyx_tuple__11 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_cols, __pyx_n_s_i, __pyx_n_s_value); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 56, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
-  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_extractors_pyx, __pyx_n_s_cols, 55, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_extractors_pyx, __pyx_n_s_cols, 56, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 56, __pyx_L1_error)
 
-  /* "neurograph/extractors.pyx":62
+  /* "neurograph/extractors.pyx":63
  *         return cols
  * 
  *     def drop_cols(self, cols: list):             # <<<<<<<<<<<<<<
  *         temp_array = ll.init_array()
  *         for item in cols:
  */
-  __pyx_tuple__13 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_cols, __pyx_n_s_temp_array, __pyx_n_s_item); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_tuple__13 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_cols, __pyx_n_s_temp_array, __pyx_n_s_item); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__13);
   __Pyx_GIVEREF(__pyx_tuple__13);
-  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_extractors_pyx, __pyx_n_s_drop_cols, 62, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_extractors_pyx, __pyx_n_s_drop_cols, 63, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 63, __pyx_L1_error)
 
-  /* "neurograph/extractors.pyx":71
+  /* "neurograph/extractors.pyx":72
  *         fr.drop_cols(self.frame, temp_array)
  * 
  *     def rows(self):             # <<<<<<<<<<<<<<
  *         result_dict = {}
  *         columns = self.cols()
  */
-  __pyx_tuple__15 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_result_dict, __pyx_n_s_columns, __pyx_n_s_item, __pyx_n_s_thing); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __pyx_tuple__15 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_result_dict, __pyx_n_s_columns, __pyx_n_s_item, __pyx_n_s_thing); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__15);
   __Pyx_GIVEREF(__pyx_tuple__15);
-  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_extractors_pyx, __pyx_n_s_rows, 71, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_extractors_pyx, __pyx_n_s_rows, 72, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 72, __pyx_L1_error)
 
-  /* "neurograph/extractors.pyx":80
+  /* "neurograph/extractors.pyx":81
  *         return result_dict
+ * 
+ *     def to_matrix(self, cols: list):             # <<<<<<<<<<<<<<
+ *         selected_cols = ll.init_array()
+ *         for item in cols:
+ */
+  __pyx_tuple__17 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_cols, __pyx_n_s_selected_cols, __pyx_n_s_item, __pyx_n_s_matrix); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__17);
+  __Pyx_GIVEREF(__pyx_tuple__17);
+  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_extractors_pyx, __pyx_n_s_to_matrix, 81, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(0, 81, __pyx_L1_error)
+
+  /* "neurograph/extractors.pyx":90
+ *         return matrix
  * 
  *     def html(self):             # <<<<<<<<<<<<<<
  *         rows_dict = self.rows()
  *         table = [dict(zip(rows_dict, row)) for row in zip(*rows_dict.values())]
  */
-  __pyx_tuple__17 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_rows_dict, __pyx_n_s_table, __pyx_n_s_html_table, __pyx_n_s_row); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 80, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__17);
-  __Pyx_GIVEREF(__pyx_tuple__17);
-  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_extractors_pyx, __pyx_n_s_html, 80, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_tuple__19 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_rows_dict, __pyx_n_s_table, __pyx_n_s_html_table, __pyx_n_s_row); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__19);
+  __Pyx_GIVEREF(__pyx_tuple__19);
+  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_extractors_pyx, __pyx_n_s_html, 90, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(0, 90, __pyx_L1_error)
 
-  /* "neurograph/extractors.pyx":86
+  /* "neurograph/extractors.pyx":96
  *         return html_table
  * 
  *     def sum(self, cols: list , result: str):             # <<<<<<<<<<<<<<
  * 
  *         if len(cols) > 2:
  */
-  __pyx_tuple__19 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_cols, __pyx_n_s_result, __pyx_n_s_col1_encode, __pyx_n_s_col2_encode); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 86, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__19);
-  __Pyx_GIVEREF(__pyx_tuple__19);
-  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(3, 0, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_extractors_pyx, __pyx_n_s_sum, 86, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __pyx_tuple__21 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_cols, __pyx_n_s_result, __pyx_n_s_col1_encode, __pyx_n_s_col2_encode); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 96, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__21);
+  __Pyx_GIVEREF(__pyx_tuple__21);
+  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(3, 0, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_extractors_pyx, __pyx_n_s_sum, 96, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 96, __pyx_L1_error)
 
-  /* "neurograph/extractors.pyx":101
+  /* "neurograph/extractors.pyx":111
  *         )
  * 
  *     def subtract(self, cols: list, result: str):             # <<<<<<<<<<<<<<
  * 
  *         if len(cols) > 2:
  */
-  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(3, 0, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_extractors_pyx, __pyx_n_s_subtract, 101, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(0, 101, __pyx_L1_error)
+  __pyx_codeobj__23 = (PyObject*)__Pyx_PyCode_New(3, 0, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_extractors_pyx, __pyx_n_s_subtract, 111, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__23)) __PYX_ERR(0, 111, __pyx_L1_error)
 
-  /* "neurograph/extractors.pyx":116
+  /* "neurograph/extractors.pyx":126
  *         )
  * 
  *     def map_debug(self):             # <<<<<<<<<<<<<<
  *         table.print_table(self.frame.frame)
  * 
  */
-  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_extractors_pyx, __pyx_n_s_map_debug, 116, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 116, __pyx_L1_error)
+  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_extractors_pyx, __pyx_n_s_map_debug, 126, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 126, __pyx_L1_error)
 
-  /* "neurograph/extractors.pyx":119
+  /* "neurograph/extractors.pyx":129
  *         table.print_table(self.frame.frame)
  * 
  *     def map_header(self, col: str):             # <<<<<<<<<<<<<<
  *         results = []
  *         header = col.encode('utf-8')
  */
-  __pyx_tuple__23 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_col, __pyx_n_s_results, __pyx_n_s_header, __pyx_n_s_rows, __pyx_n_s_item, __pyx_n_s_value, __pyx_n_s_my_val); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 119, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__23);
-  __Pyx_GIVEREF(__pyx_tuple__23);
-  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_extractors_pyx, __pyx_n_s_map_header, 119, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 119, __pyx_L1_error)
+  __pyx_tuple__25 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_col, __pyx_n_s_results, __pyx_n_s_header, __pyx_n_s_rows, __pyx_n_s_item, __pyx_n_s_value, __pyx_n_s_my_val); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 129, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__25);
+  __Pyx_GIVEREF(__pyx_tuple__25);
+  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_neurograph_extractors_pyx, __pyx_n_s_map_header, 129, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(0, 129, __pyx_L1_error)
 
   /* "(tree fragment)":1
  * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
  *     raise TypeError, "no default __reduce__ due to non-trivial __cinit__"
  * def __setstate_cython__(self, __pyx_state):
  */
-  __pyx_codeobj__25 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_reduce_cython, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__25)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_codeobj__27 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_reduce_cython, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__27)) __PYX_ERR(1, 1, __pyx_L1_error)
 
   /* "(tree fragment)":3
  * def __reduce_cython__(self):
@@ -6712,10 +7072,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     raise TypeError, "no default __reduce__ due to non-trivial __cinit__"
  */
-  __pyx_tuple__26 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_pyx_state); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(1, 3, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__26);
-  __Pyx_GIVEREF(__pyx_tuple__26);
-  __pyx_codeobj__27 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__26, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_setstate_cython, 3, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__27)) __PYX_ERR(1, 3, __pyx_L1_error)
+  __pyx_tuple__28 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_pyx_state); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(1, 3, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__28);
+  __Pyx_GIVEREF(__pyx_tuple__28);
+  __pyx_codeobj__29 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__28, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_setstate_cython, 3, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__29)) __PYX_ERR(1, 3, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -6781,15 +7141,15 @@ static int __Pyx_modinit_type_init_code(void) {
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
   #if CYTHON_USE_TYPE_SPECS
-  __pyx_ptype_10neurograph_10extractors_DataFrame = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_10neurograph_10extractors_DataFrame_spec, NULL); if (unlikely(!__pyx_ptype_10neurograph_10extractors_DataFrame)) __PYX_ERR(0, 9, __pyx_L1_error)
-  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_10neurograph_10extractors_DataFrame_spec, __pyx_ptype_10neurograph_10extractors_DataFrame) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_ptype_10neurograph_10extractors_DataFrame = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_10neurograph_10extractors_DataFrame_spec, NULL); if (unlikely(!__pyx_ptype_10neurograph_10extractors_DataFrame)) __PYX_ERR(0, 10, __pyx_L1_error)
+  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_10neurograph_10extractors_DataFrame_spec, __pyx_ptype_10neurograph_10extractors_DataFrame) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
   #else
   __pyx_ptype_10neurograph_10extractors_DataFrame = &__pyx_type_10neurograph_10extractors_DataFrame;
   #endif
   #if !CYTHON_COMPILING_IN_LIMITED_API
   #endif
   #if !CYTHON_USE_TYPE_SPECS
-  if (__Pyx_PyType_Ready(__pyx_ptype_10neurograph_10extractors_DataFrame) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
+  if (__Pyx_PyType_Ready(__pyx_ptype_10neurograph_10extractors_DataFrame) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
   #endif
   #if PY_MAJOR_VERSION < 3
   __pyx_ptype_10neurograph_10extractors_DataFrame->tp_print = 0;
@@ -6799,9 +7159,9 @@ static int __Pyx_modinit_type_init_code(void) {
     __pyx_ptype_10neurograph_10extractors_DataFrame->tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
   #endif
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_DataFrame, (PyObject *) __pyx_ptype_10neurograph_10extractors_DataFrame) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_DataFrame, (PyObject *) __pyx_ptype_10neurograph_10extractors_DataFrame) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
   #if !CYTHON_COMPILING_IN_LIMITED_API
-  if (__Pyx_setup_reduce((PyObject *) __pyx_ptype_10neurograph_10extractors_DataFrame) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject *) __pyx_ptype_10neurograph_10extractors_DataFrame) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
   #endif
   __Pyx_RefNannyFinishContext();
   return 0;
@@ -6812,10 +7172,22 @@ static int __Pyx_modinit_type_init_code(void) {
 
 static int __Pyx_modinit_type_import_code(void) {
   __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_import_code", 0);
   /*--- Type import code ---*/
+  __pyx_t_1 = PyImport_ImportModule("neurograph.structures"); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_ptype_10neurograph_10structures_Matrix = __Pyx_ImportType_3_0_4(__pyx_t_1, "neurograph.structures", "Matrix", sizeof(struct __pyx_obj_10neurograph_10structures_Matrix), __PYX_GET_STRUCT_ALIGNMENT_3_0_4(struct __pyx_obj_10neurograph_10structures_Matrix),__Pyx_ImportType_CheckSize_Warn_3_0_4); if (!__pyx_ptype_10neurograph_10structures_Matrix) __PYX_ERR(2, 5, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();
   return 0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_RefNannyFinishContext();
+  return -1;
 }
 
 static int __Pyx_modinit_variable_import_code(void) {
@@ -7107,7 +7479,7 @@ if (!__Pyx_RefNanny) {
   (void)__Pyx_modinit_variable_export_code();
   (void)__Pyx_modinit_function_export_code();
   if (unlikely((__Pyx_modinit_type_init_code() < 0))) __PYX_ERR(0, 1, __pyx_L1_error)
-  (void)__Pyx_modinit_type_import_code();
+  if (unlikely((__Pyx_modinit_type_import_code() < 0))) __PYX_ERR(0, 1, __pyx_L1_error)
   (void)__Pyx_modinit_variable_import_code();
   (void)__Pyx_modinit_function_import_code();
   /*--- Execution code ---*/
@@ -7115,228 +7487,246 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "neurograph/extractors.pyx":6
- * cimport libneurograph.data_structures.cmatrix as matrix
+  /* "neurograph/extractors.pyx":7
  * cimport libneurograph.data_structures.ctable as table
+ * from neurograph.structures cimport Matrix
  * from tabulate import tabulate             # <<<<<<<<<<<<<<
  * import sys
  * 
  */
-  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_tabulate);
   __Pyx_GIVEREF(__pyx_n_s_tabulate);
-  if (__Pyx_PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_tabulate)) __PYX_ERR(0, 6, __pyx_L1_error);
-  __pyx_t_3 = __Pyx_Import(__pyx_n_s_tabulate, __pyx_t_2, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 6, __pyx_L1_error)
+  if (__Pyx_PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_tabulate)) __PYX_ERR(0, 7, __pyx_L1_error);
+  __pyx_t_3 = __Pyx_Import(__pyx_n_s_tabulate, __pyx_t_2, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_3, __pyx_n_s_tabulate); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_3, __pyx_n_s_tabulate); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_tabulate, __pyx_t_2) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_tabulate, __pyx_t_2) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "neurograph/extractors.pyx":7
- * cimport libneurograph.data_structures.ctable as table
+  /* "neurograph/extractors.pyx":8
+ * from neurograph.structures cimport Matrix
  * from tabulate import tabulate
  * import sys             # <<<<<<<<<<<<<<
  * 
  * cdef class DataFrame:
  */
-  __pyx_t_3 = __Pyx_ImportDottedModule(__pyx_n_s_sys, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_ImportDottedModule(__pyx_n_s_sys, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_sys, __pyx_t_3) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_sys, __pyx_t_3) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "neurograph/extractors.pyx":25
+  /* "neurograph/extractors.pyx":26
  *         self.row_limit = row_limit
  * 
  *     def features(self):             # <<<<<<<<<<<<<<
  *         fr.print_cols(self.frame)
  * 
  */
-  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_5features, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame_features, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__5)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_5features, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame_features, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__5)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_10extractors_DataFrame, __pyx_n_s_features, __pyx_t_3) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_10extractors_DataFrame, __pyx_n_s_features, __pyx_t_3) < 0) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   PyType_Modified(__pyx_ptype_10neurograph_10extractors_DataFrame);
 
-  /* "neurograph/extractors.pyx":28
+  /* "neurograph/extractors.pyx":29
  *         fr.print_cols(self.frame)
  * 
  *     def view_selected_features(self):             # <<<<<<<<<<<<<<
  *         ll.print_array(self.selected_cols)
  * 
  */
-  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_7view_selected_features, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame_view_selected_features, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__6)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_7view_selected_features, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame_view_selected_features, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__6)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_10extractors_DataFrame, __pyx_n_s_view_selected_features, __pyx_t_3) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_10extractors_DataFrame, __pyx_n_s_view_selected_features, __pyx_t_3) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   PyType_Modified(__pyx_ptype_10neurograph_10extractors_DataFrame);
 
-  /* "neurograph/extractors.pyx":31
+  /* "neurograph/extractors.pyx":32
  *         ll.print_array(self.selected_cols)
  * 
  *     def header_count(self):             # <<<<<<<<<<<<<<
  *         return self.frame.header_count
  * 
  */
-  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_9header_count, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame_header_count, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__7)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_9header_count, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame_header_count, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__7)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_10extractors_DataFrame, __pyx_n_s_header_count, __pyx_t_3) < 0) __PYX_ERR(0, 31, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_10extractors_DataFrame, __pyx_n_s_header_count, __pyx_t_3) < 0) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   PyType_Modified(__pyx_ptype_10neurograph_10extractors_DataFrame);
 
-  /* "neurograph/extractors.pyx":34
+  /* "neurograph/extractors.pyx":35
  *         return self.frame.header_count
  * 
  *     def props(self):             # <<<<<<<<<<<<<<
  *         return {
  *             "buffer_size": self.frame.buffer_size,
  */
-  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_11props, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame_props, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__8)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_11props, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame_props, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__8)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_10extractors_DataFrame, __pyx_n_s_props, __pyx_t_3) < 0) __PYX_ERR(0, 34, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_10extractors_DataFrame, __pyx_n_s_props, __pyx_t_3) < 0) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   PyType_Modified(__pyx_ptype_10neurograph_10extractors_DataFrame);
 
-  /* "neurograph/extractors.pyx":45
+  /* "neurograph/extractors.pyx":46
  *         }
  * 
  *     def headers(self):             # <<<<<<<<<<<<<<
  *         header_list = []
  *         for i in range(self.frame.header_count):
  */
-  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_13headers, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame_headers, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__10)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_13headers, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame_headers, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__10)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_10extractors_DataFrame, __pyx_n_s_headers, __pyx_t_3) < 0) __PYX_ERR(0, 45, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_10extractors_DataFrame, __pyx_n_s_headers, __pyx_t_3) < 0) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   PyType_Modified(__pyx_ptype_10neurograph_10extractors_DataFrame);
 
-  /* "neurograph/extractors.pyx":55
+  /* "neurograph/extractors.pyx":56
  *         return header_list
  * 
  *     def cols(self):             # <<<<<<<<<<<<<<
  *         cols = []
  *         for i in range(self.frame.header_count):
  */
-  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_15cols, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame_cols, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__12)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_15cols, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame_cols, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__12)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 56, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_10extractors_DataFrame, __pyx_n_s_cols, __pyx_t_3) < 0) __PYX_ERR(0, 55, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_10extractors_DataFrame, __pyx_n_s_cols, __pyx_t_3) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   PyType_Modified(__pyx_ptype_10neurograph_10extractors_DataFrame);
 
-  /* "neurograph/extractors.pyx":62
+  /* "neurograph/extractors.pyx":63
  *         return cols
  * 
  *     def drop_cols(self, cols: list):             # <<<<<<<<<<<<<<
  *         temp_array = ll.init_array()
  *         for item in cols:
  */
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_cols, __pyx_n_s_list) < 0) __PYX_ERR(0, 62, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_17drop_cols, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame_drop_cols, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__14)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 62, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_cols, __pyx_n_s_list) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_17drop_cols, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame_drop_cols, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__14)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_2, __pyx_t_3);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_10extractors_DataFrame, __pyx_n_s_drop_cols, __pyx_t_2) < 0) __PYX_ERR(0, 62, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_10extractors_DataFrame, __pyx_n_s_drop_cols, __pyx_t_2) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   PyType_Modified(__pyx_ptype_10neurograph_10extractors_DataFrame);
 
-  /* "neurograph/extractors.pyx":71
+  /* "neurograph/extractors.pyx":72
  *         fr.drop_cols(self.frame, temp_array)
  * 
  *     def rows(self):             # <<<<<<<<<<<<<<
  *         result_dict = {}
  *         columns = self.cols()
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_19rows, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame_rows, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__16)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_19rows, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame_rows, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__16)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_10extractors_DataFrame, __pyx_n_s_rows, __pyx_t_2) < 0) __PYX_ERR(0, 71, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_10extractors_DataFrame, __pyx_n_s_rows, __pyx_t_2) < 0) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   PyType_Modified(__pyx_ptype_10neurograph_10extractors_DataFrame);
 
-  /* "neurograph/extractors.pyx":80
+  /* "neurograph/extractors.pyx":81
  *         return result_dict
+ * 
+ *     def to_matrix(self, cols: list):             # <<<<<<<<<<<<<<
+ *         selected_cols = ll.init_array()
+ *         for item in cols:
+ */
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_cols, __pyx_n_s_list) < 0) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_21to_matrix, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame_to_matrix, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__18)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_3, __pyx_t_2);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_10extractors_DataFrame, __pyx_n_s_to_matrix, __pyx_t_3) < 0) __PYX_ERR(0, 81, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  PyType_Modified(__pyx_ptype_10neurograph_10extractors_DataFrame);
+
+  /* "neurograph/extractors.pyx":90
+ *         return matrix
  * 
  *     def html(self):             # <<<<<<<<<<<<<<
  *         rows_dict = self.rows()
  *         table = [dict(zip(rows_dict, row)) for row in zip(*rows_dict.values())]
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_21html, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame_html, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__18)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 80, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_10extractors_DataFrame, __pyx_n_s_html, __pyx_t_2) < 0) __PYX_ERR(0, 80, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_23html, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame_html, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__20)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_10extractors_DataFrame, __pyx_n_s_html, __pyx_t_3) < 0) __PYX_ERR(0, 90, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   PyType_Modified(__pyx_ptype_10neurograph_10extractors_DataFrame);
 
-  /* "neurograph/extractors.pyx":86
+  /* "neurograph/extractors.pyx":96
  *         return html_table
  * 
  *     def sum(self, cols: list , result: str):             # <<<<<<<<<<<<<<
  * 
  *         if len(cols) > 2:
  */
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 86, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_cols, __pyx_n_s_list) < 0) __PYX_ERR(0, 86, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_result, __pyx_n_s_str) < 0) __PYX_ERR(0, 86, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_23sum, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame_sum, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__20)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 96, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_3, __pyx_t_2);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_10extractors_DataFrame, __pyx_n_s_sum, __pyx_t_3) < 0) __PYX_ERR(0, 86, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_cols, __pyx_n_s_list) < 0) __PYX_ERR(0, 96, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_result, __pyx_n_s_str) < 0) __PYX_ERR(0, 96, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_25sum, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame_sum, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__22)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_2, __pyx_t_3);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_10extractors_DataFrame, __pyx_n_s_sum, __pyx_t_2) < 0) __PYX_ERR(0, 96, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   PyType_Modified(__pyx_ptype_10neurograph_10extractors_DataFrame);
 
-  /* "neurograph/extractors.pyx":101
+  /* "neurograph/extractors.pyx":111
  *         )
  * 
  *     def subtract(self, cols: list, result: str):             # <<<<<<<<<<<<<<
  * 
  *         if len(cols) > 2:
  */
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 101, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_cols, __pyx_n_s_list) < 0) __PYX_ERR(0, 101, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_result, __pyx_n_s_str) < 0) __PYX_ERR(0, 101, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_25subtract, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame_subtract, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__21)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 101, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_2, __pyx_t_3);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_10extractors_DataFrame, __pyx_n_s_subtract, __pyx_t_2) < 0) __PYX_ERR(0, 101, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_cols, __pyx_n_s_list) < 0) __PYX_ERR(0, 111, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_result, __pyx_n_s_str) < 0) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_27subtract, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame_subtract, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__23)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_3, __pyx_t_2);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_10extractors_DataFrame, __pyx_n_s_subtract, __pyx_t_3) < 0) __PYX_ERR(0, 111, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   PyType_Modified(__pyx_ptype_10neurograph_10extractors_DataFrame);
 
-  /* "neurograph/extractors.pyx":116
+  /* "neurograph/extractors.pyx":126
  *         )
  * 
  *     def map_debug(self):             # <<<<<<<<<<<<<<
  *         table.print_table(self.frame.frame)
  * 
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_27map_debug, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame_map_debug, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__22)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 116, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_10extractors_DataFrame, __pyx_n_s_map_debug, __pyx_t_2) < 0) __PYX_ERR(0, 116, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_29map_debug, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame_map_debug, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__24)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 126, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_10extractors_DataFrame, __pyx_n_s_map_debug, __pyx_t_3) < 0) __PYX_ERR(0, 126, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   PyType_Modified(__pyx_ptype_10neurograph_10extractors_DataFrame);
 
-  /* "neurograph/extractors.pyx":119
+  /* "neurograph/extractors.pyx":129
  *         table.print_table(self.frame.frame)
  * 
  *     def map_header(self, col: str):             # <<<<<<<<<<<<<<
  *         results = []
  *         header = col.encode('utf-8')
  */
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 119, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_col, __pyx_n_s_str) < 0) __PYX_ERR(0, 119, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_29map_header, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame_map_header, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__24)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 119, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_3, __pyx_t_2);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_10extractors_DataFrame, __pyx_n_s_map_header, __pyx_t_3) < 0) __PYX_ERR(0, 119, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_col, __pyx_n_s_str) < 0) __PYX_ERR(0, 129, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_31map_header, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame_map_header, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__26)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 129, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_2, __pyx_t_3);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_10neurograph_10extractors_DataFrame, __pyx_n_s_map_header, __pyx_t_2) < 0) __PYX_ERR(0, 129, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   PyType_Modified(__pyx_ptype_10neurograph_10extractors_DataFrame);
 
   /* "(tree fragment)":1
@@ -7344,10 +7734,10 @@ if (!__Pyx_RefNanny) {
  *     raise TypeError, "no default __reduce__ due to non-trivial __cinit__"
  * def __setstate_cython__(self, __pyx_state):
  */
-  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_31__reduce_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame___reduce_cython, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__25)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_reduce_cython, __pyx_t_3) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_33__reduce_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame___reduce_cython, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__27)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_reduce_cython, __pyx_t_2) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "(tree fragment)":3
  * def __reduce_cython__(self):
@@ -7355,20 +7745,20 @@ if (!__Pyx_RefNanny) {
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     raise TypeError, "no default __reduce__ due to non-trivial __cinit__"
  */
-  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_33__setstate_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame___setstate_cython, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__27)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 3, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_setstate_cython, __pyx_t_3) < 0) __PYX_ERR(1, 3, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_10neurograph_10extractors_9DataFrame_35__setstate_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_DataFrame___setstate_cython, NULL, __pyx_n_s_neurograph_extractors, __pyx_d, ((PyObject *)__pyx_codeobj__29)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 3, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_setstate_cython, __pyx_t_2) < 0) __PYX_ERR(1, 3, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "neurograph/extractors.pyx":1
  * cimport libneurograph.extractors.cframe as fr             # <<<<<<<<<<<<<<
  * cimport libneurograph.extractors.coperations as ops
  * cimport libneurograph.data_structures.clist as ll
  */
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_3) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /*--- Wrapped vars code ---*/
 
@@ -9391,6 +9781,86 @@ __PYX_GOOD:
     Py_XDECREF(setstate);
     Py_XDECREF(setstate_cython);
     return ret;
+}
+#endif
+
+/* TypeImport */
+#ifndef __PYX_HAVE_RT_ImportType_3_0_4
+#define __PYX_HAVE_RT_ImportType_3_0_4
+static PyTypeObject *__Pyx_ImportType_3_0_4(PyObject *module, const char *module_name, const char *class_name,
+    size_t size, size_t alignment, enum __Pyx_ImportType_CheckSize_3_0_4 check_size)
+{
+    PyObject *result = 0;
+    char warning[200];
+    Py_ssize_t basicsize;
+    Py_ssize_t itemsize;
+#if CYTHON_COMPILING_IN_LIMITED_API
+    PyObject *py_basicsize;
+    PyObject *py_itemsize;
+#endif
+    result = PyObject_GetAttrString(module, class_name);
+    if (!result)
+        goto bad;
+    if (!PyType_Check(result)) {
+        PyErr_Format(PyExc_TypeError,
+            "%.200s.%.200s is not a type object",
+            module_name, class_name);
+        goto bad;
+    }
+#if !CYTHON_COMPILING_IN_LIMITED_API
+    basicsize = ((PyTypeObject *)result)->tp_basicsize;
+    itemsize = ((PyTypeObject *)result)->tp_itemsize;
+#else
+    py_basicsize = PyObject_GetAttrString(result, "__basicsize__");
+    if (!py_basicsize)
+        goto bad;
+    basicsize = PyLong_AsSsize_t(py_basicsize);
+    Py_DECREF(py_basicsize);
+    py_basicsize = 0;
+    if (basicsize == (Py_ssize_t)-1 && PyErr_Occurred())
+        goto bad;
+    py_itemsize = PyObject_GetAttrString(result, "__itemsize__");
+    if (!py_itemsize)
+        goto bad;
+    itemsize = PyLong_AsSsize_t(py_itemsize);
+    Py_DECREF(py_itemsize);
+    py_itemsize = 0;
+    if (itemsize == (Py_ssize_t)-1 && PyErr_Occurred())
+        goto bad;
+#endif
+    if (itemsize) {
+        if (size % alignment) {
+            alignment = size % alignment;
+        }
+        if (itemsize < (Py_ssize_t)alignment)
+            itemsize = (Py_ssize_t)alignment;
+    }
+    if ((size_t)(basicsize + itemsize) < size) {
+        PyErr_Format(PyExc_ValueError,
+            "%.200s.%.200s size changed, may indicate binary incompatibility. "
+            "Expected %zd from C header, got %zd from PyObject",
+            module_name, class_name, size, basicsize+itemsize);
+        goto bad;
+    }
+    if (check_size == __Pyx_ImportType_CheckSize_Error_3_0_4 &&
+            ((size_t)basicsize > size || (size_t)(basicsize + itemsize) < size)) {
+        PyErr_Format(PyExc_ValueError,
+            "%.200s.%.200s size changed, may indicate binary incompatibility. "
+            "Expected %zd from C header, got %zd-%zd from PyObject",
+            module_name, class_name, size, basicsize, basicsize+itemsize);
+        goto bad;
+    }
+    else if (check_size == __Pyx_ImportType_CheckSize_Warn_3_0_4 && (size_t)basicsize > size) {
+        PyOS_snprintf(warning, sizeof(warning),
+            "%s.%s size changed, may indicate binary incompatibility. "
+            "Expected %zd from C header, got %zd from PyObject",
+            module_name, class_name, size, basicsize);
+        if (PyErr_WarnEx(NULL, warning, 0) < 0) goto bad;
+    }
+    return (PyTypeObject *)result;
+bad:
+    Py_XDECREF(result);
+    return NULL;
 }
 #endif
 
@@ -11547,7 +12017,7 @@ __Pyx_PyType_GetName(PyTypeObject* tp)
     if (unlikely(name == NULL) || unlikely(!PyUnicode_Check(name))) {
         PyErr_Clear();
         Py_XDECREF(name);
-        name = __Pyx_NewRef(__pyx_n_s__28);
+        name = __Pyx_NewRef(__pyx_n_s__30);
     }
     return name;
 }

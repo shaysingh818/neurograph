@@ -41,7 +41,8 @@ void randomize(mat_t *mat, int n);
 void print_matrix(mat_t *mat);
 void fill_mat(mat_t *m, int n); 
 void save_matrix(mat_t *m, char *filename);   
-void copy_matrix_values(mat_t *m, mat_t *n); 
+void copy_matrix_values(mat_t *m, mat_t *n);
+void entry(mat_t *m, int row, int col, double value); 
 
 /* matrix operations*/
 mat_t *scalar_multiply(mat_t *v1, double value);

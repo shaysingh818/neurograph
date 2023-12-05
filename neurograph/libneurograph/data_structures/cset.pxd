@@ -1,7 +1,7 @@
 cimport libneurograph.data_structures.cqueue as queue
 cimport libneurograph.data_structures.cnode as node
 
-cdef extern from "<neurograph/data_structures/set/includes/set.h>":
+cdef extern from "<data_structures/set/includes/set.h>":
 
     struct Set:
         node.Node *root

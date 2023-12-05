@@ -1,6 +1,6 @@
 cimport libneurograph.data_structures.cnode as node
 
-cdef extern from "<neurograph/data_structures/list/includes/array.h>":
+cdef extern from "<data_structures/list/includes/array.h>":
 
     struct Array:
         int capacity
@@ -20,7 +20,7 @@ cdef extern from "<neurograph/data_structures/list/includes/array.h>":
     void print_array(Array *a)   
 
 
-cdef extern from "<neurograph/data_structures/list/includes/adj_list.h>":
+cdef extern from "<data_structures/list/includes/adj_list.h>":
 
     struct AdjacencyList:
         int v

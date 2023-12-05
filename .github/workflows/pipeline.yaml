@@ -8,7 +8,7 @@ on:
 
 jobs:
 
-  build-core-packages:
+  build-install-packages:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -17,27 +17,32 @@ jobs:
     - name: Data Structures Package
       working-directory: src/data_structures/
       run: |
-        make
+        sudo make
+        sudo make install
 
     - name: Extractors Package
       working-directory: src/extractors/
       run: |
-        make package
+        sudo make
+        sudo make install
         
     - name: Graph Package
       working-directory: src/graph/
       run: |
-        make package
+        sudo make
+        sudo make install
 
     - name: Computation Graph Package
       working-directory: src/computation_graph/
       run: |
-        make package
+        sudo make
+        sudo make install
 
     - name: Deep Learning Package
       working-directory: src/networks/
       run: |
-        make package
+        sudo make
+        sudo make install
 
     - name: Neurograph
       working-directory: src/

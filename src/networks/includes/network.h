@@ -12,7 +12,7 @@
 #include "layer.h"
 
 #define DEBUG false
-#define NETWORK_DEBUG false
+#define NETWORK_DEBUG true
 
 struct Network {
     int num_layers, layer_count, batch_size;

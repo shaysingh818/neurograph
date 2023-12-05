@@ -57,9 +57,10 @@ layer_t *linear(int set_input_size, int set_output_size) {
     layer->op_count = 2;
 
     /* set layer name  */
-    size_t alias_size = strlen("linear")+1;
+    char *type = "linear"; 
+    size_t alias_size = strlen(type)+1;
     layer->layer_name = malloc(alias_size * sizeof(char)); 
-    strcpy(layer->layer_name, "linear");
+    strcpy(layer->layer_name, type);
 
     return layer;  
 }

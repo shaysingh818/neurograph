@@ -108,11 +108,11 @@ class TestFrame(unittest.TestCase):
         df = DataFrame("../examples/data/ms_prediction.csv", 10)
         self.assertEqual(len(df.headers()), 20) 
 
-        x = Matrix(df, cols=["Schooling", "Age", "Gender"])
+        x = df.to_matrix(cols=["Schooling", "Age", "Gender"])
         self.assertEqual(x.rows(), 10)
         self.assertEqual(x.cols(), 3)
 
-        y = Matrix(df, ["group"])
+        y = df.to_matrix(cols=["group"])
         self.assertEqual(y.rows(), 10)
         self.assertEqual(y.cols(), 1)
 

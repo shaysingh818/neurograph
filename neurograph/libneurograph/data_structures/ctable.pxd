@@ -1,6 +1,6 @@
 cimport libneurograph.data_structures.chash as hash
 
-cdef extern from "<neurograph/data_structures/map/includes/table.h>":
+cdef extern from "<data_structures/map/includes/table.h>":
 
     struct Bin:
         bint is_free

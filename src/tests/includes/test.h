@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>  
-#include "../../data_structures/includes/array.h" 
+#include <data_structures/includes/array.h> 
 #include "../../extractors/includes/frame.h" 
 
 

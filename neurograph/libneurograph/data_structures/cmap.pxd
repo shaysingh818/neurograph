@@ -1,6 +1,6 @@
 cimport libneurograph.data_structures.cnode
 
-cdef extern from "<neurograph/data_structures/map/includes/map.h>":
+cdef extern from "<data_structures/map/includes/map.h>":
 
     ctypedef void (*destructor_func)(void*)
     ctypedef bint (*compare_func)(void*, void*)

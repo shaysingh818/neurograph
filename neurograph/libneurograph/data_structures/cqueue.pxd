@@ -1,6 +1,6 @@
 cimport libneurograph.data_structures.cnode as node
 
-cdef extern from "<neurograph/data_structures/queue/includes/queue.h>":
+cdef extern from "<data_structures/queue/includes/queue.h>":
 
     struct Queue:
         int capacity
