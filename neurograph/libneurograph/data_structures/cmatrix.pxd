@@ -19,6 +19,7 @@ cdef extern from "<data_structures/matrix/includes/matrix.h>":
 
     bint compare_matrix(Matrix *m, Matrix *n)
     double uniform_distribution(double low, double high)
+    double get(Matrix *m, int row, int col)
     void copy_mat(Matrix *v1, Matrix *v2)
     void print_vec(Matrix *v1)
     void matrix_free(Matrix *m)

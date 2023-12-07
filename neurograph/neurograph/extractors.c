@@ -1489,8 +1489,8 @@ struct __pyx_obj_10neurograph_10extractors_DataFrame;
  * cimport libneurograph.data_structures.cmatrix as matrix
  * 
  * cdef class Matrix:             # <<<<<<<<<<<<<<
- * 
  *     cdef matrix.Matrix *mat
+ *     cdef ll.Array *selected_cols
  */
 struct __pyx_obj_10neurograph_10structures_Matrix {
   PyObject_HEAD

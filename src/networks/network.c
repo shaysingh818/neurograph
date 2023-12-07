@@ -67,7 +67,7 @@ void layer(net_t *nn, layer_t *layer){
 
 
 
-void train(net_t *nn, int epochs, mat_t *y) {
+void train(net_t *nn, int epochs, mat_t *y, bool log) {
 
     for(int i = 0; i < epochs; i++){
 
@@ -78,8 +78,8 @@ void train(net_t *nn, int epochs, mat_t *y) {
         mat_t *output = nn->graph->nodes[output_index]->val; 
         double loss = mse(y, output);  
         mat_t *output_error = difference(y, output);
-        if(NETWORK_DEBUG) {
-            printf("Loss: %.2f\n", loss);
+        if(log) {
+            printf("Epoch: %d/%d Loss: %.2f\n", i, epochs, loss);
         }
         backward_nodes(nn->graph, output_error);
         update_network_params(nn);
@@ -87,11 +87,12 @@ void train(net_t *nn, int epochs, mat_t *y) {
     }
 } 
 
-void batch_train(net_t *nn, int epochs, mat_t *y) {
+void batch_train(net_t *nn, int epochs, mat_t *y, bool log) {
 
     if(nn->batched == true){
 
         /* batch outputs */
+        int batch_count = 0;
         int samples = y->rows - nn->batch_size; 
         mat_t **outputs = batch_matrix(y, nn->batch_size);
 
@@ -104,7 +105,6 @@ void batch_train(net_t *nn, int epochs, mat_t *y) {
                 mat_t *x = nn->input_batches[i]; 
                 mat_t *y = outputs[i];
                 nn->layers[0]->outputs->left->left->val = x; 
-
 
                 forward_nodes(nn->graph);
 
@@ -120,9 +120,13 @@ void batch_train(net_t *nn, int epochs, mat_t *y) {
 
             err /= samples; 
             if(j % 1000 == 0){
-                if(NETWORK_DEBUG) {
-                    printf("Loss: %.2f\n", err); 
+                if(log) {
+                    printf(
+                        "Epoch: %d/%d  Loss: %.2f\n", 
+                        j, epochs, err
+                    ); 
                 }
+                batch_count += 1; 
             }
 
         }
@@ -218,7 +222,7 @@ void load_model_params(net_t *nn, char *filepath) {
 } 
 
 
-void predict(net_t *nn, mat_t *input, mat_t *expected_output) {
+mat_t *predict(net_t *nn, mat_t *input) {
 
     /* forward inputs */
     set_linear_inputs(nn->layers[0], input); 
@@ -227,16 +231,7 @@ void predict(net_t *nn, mat_t *input, mat_t *expected_output) {
     /* print output */
     int output_index = nn->graph->curr_index - 1;
     mat_t *output = nn->graph->nodes[output_index]->val;
-
-    if(NETWORK_DEBUG == true) {
-
-        printf("Expected output\n"); 
-        print_vec(expected_output); 
-
-        printf("Output\n"); 
-        print_vec(output); 
-
-    }
+    return output; 
 } 
 
 

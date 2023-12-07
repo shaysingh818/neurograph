@@ -1,3 +1,4 @@
+cimport libneurograph.data_structures.cmatrix as matrix
 cimport libneurograph.computation_graph.cvalue as val
 cimport libneurograph.networks.clayer as la
 cimport libneurograph.networks.cnetwork as net
@@ -33,24 +34,36 @@ cdef class Network:
         loss_encode = loss_type.encode('utf-8')
         net.layer(self.network, la.activation(input_size, output_size, loss_encode))
 
-    def train(self, epochs: int, output: Matrix):
-        net.train(self.network, epochs, output.mat)
+    def train(self, epochs: int, output: Matrix, log=True):
+        net.train(self.network, epochs, output.mat, log)
 
-    def batch_train(self, epochs: int, output: Matrix):
-        net.batch_train(self.network, epochs, output.mat)
+    def batch_train(self, epochs: int, output: Matrix, log=True):
+        net.batch_train(self.network, epochs, output.mat, log)
 
-    def predict(self, input: Matrix, output: Matrix):
-        net.predict(self.network, input.mat, output.mat)
+    def predict(self, input: Matrix):
+        cdef matrix.Matrix *val = net.predict(self.network, input.mat)
+        result = Matrix(val.rows, val.cols)
+        result.mat = val
+        return result
 
     def num_layers(self):
         val = self.network.num_layers
         return val
 
-    def print_model(self):
-        results = []
+    def save(self, filepath: str):
+        value = filepath.encode('utf-8')
+        net.save_model_params(self.network, value)
+
+    def load(self, filepath: str):
+        net.load_model_params(self.network, filepath.encode('utf-8'))
+
+    def architecture(self):
+        results = {}
         for i in range(self.network.num_layers):
-            layer_obj = self.network.layers[i]
-            layer_name = layer_obj.layer_name.decode('utf-8')
-            info = f"shape=({layer_obj.input_size}, {layer_obj.output_size}) layer_type={layer_name}"
-            results.append(info)
+            key = f"layer_{i}"
+            results[key] = {
+                "type": self.network.layers[i].layer_name.decode('utf-8'),
+                "input_size": self.network.layers[i].input_size,
+                "output_size": self.network.layers[i].output_size,
+            }
         return results

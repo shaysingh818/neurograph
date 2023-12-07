@@ -1,7 +1,7 @@
 cimport libneurograph.data_structures.cmatrix as matrix
 cimport libneurograph.computation_graph.cvalue as value
 
-cdef extern from "<neurograph/networks/includes/layer_types.h>":
+cdef extern from "<networks/includes/layer_types.h>":
 
     struct LossValue:
         double (*loss)(double val)

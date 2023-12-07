@@ -3,7 +3,7 @@ cimport libneurograph.computation_graph.cvalue as value
 cimport libneurograph.computation_graph.ccomp_graph as cg
 cimport libneurograph.networks.clayer as la
 
-cdef extern from "<neurograph/networks/includes/network.h>":
+cdef extern from "<networks/includes/network.h>":
 
     struct Network:
         int num_layers
@@ -23,10 +23,10 @@ cdef extern from "<neurograph/networks/includes/network.h>":
     # network methods 
     Network *init_network(double learning_rate, value.Value *input, int batch_size);
     void layer(Network *nn, la.Layer *layer);
-    void train(Network *nn, int epochs, matrix.Matrix *y); 
-    void batch_train(Network *nn, int epochs, matrix.Matrix *y);  
+    void train(Network *nn, int epochs, matrix.Matrix *y, bint log); 
+    void batch_train(Network *nn, int epochs, matrix.Matrix *y, bint log);  
     void update_network_params(Network *nn);
-    void predict(Network *nn, matrix.Matrix *input, matrix.Matrix *expected_output); 
+    matrix.Matrix *predict(Network *nn, matrix.Matrix *input); 
 
     # save model 
     void save_model_params(Network *nn, char *filepath);

@@ -33,7 +33,8 @@ mat_t **batch_matrix(mat_t *m, int batch_size);
 mat_t *copy_arr_to_matrix(int m, int n, double arr[m][n]); 
 
 bool compare_matrix(mat_t *m, mat_t *n); 
-double uniform_distribution(double low, double high); 
+double uniform_distribution(double low, double high);
+double get(mat_t *m, int row, int col); 
 void copy_mat(mat_t *v1, mat_t *v2);
 void print_vec(mat_t *v1);
 void matrix_free(mat_t *m);  

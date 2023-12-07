@@ -26,12 +26,12 @@ setup(
             ],
             libraries=["graph"],
         ),
-        # Extension(
-        #     name="neurograph.networks",
-        #     sources=[
-        #         os.path.join("neurograph", "networks.pyx"), 
-        #     ],
-        #     libraries=["neurograph"],
-        # )
+        Extension(
+            name="neurograph.networks",
+            sources=[
+                os.path.join("neurograph", "networks.pyx"), 
+            ],
+            libraries=["networks"],
+        )
     ])
 )

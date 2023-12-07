@@ -6,7 +6,7 @@ cimport libneurograph.computation_graph.cops as ops
 cimport libneurograph.computation_graph.closs as loss
 cimport libneurograph.networks.clayer_types as ltypes
 
-cdef extern from "<neurograph/networks/includes/layer.h>":
+cdef extern from "<networks/includes/layer.h>":
 
     union LayerObject:
         ltypes.Linear *linear

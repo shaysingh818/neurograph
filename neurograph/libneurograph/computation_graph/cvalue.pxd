@@ -1,6 +1,6 @@
 cimport libneurograph.data_structures.cmatrix as matrix
 
-cdef extern from "<neurograph/computation_graph/includes/value.h>":
+cdef extern from "<computation_graph/includes/value.h>":
 
     struct Value:
         char *alias
