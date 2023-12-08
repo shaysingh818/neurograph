@@ -6,6 +6,7 @@ from neurograph.structures cimport Matrix
 from pprint import pprint
 
 
+
 cdef class Value:
 
     def __cinit__(self):
@@ -41,7 +42,8 @@ cdef class Network:
         net.batch_train(self.network, epochs, output.mat, log)
 
     def predict(self, input: Matrix):
-        cdef matrix.Matrix *val = net.predict(self.network, input.mat)
+        cdef matrix.Matrix *x = input.mat
+        cdef matrix.Matrix *val = net.predict(self.network, x)
         result = Matrix(val.rows, val.cols)
         result.mat = val
         return result

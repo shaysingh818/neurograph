@@ -24,22 +24,22 @@ cdef extern from "<networks/includes/layer.h>":
         void (*save)(Layer *layer, char *filepath)
         Layer *(*load)(char *filepath)
 
-    table.BinTable *loss_map(); 
-    table.BinTable *layer_map();  
+    table.BinTable *loss_map() 
+    table.BinTable *layer_map()  
 
     # linear methods
-    value.Value *linear_forward(cg.ComputationGraph *graph, Layer *layer, value.Value *prev_output);
-    value.Value *update_linear(cg.ComputationGraph *graph, Layer *layer, int op_index);
-    Layer *linear(int set_input_size, int set_output_size);
-    Layer *load_linear(char *filepath); 
-    void save_linear(Layer *linear, char *filepath);
-    void set_linear_inputs(Layer *linear, matrix.Matrix *input); 
+    value.Value *linear_forward(cg.ComputationGraph *graph, Layer *layer, value.Value *prev_output)
+    value.Value *update_linear(cg.ComputationGraph *graph, Layer *layer, int op_index)
+    Layer *linear(int set_input_size, int set_output_size)
+    Layer *load_linear(char *filepath)
+    void save_linear(Layer *linear, char *filepath)
+    void set_linear_inputs(Layer *linear, matrix.Matrix *input)
 
     #  loss layer methods
-    value.Value *activation_forward(cg.ComputationGraph *graph, Layer *layer, value.Value *prev_output); 
-    value.Value *update_activation(cg.ComputationGraph *graph, Layer *layer, int op_index);
-    Layer *activation(int set_input_size, int set_output_size, char *loss_function_name);
-    Layer *load_activation(char *filepath); 
-    void save_activation(Layer *linear, char *filepath); 
+    value.Value *activation_forward(cg.ComputationGraph *graph, Layer *layer, value.Value *prev_output)
+    value.Value *update_activation(cg.ComputationGraph *graph, Layer *layer, int op_index)
+    Layer *activation(int set_input_size, int set_output_size, char *loss_function_name)
+    Layer *load_activation(char *filepath)
+    void save_activation(Layer *linear, char *filepath)
 
     

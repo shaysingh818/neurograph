@@ -89,51 +89,49 @@ void train(net_t *nn, int epochs, mat_t *y, bool log) {
 
 void batch_train(net_t *nn, int epochs, mat_t *y, bool log) {
 
-    if(nn->batched == true){
+    if(nn->batched != true) {
+        printf("Network not configured to use batching\n");
+        exit(0); 
+    }
 
-        /* batch outputs */
-        int batch_count = 0;
-        int samples = y->rows - nn->batch_size; 
-        mat_t **outputs = batch_matrix(y, nn->batch_size);
+    /* batch outputs */
+    int samples = y->rows - nn->batch_size; 
+    mat_t **outputs = batch_matrix(y, nn->batch_size);
 
-        for(int j = 0; j < epochs; j++){
+    for(int j = 0; j < epochs; j++){
 
-            double err = 0.00; 
-            for(int i = 0; i < samples; i++){
+        double err = 0.00; 
+        for(int i = 0; i < samples; i++){
 
-                /* set inputs for epoch set */
-                mat_t *x = nn->input_batches[i]; 
-                mat_t *y = outputs[i];
-                nn->layers[0]->outputs->left->left->val = x; 
+            /* set inputs for epoch set */
+            mat_t *x = nn->input_batches[i]; 
+            mat_t *y = outputs[i];
+            nn->layers[0]->outputs->left->left->val = x; 
 
-                forward_nodes(nn->graph);
+            forward_nodes(nn->graph);
 
-                /* get output */
-                int output_index = nn->graph->curr_index - 1;
-                mat_t *output = nn->graph->nodes[output_index]->val; 
-                double loss = mse(y, output);  
-                err += loss; 
-                mat_t *output_error = difference(y, output);
-                backward_nodes(nn->graph, output_error);
-                update_network_params(nn);
-            }
-
-            err /= samples; 
-            if(j % 1000 == 0){
-                if(log) {
-                    printf(
-                        "Epoch: %d/%d  Loss: %.2f\n", 
-                        j, epochs, err
-                    ); 
-                }
-                batch_count += 1; 
-            }
-
+            /* get output */
+            int output_index = nn->graph->curr_index - 1;
+            mat_t *output = nn->graph->nodes[output_index]->val; 
+            double loss = mse(y, output);  
+            err += loss; 
+            mat_t *output_error = difference(y, output);
+            backward_nodes(nn->graph, output_error);
+            update_network_params(nn);
         }
 
-    } else {
-        printf("network is not configured to use batching\n");
+        err /= samples; 
+        if(j % 1000 == 0){
+            if(log) {
+                // printf(
+                //     "Epoch: %d/%d  Loss: %.2f\n", 
+                //     j, epochs, err
+                // ); 
+            }
+        }
     }
+
+    printf("Fuck\n"); 
 
 }
 

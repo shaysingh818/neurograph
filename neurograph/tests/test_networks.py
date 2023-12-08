@@ -95,7 +95,8 @@ class TestNetworks(unittest.TestCase):
         self.assertEqual(fourth_layer["output_size"], 1)
         self.assertEqual(fourth_layer["type"], "loss")
 
-        mlp.predict(input=x_train[0])
+        results = mlp.predict(input=x_train[0]).to_list()
+        self.assertEqual(results[0][0] < results[1][0], True)
 
 
     def save_mlp_model(self):

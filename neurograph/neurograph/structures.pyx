@@ -1,9 +1,12 @@
+# cython: boundscheck=True
+
 cimport libneurograph.extractors.cframe as fr
 cimport libneurograph.data_structures.clist as ll
 cimport libneurograph.data_structures.cmatrix as matrix
 from neurograph.extractors cimport DataFrame
 from neurograph.networks import Value
 from typing import List
+
 
 cdef class Matrix:
 
@@ -52,7 +55,7 @@ cdef class Matrix:
 def batch_matrix(mat_instance: Matrix, batch_size: int) -> List[Matrix]:
     result_list = []
     results = matrix.batch_matrix(mat_instance.mat, batch_size)
-    result_len = mat_instance.rows() - batch_size
+    result_len = mat_instance.mat.rows - batch_size
     for i in range(result_len):
         m = Matrix(results[i].rows, results[i].cols)
         m.mat = results[i]
