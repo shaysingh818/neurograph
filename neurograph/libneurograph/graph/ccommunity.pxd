@@ -3,7 +3,7 @@ cimport libneurograph.data_structures.cnode as node
 cimport libneurograph.data_structures.cmatrix as matrix
 cimport libneurograph.graph.cgraph as graph
 
-cdef extern from "<neurograph/graph/includes/community.h>":
+cdef extern from "<graph/includes/community.h>":
 
     int degree_centrality_list(graph.Graph *g, node.Node *root);
     int weighted_degree_centrality_list(graph.Graph *g); 

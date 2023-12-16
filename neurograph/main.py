@@ -1,35 +1,35 @@
 import cython
 from pprint import pprint
-from neurograph.extractors import DataFrame
-from neurograph.structures import Matrix
-from neurograph.graph import Graph, SerializedGraph, DataFrameGraph, GraphWalk
+from neurograph.structures import Matrix, batch_matrix
+# from neurograph.graph import Graph
+from neurograph.networks import Network
 
 def main():
 
-    # create graph
-    g = Graph(vertices=8, directed=True)
-    g.add_node(src_id=0, src="A", dst_id=1, dst="B", weight=0)
-    g.add_node(src_id=1, src="B", dst_id=2, dst="C", weight=0)
-    g.add_node(src_id=2, src="C", dst_id=3, dst="D", weight=0)
-    g.add_node(src_id=3, src="D", dst_id=0, dst="A", weight=0)
+    # input 
+    x = Matrix(rows=4, cols=2)
+    x.array(entries=[[0,0],[0,1],[1,0],[1,1]])
+    x_train = batch_matrix(mat_instance=x, batch_size=2)
+    val = x.to_value()
 
-    # bridge
-    g.add_node(src_id=2, src="C", dst_id=4, dst="E", weight=0)
+    # expected output
+    y = Matrix(rows=4, cols=1)
+    y.array(entries=[[0],[1],[1],[0]])
 
-    # second community
-    g.add_node(src_id=4, src="E", dst_id=5, dst="F", weight=0)
-    g.add_node(src_id=5, src="F", dst_id=6, dst="G", weight=0)
-    g.add_node(src_id=6, src="G", dst_id=4, dst="E", weight=0)
-    g.add_node(src_id=6, src="G", dst_id=7, dst="H", weight=0)
-    g.add_end_node(src_id=7, src="H", weight=0)
-
-    # label propagation
-    g.kosaraju(start_vertex=0) 
-    
-
+    # # create mlp architecture
+    mlp = Network(learning_rate=0.01, value=val, batch_size=0)
+    mlp.linear(input_size=2, output_size=3)
+    mlp.activation(input_size=2, output_size=3, loss_type="tanh")
+    mlp.linear(input_size=3, output_size=1)
+    mlp.activation(input_size=3, output_size=1, loss_type="tanh")
+    mlp.train(epochs=10000, output=y, log=True)
+    mlp.save(filepath="pynet")
+    results = mlp.predict(input=x)
+    print(results.to_list())
 
 
 
 
 
 main()
+

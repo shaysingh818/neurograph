@@ -1,4 +1,4 @@
-cdef extern from "<neurograph/data_structures/map/includes/hash.h>":
+cdef extern from "<data_structures/map/includes/hash.h>":
 
     ctypedef void (*destructor_func)(void*) 
     ctypedef bint (*compare_func)(void*, void*)

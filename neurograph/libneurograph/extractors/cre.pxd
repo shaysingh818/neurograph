@@ -1,6 +1,6 @@
 cimport libneurograph.data_structures.clist as ll
 
-cdef extern from "<neurograph/extractors/dataframe/includes/re.h>":
+cdef extern from "<extractors/dataframe/includes/re.h>":
 
     struct Tokens:
         char **tokens

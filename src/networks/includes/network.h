@@ -12,7 +12,7 @@
 #include "layer.h"
 
 #define DEBUG false
-#define NETWORK_DEBUG false
+#define NETWORK_DEBUG true
 
 struct Network {
     int num_layers, layer_count, batch_size;
@@ -32,10 +32,10 @@ net_t *init_network(double learning_rate, value_t *input, int batch_size);
 
 /* network helper methods  */
 void layer(net_t *nn, layer_t *layer);
-void train(net_t *nn, int epochs, mat_t *y); 
-void batch_train(net_t *nn, int epochs, mat_t *y);  
+void train(net_t *nn, int epochs, mat_t *y, bool log); 
+void batch_train(net_t *nn, int epochs, mat_t *y, bool log);  
 void update_network_params(net_t *nn);
-void predict(net_t *nn, mat_t *input, mat_t *expected_output); 
+mat_t *predict(net_t *nn, mat_t *input); 
 
 /* save model */
 void save_model_params(net_t *nn, char *filepath);

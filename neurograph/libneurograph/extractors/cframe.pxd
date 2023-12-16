@@ -5,7 +5,7 @@ cimport libneurograph.data_structures.cset as set
 cimport libneurograph.extractors.cre as re
 cimport libneurograph.extractors.cutils as utils 
 
-cdef extern from "<neurograph/extractors/dataframe/includes/frame.h>":
+cdef extern from "<extractors/dataframe/includes/frame.h>":
 
     struct RowValue:
         size_t value_size

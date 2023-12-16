@@ -4,7 +4,7 @@ CC=gcc
 TARGET=target/data_structures
 OBJS = objs
 OUTPUT_OBJ = data_structures.o
-SO_TARGET = libdata_structures.so
+SO_TARGET = libds.so
 
 # dependencies
 NODE := $(wildcard ./node/objs/*.o)
@@ -31,6 +31,9 @@ install:
 	$(MAKE) shared
 	$(MAKE) headers
 
+uninstall:
+	rm -r /usr/local/include/data_structures
+	rm /usr/local/lib/libds.so
 
 source: $(OBJECTS) $(DATA_STRUCTURES)
 	cc -o $(TARGET) $(OBJECTS) $(DATA_STRUCTURES) $(CFLAGS)
@@ -41,8 +44,9 @@ obj:
 
 
 shared: $(DATA_STRUCTURES)
-	$(CC) -o $(SO_TARGET) $(SO_FLAGS) $(DATA_STRUCTURES) $(FLAGS)
+	$(CC) -o $(SO_TARGET) $(SO_FLAGS) $(DATA_STRUCTURES) $(CFLAGS)
 	sudo mv $(SO_TARGET) /usr/local/lib
+	ldconfig
 
 headers:
 
@@ -64,8 +68,7 @@ headers:
 	mkdir -p data_structures/map
 	cp -r map/includes data_structures/map
 
-	mv data_structures ../neurograph
-	cp data_structures.h ../neurograph
+	mv data_structures /usr/local/include
 
 build:
 	$(MAKE) -C ./node

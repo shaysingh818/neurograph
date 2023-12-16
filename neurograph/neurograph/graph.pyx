@@ -10,7 +10,7 @@ cdef class Graph:
     def __cinit__(self):
         self.graph = NULL
 
-    def __init__(self, vertices: int, directed: bool):
+    def __init__(self, vertices: int, directed: bint):
         self.graph = gr.init_graph(vertices, vertices, directed)
         if self.graph is NULL:
             raise MemoryError()

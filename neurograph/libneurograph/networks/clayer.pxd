@@ -1,12 +1,12 @@
-import libneurograph.data_structures.cmatrix as matrix
-import libneurograph.data_structures.ctable as table
-import libneurograph.computation_graph.cvalue as value
-import libneurograph.computation_graph.cgraph as cg
-import libneurograph.computation_graph.cops as ops
-import libneurograph.computation_graph.closs as loss
-import libneurograph.networks.clayer_types as ltypes
+cimport libneurograph.data_structures.cmatrix as matrix
+cimport libneurograph.data_structures.ctable as table
+cimport libneurograph.computation_graph.cvalue as value
+cimport libneurograph.computation_graph.ccomp_graph as cg
+cimport libneurograph.computation_graph.cops as ops
+cimport libneurograph.computation_graph.closs as loss
+cimport libneurograph.networks.clayer_types as ltypes
 
-cdef extern from "<neurograph/networks/includes/layer.h>":
+cdef extern from "<networks/includes/layer.h>":
 
     union LayerObject:
         ltypes.Linear *linear
@@ -24,22 +24,22 @@ cdef extern from "<neurograph/networks/includes/layer.h>":
         void (*save)(Layer *layer, char *filepath)
         Layer *(*load)(char *filepath)
 
-    table.BinTable *loss_map(); 
-    table.BinTable *layer_map();  
+    table.BinTable *loss_map() 
+    table.BinTable *layer_map()  
 
     # linear methods
-    value.Value *linear_forward(cg.ComputationGraph *graph, Layer *layer, value.Value *prev_output);
-    value.Value *update_linear(cg.ComputationGraph *graph, Layer *layer, int op_index);
-    Layer *linear(int set_input_size, int set_output_size);
-    Layer *load_linear(char *filepath); 
-    void save_linear(Layer *linear, char *filepath);
-    void set_linear_inputs(Layer *linear, matrix.Matrix *input); 
+    value.Value *linear_forward(cg.ComputationGraph *graph, Layer *layer, value.Value *prev_output)
+    value.Value *update_linear(cg.ComputationGraph *graph, Layer *layer, int op_index)
+    Layer *linear(int set_input_size, int set_output_size)
+    Layer *load_linear(char *filepath)
+    void save_linear(Layer *linear, char *filepath)
+    void set_linear_inputs(Layer *linear, matrix.Matrix *input)
 
     #  loss layer methods
-    value.Value *activation_forward(cg.ComputationGraph *graph, Layer *layer, value.Value *prev_output); 
-    value.Value *update_activation(cg.ComputationGraph *graph, Layer *layer, int op_index);
-    Layer *activation(int set_input_size, int set_output_size, char *loss_function_name);
-    Layer *load_activation(char *filepath); 
-    void save_activation(Layer *linear, char *filepath); 
+    value.Value *activation_forward(cg.ComputationGraph *graph, Layer *layer, value.Value *prev_output)
+    value.Value *update_activation(cg.ComputationGraph *graph, Layer *layer, int op_index)
+    Layer *activation(int set_input_size, int set_output_size, char *loss_function_name)
+    Layer *load_activation(char *filepath)
+    void save_activation(Layer *linear, char *filepath)
 
     

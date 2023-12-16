@@ -33,7 +33,8 @@ mat_t **batch_matrix(mat_t *m, int batch_size);
 mat_t *copy_arr_to_matrix(int m, int n, double arr[m][n]); 
 
 bool compare_matrix(mat_t *m, mat_t *n); 
-double uniform_distribution(double low, double high); 
+double uniform_distribution(double low, double high);
+double get(mat_t *m, int row, int col); 
 void copy_mat(mat_t *v1, mat_t *v2);
 void print_vec(mat_t *v1);
 void matrix_free(mat_t *m);  
@@ -41,7 +42,8 @@ void randomize(mat_t *mat, int n);
 void print_matrix(mat_t *mat);
 void fill_mat(mat_t *m, int n); 
 void save_matrix(mat_t *m, char *filename);   
-void copy_matrix_values(mat_t *m, mat_t *n); 
+void copy_matrix_values(mat_t *m, mat_t *n);
+void entry(mat_t *m, int row, int col, double value); 
 
 /* matrix operations*/
 mat_t *scalar_multiply(mat_t *v1, double value);

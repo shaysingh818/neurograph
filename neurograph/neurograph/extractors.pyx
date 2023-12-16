@@ -3,6 +3,7 @@ cimport libneurograph.extractors.coperations as ops
 cimport libneurograph.data_structures.clist as ll
 cimport libneurograph.data_structures.cmatrix as matrix
 cimport libneurograph.data_structures.ctable as table
+from neurograph.structures cimport Matrix
 from tabulate import tabulate
 import sys
 
@@ -76,6 +77,15 @@ cdef class DataFrame:
             for thing in self.map_header(item):
                 result_dict[item].append(thing)
         return result_dict
+
+    def to_matrix(self, cols: list):
+        selected_cols = ll.init_array()
+        for item in cols:
+            ll.insert_char(selected_cols, bytes(item, encoding="utf8"))
+ 
+        matrix = Matrix(self.row_limit, len(cols))
+        matrix.mat = fr.frame_to_matrix(self.frame, selected_cols)
+        return matrix
 
     def html(self):
         rows_dict = self.rows()

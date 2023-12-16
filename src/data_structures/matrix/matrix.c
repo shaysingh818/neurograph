@@ -438,6 +438,9 @@ double uniform_distribution(double low, double high) {
 	return low + (1.0 * (rand() % scaled_difference) / scale);
 }
 
+double get(mat_t *m, int row, int col) {
+	return m->arr[row][col]; 
+} 
 
 void print_vec(mat_t *v) {
 	for(int i = 0; i < v->rows; i++){
@@ -466,6 +469,11 @@ void fill_mat(mat_t *m, int n) {
 		}
 	}
 }
+
+
+void entry(mat_t *m, int row, int col, double value) {
+	m->arr[row][col] = value; 
+} 
 
 
 mat_t *vectorize(mat_t *input){

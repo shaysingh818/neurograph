@@ -4,7 +4,7 @@ cimport libneurograph.data_structures.cset as setlist
 cimport libneurograph.data_structures.cmatrix as matrix
 cimport libneurograph.extractors.cframe as frame
 
-cdef extern from "<neurograph/graph/includes/graph.h>":
+cdef extern from "<graph/includes/graph.h>" nogil:
 
     struct Walk:
         int *path

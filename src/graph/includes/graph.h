@@ -2,17 +2,17 @@
 #define GRAPH_H
 
 /* include data structures library */
-#include "../../data_structures/set/includes/set.h"
-#include "../../data_structures/queue/includes/queue.h"
-#include "../../data_structures/matrix/includes/matrix.h"
-#include "../../data_structures/list/includes/array.h"
-#include "../../data_structures/list/includes/adj_list.h"
-#include "../../data_structures/matrix/includes/adj_mat.h"
+#include <data_structures/set/includes/set.h>
+#include <data_structures/queue/includes/queue.h>
+#include <data_structures/matrix/includes/matrix.h>
+#include <data_structures/list/includes/array.h>
+#include <data_structures/list/includes/adj_list.h>
+#include <data_structures/matrix/includes/adj_mat.h>
 
 /* include extractors library for building graphs */
-#include "../../extractors/dataframe/includes/frame.h"
-#include "../../extractors/dataframe/includes/re.h"
-#include "../../extractors/dataframe/includes/gml.h"
+#include <extractors/dataframe/includes/frame.h>
+#include <extractors/dataframe/includes/re.h>
+#include <extractors/dataframe/includes/gml.h>
 
 #define TRUE 1
 #define FALSE 0

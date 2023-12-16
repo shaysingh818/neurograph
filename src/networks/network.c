@@ -43,6 +43,7 @@ void layer(net_t *nn, layer_t *layer){
         nn->num_layers = new_size; 
     }
 
+
     value_t *temp_inputs;
     if(nn->layer_count == 0){
         if(nn->batched){
@@ -66,7 +67,7 @@ void layer(net_t *nn, layer_t *layer){
 
 
 
-void train(net_t *nn, int epochs, mat_t *y) {
+void train(net_t *nn, int epochs, mat_t *y, bool log) {
 
     for(int i = 0; i < epochs; i++){
 
@@ -77,60 +78,60 @@ void train(net_t *nn, int epochs, mat_t *y) {
         mat_t *output = nn->graph->nodes[output_index]->val; 
         double loss = mse(y, output);  
         mat_t *output_error = difference(y, output);
-        if(NETWORK_DEBUG) {
-            printf("Loss: %.2f\n", loss);
+        if(log) {
+            printf("Epoch: %d/%d Loss: %.2f\n", i, epochs, loss);
         }
         backward_nodes(nn->graph, output_error);
         update_network_params(nn);
         
     }
-
 } 
 
-void batch_train(net_t *nn, int epochs, mat_t *y) {
+void batch_train(net_t *nn, int epochs, mat_t *y, bool log) {
 
-    if(nn->batched == true){
+    if(nn->batched != true) {
+        printf("Network not configured to use batching\n");
+        exit(0); 
+    }
 
-        /* batch outputs */
-        int samples = y->rows - nn->batch_size; 
-        mat_t **outputs = batch_matrix(y, nn->batch_size);
+    /* batch outputs */
+    int samples = y->rows - nn->batch_size; 
+    mat_t **outputs = batch_matrix(y, nn->batch_size);
 
-        for(int j = 0; j < epochs; j++){
+    for(int j = 0; j < epochs; j++){
 
+        double err = 0.00; 
+        for(int i = 0; i < samples; i++){
 
-            double err = 0.00; 
-            for(int i = 0; i < samples; i++){
+            /* set inputs for epoch set */
+            mat_t *x = nn->input_batches[i]; 
+            mat_t *y = outputs[i];
+            nn->layers[0]->outputs->left->left->val = x; 
 
-                /* set inputs for epoch set */
-                mat_t *x = nn->input_batches[i]; 
-                mat_t *y = outputs[i];
-                nn->layers[0]->outputs->left->left->val = x; 
+            forward_nodes(nn->graph);
 
-
-                forward_nodes(nn->graph);
-
-                /* get output */
-                int output_index = nn->graph->curr_index - 1;
-                mat_t *output = nn->graph->nodes[output_index]->val; 
-                double loss = mse(y, output);  
-                err += loss; 
-                mat_t *output_error = difference(y, output);
-                backward_nodes(nn->graph, output_error);
-                update_network_params(nn);
-            }
-
-            err /= samples; 
-            if(j % 1000 == 0){
-                if(NETWORK_DEBUG) {
-                    printf("Loss: %.2f\n", err); 
-                }
-            }
-
+            /* get output */
+            int output_index = nn->graph->curr_index - 1;
+            mat_t *output = nn->graph->nodes[output_index]->val; 
+            double loss = mse(y, output);  
+            err += loss; 
+            mat_t *output_error = difference(y, output);
+            backward_nodes(nn->graph, output_error);
+            update_network_params(nn);
         }
 
-    } else {
-        printf("network is not configured to use batching\n");
+        err /= samples; 
+        if(j % 1000 == 0){
+            if(log) {
+                // printf(
+                //     "Epoch: %d/%d  Loss: %.2f\n", 
+                //     j, epochs, err
+                // ); 
+            }
+        }
     }
+
+    printf("Fuck\n"); 
 
 }
 
@@ -219,7 +220,7 @@ void load_model_params(net_t *nn, char *filepath) {
 } 
 
 
-void predict(net_t *nn, mat_t *input, mat_t *expected_output) {
+mat_t *predict(net_t *nn, mat_t *input) {
 
     /* forward inputs */
     set_linear_inputs(nn->layers[0], input); 
@@ -228,16 +229,7 @@ void predict(net_t *nn, mat_t *input, mat_t *expected_output) {
     /* print output */
     int output_index = nn->graph->curr_index - 1;
     mat_t *output = nn->graph->nodes[output_index]->val;
-
-    if(NETWORK_DEBUG == true) {
-
-        printf("Expected output\n"); 
-        print_vec(expected_output); 
-
-        printf("Output\n"); 
-        print_vec(output); 
-
-    }
+    return output; 
 } 
 
 

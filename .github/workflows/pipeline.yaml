@@ -8,7 +8,7 @@ on:
 
 jobs:
 
-  build-core-packages:
+  build-install-packages:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -17,48 +17,59 @@ jobs:
     - name: Data Structures Package
       working-directory: src/data_structures/
       run: |
-        make
+        sudo make
+        sudo make install
 
     - name: Extractors Package
       working-directory: src/extractors/
       run: |
-        make package
+        sudo make
+        sudo make install
         
     - name: Graph Package
       working-directory: src/graph/
       run: |
-        make package
+        sudo make
+        sudo make install
 
     - name: Computation Graph Package
       working-directory: src/computation_graph/
       run: |
-        make package
+        sudo make
+        sudo make install
 
     - name: Deep Learning Package
       working-directory: src/networks/
       run: |
-        make package
+        sudo make
+        sudo make install
 
     - name: Neurograph
       working-directory: src/
       run: |
-        make clean
-        make
+        sudo make uninstall
+        sudo make clean
+        sudo make install
 
     - name: Integration Test Package
       working-directory: src/tests/
       run: |
-        make clean
-        make
+        sudo make
 
 
   # build source for unit tests
   test-core-packages:
     runs-on: ubuntu-latest
-    needs: [build-core-packages]
+    needs: [build-install-packages]
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+
+    - name: Install Source
+      working-directory: src/
+      run: |
+        sudo make install
  
     - name: Data Structures Package
       working-directory: src/data_structures/
@@ -96,20 +107,6 @@ jobs:
       working-directory: src/tests/
       run: |
         ./target/test_neurograph
-
-    container:
-      image: timbru31/ruby-node:latest
-
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_PASSWORD: postgres
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
  
   # unit tests for python code base
   python-library:
@@ -121,7 +118,6 @@ jobs:
       - name: Install C Library
         working-directory: src/
         run: |
-          sudo make
           sudo make install
 
       - name: Install Dependencies

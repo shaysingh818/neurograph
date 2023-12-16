@@ -1,0 +1,4 @@
+linear:pynet/0_linear
+loss:pynet/1_loss
+linear:pynet/2_linear
+loss:pynet/3_loss

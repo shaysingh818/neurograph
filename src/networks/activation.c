@@ -1,7 +1,7 @@
 #include "includes/layer.h"
 
 
-value_t *activation_forward(computation_graph_t *graph, layer_t *layer, value_t *prev_output) { 
+value_t *activation_forward(computation_graph_t *graph, layer_t *layer, value_t *prev_output) {  
     layer->inputs = prev_output; 
     activation_t *activation = layer->layer_type->activation; 
     value_t *result = apply_loss(
@@ -10,7 +10,7 @@ value_t *activation_forward(computation_graph_t *graph, layer_t *layer, value_t 
         activation->loss,
         activation->loss_prime
     );
-    layer->outputs = result; 
+    layer->outputs = result;
     return result; 
 } 
 
@@ -24,7 +24,7 @@ layer_t *activation(int set_input_size, int set_output_size, char *loss_function
 
     /* map key to loss function */
     hash_table_t *loss_val = loss_map();  
-    loss_value_t *loss_functions = lookup_table_key(loss_val, loss_function_name); 
+    loss_value_t *loss_functions = lookup_table_key(loss_val, str(loss_function_name)); 
 
     /* create activation structure */
     activation_t *activation = (activation_t*)malloc(sizeof(activation_t));
@@ -51,9 +51,10 @@ layer_t *activation(int set_input_size, int set_output_size, char *loss_function
     layer->op_count = 1;
 
     /* set layer type name */
-    size_t alias_size = strlen("loss")+1;
+    char *type = "loss"; 
+    size_t alias_size = strlen(type)+1;
     layer->layer_name = malloc(alias_size * sizeof(char)); 
-    strcpy(layer->layer_name, "loss");
+    strcpy(layer->layer_name, type);
 
     return layer;  
 }
