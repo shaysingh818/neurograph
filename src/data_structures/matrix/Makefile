@@ -1,10 +1,10 @@
 BIN=bin
 CC=gcc
 TARGET=target/matrix
-CFLAGS = -lm
+CFLAGS = -lm -mavx
 OBJS = objs
 SO_TARGET = libmatrix.so
-FLAGS = -lm -lpthread -Iincludes
+FLAGS = -lm -lpthread -Iincludes -mavx
 SO_FLAGS =  -fPIC 
 
 # source and test 

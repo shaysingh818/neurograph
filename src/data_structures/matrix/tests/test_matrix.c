@@ -862,7 +862,6 @@ void test_elementwise_multiply() {
         }
 	}
 
-
     if(!equality_status) {
         printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
     } else {
@@ -975,13 +974,11 @@ void test_matrix_difference() {
         }
 	}
 
-
     if(!equality_status) {
         printf("%s::%s... FAILED\n", __FILE__, __FUNCTION__);
     } else {
         printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
     } 
-
 }
 
 
