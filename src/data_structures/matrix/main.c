@@ -1,7 +1,5 @@
 #include "tests/includes/test_matrix.h"
 #include "tests/includes/test_adj_mat.h"
-#include "tests/includes/test_tensor.h"
-#include "tests/includes/test_ops.h"
 
 int main(int argc, char **argv) {
 
