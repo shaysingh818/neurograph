@@ -13,7 +13,8 @@ SET := $(wildcard ./set/objs/*.o)
 LIST := $(wildcard ./list/objs/*.o)
 MAP := $(wildcard ./map/objs/*.o)
 MATRIX := $(wildcard ./matrix/objs/*.o)
-DATA_STRUCTURES = $(NODE) $(QUEUE) $(SET) $(LIST) $(MAP) $(MATRIX)
+NDARRAY := $(wildcard ./ndarray/objs/*.o)
+DATA_STRUCTURES = $(NODE) $(QUEUE) $(SET) $(LIST) $(MAP) $(MATRIX) $(NDARRAY)
 
 # source objects
 OBJECTS := $(patsubst %.c,%.o,$(wildcard *.c))
@@ -53,6 +54,9 @@ headers:
 	mkdir -p data_structures/matrix
 	cp -r matrix/includes data_structures/matrix
 
+	mkdir -p data_structures/ndarray
+	cp -r ndarray/includes data_structures/ndarray
+
 	mkdir -p data_structures/queue
 	cp -r queue/includes data_structures/queue
 
@@ -77,6 +81,7 @@ build:
 	$(MAKE) -C ./list
 	$(MAKE) -C ./map
 	$(MAKE) -C ./matrix
+	$(MAKE) -C ./ndarray
 
 # clean compilation (target doesn't work)
 clean:
@@ -88,3 +93,4 @@ clean:
 	$(MAKE) -C ./list clean
 	$(MAKE) -C  ./queue clean
 	$(MAKE) -C  ./node clean
+	$(MAKE) -C  ./ndarray clean
