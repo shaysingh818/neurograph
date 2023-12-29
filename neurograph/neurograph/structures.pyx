@@ -16,6 +16,7 @@ cdef class Matrix:
     def __init__(self, rows, cols):
         self.mat = matrix.init_matrix(rows, cols)
         if self.mat is NULL:
+            print("We have a memory error")
             raise MemoryError()
 
     def set_matrix(self, my_mat: Matrix):
@@ -56,9 +57,9 @@ def batch_matrix(mat_instance: Matrix, batch_size: int) -> List[Matrix]:
     result_list = []
     results = matrix.batch_matrix(mat_instance.mat, batch_size)
     result_len = mat_instance.mat.rows - batch_size
-    for i in range(result_len):
-        m = Matrix(results[i].rows, results[i].cols)
-        m.mat = results[i]
-        result_list.append(m)
+    # for i in range(result_len):
+    #     m = Matrix(rows=results[i].rows, cols=results[i].cols)
+    #     m.mat = results[i]
+    #     result_list.append(m)
     return result_list
 
