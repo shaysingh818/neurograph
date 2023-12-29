@@ -66,21 +66,3 @@ cdef extern from "<data_structures/matrix/includes/adj_mat.h>":
     node.Node *search_node_by_id_mat(AdjacencyMatrix *m, int id);
     void print_adj_mat(AdjacencyMatrix *m); 
 
-
- cdef extern from "<data_structures/matrix/includes/tensor.h>":
-
-    struct Tensor:
-        int rank
-        int size
-        int *shape
-        double *values
-
-    # /* creation */
-    Tensor *tensor(int rank, int *shape);
-
-    # /* utils  */
-    int *reshape(Tensor *t, int rank, int *indices);
-    int ndimensional_index(Tensor *t, int *indices);
-    double idx(Tensor *t, int *indices);  
-    void tensor_set(Tensor *t, int *indices, double value);
-    Tensor *tensor_apply(double(*activation_function)(double), Tensor *t); 
