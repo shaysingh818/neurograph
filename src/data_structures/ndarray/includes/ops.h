@@ -16,5 +16,6 @@ ndarray_t *nadd(ndarray_t *t, ndarray_t *val);
 ndarray_t *nsubtract(ndarray_t *t1, ndarray_t *t2);
 ndarray_t *nscale_add(ndarray_t *a, ndarray_t *b); 
 ndarray_t *ntranspose(ndarray_t *t);
+ndarray_t *permute(ndarray_t *t, int *indice_order);
 
 #endif

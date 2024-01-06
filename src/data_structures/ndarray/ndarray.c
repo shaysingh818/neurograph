@@ -6,7 +6,8 @@ ndarray_t *ndarray(int rank, int *shape) {
     /* init attibutes */
 	ndarray_t *tensor = (ndarray_t*)malloc(sizeof(ndarray_t));
     tensor->rank = rank; 
-    tensor->shape = malloc(rank * sizeof(int)); 
+    tensor->shape = malloc(rank * sizeof(int));
+    tensor->status = true; 
 
     /* copy shape */
     int tensor_size = 1;
@@ -39,6 +40,7 @@ int *reshape(ndarray_t *t, int rank, int *indices) {
 
     if(accum != t->size){
         printf("Reshape invalid, %d != %d\n", accum, t->size);
+        t->status = false;
         exit(0); 
     } 
 
@@ -99,6 +101,8 @@ void save_ndarray(ndarray_t *t, char *filename) {
 	FILE* file = fopen(filename, "w");
 	fprintf(file, "rank: %d\n", t->rank);
 
+    /* validate if file path exists */
+
 	for (int i = 0; i < t->rank; i++) {
 		fprintf(file, "dim: %d\n", t->shape[i]);
 	}
@@ -116,6 +120,8 @@ ndarray_t *load_ndarray(char *filename) {
 	FILE* fp = fopen(filename, "r");
     char file_buffer[1024];
     int counter = 0;
+
+    /* validate if file path exists */
 
     /* read activation config */
     int rank; 
@@ -159,4 +165,11 @@ void print_tensor(ndarray_t *t){
     printf("]");
     printf("\n"); 
 }
+
+
+void err_msg(ndarray_t *t, char *err_msg) {
+    t->err_msg = malloc(strlen(err_msg) * sizeof(err_msg));
+    strcpy(t->err_msg, err_msg);
+    t->status = false; 
+} 
 

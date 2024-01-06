@@ -5,6 +5,7 @@ void test_add_tensor() {
 
     ndarray_t *t1 = ndarray(2, (int[]){3, 3}); 
     ndarray_t *t2 = ndarray(2, (int[]){3, 3}); 
+    ndarray_t *t3 = ndarray(2, (int[]){2, 4}); 
 
     double vals[] = {
         1.0, 2.0, 3.0,
@@ -18,11 +19,26 @@ void test_add_tensor() {
         14.00, 16.00, 18.00
     };
 
+    double vals2[] = {
+        1.0, 2.0,
+        4.0, 5.0,
+        7.0, 8.0,
+        10.0, 11.0
+    };
+
     int index = 0;
     for(int i = 0; i < 3; i++){
         for(int j = 0; j < 3; j++){
             nset(t1, (int[]){i, j}, vals[index]);
             nset(t2, (int[]){i, j}, vals[index]);
+            index += 1;  
+        }
+    }
+
+    index = 0; 
+    for(int i = 0; i < 2; i++){
+        for(int j = 0; j < 4; j++){
+            nset(t3, (int[]){i, j}, vals2[index]);
             index += 1;  
         }
     }
@@ -33,6 +49,13 @@ void test_add_tensor() {
         assert(result->values[i] == expected[i]); 
     }
 
+    /* failure case */
+    ndarray_t *result_add = nadd(t2, t3);
+    assert(result_add->status == false);
+    char *err = "Add: Tensor size mismatch";
+    int condition = strcmp(err, result_add->err_msg) == 0;
+    assert(condition == true);  
+
     printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 } 
 
@@ -41,6 +64,7 @@ void test_subtract_tensor() {
 
     ndarray_t *m1 = ndarray(2, (int[]){3, 3}); 
     ndarray_t *m2 = ndarray(2, (int[]){3, 3}); 
+    ndarray_t *m3 = ndarray(2, (int[]){2, 4}); 
 
     double m1_values[] = {
         2, 2, 2, 
@@ -62,6 +86,13 @@ void test_subtract_tensor() {
         1.00, 1.00, 1.00
     };
 
+    double vals2[] = {
+        1.0, 2.0,
+        4.0, 5.0,
+        7.0, 8.0,
+        10.0, 11.0
+    };
+
     /* copy values to matrix */
     int index = 0; 
     for(int i = 0; i < 3; i++){
@@ -72,7 +103,15 @@ void test_subtract_tensor() {
         }
     }
 
-    ndarray_t *result = nsubtract(m2, m1); 
+    ndarray_t *result = nsubtract(m2, m1);
+
+    index = 0; 
+    for(int i = 0; i < 2; i++){
+        for(int j = 0; j < 4; j++){
+            nset(m3, (int[]){i, j}, vals2[index]);
+            index += 1;  
+        }
+    }
 
     /* match result */
     index = 0; 
@@ -84,6 +123,14 @@ void test_subtract_tensor() {
 
         }
 	}
+
+    /* failure case */
+    ndarray_t *result_sub = nsubtract(m2, m3);
+    assert(result_sub->status == false);
+    char *err = "Subtract: Tensor size mismatch";
+    int condition = strcmp(err, result_sub->err_msg) == 0;
+    assert(condition == true);  
+
 
     printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 
@@ -104,6 +151,10 @@ void test_scale_add_tensor() {
         1, 1, 1, 
     };
 
+    double bad_biase_values[] = {
+        1, 1, 1, 1, 1 
+    };
+
 
     double expected_values[] = {
         1, 1, 1, 
@@ -115,6 +166,7 @@ void test_scale_add_tensor() {
 
     ndarray_t *t1 = ndarray(2, (int[]){4, 3}); 
     ndarray_t *t2 = ndarray(2, (int[]){1, 3});
+    ndarray_t *m3 = ndarray(2, (int[]){1, 5});
 
     /* set values  */
     for(int i = 0; i < t1->size; i++){
@@ -125,11 +177,22 @@ void test_scale_add_tensor() {
         t2->values[i] = biase_values[i];
     }
 
-    ndarray_t *result =  nscale_add(t1, t2); 
+    for(int i = 0; i < m3->size; i++){
+        m3->values[i] = bad_biase_values[i];
+    }
 
+    /* success case */
+    ndarray_t *result =  nscale_add(t1, t2); 
     for(int i = 0; i < t1->size; i++){
         assert(result->values[i] == expected_values[i]);
     }
+
+    /* failure case */
+    ndarray_t *x = nscale_add(t1, m3);
+    assert(x->status == false);   
+    char *expected_err = "Scale Add: Tensor size mismatch";
+    int condition = strcmp(expected_err, x->err_msg) == 0;
+    assert(condition == true);  
 
 
     double mvalues[] = {
@@ -207,6 +270,11 @@ void test_tensor_dot_product() {
         0, 0, 0, 0, 0, 6,
     };
 
+    double values[] = {
+        1, 1, 0, 0,
+        2, 2, 0, 0,
+    };
+
     /* set values  */
     for(int i = 0; i < t1->size; i++){
         t1->values[i] = m_values[i];
@@ -239,6 +307,7 @@ void test_tensor_dot_product() {
 
     ndarray_t *t3 = ndarray(2, (int[]){4, 1}); 
     ndarray_t *t4 = ndarray(2, (int[]){1, 3});
+    ndarray_t *t5 = ndarray(3, (int[]){2, 2, 2});
 
     /* set values  */
     for(int i = 0; i < t3->size; i++){
@@ -249,10 +318,29 @@ void test_tensor_dot_product() {
         t4->values[i] = m4_values[i];
     }
 
+    for(int i = 0; i < t5->size; i++){
+        t5->values[i] = values[i];
+    }
+
     result = ndot(t3, t4);
     for(int i = 0; i < t3->size; i++){
         assert(fabs(result->values[i] == expected_m3_values[i]) < 1e-6);
     }
+
+    /* failure case */
+    result = ndot(t2, t3);
+    assert(result->status == false);
+    char *err = "Shape mismatch for dot product";
+    int condition = strcmp(err, result->err_msg) == 0;
+    assert(condition == true);  
+
+    ndarray_t *x = ndot(t2, t5);
+    assert(x->status == false);   
+    char *expected_err = "Tensors are not of the same dimension";
+    condition = strcmp(expected_err, x->err_msg) == 0;
+    assert(condition == true);  
+
+
 
     printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 }
@@ -309,6 +397,11 @@ void test_tensor_transpose() {
         3, 3, 2, 0
     };
 
+    double values[] = {
+        1, 1, 0, 0,
+        2, 2, 0, 0,
+    };
+
     ndarray_t *t2 = ndarray(2, (int[]){4, 3}); 
     for(int i = 0; i < t2->size; i++){
         t2->values[i] = m2_values[i];
@@ -318,6 +411,55 @@ void test_tensor_transpose() {
     assert(result->shape[0] == 3 && result->shape[1] == 4);
 
     index = 0; 
+    for(int i = 0; i < 3; i++){
+        for(int j = 0; j < 4; j++){
+            double value = nidx(result, (int[]){i, j});
+            assert(value == expected_values_2[index]);
+            index += 1; 
+        }
+    }
+
+    /* failure case */
+    ndarray_t *t3 = ndarray(3, (int[]){2, 2, 2}); 
+    for(int i = 0; i < t3->size; i++){
+        t3->values[i] = values[i];
+    }
+
+    result = ntranspose(t3);
+    assert(result->status == false); 
+
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+} 
+
+
+
+void test_tensor_permute() {
+
+    // non sqaure matrix transpose
+    double m2_values[] = {
+        1, 2, 3, 
+        1, 2, 3,
+        0, 0, 2,
+        0, 0, 0
+    };
+
+    double expected_values_2[] = {
+        1, 1, 0, 0,
+        2, 2, 0, 0,
+        3, 3, 2, 0
+    };
+
+
+    ndarray_t *t2 = ndarray(2, (int[]){4, 3}); 
+    for(int i = 0; i < t2->size; i++){
+        t2->values[i] = m2_values[i];
+    }
+
+
+    ndarray_t* result = permute(t2, (int[]){1, 0});
+    assert(result->shape[0] == 3 && result->shape[1] == 4);
+
+    int index = 0; 
     for(int i = 0; i < 3; i++){
         for(int j = 0; j < 4; j++){
             double value = nidx(result, (int[]){i, j});

@@ -12,7 +12,9 @@
 struct NDArray {
     int rank, size; 
     int *shape; 
-    double *values; 
+    double *values;
+    bool status;
+    char *err_msg; 
 }; 
 
 typedef struct NDArray ndarray_t;
@@ -34,7 +36,7 @@ ndarray_t *load_ndarray(char *filename);
 
 /* printing debugging methods */
 void print_tensor(ndarray_t *t); 
-void shape(ndarray_t *t);
-void matrix(ndarray_t *t);  
+void matrix(ndarray_t *t); 
+void err_msg(ndarray_t *t, char *err_msg); 
 
 #endif

@@ -1208,6 +1208,8 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include <extractors/dataframe/includes/re.h>
 #include <extractors/dataframe/includes/utils.h>
 #include <extractors/dataframe/includes/frame.h>
+#include <data_structures/ndarray/includes/ndarray.h>
+#include <data_structures/ndarray/includes/ops.h>
 #ifdef _OPENMP
 #include <omp.h>
 #endif /* _OPENMP */
@@ -1488,12 +1490,28 @@ static const char *__pyx_f[] = {
 /* #### Code section: type_declarations ### */
 
 /*--- Type declarations ---*/
+struct __pyx_obj_10neurograph_10structures_ndarray;
 struct __pyx_obj_10neurograph_10structures_Matrix;
 struct __pyx_obj_10neurograph_8networks_Value;
 struct __pyx_obj_10neurograph_8networks_Network;
 
-/* "neurograph/structures.pxd":5
- * cimport libneurograph.data_structures.cmatrix as matrix
+/* "neurograph/structures.pxd":6
+ * cimport libneurograph.data_structures.cndarray as nd
+ * 
+ * cdef class ndarray:             # <<<<<<<<<<<<<<
+ *     cdef int* shape_view
+ *     cdef int rank_order
+ */
+struct __pyx_obj_10neurograph_10structures_ndarray {
+  PyObject_HEAD
+  int *shape_view;
+  int rank_order;
+  struct NDArray *nd;
+};
+
+
+/* "neurograph/structures.pxd":12
+ * 
  * 
  * cdef class Matrix:             # <<<<<<<<<<<<<<
  *     cdef matrix.Matrix *mat
@@ -2215,6 +2233,8 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 /* Module declarations from "libneurograph.extractors.cframe" */
 
+/* Module declarations from "libneurograph.data_structures.cndarray" */
+
 /* Module declarations from "neurograph.structures" */
 
 /* Module declarations from "neurograph.networks" */
@@ -2393,6 +2413,9 @@ typedef struct {
   #endif
   #if CYTHON_USE_MODULE_STATE
   #endif
+  #if CYTHON_USE_MODULE_STATE
+  #endif
+  PyTypeObject *__pyx_ptype_10neurograph_10structures_ndarray;
   PyTypeObject *__pyx_ptype_10neurograph_10structures_Matrix;
   #if CYTHON_USE_MODULE_STATE
   PyObject *__pyx_type_10neurograph_8networks_Value;
@@ -2545,6 +2568,7 @@ static int __pyx_m_clear(PyObject *m) {
   #ifdef __Pyx_FusedFunction_USED
   Py_CLEAR(clear_module_state->__pyx_FusedFunctionType);
   #endif
+  Py_CLEAR(clear_module_state->__pyx_ptype_10neurograph_10structures_ndarray);
   Py_CLEAR(clear_module_state->__pyx_ptype_10neurograph_10structures_Matrix);
   Py_CLEAR(clear_module_state->__pyx_ptype_10neurograph_8networks_Value);
   Py_CLEAR(clear_module_state->__pyx_type_10neurograph_8networks_Value);
@@ -2673,6 +2697,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   #ifdef __Pyx_FusedFunction_USED
   Py_VISIT(traverse_module_state->__pyx_FusedFunctionType);
   #endif
+  Py_VISIT(traverse_module_state->__pyx_ptype_10neurograph_10structures_ndarray);
   Py_VISIT(traverse_module_state->__pyx_ptype_10neurograph_10structures_Matrix);
   Py_VISIT(traverse_module_state->__pyx_ptype_10neurograph_8networks_Value);
   Py_VISIT(traverse_module_state->__pyx_type_10neurograph_8networks_Value);
@@ -2845,6 +2870,9 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #endif
 #if CYTHON_USE_MODULE_STATE
 #endif
+#if CYTHON_USE_MODULE_STATE
+#endif
+#define __pyx_ptype_10neurograph_10structures_ndarray __pyx_mstate_global->__pyx_ptype_10neurograph_10structures_ndarray
 #define __pyx_ptype_10neurograph_10structures_Matrix __pyx_mstate_global->__pyx_ptype_10neurograph_10structures_Matrix
 #if CYTHON_USE_MODULE_STATE
 #define __pyx_type_10neurograph_8networks_Value __pyx_mstate_global->__pyx_type_10neurograph_8networks_Value
@@ -6063,9 +6091,10 @@ static int __Pyx_modinit_type_import_code(void) {
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_import_code", 0);
   /*--- Type import code ---*/
-  __pyx_t_1 = PyImport_ImportModule("neurograph.structures"); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("neurograph.structures"); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_ptype_10neurograph_10structures_Matrix = __Pyx_ImportType_3_0_4(__pyx_t_1, "neurograph.structures", "Matrix", sizeof(struct __pyx_obj_10neurograph_10structures_Matrix), __PYX_GET_STRUCT_ALIGNMENT_3_0_4(struct __pyx_obj_10neurograph_10structures_Matrix),__Pyx_ImportType_CheckSize_Warn_3_0_4); if (!__pyx_ptype_10neurograph_10structures_Matrix) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_ptype_10neurograph_10structures_ndarray = __Pyx_ImportType_3_0_4(__pyx_t_1, "neurograph.structures", "ndarray", sizeof(struct __pyx_obj_10neurograph_10structures_ndarray), __PYX_GET_STRUCT_ALIGNMENT_3_0_4(struct __pyx_obj_10neurograph_10structures_ndarray),__Pyx_ImportType_CheckSize_Warn_3_0_4); if (!__pyx_ptype_10neurograph_10structures_ndarray) __PYX_ERR(2, 6, __pyx_L1_error)
+  __pyx_ptype_10neurograph_10structures_Matrix = __Pyx_ImportType_3_0_4(__pyx_t_1, "neurograph.structures", "Matrix", sizeof(struct __pyx_obj_10neurograph_10structures_Matrix), __PYX_GET_STRUCT_ALIGNMENT_3_0_4(struct __pyx_obj_10neurograph_10structures_Matrix),__Pyx_ImportType_CheckSize_Warn_3_0_4); if (!__pyx_ptype_10neurograph_10structures_Matrix) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();
   return 0;

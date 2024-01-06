@@ -16,5 +16,6 @@ int main(int argc, char **argv) {
     test_scale_add_tensor(); 
     test_tensor_dot_product(); 
     test_tensor_transpose();
+    test_tensor_permute(); 
 
 } 
