@@ -123,16 +123,13 @@ void batch_train(net_t *nn, int epochs, mat_t *y, bool log) {
         err /= samples; 
         if(j % 1000 == 0){
             if(log) {
-                // printf(
-                //     "Epoch: %d/%d  Loss: %.2f\n", 
-                //     j, epochs, err
-                // ); 
+                printf(
+                    "Epoch: %d/%d  Loss: %.2f\n", 
+                    j, epochs, err
+                ); 
             }
         }
     }
-
-    printf("Fuck\n"); 
-
 }
 
 void update_network_params(net_t *nn) {

@@ -1,11 +1,40 @@
 site_name: Neurograph
 nav:
   - Getting Started: index.md
-  - Core Library Reference: core-library/core-library.md
-  - Python Library: index.md
-  - Suppport: index.md
-  - Contribute: index.md
-  - Releases: releases/releases.md
+  - 'Core Library Reference': 
+    - 'Data Structures': 
+      - 'List': 'core-library/data-structures/list.md'
+      - 'Map': 'core-library/data-structures/map.md'
+      - 'NDArray': 'core-library/data-structures/ndarray.md'
+      - 'Matrix': 'core-library/data-structures/matrix.md'
+      - 'Queue': 'core-library/data-structures/queue.md'
+      - 'Set': 'core-library/data-structures/set.md'
+      - 'Node': 'core-library/data-structures/node.md'
+    - 'Extractors': 'core-library/extractors.md'
+    - 'Computation Graph': 'core-library/computation-graph.md'
+    - 'Networks': 'core-library/networks.md'
+    - 'Graph Library': 'index.md'
+  - 'Guides and Tutorials':
+    - 'Working with Data Structures': 'guides/tut1.md'
+    - 'Creating Data Frames': 'guides/tut1.md'
+    - 'Using the Computation Graph': 'guides/tut1.md'
+    - 'Working with Graph Algorithms': 'guides/tut1.md'
+    - 'Training a Multi Layer Perceptron': 'guides/tut1.md'
+  - 'Releases':
+    - 'V 1.01.0': 'releases/1.01.0.md'
+    - 'V 1.0.0': 'releases/1.0.0.md'
+    - 'V 0.9.0': 'releases/0.9.0.md'
+    - 'V 0.8.0': 'releases/0.8.0.md'
+    - 'V 0.7.0': 'releases/0.7.0.md'
+    - 'V 0.6.0': 'releases/0.6.0.md'
+    - 'V 0.5.0': 'releases/0.5.0.md'
+    - 'V 0.4.0': 'releases/0.4.0.md'
+    - 'V 0.3.0': 'releases/0.3.0.md'
+    - 'V 0.2.0': 'releases/0.2.0.md'
+    - 'V 0.1.0': 'releases/0.1.0.md'
+  - Contribute: contribute.md
+  - Python Library: python.md
+
 
 theme:
   name: material

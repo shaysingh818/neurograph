@@ -65,5 +65,4 @@ cdef extern from "<data_structures/matrix/includes/adj_mat.h>":
     AdjacencyMatrix *transpose_items_mat(AdjacencyMatrix *m, AdjacencyMatrix *r); 
     node.Node *search_node_by_id_mat(AdjacencyMatrix *m, int id);
     void print_adj_mat(AdjacencyMatrix *m); 
-    
 

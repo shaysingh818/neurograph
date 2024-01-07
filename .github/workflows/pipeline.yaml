@@ -80,7 +80,9 @@ jobs:
         ./map/target/map
         cd matrix/
         ./target/matrix
-        cd ../ 
+        cd ../
+        cd ndarray
+        ./target/ndarray 
    
     - name: Extractors Package
       working-directory: src/extractors/
@@ -150,4 +152,4 @@ jobs:
           restore-keys: |
             mkdocs-material-
       - run: pip install mkdocs-material 
-      - run: mkdocs gh-deploy --force
+      - run: mkdocs gh-deploy --force 

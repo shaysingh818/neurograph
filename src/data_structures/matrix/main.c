@@ -33,5 +33,6 @@ int main(int argc, char **argv) {
     test_add_node_mat_undirected();
     test_add_node_mat_directed();  
     test_search_by_id_mat(); 
-    test_transpose_items_mat();  
+    test_transpose_items_mat(); 
+ 
 }
