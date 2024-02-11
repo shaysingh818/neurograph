@@ -12,6 +12,7 @@
 void test_add_tensor();
 void test_subtract_tensor();  
 void test_scale_add_tensor();
+void test_tensor_multiplication(); 
 void test_tensor_dot_product();  
 void test_tensor_transpose();
 void test_tensor_permute(); 

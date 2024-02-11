@@ -269,3 +269,94 @@ void test_save_tensor() {
     system("rm ../../../examples/data/saved_ndarray"); 
     printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 }
+
+
+void test_get_rows() {
+
+    int dims = 3; 
+    ndarray_t *m = ndarray(2, (int[]){dims, dims});  
+
+    double m_values[] = {
+        1.00,2.00,3.00, 
+        1.00,2.00,3.00,
+        1.00,2.00,3.00
+    };
+
+    /* copy values to matrice */
+    int index = 0; 
+    for(int i = 0; i < dims; i++){
+        for(int j = 0; j < dims; j++){
+            m->values[index] = m_values[index];
+            index += 1; 
+        }
+    }
+
+    /* get first row */
+    index = 0; 
+    double *first_row = rows(m, 0); 
+    for(int i = 0; i < dims; i++){
+        assert(first_row[i] == m_values[index]);
+        index += 1; 
+    }
+
+    double *second_row = rows(m, 1); 
+    for(int i = 0; i < dims; i++){
+        assert(second_row[i] == m_values[index]);
+        index += 1; 
+    }
+
+    /* get last row */
+    double *last_row = rows(m, 2); 
+    for(int i = 0; i < dims; i++){
+        assert(last_row[i] == m_values[index]);
+        index += 1; 
+    }
+
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+} 
+
+
+
+void test_get_cols() {
+
+    int dims = 3; 
+    ndarray_t *m = ndarray(2, (int[]){dims, dims});  
+
+    double m_values[] = {
+        1.00,2.00,3.00, 
+        1.00,2.00,3.00,
+        1.00,2.00,3.00
+    };
+
+    /* copy values to matrice */
+    int index = 0; 
+    for(int i = 0; i < dims; i++){
+        for(int j = 0; j < dims; j++){
+            m->values[index] = m_values[index];
+            index += 1; 
+        }
+    }
+
+    /* get first col */
+    double first_expected[] = {1.00, 1.00, 1.00}; 
+    double *first_col = cols(m, 0); 
+    for(int i = 0; i < dims; i++){
+        assert(first_col[i] == first_expected[i]);
+    }
+
+    /* get secondd col */
+    double second_expected[] = {2.00, 2.00, 2.00}; 
+    double *second_col = cols(m, 1); 
+    for(int i = 0; i < dims; i++){
+        assert(second_col[i] == second_expected[i]);
+    }
+
+    /* get third col */    
+    double third_expected[] = {3.00, 3.00, 3.00}; 
+    double *third_col = cols(m, 2); 
+    for(int i = 0; i < dims; i++){
+        assert(third_col[i] == third_expected[i]);
+    }
+
+    printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
+}

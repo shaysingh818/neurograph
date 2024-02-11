@@ -74,7 +74,35 @@ int *indices(ndarray_t *t, int index) {
     /* calculcate final offset*/
     indexs[0] = curr_index;
     return indexs; 
-} 
+}
+
+double *rows(ndarray_t *t, int row_num){
+    int dim_shape = t->shape[0]; 
+    int result_size = t->size / dim_shape;
+    int start_index = row_num * result_size;  
+    double *result_vector = malloc(result_size * sizeof(int)); 
+    for(int i = 0; i < result_size; i++){
+        result_vector[i] = t->values[start_index];
+        start_index += 1; 
+    }
+    return result_vector;
+}
+
+
+double *cols(ndarray_t *t, int col_num) {
+
+    int dim_shape = t->shape[1];
+    int result_size = t->size / dim_shape; 
+    int stride = dim_shape; 
+    int start_index = col_num; 
+    double *result_vector = malloc(result_size * sizeof(int)); 
+    for(int i = 0; i < result_size; i++){ 
+        result_vector[i] = t->values[start_index];
+        start_index += stride; 
+    }
+    return result_vector; 
+}
+
 
 double nidx(ndarray_t *t, int *indices) {
     int index = nindex(t, indices); 

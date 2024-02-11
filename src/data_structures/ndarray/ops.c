@@ -1,7 +1,7 @@
 #include "includes/ops.h"
 
 
-ndarray_t *ndot(ndarray_t *a, ndarray_t *b) {
+ndarray_t *nmultiply(ndarray_t *a, ndarray_t *b) {
 
     if(a->rank != b->rank){
         err_msg(a, "Tensors are not of the same dimension"); 
@@ -65,6 +65,61 @@ ndarray_t *ndot(ndarray_t *a, ndarray_t *b) {
 
     return result_value;
 
+} 
+
+
+ndarray_t *ndot(ndarray_t *a, ndarray_t *b) {
+
+    if(a->rank != b->rank) {
+        err_msg(a, "Dot: rank mismatch"); 
+    }
+
+    if(a->rank != 2 || b->rank != 2){
+        printf("Dot: Rank 2 values required\n"); 
+        exit(0);
+    }
+
+    if(a->shape[a->rank-1] != b->shape[0]) {
+        printf("Dot: Rows must equal columns\n"); 
+        exit(0);
+    }
+
+    /* create resulting nd array*/
+    int *new_shape = malloc(a->rank * sizeof(int));
+    new_shape[0] = a->shape[0];
+    new_shape[1] = b->shape[b->rank-1]; 
+    ndarray_t *result = ndarray(a->rank, new_shape); 
+
+    /* set temp vars */
+    int row_counter = 0; 
+    int col_counter = 0; 
+    int stride = 0;
+    for(int i = 0; i < result->size; i++){
+
+        if(stride == b->shape[b->rank-1]) {
+            row_counter += 1; 
+            stride = 0; 
+        }
+
+        if(col_counter >= b->shape[b->rank-1]-1){
+            col_counter = 0; 
+        }
+
+        double *curr = rows(a, row_counter);
+        double *other = cols(b, col_counter);
+
+        /* multiply */
+        double value = 0.00; 
+        for(int j = 0; j < a->shape[0]; j++){
+            value += curr[j] * other[j];
+        }
+
+        result->values[i] = value; 
+        col_counter += 1; 
+        stride += 1; 
+    }
+
+    return result; 
 } 
 
 
