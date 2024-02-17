@@ -9,7 +9,7 @@
 
 union NodeType {
     node_value_t *node; 
-    value_t *value;
+    variable_t *variable;
 }; 
 
 typedef union NodeType node_type_t; 

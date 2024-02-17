@@ -15,7 +15,7 @@ typedef struct ComputationGraph computation_graph_t;
 
 
 /* computation graph node */
-node_t *value(void *value); 
+node_t *variable(void *value); 
 
 /* create instance of graph */
 computation_graph_t *computation_graph(double base_deriv);

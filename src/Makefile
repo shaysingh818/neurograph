@@ -29,11 +29,11 @@ install:
 	$(MAKE) -C ./graph 
 	$(MAKE) -C ./graph install
 
-	# $(MAKE) -C ./computation_graph 
-	# $(MAKE) -C ./computation_graph install
+	$(MAKE) -C ./computation_graph 
+	$(MAKE) -C ./computation_graph install
 
-	# $(MAKE) -C ./networks 
-	# $(MAKE) -C ./networks install
+	$(MAKE) -C ./networks 
+	$(MAKE) -C ./networks install
 
 uninstall:
 	$(MAKE) -C ./data_structures uninstall

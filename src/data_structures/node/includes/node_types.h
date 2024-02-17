@@ -10,7 +10,7 @@ typedef void (*value_destructor)(void*);
 typedef void (*value_constructor)(void*);
 
 /* variable node type */
-struct Value {
+struct Variable {
 	char *label;
 	void *output;
 	void *upstream_value;   
@@ -20,7 +20,7 @@ struct Value {
 	value_constructor value_constructor;	
 };
 
-typedef struct Value value_t;
+typedef struct Variable variable_t;
 
 /* Generic node */ 
 struct NodeValue {
