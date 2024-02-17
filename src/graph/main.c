@@ -1,10 +1,12 @@
 #include "tests/includes/test_graph.h" 
 #include "tests/includes/test_path.h" 
 #include "tests/includes/test_search.h" 
-#include "tests/includes/test_community.h" 
+#include "tests/includes/test_community.h"
 
 int main(int argc, char **argv) {
-	
+
+	printf("Test\n"); 
+
 	/* conversion methods */ 
    	test_to_list();
 	test_to_weighted_list();
@@ -54,6 +56,5 @@ int main(int argc, char **argv) {
 	test_label_propagation();
 	test_iterative_label_propagation(); 
 	test_triangle_count();  
-
 
 }

@@ -1,11 +1,10 @@
 #include "includes/graph.h"
-#include "../data_structures/queue/includes/queue.h"
+#include <data_structures/queue/includes/queue.h>
 
 
 
 graph_t *init_graph(int v, int e, bool directed) {
-	graph_t *g;
-	g = (graph_t*)malloc(sizeof(graph_t)); 
+	graph_t *g = (graph_t*)malloc(sizeof(graph_t)); 
 	g->edges = e; 
 	g->vertices = v;
 	g->directed = directed; 
@@ -74,9 +73,24 @@ adj_mat_t *to_matrix(adj_mat_t *m, adj_list_t *g, bool directed) {
 		int col = head->id; 
 
 		while(head) {
-			node_t *src = create_node(src_node->id, src_node->label, src_node->weight); 
-			node_t *dst = create_node(head->id, head->label, head->weight); 
-			add_node_mat(m, src->id, src->label, dst->id, dst->label, head->weight); 
+
+			node_t *src = create_node(
+				src_node->id, 
+				src_node->node_type->node->label, 
+				src_node->node_type->node->weight
+			);
+
+			node_t *dst = create_node(
+				head->id, 
+				head->node_type->node->label, 
+				head->node_type->node->weight
+			); 
+
+			add_node_mat(
+				m, src->id, src->node_type->node->label, 
+				dst->id, dst->node_type->node->label, 
+				head->node_type->node->weight
+			); 
 			head  = head->next;
 		}
 	}
@@ -88,11 +102,16 @@ adj_list_t *to_list(adj_list_t *g, adj_mat_t *m, bool directed) {
 
 	for(int i = 0; i < m->v; i++) {
 		for(int j = 0; j < m->v; j++) {
-			if(m->items[i*m->v+j]->label != NULL) {
-				int weight_value = m->items[i*m->v+j]->weight;
+			if(m->items[i*m->v+j]->node_type->node->label != NULL) {
+				int weight_value = m->items[i*m->v+j]->node_type->node->weight;
 				node_t *src = search_node_by_id_mat(m, i); 
 				node_t *dst = search_node_by_id_mat(m, j); 
-				add_node(g, src->id, src->label, dst->id, dst->label, weight_value);
+				add_node(
+					g, src->id, 
+					src->node_type->node->label, 
+					dst->id, dst->node_type->node->label, 
+					weight_value
+				);
 			}
 		}
 	}
@@ -106,9 +125,9 @@ void print_graph_list(graph_t *g) {
 		node_t *head = g->list->items[i]->head;
 		printf("%d ", i); 
 		while(head) {
-			printf("-> (%d, %s)", head->id, head->label); 
-			if(head->weight >= 0) {
-				printf(" [%d] ", head->weight); 
+			printf("-> (%d, %s)", head->id, head->node_type->node->label); 
+			if(head->node_type->node->weight >= 0) {
+				printf(" [%d] ", head->node_type->node->weight); 
 			}
 			head  = head->next; 
 		}
@@ -140,12 +159,12 @@ graph_t *frame_to_unweighted_graph(frame_t *frame, array_t *cols, bool directed)
 		/* extract values */
 		row_value_t **src_header_values = lookup_table_key(
 			frame->frame, 
-			cols->items[i]->label
+			cols->items[i]->node_type->node->label
 		);
 
 		row_value_t **dst_header_values = lookup_table_key(
 			frame->frame, 
-			cols->items[i+1]->label
+			cols->items[i+1]->node_type->node->label
 		);
 
 		for(int j = 0; j < frame->row_limit; j++){
@@ -188,17 +207,17 @@ graph_t *frame_to_weighted_graph(frame_t *frame, array_t *cols, bool directed) {
 		/* extract values */
 		row_value_t **src_header_values = lookup_table_key(
 			frame->frame, 
-			cols->items[i]->label
+			cols->items[i]->node_type->node->label
 		);
 
 		row_value_t **dst_header_values = lookup_table_key(
 			frame->frame, 
-			cols->items[i+1]->label
+			cols->items[i+1]->node_type->node->label
 		); 
 
 		row_value_t **weight_header_values = lookup_table_key(
 			frame->frame, 
-			cols->items[i+2]->label
+			cols->items[i+2]->node_type->node->label
 		);
 
 		for(int j = 0; j < frame->row_limit; j++) {
@@ -278,9 +297,9 @@ ordered_set_t *get_graph_nodes(graph_t *g) {
 	ordered_set_t *set = init_array_set(g->vertices); 
 	for(int i = 0; i < g->list->v; i++){
 		node_t *head = g->list->items[i]->head;
-		insert_ordered(set, head->id, head->label, 0); 
+		insert_ordered(set, head->id, head->node_type->node->label, 0); 
 		while(head) {
-			insert_ordered(set, head->id, head->label, 0); 
+			insert_ordered(set, head->id, head->node_type->node->label, 0); 
 			head  = head->next;
 		}
 	}
@@ -440,12 +459,10 @@ void deserialize_graph_list(graph_t *g, char *filename) {
 		printf("File does not exist\n");
 	}
 
-
-
 	for(int i = 0; i < g->list->v; i++){
 		node_t *result = get_node_by_id(g->list, i);
 		int id = result->id; 
-		char *label = result->label;
+		char *label = result->node_type->node->label;
 		remove_character(label, '"');
 
 
@@ -454,11 +471,19 @@ void deserialize_graph_list(graph_t *g, char *filename) {
 		fprintf(fp, "("); 
 		while(head) {
 			if (head->next == NULL){
-				remove_character(head->label, '"'); 
-				fprintf(fp, "[%d,\"%s\",%d]", head->id, head->label, head->weight);
+				remove_character(head->node_type->node->label, '"'); 
+				fprintf(
+					fp, "[%d,\"%s\",%d]", 
+					head->id, head->node_type->node->label, 
+					head->node_type->node->weight
+				);
 			} else {
-				remove_character(head->label, '"'); 
-				fprintf(fp, "[%d,\"%s\",%d],", head->id, head->label, head->weight);
+				remove_character(head->node_type->node->label, '"'); 
+				fprintf(
+					fp, "[%d,\"%s\",%d],", 
+					head->id, head->node_type->node->label, 
+					head->node_type->node->weight
+				);
 			}
 			head  = head->next;
 		}

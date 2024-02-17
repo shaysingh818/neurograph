@@ -15,7 +15,7 @@ void test_bfs_one() {
 
 	/* iterate through queue and confirm order */ 
 	for(int i = result->front_index; i <= result->rear_index; i++) {
-		int condition = strcmp(result->items[i]->label, order[i]);
+		int condition = strcmp(result->items[i]->node_type->node->label, order[i]);
 		assert(condition == 0); 
 	}
 
@@ -39,7 +39,7 @@ void test_bfs_two() {
 
 	/* iterate through queue and confirm order */ 
 	for(int i = result->front_index; i <= result->rear_index; i++) {
-		int condition = strcmp(result->items[i]->label, order[i]);
+		int condition = strcmp(result->items[i]->node_type->node->label, order[i]);
 		assert(condition == 0); 
 	}
 
@@ -71,7 +71,7 @@ void test_dfs_one() {
 
 	/* iterate through queue and confirm order */ 
 	for(int i = q->front_index; i <= q->rear_index; i++) {
-		int condition = strcmp(q->items[i]->label, order[i]);
+		int condition = strcmp(q->items[i]->node_type->node->label, order[i]);
 		assert(condition == 0); 
 	}
 

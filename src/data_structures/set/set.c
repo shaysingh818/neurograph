@@ -35,9 +35,9 @@ bool insert_ordered(ordered_set_t *s, int id, char *string_value, int weight) {
     }
 
     node_t *item = create_node(id, string_value, weight); 
-    if(item->label != NULL){
+    if(item->node_type->node->label != NULL){
         for(int i = 0; i < s->used; i++){
-           int compare = strcmp(s->items[i]->label, item->label) == 0; 
+           int compare = strcmp(s->items[i]->node_type->node->label, item->node_type->node->label) == 0; 
            if(compare == true){
                 s->insert_counts[i] += 1; 
                 return false; 
@@ -61,8 +61,8 @@ bool insert_ordered(ordered_set_t *s, int id, char *string_value, int weight) {
 
 int get_insert_count(ordered_set_t *s, node_t *item) {
     for(int i = 0; i < s->used; i++){
-        if(s->items[i]->label != NULL){
-            int compare = strcmp(s->items[i]->label, item->label) == 0; 
+        if(s->items[i]->node_type->node->label != NULL){
+            int compare = strcmp(s->items[i]->node_type->node->label, item->node_type->node->label) == 0; 
             if(compare){
                 return s->insert_counts[i]; 
             }
@@ -79,12 +79,12 @@ int get_insert_count(ordered_set_t *s, node_t *item) {
 int get_value_key(ordered_set_t *s, char *key) {
 
     for(int i = 0; i < s->used; i++){
-        if(s->items[i]->label == NULL){
+        if(s->items[i]->node_type->node->label == NULL){
             printf("Set does not store char values\n"); 
             exit(0); 
         }
 
-        int compare = strcmp(s->items[i]->label, key) == 0; 
+        int compare = strcmp(s->items[i]->node_type->node->label, key) == 0; 
         if(compare) return i; 
     } 
 
@@ -105,8 +105,8 @@ int get_value_id(ordered_set_t *s, int id) {
 void print_items_ordered(ordered_set_t *s){
     for(int i = 0; i < s->used; i++){
         node_t *item = s->items[i]; 
-        if(s->items[i]->label != NULL){
-            printf("[%d] -> %s\n", item->id, item->label); 
+        if(s->items[i]->node_type->node->label != NULL){
+            printf("[%d] -> %s\n", item->id, item->node_type->node->label); 
         } else {
             printf("%d\n", item->id); 
         }
@@ -145,10 +145,10 @@ node_t *insert_set_value_sorted(node_t *root, node_t *item) {
     } 
 
     /* if string value is present, sort lexographic, otherwise do numeric*/
-    if(item->label != NULL){
-        if(strcmp(root->label, item->label) > 0){
+    if(item->node_type->node->label != NULL){
+        if(strcmp(root->node_type->node->label, item->node_type->node->label) > 0){
             root->left = insert_set_value_sorted(root->left, item);
-        } else if(strcmp(root->label, item->label) < 0) {
+        } else if(strcmp(root->node_type->node->label, item->node_type->node->label) < 0) {
             root->right = insert_set_value_sorted(root->right, item);         
         }
 
@@ -168,7 +168,7 @@ int get_item_sorted(set_t *s, char *key) {
     queue_t *q = init_queue(s->count);
     get_items_sorted(s->root, q);
 	for(int i = q->front_index; i <= q->rear_index; i++) {
-        if(strcmp(q->items[i]->label, key) == 0){
+        if(strcmp(q->items[i]->node_type->node->label, key) == 0){
             return i;
         }
     }
@@ -190,6 +190,6 @@ void print_set_sorted(set_t *s) {
     s->queue = init_queue(s->count); 
     get_items_sorted(s->root, s->queue); 
 	for(int i = s->queue->front_index; i <= s->queue->rear_index; i++) {
-        printf("%s\n", s->queue->items[i]->label); 
+        printf("%s\n", s->queue->items[i]->node_type->node->label); 
     }
 } 

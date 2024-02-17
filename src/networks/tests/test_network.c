@@ -240,3 +240,36 @@ void test_load_model_params() {
 
     printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
 } 
+
+void test_memory_leak() {
+
+    char *filepath = "../../examples/models/testnet"; 
+
+    if(access(filepath, F_OK) == -1){
+        printf("No saved model exists in %s\n", filepath);
+        exit(0);  
+    }
+
+    size_t architecture_path_size = strlen(filepath) + strlen("architecture") + 1;
+    char *model_architecture_path = malloc(architecture_path_size * sizeof(char));   
+    sprintf(model_architecture_path, "%s/%s", filepath, "architecture");
+
+    /* create layers from architecture file */
+    char buffer[1000]; 
+    FILE *fp = fopen(model_architecture_path, "r");
+
+    int counter = 0, count; 
+    while(fgets(buffer, 1000, fp)) {
+
+        end_line_terminate(buffer); 
+        array_t *vals = match_delimeter_file(buffer, ":");
+        printf("Fuck: %s\n", vals->items[1]->node_type->node->label);
+
+        char *layer_type = vals->items[0]->node_type->node->label; 
+        char *path = vals->items[1]->node_type->node->label;
+
+
+        counter += 1; 
+    }
+
+}

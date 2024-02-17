@@ -56,8 +56,8 @@ void test_hash_table() {
 		void *results = lookup_key(struct_table, keys[i]);
 		node_t *value = (node_t*)results; 
 		bool id_condition = value->id == ids[i]; 
-		bool weight_condition = value->weight == weights[i]; 
-		bool label_condition = strcmp(expected_values[i], value->label) == 0;  
+		bool weight_condition = value->node_type->node->weight == weights[i]; 
+		bool label_condition = strcmp(expected_values[i], value->node_type->node->label) == 0;  
 
 		assert(id_condition); 
 		assert(weight_condition);

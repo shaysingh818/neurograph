@@ -49,10 +49,10 @@ void remove_char(array_t *a, char *item) {
 
     int remove_index; 
     for(int i = 0; i < a->item_count; i++){
-        bool compare = strcmp(a->items[i]->label, item) == 0; 
+        bool compare = strcmp(a->items[i]->node_type->node->label, item) == 0; 
         if(compare){
             if(i != a->item_count){
-                free(a->items[i]->label);
+                free(a->items[i]->node_type->node->label);
                 free(a->items[i]);
             }
             remove_index = i; 
@@ -79,7 +79,7 @@ void print_array(array_t *a){
     for(int i = 0; i < a->item_count; i++){
         printf(
             "[%d] -> (%d, %s)\n", 
-            i, a->items[i]->id, a->items[i]->label
+            i, a->items[i]->id, a->items[i]->node_type->node->label
         ); 
     } 
 }

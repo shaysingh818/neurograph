@@ -41,7 +41,7 @@ void test_frame_to_unweighted_graph() {
 	    node_t *head = result->list->items[i]->head; 
 	    int node_index = 0; 
 	    while(head) {
-			int condition = strcmp(head->label, relationship_list[i][node_index]);
+			int condition = strcmp(head->node_type->node->label, relationship_list[i][node_index]);
 			assert(condition == 0);
 	        head = head->next;
 	        node_index += 1; 
@@ -89,7 +89,7 @@ void test_frame_to_weighted_graph() {
 	    node_t *head = result->list->items[i]->head; 
 	    int node_index = 0; 
 	    while(head) {
-			assert(head->weight == weight_list[i][node_index]); 
+			assert(head->node_type->node->weight == weight_list[i][node_index]); 
 	        head = head->next;
 	        node_index += 1; 
 	    }
@@ -158,7 +158,7 @@ void test_get_nodes_from_file() {
 	assert(q->rear_index == 6);  
 
 	for(int i = q->front_index; i <= q->rear_index; i++){
-		char *label = q->items[i]->label;
+		char *label = q->items[i]->node_type->node->label;
 		int id = get_item_sorted(node_set, label); 
 		int compare = strcmp(label, expected_labels[i]) == 0; 
 		assert(id == expected_ids[i]); 
@@ -194,7 +194,7 @@ void test_get_nodes(){
 	char *expected_labels[7] = {"B", "C", "A", "D", "E", "F", "G"}; 
 
 	for(int i = 0; i < set->used; i++){
-		int compare = strcmp(set->items[i]->label, expected_labels[i]) == 0;
+		int compare = strcmp(set->items[i]->node_type->node->label, expected_labels[i]) == 0;
 		int insert_count = get_insert_count(set, set->items[i]);
 
 		assert(set->items[i]->id == expected_ids[i]);
@@ -227,7 +227,7 @@ void test_serialize_adj_list_sorted_labels(){
 		node_t *head = g->list->items[i]->head; 
 		int node_index = 0; 
 		while(head) {
-			int condition = strcmp(head->label, relationship_list[i][node_index]);
+			int condition = strcmp(head->node_type->node->label, relationship_list[i][node_index]);
 			assert(condition == 0); 
 			head = head->next;
 		   	node_index += 1; 
@@ -270,7 +270,7 @@ void test_serialize_adj_list() {
 		node_t *head = g->list->items[i]->head; 
 		int node_index = 0;
 		while(head) {
-			int condition = strcmp(head->label, relationship_list[i][node_index]) == 0;
+			int condition = strcmp(head->node_type->node->label, relationship_list[i][node_index]) == 0;
 			int id_condition = head->id == expected_ids[i][node_index]; 
 			assert(condition == true); 			
 			assert(id_condition); 
@@ -330,6 +330,7 @@ void test_to_list() {
 	adj_list_t *g = init_adj_list(vertices, vertices, true);
 	adj_mat_t *m = init_adj_mat(vertices, vertices, true);
 
+
 	/* build matrix */ 
 	add_node_mat(m, 0, "A", 1, "B", 0);  
 	add_node_mat(m, 0, "A", 2, "C", 0);  
@@ -354,7 +355,7 @@ void test_to_list() {
 		node_t *head = g->items[i]->head; 
 		int node_index = 0; 
 		while(head) {
-			int condition = strcmp(head->label, relationship_list[i][node_index]); 
+			int condition = strcmp(head->node_type->node->label, relationship_list[i][node_index]); 
 			assert(condition == 0); 
 			head = head->next;
 		   	node_index += 1; 
@@ -403,7 +404,7 @@ void test_to_weighted_list() {
 		node_t *head = g->items[i]->head; 
 		int node_index = 0; 
 		while(head) {
-			if(head->weight != relationship_list[i][node_index]) {
+			if(head->node_type->node->weight != relationship_list[i][node_index]) {
 				equality_status = FALSE;
 			}
 			head = head->next;
@@ -448,7 +449,7 @@ void test_to_directed_list() {
 		node_t *head = g->items[i]->head; 
 		int node_index = 0; 
 		while(head) {
-			int condition = strcmp(head->label, relationship_list[i][node_index]);
+			int condition = strcmp(head->node_type->node->label, relationship_list[i][node_index]);
 			assert(condition == 0); 
 			head = head->next;
 		   	node_index += 1; 
@@ -492,7 +493,7 @@ void test_to_directed_weighted_list() {
 		node_t *head = g->items[i]->head; 
 		int node_index = 0; 
 		while(head) {
-			int condition = strcmp(head->label, relationship_list[i][node_index]); 
+			int condition = strcmp(head->node_type->node->label, relationship_list[i][node_index]); 
 			assert(condition == 0);
 			head = head->next;
 		   	node_index += 1; 
@@ -647,7 +648,7 @@ void test_to_weighted_matrix() {
 	/* check output */ 
 	for(int i = 0; i < vertices; i++) {
 		for(int j = 0; j < vertices; j++) {
-			if(output->items[i*v+j]->weight != expected_output[i][j]) {
+			if(output->items[i*v+j]->node_type->node->weight != expected_output[i][j]) {
 				assert(output->items[i*v+j]->id == expected_output[i][j]);
 			}
 		}

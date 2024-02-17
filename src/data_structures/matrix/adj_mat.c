@@ -83,9 +83,11 @@ adj_mat_t *transpose_items_mat(adj_mat_t *m, adj_mat_t *r) {
 		node_t *dst = search_node_by_id_mat(m, i); 
 		for(int j = 0; j < m->v; j++){
             node_t *neighbor = m->items[i*m->v+j];
-			if(neighbor->label != NULL){
-				node_t *src = search_node_by_id_mat(m, j); 
-				add_node_mat(r, src->id, src->label, dst->id, dst->label, src->weight); 
+			if(neighbor->id > -1){
+				if(neighbor->node_type->node->label != NULL){
+					node_t *src = search_node_by_id_mat(m, j); 
+					add_node_mat(r, src->id, src->node_type->node->label, dst->id, dst->node_type->node->label, src->node_type->node->weight); 
+				}
 			}
 		}
 	}
@@ -101,7 +103,9 @@ void print_adj_mat(adj_mat_t *mat){
             if(neighbor->id > -1){
 				printf(
 					"-> (%d, %s, %d)",
-					neighbor->id, neighbor->label, neighbor->weight
+					neighbor->id, 
+					neighbor->node_type->node->label, 
+					neighbor->node_type->node->weight
 				); 
             } 
         }

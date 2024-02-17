@@ -12,6 +12,7 @@ void test_loss();
 void test_network_train(); 
 void test_base_concept(); // for debugging and walking step by step
 void test_save_model_params(); 
-void test_load_model_params(); 
+void test_load_model_params();
+void test_memory_leak();  
 
 #endif
