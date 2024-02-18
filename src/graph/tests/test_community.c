@@ -278,8 +278,6 @@ void test_label_propagation() {
 	labels[0] = 0; 
 	labels[1] = 1;
 
-	print_graph_list(g); 
-
 	int *predicted_labels = label_propagator_list(g, labels, 0);
 	for(int i = 0; i < g->vertices; i++){
 		assert(predicted_labels[i] == expected_output[i]); 
@@ -315,7 +313,6 @@ void test_iterative_label_propagation() {
 
 	int *labels = label_propagation_iterative_list(g, 0); 
 	for(int i = 0; i < g->list->v; i++){
-		printf("%d\n", labels[i]); 
 		assert(labels[i] == expected_output[i]);
 	}
 

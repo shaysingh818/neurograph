@@ -243,7 +243,7 @@ walk_t *random_walk_mat(graph_t *m, int start_vertex, int steps) {
 		int neighbors[m->vertices];
 
 		for(int j = 0; j < m->vertices; j++) {
-			int id = m->matrix->items[start*m->vertices+j]->id; 
+			int id = m->matrix->items[start*m->vertices+j]->id;
 			if(id >= 0) {
 				neighbors[counter] = id; 
 				counter += 1; 
@@ -276,32 +276,36 @@ int *dijkstra_mat(graph_t *m, int start_vertex) {
 		}
 	}
 
+
+
 	/* push start vertex to front of queue */
 	node_t *start = search_node_by_id_mat(m->matrix, start_vertex);
 	push(q, start); 	
-	dist[start_vertex] = 0; 
+	dist[start_vertex] = 0;
 
 	while(!is_empty(q)) {
 
 		/* get minimum distance */
 		int u = q->items[q->front_index]->id;
-		pop(q); 
+		pop(q);
 
 		/* get neighbors */
 		for(int n = 0; n < m->vertices; n++){
 
 			int id = m->matrix->items[start_vertex*m->vertices+n]->id; 
-			int weight = m->matrix->items[start_vertex*m->vertices+n]->node_type->node->weight; 
-			char *label = m->matrix->items[start_vertex*m->vertices+n]->node_type->node->label; 
-
-			if(id >= 0) {
-				if(dist[id] > dist[u] + weight) {
-					dist[id] = dist[u] + weight;
-					prev[id] = u; 
-					node_t *temp = create_node(id, label, 0); 
-					push(q, temp);
+			if(id > -1){
+				int weight = m->matrix->items[start_vertex*m->vertices+n]->node_type->node->weight; 
+				char *label = m->matrix->items[start_vertex*m->vertices+n]->node_type->node->label; 
+				if(id >= 0) {
+					if(dist[id] > dist[u] + weight) {
+						dist[id] = dist[u] + weight;
+						prev[id] = u; 
+						node_t *temp = create_node(id, label, 0); 
+						push(q, temp);
+					}
+					start_vertex = u; 
 				}
-				start_vertex = u; 
+
 			}
 		}
 	}
@@ -345,19 +349,21 @@ int shortest_path_mat(graph_t *m, int start_vertex, int end_vertex) {
 		/* get neighbors */
 		for(int n = 0; n < m->vertices; n++){
 
-			int id = m->matrix->items[start_vertex*m->vertices+n]->id; 
-			int weight = m->matrix->items[start_vertex*m->vertices+n]->node_type->node->weight; 
-			char *label = m->matrix->items[start_vertex*m->vertices+n]->node_type->node->label; 
+			int id = m->matrix->items[start_vertex*m->vertices+n]->id;
+			if(id > -1){
+				int weight = m->matrix->items[start_vertex*m->vertices+n]->node_type->node->weight; 
+				char *label = m->matrix->items[start_vertex*m->vertices+n]->node_type->node->label; 
 
-			if(id >= 0) {
-				if(dist[id] > dist[u] + weight) {
-					dist[id] = dist[u] + weight;
-					prev[id] = u; 
-					node_t *temp = create_node(id, label, 0); 
-					push(q, temp);
+				if(id >= 0) {
+					if(dist[id] > dist[u] + weight) {
+						dist[id] = dist[u] + weight;
+						prev[id] = u; 
+						node_t *temp = create_node(id, label, 0); 
+						push(q, temp);
+					}
+					start_vertex = u; 
 				}
-				start_vertex = u; 
-			}
+			} 
 		}
 	}
 

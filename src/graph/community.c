@@ -7,8 +7,8 @@ int degree_centrality_list(graph_t *g, node_t *root) {
 	/* online implementations are vague */ 
 	/* for now use best attempt to get the most popular node */ 
 
-	int v = g->vertices;
-	int e = g->edges; 
+	int v = g->list->v;
+	int e = g->list->e; 
 	int max_count = 0;
    	int max_vertex = 0; 	
 
@@ -239,10 +239,6 @@ int *label_propagation_iterative_list(graph_t *g, int start_vertex) {
 		g->labels[node_id] = curr_label; 		
 	}
 
-	for(int i = 0; i < g->list->v; i++){
-		printf("%d\n", g->labels[i]); 
-	}
-
 	return g->labels; 
 }
 
@@ -320,15 +316,16 @@ mat_t *label_nodes_mat(graph_t *m, int *labels) {
 
 	for(int i = 0; i < m->vertices; i++){
 		for(int j = 0; j < m->vertices; j++){
+			if(m->matrix->items[i*m->vertices+j]->id > -1){
+				if(m->matrix->items[i*m->vertices+j]->node_type->node->label != NULL){
+					if(i == labels[i] && i == j){
+						A->arr[i][j] = 1;
+					}
 
-			if(m->matrix->items[i*m->vertices+j]->node_type->node->label != NULL){
-				if(i == labels[i] && i == j){
-					A->arr[i][j] = 1;
+					if(i != labels[i]){
+						A->arr[i][j] = 1; 
+					}	
 				}
-
-				if(i != labels[i]){
-					A->arr[i][j] = 1; 
-				}	
 			}
 		}
 	}

@@ -102,7 +102,7 @@ adj_list_t *to_list(adj_list_t *g, adj_mat_t *m, bool directed) {
 
 	for(int i = 0; i < m->v; i++) {
 		for(int j = 0; j < m->v; j++) {
-			if(m->items[i*m->v+j]->node_type->node->label != NULL) {
+			if(m->items[i*m->v+j]->id > -1) {
 				int weight_value = m->items[i*m->v+j]->node_type->node->weight;
 				node_t *src = search_node_by_id_mat(m, i); 
 				node_t *dst = search_node_by_id_mat(m, j); 

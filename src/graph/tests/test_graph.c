@@ -340,7 +340,7 @@ void test_to_list() {
 
 	/* test directed matrix conversion */ 
 	adj_list_t *output = to_list(g, m, false);
-
+	
 	/* expected relationships from adjacency list */ 
 	char *relationship_list[5][5] = {
 		{"B", "C"}, 

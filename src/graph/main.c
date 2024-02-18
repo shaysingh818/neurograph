@@ -5,8 +5,6 @@
 
 int main(int argc, char **argv) {
 
-	printf("Test\n"); 
-
 	/* conversion methods */ 
    	test_to_list();
 	test_to_weighted_list();
@@ -45,11 +43,13 @@ int main(int argc, char **argv) {
 	/* random walk */
    	test_random_walk();
 	test_weighted_random_walk();
-	test_random_walk_mat(); 
+	test_random_walk_mat();
 
 	/* community detection */
 	test_degree_centrality();
 	test_weighted_degree_centrality();
+
+
 	test_degree_centrality_mat();
 	test_kosaraju();
 	test_label_nodes(); 
