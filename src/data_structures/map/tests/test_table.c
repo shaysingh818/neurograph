@@ -78,7 +78,7 @@ void test_insert_table_key() {
 
     for(int i = 0; i < 5; i++){
         node_t *node = lookup_table_key(table2, char_node_keys[i]); 
-        char *expected_value = node->label; 
+        char *expected_value = node->node_type->node->label; 
         bool condition = strcmp(expected_value, char_node_values[i]) == 0; 
         assert(condition); 
     }

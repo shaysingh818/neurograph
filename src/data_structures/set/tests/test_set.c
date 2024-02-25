@@ -43,7 +43,7 @@ void test_unique_entries_ordered() {
     assert(s->used == 3);
 
     for(int i = 0; i < s->used; i++){
-        int compare = strcmp(s->items[i]->label, expected_items[i]) == 0; 
+        int compare = strcmp(s->items[i]->node_type->node->label, expected_items[i]) == 0; 
         assert(compare == true); 
     } 
 
@@ -223,7 +223,7 @@ void test_lexographic_ordering_sorted() {
 
     /* check that ordering works */
 	for(int i = q->front_index; i <= q->rear_index; i++) {
-        int condition = strcmp(q->items[i]->label, expected_items[i]) == 0; 
+        int condition = strcmp(q->items[i]->node_type->node->label, expected_items[i]) == 0; 
         assert(condition == true); 
     }
 

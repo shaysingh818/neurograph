@@ -18,7 +18,7 @@ void test_push_ll() {
     }
 
     while(head != NULL) {
-        int compare = strcmp(head->label, values[head->id]) == 0;
+        int compare = strcmp(head->node_type->node->label, values[head->id]) == 0;
         assert(compare == true);  
         head = head->next; 
     } 
@@ -53,9 +53,9 @@ void test_insert_after_ll() {
 
     int counter = 0;  
     while(head != NULL) {
-        int compare = strcmp(head->label, values[head->id]) == 0;
+        int compare = strcmp(head->node_type->node->label, values[head->id]) == 0;
         if(counter == 1) {
-            compare = strcmp(head->label, "insert_after") == 0; 
+            compare = strcmp(head->node_type->node->label, "insert_after") == 0; 
         }
         assert(compare == true); 
         head = head->next;
@@ -86,7 +86,7 @@ void test_append_ll() {
 
     /* get list results */
     while(head != NULL) {
-        int compare = strcmp(head->label, values[head->id]) == 0;
+        int compare = strcmp(head->node_type->node->label, values[head->id]) == 0;
         assert(compare == true);  
         head = head->next;
     }
@@ -162,7 +162,7 @@ void test_insert_array() {
 
 
     for(int i = 0; i < array->item_count; i++){
-        int condition = strcmp(array->items[i]->label, expected_items[i]) == 0; 
+        int condition = strcmp(array->items[i]->node_type->node->label, expected_items[i]) == 0; 
         assert(condition == true); 
     }
 
@@ -172,7 +172,7 @@ void test_insert_array() {
 
 
     for(int i = 0; i < array->item_count; i++){
-        int condition = strcmp(array->items[i]->label, expected_items_removed[i]) == 0; 
+        int condition = strcmp(array->items[i]->node_type->node->label, expected_items_removed[i]) == 0; 
         assert(condition == true); 
     }
 
@@ -203,7 +203,7 @@ void test_insert_char() {
 
 
     for(int i = 0; i < array->item_count; i++){
-        int condition = strcmp(array->items[i]->label, expected_items[i]) == 0; 
+        int condition = strcmp(array->items[i]->node_type->node->label, expected_items[i]) == 0; 
         assert(condition == true);
         assert(array->items[i]->id == i);  
     }

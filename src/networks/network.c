@@ -196,15 +196,16 @@ void load_model_params(net_t *nn, char *filepath) {
     /* create layers from architecture file */
     char buffer[1000]; 
     hash_table_t *layers = layer_map(); 
-    FILE *fp = fopen(model_architecture_path, "r"); 
+    FILE *fp = fopen(model_architecture_path, "r");
+
     int counter = 0, count; 
     while(fgets(buffer, 1000, fp)) {
 
         end_line_terminate(buffer); 
-        array_t *vals = match_delimeter_file(buffer, ":"); 
+        array_t *vals = match_delimeter_file(buffer, ":");
 
-        char *layer_type = vals->items[0]->label; 
-        char *path = vals->items[1]->label; 
+        char *layer_type = vals->items[0]->node_type->node->label; 
+        char *path = vals->items[1]->node_type->node->label;
 
         layer_t *(*load_layer)(char*) = lookup_table_key(layers, layer_type); 
         layer_t *layer_instance = load_layer(path);        

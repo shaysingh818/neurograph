@@ -1,0 +1,4 @@
+linear:../../examples/models/testnet/0_linear
+loss:../../examples/models/testnet/1_loss
+linear:../../examples/models/testnet/2_linear
+loss:../../examples/models/testnet/3_loss

@@ -9,13 +9,16 @@ int main(int argc, char **argv) {
     test_set_tensor(); 
     test_reshape();
     test_save_tensor();
+    test_get_rows(); 
+    test_get_cols(); 
 
     /* ops */
     test_add_tensor(); 
     test_subtract_tensor();
     test_scale_add_tensor(); 
-    test_tensor_dot_product(); 
+    test_tensor_multiplication(); 
     test_tensor_transpose();
-    test_tensor_permute(); 
+    test_tensor_permute();
+    test_tensor_dot_product(); 
 
 } 

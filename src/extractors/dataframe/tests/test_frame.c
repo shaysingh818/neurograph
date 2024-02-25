@@ -49,7 +49,7 @@ void test_extract_frame_headers() {
     assert(frame->status); 
 
     for(int i = 0; i < frame->headers->item_count; i++){
-        bool condition = strcmp(frame->headers->items[i]->label, movie_cols[i]) == 0; 
+        bool condition = strcmp(frame->headers->items[i]->node_type->node->label, movie_cols[i]) == 0; 
         assert(condition); 
     }
 
@@ -65,7 +65,7 @@ void test_extract_frame_headers() {
     assert(frame2->status); 
 
     for(int i = 0; i < frame2->headers->item_count; i++){
-        bool condition = strcmp(frame2->headers->items[i]->label, power_gen_cols[i]) == 0; 
+        bool condition = strcmp(frame2->headers->items[i]->node_type->node->label, power_gen_cols[i]) == 0; 
         assert(condition); 
     }
     printf("%s::%s... \e[0;32mPASSED\e[0m\n", __FILE__, __FUNCTION__);
@@ -142,7 +142,7 @@ void test_dataframe() {
     for(int i = 0; i < frame->headers->item_count; i++){
         bool compare = strcmp(
             expected_headers[i], 
-            frame->headers->items[i]->label
+            frame->headers->items[i]->node_type->node->label
         ); 
         assert(compare == 0); 
     }

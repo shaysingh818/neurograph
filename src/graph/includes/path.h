@@ -11,7 +11,6 @@ int shortest_path_list(graph_t *g, int start_vertex, int end_vertex);
 walk_t *random_walk_list(graph_t *g, int start_vertex, int steps); 
 walk_t *weighted_random_walk_list(graph_t *g, int start_vertex, int steps);
 
-
 /* MATRICE REPRESENTATION (Path finding) */
 walk_t *random_walk_mat(graph_t *m, int start_vertex, int steps);
 int *dijkstra_mat(graph_t *m, int start_vertex); 

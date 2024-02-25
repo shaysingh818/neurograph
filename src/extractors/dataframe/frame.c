@@ -90,10 +90,10 @@ mat_t *frame_to_matrix(frame_t *frame, array_t *cols) {
 	mat_t *mat_result = init_matrix(frame->row_limit, cols->item_count); 
 	for(int i = 0; i < cols->item_count; i++){
 
-		row_value_t **values = lookup_table_key(frame->frame, cols->items[i]->label); 
-		int failure = lookup_table_key(frame->frame, cols->items[i]->label); 
+		row_value_t **values = lookup_table_key(frame->frame, cols->items[i]->node_type->node->label); 
+		int failure = lookup_table_key(frame->frame, cols->items[i]->node_type->node->label); 
 		if(failure == 0){
-			printf("Key error: %s\n", cols->items[i]->label); 
+			printf("Key error: %s\n", cols->items[i]->node_type->node->label); 
 			exit(0); 
 		}
 
@@ -104,7 +104,7 @@ mat_t *frame_to_matrix(frame_t *frame, array_t *cols) {
 			if(value == err){
 				printf(
 					"Cant convert %s column to numeric representation\n",
-					cols->items[i]->label
+					cols->items[i]->node_type->node->label
 				);
 				frame->status = false;  
 			}
@@ -141,7 +141,7 @@ void extract_headers(frame_t *frame) {
 			headers_size = semi_results->item_count;
 
 			/* remove special carriage characters from EOF */
-			char *value = semi_results->items[headers_size-1]->label; 
+			char *value = semi_results->items[headers_size-1]->node_type->node->label; 
     		remove_character(value, '\r'); 
 
             frame->headers= semi_results; 
@@ -171,7 +171,7 @@ void init_rows(frame_t *frame) {
 
 	for(int i = 0; i < frame->header_count; i++){
 
-		char *key = frame->headers->items[i]->label;
+		char *key = frame->headers->items[i]->node_type->node->label;
 
 		/* allocate row values array for column */
 		row_value_t **values = malloc(frame->row_limit * sizeof(row_value_t*));
@@ -197,7 +197,7 @@ void init_rows(frame_t *frame) {
 				break; 
 			}
 
-			char *value = row_vals->items[i]->label;  
+			char *value = row_vals->items[i]->node_type->node->label;  
 			if(i == size-1){
 				end_line_terminate(value); 
 			}
@@ -234,7 +234,10 @@ void print_cols(frame_t *frame) {
 void print_rows(frame_t *frame) {
     row_value_t ***col_values = malloc(frame->headers->item_count * sizeof(row_value_t**)); 
     for(int i = 0; i < frame->headers->item_count; i++){
-        row_value_t **values = lookup_table_key(frame->frame, frame->headers->items[i]->label);
+        row_value_t **values = lookup_table_key(
+			frame->frame, 
+			frame->headers->items[i]->node_type->node->label
+		);
         col_values[i] = values;  
     }
 
@@ -244,8 +247,8 @@ void print_rows(frame_t *frame) {
 
 			/* cut off column value if it's greater than the length of the header */
 			char *value = strdup(col_values[i][j]->value);
-			if(strlen(value) > strlen(frame->headers->items[i]->label)){
-				value[strlen(frame->headers->items[i]->label)] = '\0'; 
+			if(strlen(value) > strlen(frame->headers->items[i]->node_type->node->label)){
+				value[strlen(frame->headers->items[i]->node_type->node->label)] = '\0'; 
 			}
 
             printf("%20s", value);
@@ -257,8 +260,8 @@ void print_rows(frame_t *frame) {
 
 void drop_cols(frame_t *frame, array_t *cols) {
 	for(int i = 0; i < cols->item_count; i++){
-		remove_char(frame->headers, cols->items[i]->label); 
-		delete_table_key(frame->frame, cols->items[i]->label);
+		remove_char(frame->headers, cols->items[i]->node_type->node->label); 
+		delete_table_key(frame->frame, cols->items[i]->node_type->node->label);
 	}
 	frame->header_count = frame->header_count - cols->item_count; 
 } 

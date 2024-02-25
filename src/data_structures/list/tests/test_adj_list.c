@@ -25,7 +25,7 @@ void test_graph() {
 		node_t *head = g->items[i]->head; 
 		int node_index = 0; 
 		while(head) {
-			int condition = strcmp(head->label, relationship_list[i][node_index]);
+			int condition = strcmp(head->node_type->node->label, relationship_list[i][node_index]);
 			assert(condition == 0);  
 			head = head->next;
 		   	node_index += 1; 
@@ -70,7 +70,7 @@ void test_weighted_graph() {
 		node_t *head = g->items[i]->head; 
 		int node_index = 0; 
 		while(head) {
-			int condition = strcmp(head->label, relationship_list[i][node_index]);
+			int condition = strcmp(head->node_type->node->label, relationship_list[i][node_index]);
 			assert(condition == 0);  
 			head = head->next;
 		   	node_index += 1; 
@@ -134,7 +134,7 @@ void test_transpose_graph() {
 		while(head) {
 
 			/* check if values are equal */ 
-			int condition = strcmp(head->label, relationship_list[i][node_index]); 
+			int condition = strcmp(head->node_type->node->label, relationship_list[i][node_index]); 
 			assert(condition == 0); 
 			head = head->next; 
 			node_index += 1; 
@@ -180,7 +180,7 @@ void test_get_node_by_id() {
 
 	node_t *result = get_node_by_id(g, 0); 
 
-	int label_condition = strcmp(result->label, "A") == 0;
+	int label_condition = strcmp(result->node_type->node->label, "A") == 0;
 	assert(label_condition && result->id == 0);  
 
 

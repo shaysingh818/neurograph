@@ -8,7 +8,7 @@ adj_list_t *init_adj_list(int v, int e, bool directed) {
 	list->edges = malloc(e * sizeof(edge_t));
    	list->visited = malloc(v * sizeof(int)); 
 	list->used = malloc(v * sizeof(int)); 
-	list->items = malloc(v * sizeof(node_list_t*)); 
+	list->items = malloc(v * sizeof(node_obj_list_t*)); 
 	list->directed = directed;
    	list->err = false; 	
 	list->v = v;
@@ -16,7 +16,7 @@ adj_list_t *init_adj_list(int v, int e, bool directed) {
 
 	/* allocate node lists */
 	for(int i = 0; i < v; i++){
-		list->items[i] = malloc(sizeof(node_list_t)); 
+		list->items[i] = malloc(sizeof(node_obj_list_t)); 
 		list->items[i]->head = NULL; 
 	}
 
@@ -57,7 +57,7 @@ void resize_adj_list(adj_list_t *g, int new_size) {
 	g->v = new_size; 
 	g->e = new_size; 
 	g->edges = realloc(g->edges, new_size * sizeof(edge_t));
-	g->items = realloc(g->items, new_size * sizeof(node_list_t)); 
+	g->items = realloc(g->items, new_size * sizeof(node_obj_list_t)); 
 }
 
 
@@ -71,7 +71,12 @@ adj_list_t *transpose_items(adj_list_t *g, adj_list_t *r) {
 			node_t *dst = get_node_by_id(g, i); 
 
 			/* switch direction of graph */ 
-			add_node(r, head->id, src->label, i, dst->label, head->weight); 
+			add_node(
+				r, head->id, 
+				src->node_type->node->label, 
+				i, dst->node_type->node->label, 
+				head->node_type->node->weight
+			); 
 			head = head->next; 
 		}
 	}
@@ -147,15 +152,14 @@ int add_end_node(adj_list_t *g, int src_id, char *src_label, int weight) {
 	return TRUE; 
 }
 
-
 void print_graph(adj_list_t *g) {
 	for(int i = 0; i < g->v; i++){
 		node_t *head = g->items[i]->head;
 		printf("%d ", i);
 		while(head) {
-			printf("-> (%d, %s)", head->id, head->label); 
-			if(head->weight >= 0) {
-				printf(" [%d] ", head->weight); 
+			printf("-> (%d, %s)", head->id, head->node_type->node->label); 
+			if(head->node_type->node->weight >= 0) {
+				printf(" [%d] ", head->node_type->node->weight); 
 			}
 			head  = head->next; 
 		}

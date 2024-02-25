@@ -11,6 +11,7 @@
 #include "ndarray.h"
  
 /* ops for neural net  */
+ndarray_t *nmultiply(ndarray_t *a, ndarray_t *b);
 ndarray_t *ndot(ndarray_t *a, ndarray_t *b); 
 ndarray_t *nadd(ndarray_t *t, ndarray_t *val);
 ndarray_t *nsubtract(ndarray_t *t1, ndarray_t *t2);

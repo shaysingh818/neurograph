@@ -326,7 +326,7 @@ void test_weighted_random_walk() {
    	int test_sum = 0; 	
 	for(int i = 0; i < result->steps; i++) {
 	   	node_t *node = g->list->items[result->path[i]]->head; 	
-		test_sum += node->weight; 
+		test_sum += node->node_type->node->weight; 
 	}
 
 	/* check if sum of paths is correct */ 
@@ -367,7 +367,7 @@ void test_random_walk_mat() {
 	int weight_sum = 0; 
 	for(int i = 0; i < result->steps; i++) {
 		int item = result->path[i]; 
-		int weight = m->matrix->items[start*m->vertices+item]->weight;
+		int weight = m->matrix->items[start*m->vertices+item]->node_type->node->weight;
 		weight_sum += weight; 
 		start = item; 
 	}

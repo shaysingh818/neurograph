@@ -6,7 +6,7 @@ SO_TARGET = libneurograph.so
 INSTALL_DIR = /usr/local/lib
 OBJ_DIR = objs
 
-FLAGS = -lm -lpthread -lds -lextractors -lgraph -lcgraph -lnetworks
+FLAGS = -lm -lpthread -lds -lextractors -lgraph 
 SO_FLAGS =  -shared -fPIC  
 
 # source objects 

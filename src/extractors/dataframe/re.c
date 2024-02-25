@@ -77,9 +77,9 @@ tokens_t *match_single(char *buffer, char *pattern) {
 
     /* copy results from linked list */
     while(head != NULL) {
-        size_t token_length = strlen(head->label); 
+        size_t token_length = strlen(head->node_type->node->label); 
         tokens[head->id] = malloc(token_length+1 * sizeof(char)); 
-        strcpy(tokens[head->id], head->label);  
+        strcpy(tokens[head->id], head->node_type->node->label);  
         head = head->next; 
     }
 
@@ -108,7 +108,7 @@ void match_tokens_to_pattern(array_t *tokens, char *pattern) {
     for(int n = 0; n < tokens->item_count; n++){
 
         /* iterate through buffer and get tokens */
-        int compare = regexec(&regex, tokens->items[n]->label, 1, &match, 0);
+        int compare = regexec(&regex, tokens->items[n]->node_type->node->label, 1, &match, 0);
         while(compare == 0) {
 
             /* allocate space for token in character array */
@@ -117,19 +117,19 @@ void match_tokens_to_pattern(array_t *tokens, char *pattern) {
 
             /* gather results from token string */
             for(int i = match.rm_so, j=0; i < match.rm_eo; i++, j++){
-                token[j] = tokens->items[n]->label[i];  
+                token[j] = tokens->items[n]->node_type->node->label[i];  
             }
 
             /* add token using array based set */
             token[length] = '\0';
-            tokens->items[n]->label += match.rm_eo;
+            tokens->items[n]->node_type->node->label += match.rm_eo;
 
-            compare = regexec(&regex, tokens->items[n]->label, 1, &match, 0);
+            compare = regexec(&regex, tokens->items[n]->node_type->node->label, 1, &match, 0);
             if(compare == 1){
                 break;
             }
         }
-        tokens->items[n]->label = token; 
+        tokens->items[n]->node_type->node->label = token; 
     }
 
 } 
@@ -157,6 +157,7 @@ array_t *match_pattern_split(char *buffer, char *pattern) {
         int length = match.rm_eo - match.rm_so;
         char *token = malloc(length+1 * sizeof(char));
 
+
         /* gather results from token string */
         for(int i = match.rm_so, j=0; i < match.rm_eo; i++, j++){
             token[j] = buffer[i]; 
@@ -182,6 +183,7 @@ array_t *match_pattern_split(char *buffer, char *pattern) {
 
 array_t *match_delimeter_file(char *line, char *delimiter) {
 
+
 	/* format delimiter into regex */
 	char *default_pattern = "\"[^\"]*\",|[^,]+|[^,]+,|[,]";
 	size_t pattern_size = strlen(default_pattern)+1;
@@ -199,17 +201,17 @@ array_t *match_delimeter_file(char *line, char *delimiter) {
 
 	/* remove trailing delimiter */
 	for(int i = 0; i < results->item_count-1; i++){
-		size_t index = strlen(results->items[i]->label); 
-		results->items[i]->label[index-1] = '\0';
+		size_t index = strlen(results->items[i]->node_type->node->label); 
+		results->items[i]->node_type->node->label[index-1] = '\0';
 	}
 
 	/* check for trailing delimiter */
-	char *last = results->items[results->item_count-1]->label;
+	char *last = results->items[results->item_count-1]->node_type->node->label;
    	char *ret = strchr(last, *delimiter);
 	if(ret != NULL){
 		int index = results->item_count-1; 
-		size_t size = strlen(results->items[index]->label);
-		results->items[index]->label[size-1] = '\0';
+		size_t size = strlen(results->items[index]->node_type->node->label);
+		results->items[index]->node_type->node->label[size-1] = '\0';
 		insert(results, create_node(results->item_count, "", 0)); 
 	}	
 

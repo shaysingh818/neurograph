@@ -34,7 +34,7 @@ void test_add_node_mat_undirected() {
 		{"C"}
 	}; 
 
-    int vertices = 8, edges = 9; 
+    int vertices = 8, edges = 9;
     adj_mat_t *mat = init_adj_mat(vertices, edges, false);
 	add_node_mat(mat, 0, "A", 1, "B", 1);
 	add_node_mat(mat, 0, "A", 2, "C", 1); 
@@ -42,20 +42,25 @@ void test_add_node_mat_undirected() {
 	add_node_mat(mat, 1, "B", 2, "C", 0);
 	add_node_mat(mat, 4, "E", 2, "C", 1);
 
+
     assert(mat->weights->rows == 8); 
     assert(mat->weights->cols == 8); 
     assert(mat->directed == false);
 
+
     /* get neighbors for each vertice */
     for(int i = 0; i < mat->v; i++){
-        int node_index = 0;  
+        int node_index = 0; 
         for(int j = 0; j < mat->v; j++){
             node_t *neighbor = mat->items[i*mat->v+j];
-            if(neighbor->label != NULL){
-                int compare = strcmp(neighbor->label, relationship_list[i][node_index]) == 0;
-                assert(compare == true);  
-                node_index += 1; 
-            } 
+            if(neighbor->id > -1){
+                if(neighbor->node_type->node->label != NULL){
+                    int compare = strcmp(neighbor->node_type->node->label, relationship_list[i][node_index]) == 0;
+                    assert(compare == true);  
+                    node_index += 1; 
+                } 
+            }
+            
         }
     }
 
@@ -93,11 +98,13 @@ void test_add_node_mat_directed() {
         int node_index = 0;  
         for(int j = 0; j < mat->v; j++){
             node_t *neighbor = mat->items[i*mat->v+j];
-            if(neighbor->label != NULL){
-                int compare = strcmp(neighbor->label, relationship_list[i][node_index]) == 0;
-                assert(compare == true);  
-                node_index += 1; 
-            } 
+            if(neighbor->id > -1){
+                if(neighbor->node_type->node->label != NULL){
+                    int compare = strcmp(neighbor->node_type->node->label, relationship_list[i][node_index]) == 0;
+                    assert(compare == true);  
+                    node_index += 1; 
+                } 
+            }
         }
     }
 
@@ -125,7 +132,7 @@ void test_search_by_id_mat() {
     /* search the node ids incremental */
     for(int i = 0; i < 5; i++){
         node_t *search = search_node_by_id_mat(mat, i); 
-        int compare = strcmp(search->label, labels[i]) == 0; 
+        int compare = strcmp(search->node_type->node->label, labels[i]) == 0; 
         assert(compare == true); 
     }
 
@@ -176,11 +183,13 @@ void test_transpose_items_mat() {
         int node_index = 0;  
         for(int j = 0; j < result->v; j++){
             node_t *neighbor = result->items[i*result->v+j];
-            if(neighbor->label != NULL){
-                int compare = strcmp(neighbor->label, relationship_list[i][node_index]) == 0;
-                assert(compare == true);  
-                node_index += 1; 
-            } 
+            if(neighbor->id > -1){
+                if(neighbor->node_type->node->label != NULL){
+                    int compare = strcmp(neighbor->node_type->node->label, relationship_list[i][node_index]) == 0;
+                    assert(compare == true);  
+                    node_index += 1; 
+                } 
+            }
         }
     }
 

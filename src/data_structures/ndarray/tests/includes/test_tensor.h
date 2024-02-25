@@ -16,5 +16,7 @@ void test_reshape();
 void test_tensor_apply(); 
 void test_save_tensor(); 
 void test_load_tensor();
+void test_get_rows(); 
+void test_get_cols();
 
 #endif

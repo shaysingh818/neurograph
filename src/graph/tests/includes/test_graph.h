@@ -2,8 +2,9 @@
 #define TEST_GRAPH_H
 
 #include "../../includes/graph.h"
-#include "../../../data_structures/queue/includes/queue.h"
-#include "../../../data_structures/matrix/includes/adj_mat.h"
+#include <data_structures/list/includes/adj_list.h>
+#include <data_structures/queue/includes/queue.h>
+#include <data_structures/matrix/includes/adj_mat.h>
 #include <assert.h>
 
 /* general utilties */

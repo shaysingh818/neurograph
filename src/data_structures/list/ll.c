@@ -38,7 +38,7 @@ void append_ll(node_t **head, node_t *new_node) {
 
 int get_id_ll(node_t *head, char *key) {
 	while(head != NULL) {
-		int condition = strcmp(head->label, key) == 0; 
+		int condition = strcmp(head->node_type->node->label, key) == 0; 
 		if(condition) {
 			return head->id; 
 		}
@@ -58,7 +58,7 @@ bool unique_append_ll(node_t **head, node_t *new_node) {
 	while(last->next != NULL) {
 
 		/* check if existing key is in list */ 
-		int condition = strcmp(last->label, new_node->label) == 0; 
+		int condition = strcmp(last->node_type->node->label, new_node->node_type->node->label) == 0; 
 		if(condition) {
 			return false; 
 		}

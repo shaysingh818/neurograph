@@ -18,7 +18,7 @@ int *bellman_ford_list(graph_t *g, node_t *root, int *dist) {
 	for(int i = 1; i <= v - 1; i++){
 		for(int j = 0; j < e; j++){
 			int u = g->list->edges[j]->src->id;
-			int v = g->list->edges[j]->dest->id; 
+			int v = g->list->edges[j]->dst->id; 
 			int weight = g->list->edges[j]->weight;
 			if(dist[u] != INT_MAX && dist[u] + weight < dist[v]) {
 				dist[v] = dist[u] + weight; 
@@ -29,7 +29,7 @@ int *bellman_ford_list(graph_t *g, node_t *root, int *dist) {
 	/* check for negative weight cycles */ 
 	for(int i = 0; i < e; i++){
 		int u = g->list->edges[i]->src->id;
-		int v = g->list->edges[i]->dest->id; 
+		int v = g->list->edges[i]->dst->id; 
 		int weight = g->list->edges[i]->weight;
 		if(dist[u] != INT_MAX && dist[u] + weight < dist[v]) {
 			printf("Graph contains negative weight cycle\n");
@@ -62,7 +62,7 @@ int *dijkstra_list(graph_t *g, int start_vertex) {
 	}
 
 	/* push start vertex to front of queue */
-	node_t *start_item = create_node(start_vertex, start->label, 0); 
+	node_t *start_item = create_node(start_vertex, start->node_type->node->label, 0); 
 	push(q, start_item); 
 	dist[start_vertex] = 0; 
 
@@ -75,8 +75,8 @@ int *dijkstra_list(graph_t *g, int start_vertex) {
 		node_t *head = g->list->items[u]->head; 
 		while(head) {
 
-			if(dist[head->id] > dist[u] + head->weight) {
-				dist[head->id] = dist[u] + head->weight;
+			if(dist[head->id] > dist[u] + head->node_type->node->weight) {
+				dist[head->id] = dist[u] + head->node_type->node->weight;
 				prev[head->id] = u; 
 				push(q, head); 
 			}
@@ -107,7 +107,7 @@ int shortest_path_list(graph_t *g, int start_vertex, int end_vertex) {
 	}
 
 	/* push start vertex to front of queue */
-	node_t *start_item = create_node(start_vertex, start->label, 0); 
+	node_t *start_item = create_node(start_vertex, start->node_type->node->label, 0); 
 	push(q, start_item); 
 	dist[start_vertex] = 0; 
 
@@ -120,10 +120,10 @@ int shortest_path_list(graph_t *g, int start_vertex, int end_vertex) {
 		node_t *head = g->list->items[u]->head; 
 		while(head) {
 
-			int x = dist[u] + head->weight; 
-			if(dist[head->id] > dist[u] + head->weight) {
+			int x = dist[u] + head->node_type->node->weight; 
+			if(dist[head->id] > dist[u] + head->node_type->node->weight) {
 				/* otherwise keep looking */
-				dist[head->id] = dist[u] + head->weight;
+				dist[head->id] = dist[u] + head->node_type->node->weight;
 				prev[head->id] = u;
 				push(q, head); 
 			}
@@ -219,7 +219,7 @@ walk_t *weighted_random_walk_list(graph_t *g, int start_vertex, int steps) {
 
 		/* set as new starting node and add visited node to path */ 
 		start = g->list->items[selected_neighbor]->head;
-		w->weighted_sum += start->weight;
+		w->weighted_sum += start->node_type->node->weight;
 		w->path[n] = selected_neighbor; 
 	}	
 
@@ -243,7 +243,7 @@ walk_t *random_walk_mat(graph_t *m, int start_vertex, int steps) {
 		int neighbors[m->vertices];
 
 		for(int j = 0; j < m->vertices; j++) {
-			int id = m->matrix->items[start*m->vertices+j]->id; 
+			int id = m->matrix->items[start*m->vertices+j]->id;
 			if(id >= 0) {
 				neighbors[counter] = id; 
 				counter += 1; 
@@ -252,7 +252,7 @@ walk_t *random_walk_mat(graph_t *m, int start_vertex, int steps) {
 
 		int rand_index = rand() % counter; 
 		int selected_neighbor = neighbors[rand_index]; 
-		int weight = m->matrix->items[start*m->vertices+selected_neighbor]->weight;
+		int weight = m->matrix->items[start*m->vertices+selected_neighbor]->node_type->node->weight;
 
 		start = selected_neighbor;
 		walk->weighted_sum += weight; 
@@ -276,32 +276,36 @@ int *dijkstra_mat(graph_t *m, int start_vertex) {
 		}
 	}
 
+
+
 	/* push start vertex to front of queue */
 	node_t *start = search_node_by_id_mat(m->matrix, start_vertex);
 	push(q, start); 	
-	dist[start_vertex] = 0; 
+	dist[start_vertex] = 0;
 
 	while(!is_empty(q)) {
 
 		/* get minimum distance */
 		int u = q->items[q->front_index]->id;
-		pop(q); 
+		pop(q);
 
 		/* get neighbors */
 		for(int n = 0; n < m->vertices; n++){
 
 			int id = m->matrix->items[start_vertex*m->vertices+n]->id; 
-			int weight = m->matrix->items[start_vertex*m->vertices+n]->weight; 
-			char *label = m->matrix->items[start_vertex*m->vertices+n]->label; 
-
-			if(id >= 0) {
-				if(dist[id] > dist[u] + weight) {
-					dist[id] = dist[u] + weight;
-					prev[id] = u; 
-					node_t *temp = create_node(id, label, 0); 
-					push(q, temp);
+			if(id > -1){
+				int weight = m->matrix->items[start_vertex*m->vertices+n]->node_type->node->weight; 
+				char *label = m->matrix->items[start_vertex*m->vertices+n]->node_type->node->label; 
+				if(id >= 0) {
+					if(dist[id] > dist[u] + weight) {
+						dist[id] = dist[u] + weight;
+						prev[id] = u; 
+						node_t *temp = create_node(id, label, 0); 
+						push(q, temp);
+					}
+					start_vertex = u; 
 				}
-				start_vertex = u; 
+
 			}
 		}
 	}
@@ -345,19 +349,21 @@ int shortest_path_mat(graph_t *m, int start_vertex, int end_vertex) {
 		/* get neighbors */
 		for(int n = 0; n < m->vertices; n++){
 
-			int id = m->matrix->items[start_vertex*m->vertices+n]->id; 
-			int weight = m->matrix->items[start_vertex*m->vertices+n]->weight; 
-			char *label = m->matrix->items[start_vertex*m->vertices+n]->label; 
+			int id = m->matrix->items[start_vertex*m->vertices+n]->id;
+			if(id > -1){
+				int weight = m->matrix->items[start_vertex*m->vertices+n]->node_type->node->weight; 
+				char *label = m->matrix->items[start_vertex*m->vertices+n]->node_type->node->label; 
 
-			if(id >= 0) {
-				if(dist[id] > dist[u] + weight) {
-					dist[id] = dist[u] + weight;
-					prev[id] = u; 
-					node_t *temp = create_node(id, label, 0); 
-					push(q, temp);
+				if(id >= 0) {
+					if(dist[id] > dist[u] + weight) {
+						dist[id] = dist[u] + weight;
+						prev[id] = u; 
+						node_t *temp = create_node(id, label, 0); 
+						push(q, temp);
+					}
+					start_vertex = u; 
 				}
-				start_vertex = u; 
-			}
+			} 
 		}
 	}
 
