@@ -116,6 +116,12 @@ void nset(ndarray_t *t, int *indices, double value) {
 }
 
 
+void fill(ndarray_t *t, double value) {
+    for(int i = 0; i < t->size; i++){
+        t->values[i] = value; 
+    }    
+} 
+
 ndarray_t *napply(double(*activation_function)(double), ndarray_t *t) {
     for(int i = 0; i < t->size; i++){
         t->values[i] = (*activation_function)(t->values[i]);

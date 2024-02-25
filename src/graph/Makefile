@@ -1,7 +1,7 @@
 BIN=bin
 CC=gcc
 TARGET=target/graph
-CFLAGS = -g -lm -lpthread -lds -lextractors $(INCLUDES)
+CFLAGS = -g -lm -lpthread -lds -lextractors -fPIC $(INCLUDES)
 SO_FLAGS =  -shared -fPIC  
 OBJS = objs
 SO_TARGET = libgraph.so
@@ -21,10 +21,6 @@ install:
 uninstall:
 	rm -r /usr/local/include/graph
 	rm /usr/local/lib/$(SO_TARGET)
-
-# assumes data structures has already been built
-package:
-	$(MAKE) source
 
 source: $(OBJECTS) $(TEST_OBJECTS) 
 	cc -o $(TARGET) $(OBJECTS) $(TEST_OBJECTS) $(CFLAGS)
@@ -52,5 +48,4 @@ clean_package:
 clean:
 	rm -f *.o *~ *.pyc
 	rm -rf $(OBJS)
-	$(MAKE) -C  ../extractors clean
 

@@ -28,7 +28,7 @@ install:
 
 uninstall:
 	rm -r /usr/local/include/extractors
-	rm /usr/local/lib/$(SO_TARGET)
+	rm /usr/local/lib/libextractors.so
 
 package:
 	$(MAKE) -C ./dataframe package

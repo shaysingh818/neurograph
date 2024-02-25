@@ -2,6 +2,8 @@
 #include "tests/includes/test_path.h" 
 #include "tests/includes/test_search.h" 
 #include "tests/includes/test_community.h"
+#include "tests/includes/test_computation.h"
+#include "tests/includes/test_ops.h"
 
 int main(int argc, char **argv) {
 
@@ -49,12 +51,21 @@ int main(int argc, char **argv) {
 	test_degree_centrality();
 	test_weighted_degree_centrality();
 
-
 	test_degree_centrality_mat();
 	test_kosaraju();
 	test_label_nodes(); 
 	test_label_propagation();
 	test_iterative_label_propagation(); 
-	test_triangle_count();  
+	test_triangle_count();
+
+	test_computation_graph();
+	test_add_variable();  
+	test_forward_evaluate();
+
+	test_scalar_add(); 
+	test_scalar_multiply(); 
+	test_scalar_tanh();
+	test_nd_dot();   
+	  
 
 }

@@ -3,7 +3,7 @@
 
 node_t *create_node(int id, char *label, int weight) {
 
-	node_value_t *n = (node_value_t*)malloc(sizeof(node_value_t)); 
+	node_value_t *n = malloc(sizeof(node_value_t)); 
 	n->counter = 1; // Keep track of nodes being created 
 	n->weight = weight;
 	n->label = NULL;  
@@ -15,8 +15,8 @@ node_t *create_node(int id, char *label, int weight) {
 		strcpy(n->label, label);
 	}
 
-    node_t *node = (node_t*)malloc(sizeof(node_t));
-    node->node_type = (node_type_t*)malloc(sizeof(node_type_t)); 
+    node_t *node = malloc(sizeof(node_t));
+    node->node_type = malloc(sizeof(node_type_t)); 
     node->node_type->node = n; 
     node->id = id; 
     node->next = NULL;
@@ -28,15 +28,15 @@ node_t *create_node(int id, char *label, int weight) {
 
 node_t *copy_node(node_t *node_value) {
 
-	node_value_t *n = (node_value_t*)malloc(sizeof(node_value_t)); 
+	node_value_t *n = malloc(sizeof(node_value_t)); 
 	n->counter = 0; // Keep track of nodes being created 
 	n->weight = node_value->node_type->node->weight;
 	size_t label_length = strlen(node_value->node_type->node->label) + 1;
 	n->label = (char*)malloc(label_length * sizeof(char));
 	strcpy(n->label, node_value->node_type->node->label);
 
-    node_t *node = (node_t*)malloc(sizeof(node_t));
-    node->node_type = (node_type_t*)malloc(sizeof(node_type_t)); 
+    node_t *node = malloc(sizeof(node_t));
+    node->node_type = malloc(sizeof(node_type_t)); 
     node->node_type->node = n; 
     node->id = node_value->id; 
     node->next = NULL;
@@ -57,7 +57,7 @@ void print_node(node_t *node) {
 
 edge_t *create_edge(node_t *n1, node_t *n2, int weight) {
     edge_t *e;
-    e = (edge_t*)malloc(sizeof(edge_t));
+    e = malloc(sizeof(edge_t));
     e->src = n1;
     e->dst = n2;
     e->weight = weight;

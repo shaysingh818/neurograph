@@ -6,16 +6,16 @@
 #include <string.h>
 
 /* destructor and constructor funcs for value node*/
-typedef void (*value_destructor)(void*);
-typedef void (*value_constructor)(void*);
+typedef void *(*value_destructor)(void*);
+typedef void *(*value_constructor)(void*);
 
 /* variable node type */
 struct Variable {
 	char *label;
 	void *output;
 	void *upstream_value;   
-	void *(*forward)(void *val); 
-	void *(*backward)(void *val);
+	void *(*forward)(void *graph, int node_id); 
+	void *(*backward)(void *graph, int node_id);
 	value_destructor value_destructor; 
 	value_constructor value_constructor;	
 };

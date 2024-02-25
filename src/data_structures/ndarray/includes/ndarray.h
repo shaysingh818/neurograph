@@ -9,6 +9,8 @@
 #include <time.h> 
 #include <immintrin.h>
 
+
+
 struct NDArray {
     int rank, size; 
     int *shape; 
@@ -30,6 +32,7 @@ double *rows(ndarray_t *t, int row_num);
 double *cols(ndarray_t *t, int col_num);
 double nidx(ndarray_t *t, int *indices);  
 void nset(ndarray_t *t, int *indices, double value);
+void fill(ndarray_t *t, double value); 
 ndarray_t *napply(double(*activation_function)(double), ndarray_t *t); 
 
 /* save and load operations */
