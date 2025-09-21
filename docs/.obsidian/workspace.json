@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "data-extraction/feature-extraction.md",
+                "file": "data-structures/node.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "feature-extraction"
+              "title": "node"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "data-extraction/feature-extraction.md",
+                "file": "data-structures/node.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for feature-extraction"
+              "title": "Backlinks for node"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "data-extraction/feature-extraction.md",
+                "file": "data-structures/node.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from feature-extraction"
+              "title": "Outgoing links from node"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "data-extraction/feature-extraction.md",
+                "file": "data-structures/node.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of feature-extraction"
+              "title": "Outline of node"
             }
           }
         ]
@@ -171,11 +171,12 @@
   },
   "active": "350a6465b476ef27",
   "lastOpenFiles": [
+    "data-structures/adjacency-matrix.md",
+    "data-structures/adjacency-list.md",
+    "data-extraction/feature-extraction.md",
     "graph-algorithms/community-detection.md",
     "graph-algorithms/centrality.md",
-    "data-structures/adjacency-list.md",
     "data-structures/node.md",
-    "data-structures/adjacency-matrix.md",
     "index.md",
     "graph-algorithms/utilities.md",
     "contribute.md",
@@ -186,7 +187,6 @@
     "data-structures",
     "data-extraction/language-data.md",
     "data-extraction/graph-markup-language.md",
-    "data-extraction/feature-extraction.md",
     "data-extraction/data-frame",
     "data-extraction",
     "Untitled.md",
