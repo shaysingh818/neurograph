@@ -10,6 +10,7 @@
 * Triggers based on user specified queries?
 
 
+
 ```mermaid
 flowchart LR
 A[Load Graph] --> B[Community Detection] --> C[Extract Features]

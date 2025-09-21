@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "index.md",
+                "file": "data-extraction/feature-extraction.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "index"
+              "title": "feature-extraction"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "index.md",
+                "file": "data-extraction/feature-extraction.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for index"
+              "title": "Backlinks for feature-extraction"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "index.md",
+                "file": "data-extraction/feature-extraction.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from index"
+              "title": "Outgoing links from feature-extraction"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "index.md",
+                "file": "data-extraction/feature-extraction.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of index"
+              "title": "Outline of feature-extraction"
             }
           }
         ]
@@ -171,22 +171,22 @@
   },
   "active": "350a6465b476ef27",
   "lastOpenFiles": [
+    "graph-algorithms/community-detection.md",
+    "graph-algorithms/centrality.md",
+    "data-structures/adjacency-list.md",
+    "data-structures/node.md",
+    "data-structures/adjacency-matrix.md",
+    "index.md",
     "graph-algorithms/utilities.md",
     "contribute.md",
     "graph-algorithms/searching.md",
     "graph-algorithms/pathfinding.md",
-    "graph-algorithms/community-detection.md",
-    "graph-algorithms/centrality.md",
-    "data-structures/adjacency-matrix.md",
-    "data-structures/adjacency-list.md",
-    "data-structures/node.md",
     "data-extraction/regular-expressions.md",
     "graph-algorithms",
     "data-structures",
     "data-extraction/language-data.md",
     "data-extraction/graph-markup-language.md",
     "data-extraction/feature-extraction.md",
-    "index.md",
     "data-extraction/data-frame",
     "data-extraction",
     "Untitled.md",
